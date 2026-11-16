@@ -36,7 +36,7 @@ public struct FormalCommand: Sendable {
             return CommandResult(standardOutput: Self.help)
         case "--version":
             guard arguments.count == 1 else { throw invalidArguments() }
-            return CommandResult(standardOutput: "formal 0.2.0\n")
+            return CommandResult(standardOutput: "formal 0.3.0\n")
         case "profiles":
             guard arguments.count == 1 else { throw invalidArguments() }
             return try json(SourceLanguage.allCases.map { ["language": $0.rawValue, "profile": $0.profile, "status": "DRAFT_UNVALIDATED", "assumptions": $0.assumptions.joined(separator: "; ")] })
@@ -59,15 +59,18 @@ public struct FormalCommand: Sendable {
             let tools = try PinnedToolchain().verify(at: try PortableDistribution().toolsURL)
             return try json(tools.policy)
         case "check":
-            let required: Set<String> = arguments.contains("--artifact") ? ["--artifact", "--scenario"] : ["--language", "--source", "--scenario", "--output"]
-            let values = try flexibleOptions(Array(arguments.dropFirst()), required: required, optional: ["--timeout"])
+            guard !(arguments.contains("--properties") && arguments.contains("--scenario")) else { throw invalidArguments() }
+            let specificationOption = arguments.contains("--properties") ? "--properties" : "--scenario"
+            let base: Set<String> = arguments.contains("--artifact") ? ["--artifact"] : ["--language", "--source", "--output"]
+            let values = try flexibleOptions(Array(arguments.dropFirst()), required: base.union([specificationOption]), optional: ["--timeout"])
             let timeout: Double
             if let text = values["--timeout"] {
                 guard let value = Double(text), value.isFinite, (1...3600).contains(value) else { throw invalidArguments() }
                 timeout = value
             } else { timeout = 120 }
-            let scenarioURL = URL(fileURLWithPath: values["--scenario"]!)
-            _ = try VerificationScenario.load(scenarioURL)
+            let specificationURL = URL(fileURLWithPath: values[specificationOption]!)
+            if specificationOption == "--properties" { _ = try PropertySpecification.load(specificationURL) }
+            else { _ = try VerificationScenario.load(specificationURL) }
             let tools = try PinnedToolchain().verify(at: try PortableDistribution().toolsURL)
             let artifact: URL
             if let path = values["--artifact"] { artifact = URL(fileURLWithPath: path) }
@@ -76,7 +79,12 @@ public struct FormalCommand: Sendable {
                 _ = try DraftTranslation().perform(source: values["--source"]!, language: language, output: values["--output"]!)
                 artifact = URL(fileURLWithPath: values["--output"]!)
             }
-            let report = try await ModelVerifier().check(artifact: artifact, scenario: scenarioURL, toolchain: tools, timeout: timeout)
+            if specificationOption == "--properties" {
+                let report = try await PropertyVerifier().check(artifact: artifact, properties: specificationURL, toolchain: tools, timeout: timeout)
+                let data = try ArtifactJSON.encode(report)
+                return CommandResult(exitCode: report.exitCode, standardOutput: String(decoding: data, as: UTF8.self))
+            }
+            let report = try await ModelVerifier().check(artifact: artifact, scenario: specificationURL, toolchain: tools, timeout: timeout)
             let data = try ArtifactJSON.encode(report)
             return CommandResult(exitCode: report.exitCode, standardOutput: String(decoding: data, as: UTF8.self))
         case "doctor":
@@ -153,11 +161,13 @@ public struct FormalCommand: Sendable {
     }
 
     private static let help = """
-    formal 0.2.0
+    formal 0.3.0
     Usage:
       formal package --output <new-directory> [--cache <directory>]
       formal install --prefix <directory> [--cache <directory>]
       formal toolchain
+      formal check --language <name> --source <file> --properties <json> --output <new-directory> [--timeout <seconds>]
+      formal check --artifact <directory> --properties <json> [--timeout <seconds>]
       formal check --language <name> --source <file> --scenario <json> --output <new-directory> [--timeout <seconds>]
       formal check --artifact <directory> --scenario <json> [--timeout <seconds>]
       formal profiles
@@ -170,7 +180,8 @@ public struct FormalCommand: Sendable {
     capture, generate, validate, coverage, replay: not implemented (exit 3).
     Bundle inspection checks metadata and hashes, not SIL semantics.
     translate emits experimental TLA+ and Lean for scalar-v1 source profiles.
-    check runs bundled TLC and Lean for explicit finite generated-model cases.
+    check --properties proves quantified generated-model pre/postconditions with Lean.
+    check --scenario checks finite cases with bundled TLC and Lean.
     Translation remains UNVALIDATED; general source semantic certification is unavailable.
     install/package acquire pinned tools; checking is offline and requires an installed distribution.
 

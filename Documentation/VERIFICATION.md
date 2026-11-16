@@ -70,3 +70,51 @@ were not changed.
 ```sh
 python3 Tools/run-with-timeout.py --seconds 900 python3 Tools/verify-distribution.py --distribution /absolute/path/to/Formal-macos-arm64
 ```
+
+
+## Universal property checkpoint
+
+`formal check --properties` now checks quantified pre/postconditions on the actual
+emitted Lean interpreter. This is an additional verification scope; the earlier
+finite-case evidence is not used to infer universal validity. Source translation
+remains `UNVALIDATED`.
+
+| Check | Actual evidence | Proof scope |
+|---|---|---|
+| SwiftPM | 73 named tests across eight targets; debug tests and release build pass | Existing contracts plus typed properties, parser limits, graph bounds, witnesses and axiom rejection |
+| Eight source profiles | `a - a == 0` proved for each profile | Every 64-bit pattern for fixed-width profiles; every `Int` for mathematical-integer profiles |
+| Quantified positive suite | 17 property checks proved by bundled Lean 4.35.0 | Addition, preconditions, branches, direct calls, signed non-overflow, unsigned wrapping, Boolean operations, comparisons and zero-argument functions |
+| Checked counterexamples | Signed maximum overflow and a 41-digit integer witness | IR violation, Lean negation of the same obligation, and actual TLC invariant violation |
+| Incomplete search | A false property with a precondition excluding every searched tuple reports `UNPROVED`, exit 6 | No witness is not a proof |
+| Cycles | Recursive entry reports `UNKNOWN`, exit 6 | No replacement of induction with sampled tests |
+| Actual program mutation | Changing generated addition to subtraction makes the unchanged theorem fail | The proof is bound to actual program data rather than an independently reconstructed formula |
+| Recheck and aggregation | Fresh artifact snapshot; one proved and one refuted property preserved separately | Existing runs preserved; mixed result uses exit 5 |
+| TLA+ | Every universal specification passes SANY | Specification generation and semantic parsing, not universal TLC enumeration |
+| Axiom audit | Only `propext`, `Classical.choice`, `Quot.sound` | No admissions or native compiler trust axioms |
+
+Reproduce with an installed portable distribution:
+
+```sh
+python3 Tools/run-with-timeout.py --seconds 900 python3 Tools/verify-properties.py --formal /absolute/path/to/formal
+```
+
+The execution profile and limits are owned by
+[Properties/DESIGN.md](../Sources/FormalValidation/Properties/DESIGN.md).
+These checks do not certify source-to-model translation, loop invariants,
+recursive termination, Actor/async behavior, or general equivalence of both
+runtime semantics.
+
+Tool-inventory hashing was also checked on the same pinned 3 GB toolchain:
+the digest remained byte-identical while per-read autorelease scopes reduced
+observed peak process RSS from 3,217,457,152 to 45,072,384 bytes. This is a
+measurement on the current macOS host, not a general memory or speed guarantee.
+
+
+The release distribution also passes packaging from a symlinked toolchain root,
+offline installation, prefix relocation and PATH invocation with host
+java/lean/lake/swift/swiftc/curl/zstd blocked and caller Java/Lean settings
+poisoned. The moved installation proves the quantified monotone-addition
+property and preserves the eight-language finite-case checks, expected overflow,
+large integers, counterexamples, fuel exhaustion and tamper rejection. Packaging
+copies the verifier-resolved tool tree, so its result does not retain a link to
+the original tool location.

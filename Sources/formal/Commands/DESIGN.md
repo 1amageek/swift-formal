@@ -37,3 +37,6 @@ Frontend rejection (including unsupported update operators, AST-depth limits, Go
 
 ## Integrated Check and Installation
 `check --language <name> --source <file> --scenario <json> --output <new-directory>` generates then verifies. `check --artifact <directory> --scenario <json>` rechecks without generation. Optional `--timeout <seconds>` overrides the 120-second per-process default. Scenario bounds belong to [Verification](../../FormalValidation/Verification/DESIGN.md). The CLI composes independent owners and returns the report with its verification exit code. `package --output <new-directory> [--cache <directory>]` and `install --prefix <directory> [--cache <directory>]` own explicit acquisition. Source install defaults to the private user cache; bundled install needs no cache or network. `toolchain` audits installed files and reports pinned versions.
+
+## Universal Properties
+`check` accepts exactly one of `--properties <json>` and `--scenario <json>` in both source-generation and artifact-recheck forms. PropertyVerifying owns universal proof semantics, limits and statuses under [Properties](../../FormalValidation/Properties/DESIGN.md). Validate specification syntax before generation, then compose the audited proof pipeline. The scenario mode remains finite case checking.

@@ -2,7 +2,7 @@
 
 **Formal models and verification evidence from source code.**
 
-swift-formal is an experimental formal-verification toolchain for checking program logic with TLA+ model checking and Lean proofs. It translates supported source code into mathematical models, checks explicit inputs and expected outcomes, and preserves the models and verification evidence for inspection. The CLI is **`formal`**.
+swift-formal is an experimental formal-verification toolchain for checking program logic with TLA+ model checking and Lean proofs. It translates supported source code into mathematical models, proves preconditions and postconditions over all typed inputs, and preserves the models and verification evidence for inspection. Concrete regression cases can also be checked. The CLI is **`formal`**.
 
 It supports scalar functions written in Swift, Rust, C, C++, Go, TypeScript, JavaScript, and Python through a shared intermediate representation.
 
@@ -10,33 +10,32 @@ It supports scalar functions written in Swift, Rust, C, C++, Go, TypeScript, Jav
 
 Use swift-formal to check whether supported program logic behaves as intended, investigate unexpected outcomes, and retain verification evidence you can inspect during a review and rerun after a code change.
 
-- **Check boundary behavior.** Specify expected return values, traps, panics, and detected undefined behavior, then check those cases in generated TLA+ and Lean models.
-- **Investigate mismatches.** Inspect TLC counterexamples, Lean proof source, and execution logs when a result differs from your expectation.
-- **Repeat checks after changes.** Reuse scenarios with pinned verification tools and reports that record source hashes and tool versions.
+- **State properties over input domains.** Write `requires` and `ensures` conditions and ask Lean to prove that every typed input satisfying the precondition terminates normally and meets the postcondition.
+- **Investigate failures.** Inspect a kernel-checked counterexample and its TLC trace, or an explicit `UNPROVED`/`UNKNOWN` result when automatic proof search cannot finish.
+- **Repeat proofs after changes.** Reuse property specifications with pinned verification tools and reports that record source hashes, theorem source, and tool versions.
 - **Use one workflow across languages.** Generate and check supported functions with the same CLI while retaining each language profile's integer and overflow semantics.
 
 This is useful for arithmetic and branching logic where boundary conditions and failure behavior matter. Installation manages Java, TLC, and Lean for you, and subsequent checks run offline.
 
-The current release checks **explicit finite cases of the generated models**. General source-to-model semantic preservation and correctness for arbitrary inputs are not certified. Actor/async semantics and general application projects remain outside the supported scope. See [implementation progress](PROGRESS.md) for the current status.
+The current implementation proves properties of **audited generated models**. Integer inputs quantify over all mathematical integers; fixed-width inputs quantify over every bit pattern. General source-to-model semantic preservation remains uncertified. Automatic proofs currently cover acyclic scalar control flow and direct calls; recursion, loop invariants, Actor/async, and general application projects require additional proof support. See [implementation progress](PROGRESS.md).
 
 ## How it works
 
-`formal check` compiles a supported source function into a common IR, generates TLA+ and Lean artifacts, audits their program data, and checks the supplied scenario with both TLC and Lean. Installation provisions the verification tools; generation and verification then run offline.
+`formal check --properties` generates and audits both backends, emits an all-input theorem about the actual Lean interpreter, and checks the theorem with Lean. It also generates a universal TLA+ specification and checks its syntax and module semantics with SANY. TLC confirms concrete counterexamples and remains available for finite regression cases; it is not presented as an exhaustive checker for infinite integer domains.
 
 ```mermaid
 flowchart LR
-    Source["Source code"] --> IR["Scalar frontend and common IR"]
-    IR --> TLA["TLA+"]
-    IR --> Lean["Lean"]
-    TLA --> Audit["Independent artifact audit"]
-    Lean --> Audit
-    IR -.-> Audit
-    Audit --> TLC["TLC model checking"]
-    Audit --> Kernel["Lean kernel checking"]
-    Scenario["Inputs and expected outcomes"] --> TLC
-    Scenario --> Kernel
-    TLC --> Report["Verification report"]
-    Kernel --> Report
+    Source["Source code"] --> IR["Common IR"]
+    IR --> Artifacts["Audited TLA+ and Lean artifacts"]
+    Properties["requires / ensures"] --> Proof["Lean quantified theorem"]
+    Artifacts --> Proof
+    Properties --> Spec["Universal TLA+ specification"]
+    Artifacts --> Spec
+    Spec --> SANY["SANY syntax and module checks"]
+    Proof --> Report["Scoped verification report"]
+    SANY --> Report
+    Witness["Concrete counterexample candidate"] --> Refutation["Lean refutation and TLC trace"]
+    Refutation --> Report
 ```
 
 ## Installation
@@ -86,30 +85,33 @@ def calculate(a: int, b: int) -> int:
     return a + b
 ```
 
-`cases.json`:
+`properties.json`:
 
 ```json
 {
   "schemaVersion": 1,
-  "fuel": 512,
-  "cases": [
+  "properties": [
     {
-      "name": "addition",
+      "name": "addition_is_monotone",
       "entry": "calculate",
-      "arguments": ["2", "9"],
-      "expected": { "status": "returned", "value": "11" }
+      "inputViews": ["integer", "integer"],
+      "resultView": "integer",
+      "requires": "arg1 >= 0",
+      "ensures": "result >= arg0"
     }
   ]
 }
 ```
 
-Generate both models and verify the case in one command:
+This states: for every pair of integers, if the second input is nonnegative, the function returns a value at least as large as the first input. No concrete input values are enumerated.
+
+Generate both models and prove the property in one command:
 
 ```sh
 ./InstalledFormal/bin/formal check \
   --language python \
   --source input.py \
-  --scenario cases.json \
+  --properties properties.json \
   --output Checked
 ```
 
@@ -119,23 +121,30 @@ Generate both models and verify the case in one command:
 
 | Field or status | Meaning |
 |---|---|
-| `artifactDataMatchesIR: true` | Independent decoders read the actual TLA+ and Lean program data and confirmed agreement with the IR |
-| `tlc: MODEL_CHECKED` | TLC completed exploration of the specified case, checked the expected outcome, and reached a terminal state |
-| `lean: PROVED` | Lean checked a theorem about the expected outcome of the specified case |
-| `COUNTEREXAMPLE` / `UNPROVED` | TLC found a counterexample, or Lean could not prove the expected outcome |
-| `UNKNOWN` | Verification did not complete because of a computation bound, timeout, or other resource limit |
+| `scope: ALL_INPUTS_UNDER_PRECONDITIONS` | The requested property quantifies every typed input satisfying `requires` |
+| `status: PROVED` | Lean checked normal termination and the postcondition for all such inputs |
+| `status: COUNTEREXAMPLE` | Lean checked a typed witness violating the interpreter obligation, and TLC reached that witness's bad outcome |
+| `status: UNPROVED` | Automatic proof search did not establish the theorem; this does not establish falsehood |
+| `status: UNKNOWN` | A computation limit, unsupported automatic proof shape, or timeout prevented completion |
+| `tla: SPECIFICATION_GENERATED` | The universal TLA+ specification passed SANY; this is not a TLC all-input proof |
 | `translation: UNVALIDATED` | General source-to-model semantic preservation has not been certified |
 
-For `PROVED` results, axiom dependencies must be within the pinned allowlist: `propext`, `Classical.choice`, and `Quot.sound`. Actual dependencies are recorded in `leanAxioms`. Admissions through `sorryAx` and custom axioms are rejected. Changing an expectation checks that new expectation; success applies only to the supplied cases.
+Proofs reference the actual generated program and interpreter, not an independently reconstructed formula. A derived execution bound is part of the normal-termination theorem; exhausting that bound cannot count as success. Preconditions are explicit assumptions, and their satisfiability is not automatically certified. A contradictory precondition can make an implication vacuously true.
+
+Axiom dependencies must be within the pinned allowlist: `propext`, `Classical.choice`, and `Quot.sound`. Actual dependencies are recorded in `leanAxioms`. Admissions, custom axioms, and native-reduction trust axioms are rejected.
 
 ### Recheck generated artifacts
 
 ```sh
 ./InstalledFormal/bin/formal check \
-  --artifact Checked --scenario cases.json --timeout 120
+  --artifact Checked --properties properties.json --timeout 120
 ```
 
-Each invocation creates a new run directory. `--timeout` limits each external process and defaults to 120 seconds. A scenario supports up to 32 cases and `fuel` from 1 through 4096. Arguments and expected values are strings. Expectations can describe a returned value or a `trapped`, `panic`, or `undefinedBehavior` outcome. See the [scenario specification](Documentation/DISTRIBUTION.md#generate-and-check) for schema and resource limits.
+Each invocation creates a new run directory. `--timeout` limits each external process and defaults to 120 seconds. The expression language supports arithmetic, comparisons, and Boolean logic over `arg0`, `arg1`, and `result`. Input and result views explicitly select mathematical integers, signed bits, unsigned bits, or Booleans. See [universal properties](Documentation/PROPERTIES.md) for the schema, proof scope, limits, and examples.
+
+### Concrete regression cases
+
+For individual inputs and expected outcomes, use `--scenario cases.json`. This remains a finite regression-checking mode and does not establish an all-input property. Its schema is documented in [distribution and scenarios](Documentation/DISTRIBUTION.md#generate-and-check).
 
 ## Supported languages and scope
 
@@ -215,7 +224,7 @@ flowchart LR
 | `FormalCore` | Shared metadata, diagnostics, and input-bundle integrity |
 | `FormalIR` | Typed language-neutral IR and execution semantics |
 | `FormalCompiler` | Language frontends, SIL processing, and TLA+/Lean emission |
-| `FormalValidation` | Independent artifact decoding, tool management, and finite-case verification |
+| `FormalValidation` | Independent artifact decoding, tool management, and quantified/finite verification |
 | `formal` | CLI composition for generation, verification, and distribution |
 
 Structural SIL parsing and partial scalar lowering are also available as libraries. `capture`, `generate`, `validate`, `coverage`, and `replay` remain unimplemented and return exit code 3.
@@ -232,6 +241,7 @@ The [verification record](Documentation/VERIFICATION.md) documents actual TLC/Le
 
 ## Documentation
 
+- [Universal properties and proof scope](Documentation/PROPERTIES.md)
 - [CLI and exit codes](Documentation/CLI.md)
 - [Distribution, installation, and scenarios](Documentation/DISTRIBUTION.md)
 - [Support matrix](Documentation/SUPPORT.md)

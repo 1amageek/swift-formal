@@ -4,7 +4,7 @@ import FormalCompiler
 import FormalValidation
 
 struct PortableDistribution {
-    static let version = "0.2.0"
+    static let version = "0.3.0"
     var executable: URL {
         get throws {
             guard let url = Bundle.main.executableURL else { throw FormalDiagnostic(.ioFailure, "Cannot locate formal executable") }
@@ -66,11 +66,11 @@ struct PortableDistribution {
         return binary
     }
     private static let readme = """
-    formal 0.2.0 — macOS arm64 portable distribution
+    formal 0.3.0 — macOS arm64 portable distribution
     Run ./formal --help or ./formal install --prefix /your/chosen/prefix.
     This directory includes pinned Java, TLC, Lean and SwiftPM resource bundles.
     Keep these files together. Generation and checking run offline.
-    Verification applies to explicit finite cases of generated models.
+    Use check --properties for quantified generated-model proofs, or --scenario for finite cases.
     General source translation remains UNVALIDATED.
 
     """

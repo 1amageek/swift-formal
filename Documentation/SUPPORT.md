@@ -11,6 +11,8 @@
 | Source frontends | Eight scalar-v1 profiles; [grammar and assumptions](../Sources/FormalCompiler/Frontends/DESIGN.md); experimental draft translation |
 | TLA+ / Lean emitters | Scalar library emitters; actual files pass SANY and Lean checks |
 | Independent translation validator | Restricted program-data reparsing and separate Lean decoder/data equality; full semantic relation pending |
+| Universal model properties | Scalar pre/postconditions over every typed input, kernel-checked Lean theorems; [scope and limits](PROPERTIES.md) |
+| TLA+ universal specification | All typed initial inputs; SANY checked; exhaustive universal TLC verification is not claimed |
 | Actor / async semantics | Not implemented |
 | WASM / Embedded | Not a supported host target |
 

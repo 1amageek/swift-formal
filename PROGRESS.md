@@ -48,3 +48,33 @@ The four reviewed defects are corrected under the [frontend contract](Sources/Fo
 65 named Swift tests and existing CLI integration pass. The real portable-distribution test passes eight language checks, a wrong-expectation counterexample, a fuel bound, expected checked overflow, arbitrary integer arithmetic, runtime/tool tampering, offline installation, no-clobber, moved prefixes and PATH invocation. Host java/lean/lake/swift/swiftc/curl/zstd are blocked and caller Java/Lean settings are poisoned. Source installation was also exercised with no cached JRE: formal downloaded and installed it itself. Mach-O inspection of 55 executable/library files found no absolute dependency outside macOS system paths. Small successful checks took 5.3–8.1 seconds including full tool inventory hashing on this machine; no general performance guarantee is implied.
 
 This checkpoint does not complete general source semantic preservation, arbitrary temporal properties, full v1, or Actor support. The imported specification remains byte-for-byte unchanged.
+
+
+## Universal property checkpoint
+
+`formal check --properties` accepts typed `requires`/`ensures` expressions and
+kernel-checks a theorem for every input satisfying the precondition. The theorem
+executes the actual audited generated program. Mathematical integers have no
+finite input bound; fixed-width inputs include every bit pattern. Normal return
+within an acyclic control-flow/call bound is part of the theorem. Candidate
+search can establish only checked counterexamples, never validity.
+
+73 named Swift tests and the release build pass. Real bundled tools prove 17
+positive properties across all eight profiles, preconditions, branches, direct
+calls, overflow-safe signed arithmetic, unsigned wrapping and Booleans. Signed
+boundary and huge-integer counterexamples are checked by IR, Lean and TLC.
+Recursion reports `UNKNOWN`; a failed proof with no searched witness reports
+`UNPROVED`. Changing actual generated program data invalidates the unchanged
+theorem. Rechecking preserves previous runs and records mixed results separately.
+See [verification evidence](Documentation/VERIFICATION.md#universal-property-checkpoint).
+
+Universal TLA+ specifications are generated and parsed with SANY. Lean owns the
+all-input proof; no universal TLC enumeration or completed source semantic
+certification is claimed. The original v1/Actor work remains incomplete.
+
+
+The 0.3.0 release build's portable package passes offline installation and moved
+prefix checking with host Java/Lean/Swift tools blocked. Quantified addition is
+proved through that installed binary; existing finite checks still pass.
+Packaging from a symlinked toolchain now copies the verified real tree, and
+inventory hashing keeps per-chunk buffers bounded. No release tag was created.

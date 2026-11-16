@@ -62,7 +62,7 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     assert policy['java']['version'] == '21.0.13+9.0.LTS'
     environment['PATH'] = str(moved / 'bin') + os.pathsep + str(poison)
     # PATH invocation exercises executable discovery through the relative installed symlink.
-    assert run('formal', ['--version'], environment).stdout == 'formal 0.2.0\n'
+    assert run('formal', ['--version'], environment).stdout == 'formal 0.3.0\n'
     binary = 'formal'
     source_by_language = {
         'python': 'def calculate(a: int, b: int) -> int:\n    return a + b\n',
@@ -92,6 +92,14 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
         assert report['cases'][0]['distinctStates'] > 1
         assert set(report['cases'][0]['leanAxioms']) <= set(policy['allowedLeanAxioms'])
         outputs[language] = output
+    properties = work / 'properties.json'
+    properties.write_text(json.dumps({'schemaVersion': 1, 'properties': [{
+        'name': 'monotone_addition', 'entry': 'calculate', 'inputViews': ['integer', 'integer'],
+        'resultView': 'integer', 'requires': 'arg1 >= 0', 'ensures': 'result >= arg0'}]}))
+    universal = json.loads(run(binary, ['check', '--artifact', outputs['python'], '--properties', properties], environment).stdout)
+    assert universal['scope'] == 'ALL_INPUTS_UNDER_PRECONDITIONS'
+    assert universal['properties'][0]['status'] == 'PROVED' and universal['properties'][0]['tla'] == 'SPECIFICATION_GENERATED'
+    assert universal['translation'] == 'UNVALIDATED'
     scenario(cases, ['2', '9'], {'status': 'returned', 'value': '12'})
     counterexample = json.loads(run(binary, ['check', '--artifact', outputs['python'], '--scenario', cases], environment, expected=5).stdout)
     assert counterexample['cases'][0]['tlc'] == 'COUNTEREXAMPLE'
@@ -112,11 +120,11 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     tampered = run(binary, ['check', '--artifact', outputs['python'], '--scenario', cases], environment, expected=4)
     assert json.loads(tampered.stderr)['code'] == 'INTEGRITY_MISMATCH'
     # Tamper only a clone-owned file; the input distribution remains intact.
-    jar = moved / 'libexec/formal/0.2.0/toolchain/tla2tools.jar'
+    jar = moved / 'libexec/formal/0.3.0/toolchain/tla2tools.jar'
     with jar.open('r+b') as handle:
         handle.seek(0); handle.write(b'BAD!')
     tool_tamper = run(binary, ['toolchain'], environment, expected=4)
     assert json.loads(tool_tamper.stderr)['code'] == 'INTEGRITY_MISMATCH'
     print(json.dumps({'status': 'PASSED', 'scenarios': ['eight languages', 'counterexample', 'fuel bound',
-          'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber', 'linked toolchain packaging'],
+          'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber', 'linked toolchain packaging', 'all-input property'],
           'measurements': measurements}, indent=2))

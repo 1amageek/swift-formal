@@ -37,3 +37,6 @@ Typed errors preserve failure; deadlines, cancellation, and output limits never 
 Tests/FormalValidationTests own scenario/audit rejection. Tools/verify-distribution.py owns real positive, counterexample, bound, relocation and tamper paths. Runtime changes require updating trusted hashes and rerunning both tools.
 
 Verification subprocesses use a 512 MiB monitored workspace budget. Lean is launched with a 1024 MiB memory limit; Java uses a 512 MiB heap and 16 MiB stack. Exceeding these budgets reports UNKNOWN and exit 6.
+
+## Internal Consumers
+[Properties](../Properties/DESIGN.md) may consume ArtifactSnapshot’s audited immutable program/files/hashes, ScalarValueRenderer’s exact scalar literals, and LeanProofAudit with an explicit controlled theorem name. The default checkedCase audit remains backward compatible. These contracts perform identity/data checks and axiom inspection; they do not establish source semantic preservation.

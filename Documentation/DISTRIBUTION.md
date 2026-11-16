@@ -51,6 +51,10 @@ licenses, notices and corresponding-source links accompany the distribution.
 Pinned artifact policy and file inventory are in
 [toolchain-artifacts.lock.json](../Tools/toolchain-artifacts.lock.json).
 
+## Universal properties
+
+Use `formal check --language <name> --source <file> --properties properties.json --output Checked` to prove a pre/postcondition for all typed inputs. See [PROPERTIES.md](PROPERTIES.md) for the quantified schema and proof scope. The same bundled tools are used; no additional installation is required.
+
 ## Generate and check
 
 Create `cases.json` describing concrete inputs and expected observations:

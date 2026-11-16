@@ -1,7 +1,7 @@
 # swift-formal
 
 ## Purpose and Scope
-This directory is both the system root and SwiftPM package root. The package provides language-specific scalar frontends, a common IR, TLA+/Lean emitters, independent artifact-data inspection, and a draft CLI with portable finite-model checking. The requested compiler is specified in [SPEC.md](Documentation/SPEC.md); P1 has partial behavioral evidence; P2–P4 remain future work. There is no parent design.
+This directory is both the system root and SwiftPM package root. The package provides language-specific scalar frontends, a common IR, TLA+/Lean emitters, independent artifact-data inspection, and a draft CLI with portable finite checks and quantified model proofs. The requested compiler is specified in [SPEC.md](Documentation/SPEC.md); P1 has partial behavioral evidence; P2–P4 remain incomplete. There is no parent design.
 
 ## Responsibilities and Boundaries
 Source profiles and canonical SIL are separate frontend inputs. [Frontend contracts](Sources/FormalCompiler/Frontends/DESIGN.md) own accepted source subsets and their language semantics. Declaration indexing is outside the package. Package creation does not establish translation correctness. Scalar backend emission, restricted output-data decoding, and a separate Lean SIL decoder exist. Complete SIL step correspondence, general runtime semantic certification, strict source semantic certification, and Actor semantics remain unimplemented.
@@ -49,3 +49,6 @@ The [frontend regression contract](Sources/FormalCompiler/Frontends/DESIGN.md#fo
 
 ## Portable Verification
 The user-authorized distribution contract supersedes the earlier CLI acquisition restriction only for install/package. [Toolchain](Sources/FormalValidation/Toolchain/DESIGN.md), [Verification](Sources/FormalValidation/Verification/DESIGN.md), and [Distribution](Sources/formal/Distribution/DESIGN.md) own the new boundaries. Finite model proofs do not change DRAFT_UNVALIDATED translation status or complete the original v1/Actor scope.
+
+## Universal Verification
+[Properties](Sources/FormalValidation/Properties/DESIGN.md) owns all-input pre/postcondition proofs over audited generated models. Lean kernel theorems quantify Int, Boolean and all fixed-width bit patterns, including bounded normal termination. TLA universal specifications are generated and parsed separately from TLC finite exploration. No quantified proof is inferred from candidate enumeration. General source-to-model semantic certification is still UNVALIDATED.

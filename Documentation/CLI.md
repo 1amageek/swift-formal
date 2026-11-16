@@ -10,6 +10,8 @@ Run `swift run formal --help` from the package directory. The [package design](.
 | `package --output <new-directory> [--cache <directory>]` | Create a self-contained portable distribution |
 | `install --prefix <directory> [--cache <directory>]` | Install formal and its pinned tools |
 | `toolchain` | Audit bundled tool inventory and report pinned versions |
+| `check --language <name> --source <file> --properties <json> --output <new-directory>` | Prove quantified generated-model pre/postconditions with bundled Lean |
+| `check --artifact <directory> --properties <json>` | Recheck all-input properties on audited artifacts |
 | `check --language <name> --source <file> --scenario <json> --output <new-directory>` | Generate and verify finite model cases with bundled TLC and Lean |
 | `check --artifact <directory> --scenario <json>` | Recheck audited generated artifacts offline |
 | `doctor --toolchain-lock <path>` | Compare actual compiler version, tag, triple, and pointer width to the lock |
@@ -25,7 +27,7 @@ Run `swift run formal --help` from the package directory. The [package design](.
 | 3 | Unsupported operation |
 | 4 | Integrity or parsing mismatch |
 | 5 | Counterexample or unproved expected outcome |
-| 6 | Timeout, cancellation, computation/output bound; UNKNOWN |
+| 6 | Timeout, cancellation, computation/output bound, UNKNOWN or unproved universal property |
 | 7 | I/O or tool execution failure |
 
 Future command behavior follows SPEC section 14, subject to the user corrections recorded in the package design. Declaration indexing is outside the package; `formal index` is rejected as an unknown command.
@@ -35,3 +37,5 @@ Future command behavior follows SPEC section 14, subject to the user corrections
 Languages: `swift`, `rust`, `c`, `cpp`, `go`, `typescript`, `javascript`, `python`. `--draft-unvalidated` is mandatory and last. The output directory must not exist; its parent must already exist. Failure does not replace prior output. The frontend never executes the input or downloads tools. See [source-profile contracts](../Sources/FormalCompiler/Frontends/DESIGN.md) for grammar, integer semantics, and input assumptions. Draft output is not accepted as a certified SIL bundle by the strict generation path. `report.json` records the source hash, profile assumptions, data equality, and absent semantic certification. No actual external verifier is run by translate.
 
 Portable installation, scenario schema, resource limits, report scope and examples are documented in [DISTRIBUTION.md](DISTRIBUTION.md). `check` accepts optional `--timeout <seconds>`.
+
+Universal properties use [PROPERTIES.md](PROPERTIES.md). They quantify all typed inputs satisfying explicit preconditions; TLA specification generation and SANY parsing are separate from Lean’s universal proof. `--properties` and `--scenario` are mutually exclusive.

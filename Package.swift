@@ -18,7 +18,7 @@ let package = Package(
         .target(name: "FormalCompiler", dependencies: ["FormalCore", "FormalIR"],
                 exclude: ["DESIGN.md", "Frontends/DESIGN.md", "SIL/DESIGN.md", "SIL/Syntax/DESIGN.md", "Lowering/DESIGN.md", "Lowering/Scalar/DESIGN.md", "Lean/DESIGN.md", "Lean/Emission/DESIGN.md", "TLA/DESIGN.md", "TLA/Emission/DESIGN.md"],
                 resources: [.copy("Lean/Emission/Runtime.lean"), .copy("TLA/Emission/SwiftFormalRuntime.tla")]),
-        .target(name: "FormalValidation", dependencies: ["FormalCore", "FormalIR"], exclude: ["DESIGN.md", "ArtifactDecoder/DESIGN.md", "ToolExecution/DESIGN.md", "Toolchain/DESIGN.md", "Verification/DESIGN.md"], resources: [.copy("Toolchain/toolchain-artifacts.lock.json"), .copy("Verification/trusted-artifacts.json")]),
+        .target(name: "FormalValidation", dependencies: ["FormalCore", "FormalIR"], exclude: ["DESIGN.md", "ArtifactDecoder/DESIGN.md", "ToolExecution/DESIGN.md", "Toolchain/DESIGN.md", "Verification/DESIGN.md", "Properties/DESIGN.md"], resources: [.copy("Toolchain/toolchain-artifacts.lock.json"), .copy("Verification/trusted-artifacts.json")]),
         .executableTarget(name: "formal", dependencies: ["FormalCore", "FormalIR", "FormalCompiler", "FormalValidation"],
                           exclude: ["DESIGN.md", "Commands/DESIGN.md", "Environment/DESIGN.md", "Distribution/DESIGN.md"]),
         .testTarget(name: "FormalFrontendTests", dependencies: ["FormalCompiler", "FormalIR", "FormalValidation"]),
