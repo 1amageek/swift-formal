@@ -6,18 +6,16 @@ swift-formal is an experimental formal-verification toolchain for checking progr
 
 It supports scalar functions written in Swift, Rust, C, C++, Go, TypeScript, JavaScript, and Python through a shared intermediate representation.
 
-## Why this project exists
+## Why use swift-formal?
 
-Using formal methods on an implementation involves several kinds of work: expressing its behavior as a model, keeping that model aligned with the code, setting up verification tools, and interpreting their results. This project was created to automate the supported parts of that workflow and make them repeatable from a command line.
+Use swift-formal to check whether supported program logic behaves as intended, investigate unexpected outcomes, and retain verification evidence you can inspect during a review and rerun after a code change.
 
-The goal is to help developers examine **whether program logic behaves as intended**, including boundary conditions and failure outcomes, while retaining evidence they can inspect and rerun after a code change.
+- **Check boundary behavior.** Specify expected return values, traps, panics, and detected undefined behavior, then check those cases in generated TLA+ and Lean models.
+- **Investigate mismatches.** Inspect TLC counterexamples, Lean proof source, and execution logs when a result differs from your expectation.
+- **Repeat checks after changes.** Reuse scenarios with pinned verification tools and reports that record source hashes and tool versions.
+- **Use one workflow across languages.** Generate and check supported functions with the same CLI while retaining each language profile's integer and overflow semantics.
 
-- **Start from the implementation.** Generate TLA+ and Lean models from supported source functions, reducing manual model-writing work.
-- **Keep language semantics explicit.** Represent integer widths, overflow, traps, panics, and detected undefined behavior according to each language profile.
-- **Make verification accessible.** Provision pinned Java, TLC, and Lean tools automatically instead of requiring separate manual installations.
-- **Keep the result reviewable.** Save source hashes, generated models, proof source, counterexamples, tool versions, and execution logs alongside each verification run.
-
-Use it to investigate arithmetic and branching logic, check boundary cases such as overflow, and maintain repeatable verification scenarios. It complements source-language tests with inspectable formal models and verification evidence.
+This is useful for arithmetic and branching logic where boundary conditions and failure behavior matter. Installation manages Java, TLC, and Lean for you, and subsequent checks run offline.
 
 The current release checks **explicit finite cases of the generated models**. General source-to-model semantic preservation and correctness for arbitrary inputs are not certified. Actor/async semantics and general application projects remain outside the supported scope. See [implementation progress](PROGRESS.md) for the current status.
 
