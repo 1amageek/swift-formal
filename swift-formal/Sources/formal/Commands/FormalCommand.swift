@@ -1,5 +1,6 @@
 import FormalCore
 import FormalCompiler
+import FormalValidation
 import Foundation
 
 public struct FormalCommand: Sendable {
@@ -16,6 +17,7 @@ public struct FormalCommand: Sendable {
 
     public func run(arguments: [String]) async -> CommandResult {
         do { return try await execute(arguments) }
+        catch is CancellationError { return failure(FormalDiagnostic(.interrupted, "Operation cancelled")) }
         catch let source as SourceDiagnostic {
             return failure(FormalDiagnostic(.sourceParseFailed, source.description))
         }
@@ -34,7 +36,7 @@ public struct FormalCommand: Sendable {
             return CommandResult(standardOutput: Self.help)
         case "--version":
             guard arguments.count == 1 else { throw invalidArguments() }
-            return CommandResult(standardOutput: "formal 0.1.0-bootstrap\n")
+            return CommandResult(standardOutput: "formal 0.2.0\n")
         case "profiles":
             guard arguments.count == 1 else { throw invalidArguments() }
             return try json(SourceLanguage.allCases.map { ["language": $0.rawValue, "profile": $0.profile, "status": "DRAFT_UNVALIDATED", "assumptions": $0.assumptions.joined(separator: "; ")] })
@@ -44,6 +46,39 @@ public struct FormalCommand: Sendable {
             guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
             let report = try DraftTranslation().perform(source: values["--source"]!, language: language, output: values["--output"]!)
             return try json(report)
+        case "package":
+            let values = try flexibleOptions(Array(arguments.dropFirst()), required: ["--output"], optional: ["--cache"])
+            try await PortableDistribution().package(output: URL(fileURLWithPath: values["--output"]!), cache: values["--cache"].map { URL(fileURLWithPath: $0) })
+            return try json(["status": "PACKAGED", "directory": values["--output"]!])
+        case "install":
+            let values = try flexibleOptions(Array(arguments.dropFirst()), required: ["--prefix"], optional: ["--cache"])
+            let binary = try await PortableDistribution().install(prefix: URL(fileURLWithPath: values["--prefix"]!), cache: values["--cache"].map { URL(fileURLWithPath: $0) })
+            return try json(["status": "INSTALLED", "executable": binary.path])
+        case "toolchain":
+            guard arguments.count == 1 else { throw invalidArguments() }
+            let tools = try PinnedToolchain().verify(at: try PortableDistribution().toolsURL)
+            return try json(tools.policy)
+        case "check":
+            let required: Set<String> = arguments.contains("--artifact") ? ["--artifact", "--scenario"] : ["--language", "--source", "--scenario", "--output"]
+            let values = try flexibleOptions(Array(arguments.dropFirst()), required: required, optional: ["--timeout"])
+            let timeout: Double
+            if let text = values["--timeout"] {
+                guard let value = Double(text), value.isFinite, (1...3600).contains(value) else { throw invalidArguments() }
+                timeout = value
+            } else { timeout = 120 }
+            let scenarioURL = URL(fileURLWithPath: values["--scenario"]!)
+            _ = try VerificationScenario.load(scenarioURL)
+            let tools = try PinnedToolchain().verify(at: try PortableDistribution().toolsURL)
+            let artifact: URL
+            if let path = values["--artifact"] { artifact = URL(fileURLWithPath: path) }
+            else {
+                guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
+                _ = try DraftTranslation().perform(source: values["--source"]!, language: language, output: values["--output"]!)
+                artifact = URL(fileURLWithPath: values["--output"]!)
+            }
+            let report = try await ModelVerifier().check(artifact: artifact, scenario: scenarioURL, toolchain: tools, timeout: timeout)
+            let data = try ArtifactJSON.encode(report)
+            return CommandResult(exitCode: report.exitCode, standardOutput: String(decoding: data, as: UTF8.self))
         case "doctor":
             let options = try options(Array(arguments.dropFirst()), required: ["--toolchain-lock"])
             let lock = try loadLock(options["--toolchain-lock"]!)
@@ -56,7 +91,7 @@ public struct FormalCommand: Sendable {
             let root = URL(fileURLWithPath: options["--bundle"]!)
             let report = try bundles.inspect(at: root, expectedLock: lock)
             return try json(report)
-        case "capture", "generate", "validate", "check", "coverage", "replay":
+        case "capture", "generate", "validate", "coverage", "replay":
             // FIXME(INCOMPLETE_IMPLEMENTATION): The bootstrap CLI routes these public commands here.
             // Strict SIL capture/generation, full semantics, and independent validation remain incomplete.
             // Do not return success until the corresponding specification acceptance tests pass.
@@ -64,6 +99,18 @@ public struct FormalCommand: Sendable {
         default:
             throw FormalDiagnostic(.invalidArguments, "Unknown command: \(command)")
         }
+    }
+
+    private func flexibleOptions(_ arguments: [String], required: Set<String>, optional: Set<String>) throws -> [String: String] {
+        guard arguments.count % 2 == 0 else { throw invalidArguments() }
+        var result: [String: String] = [:]
+        for offset in stride(from: 0, to: arguments.count, by: 2) {
+            let key = arguments[offset]; let value = arguments[offset + 1]
+            guard required.union(optional).contains(key), result[key] == nil, !value.isEmpty, !value.hasPrefix("--") else { throw invalidArguments() }
+            result[key] = value
+        }
+        guard required.isSubset(of: Set(result.keys)) else { throw invalidArguments() }
+        return result
     }
 
     private func options(_ arguments: [String], required: Set<String>) throws -> [String: String] {
@@ -106,8 +153,13 @@ public struct FormalCommand: Sendable {
     }
 
     private static let help = """
-    formal 0.1.0-bootstrap
+    formal 0.2.0
     Usage:
+      formal package --output <new-directory> [--cache <directory>]
+      formal install --prefix <directory> [--cache <directory>]
+      formal toolchain
+      formal check --language <name> --source <file> --scenario <json> --output <new-directory> [--timeout <seconds>]
+      formal check --artifact <directory> --scenario <json> [--timeout <seconds>]
       formal profiles
       formal translate --language <name> --source <file> --output <new-directory> --draft-unvalidated
       formal doctor --toolchain-lock <path>
@@ -115,10 +167,12 @@ public struct FormalCommand: Sendable {
       formal --version
       formal --help
 
-    capture, generate, validate, check, coverage, replay: not implemented (exit 3).
+    capture, generate, validate, coverage, replay: not implemented (exit 3).
     Bundle inspection checks metadata and hashes, not SIL semantics.
     translate emits experimental TLA+ and Lean for scalar-v1 source profiles.
-    Draft output is UNVALIDATED; independent semantic validation and property proof are unavailable.
+    check runs bundled TLC and Lean for explicit finite generated-model cases.
+    Translation remains UNVALIDATED; general source semantic certification is unavailable.
+    install/package acquire pinned tools; checking is offline and requires an installed distribution.
 
     """
 }

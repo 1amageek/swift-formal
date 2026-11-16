@@ -3,7 +3,7 @@ import Foundation
 import Testing
 
 struct CommandTests {
-    @Test(.timeLimit(.minutes(1)), arguments: ["capture", "generate", "validate", "check", "coverage", "replay"])
+    @Test(.timeLimit(.minutes(1)), arguments: ["capture", "generate", "validate", "coverage", "replay"])
     func rejectsUnimplementedCommands(command: String) async {
         let result = await FormalCommand().run(arguments: [command])
         #expect(result.exitCode == 3)
@@ -23,7 +23,7 @@ struct CommandTests {
         let result = await FormalCommand().run(arguments: ["--help"])
         #expect(result.exitCode == 0)
         #expect(result.standardOutput.contains("not implemented"))
-        #expect(result.standardOutput.hasPrefix("formal 0.1.0-bootstrap\n"))
+        #expect(result.standardOutput.hasPrefix("formal 0.2.0\n"))
         #expect(result.standardOutput.contains("formal doctor --toolchain-lock"))
         #expect(!result.standardOutput.contains("formal index"))
     }

@@ -1,10 +1,10 @@
 # formal
 
 ## Purpose and Scope
-Command routing and environment diagnostics. Parent: [system/package](../../DESIGN.md). Children: Commands, Environment.
+Command routing and environment diagnostics. Parent: [system/package](../../DESIGN.md). Children: Commands, Environment, Distribution.
 
 ## Responsibilities and Boundaries
-No command can certify translations or properties in the bootstrap release.
+General source semantic certification remains unavailable; finite generated-model checks follow the Verification contract.
 
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
@@ -19,9 +19,12 @@ formal -> FormalCore, FormalCompiler, FormalValidation
 ```
 
 ## Contracts and Invariants
-Inputs and results are immutable Sendable values. Errors remain explicit. No module stores shared mutable state. Dependencies use public contracts only. No command can certify translations or properties in the bootstrap release.
+Inputs and results are immutable Sendable values. Errors remain explicit. No module stores shared mutable state. Dependencies use public contracts only. General source semantic certification remains unavailable; finite generated-model checks follow the Verification contract.
 
 ## Verification and Change Impact
 See the corresponding test target linked by the package design and executable integration tests. Recheck the package and direct consumers when changing public data or failure contracts.
 
 Draft translation composes SourceCompiling, both emitters, and the independent actual-output decoder. [Commands](Commands/DESIGN.md) owns publication, draft status, limits, and failure cleanup.
+
+## Packaged Verification Extension
+Child: [Distribution](Distribution/DESIGN.md). Commands can now check finite generated-model outcomes, while general translation certification remains unavailable. Only install/package may acquire pinned dependencies; checks are offline.

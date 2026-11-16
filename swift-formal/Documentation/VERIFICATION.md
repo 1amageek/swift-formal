@@ -43,7 +43,7 @@ The copied specification is byte-identical to the supplied document. Fixtures we
 
 ## Unverified requirements
 
-Strict capture/generate/validate/check/coverage/replay, complete provenance/publication, full SIL reference semantics and state/stuttering correspondence, nominal wrapper identity, memory/inout, enum/throw, Actor/executor/coroutine/task models, scenario validation, and original-SIL counterexample replay remain unfinished. Actor SIL has been structurally parsed only. See [PROGRESS.md](../PROGRESS.md); no production semantic profile is certified.
+Strict capture/generate/validate/coverage/replay, complete provenance/publication, full SIL reference semantics and state/stuttering correspondence, nominal wrapper identity, memory/inout, enum/throw, Actor/executor/coroutine/task models, general temporal-property scenario validation, and original-SIL counterexample replay remain unfinished. Actor SIL has been structurally parsed only. See [PROGRESS.md](../PROGRESS.md); no production semantic profile is certified.
 
 ## Four frontend regression checkpoint
 
@@ -52,3 +52,21 @@ The original decrement counterexamples execute natively with result 8 and are no
 The original 12,128-byte JavaScript source executes natively but exceeds the profile AST limit; the actual CLI now returns SOURCE_PARSE_FAILED and creates no output. An at-limit, 128-node-deep nested-chain counterpart matches across all four paths. Expression lowering, type hints, and call detection use explicit work stacks. Focused tests exercise binary/unary/call depth boundaries, near-limit Go constants, repeated Rust/Python unary minus, and nested-call argument order.
 
 C/C++ forward-call counterexamples fail native compilation and frontend conversion. Earlier definitions and self-recursion match across all four paths. The common IR and backend runtimes were not modified. Existing eight-language native/IR/Lean/TLC checks and CLI integration pass after the frontend corrections. Independent semantic certification and Actor support remain outside this checkpoint.
+
+## Portable verification checkpoint
+
+See [DISTRIBUTION.md](DISTRIBUTION.md) for installation, scenario and proof scope.
+65 named Swift tests and existing CLI integration pass. The release distribution
+passes `Tools/verify-distribution.py`: eight source profiles, both actual verifiers,
+wrong expectation, UNKNOWN fuel exhaustion, expected overflow, BigInt, tampering,
+offline installation, relocation and PATH invocation with blocked host tools and
+poisoned Java/Lean environment. The source installer was separately run with a
+cache missing Java; it acquired the pinned JRE automatically. Checks took
+5.3–8.1 seconds for the successful small scenarios on the current host. No native
+source execution is performed by end-user checking. The earlier native/IR/TLA/Lean
+regression evidence remains applicable because frontend and runtime semantics
+were not changed.
+
+```sh
+python3 Tools/run-with-timeout.py --seconds 900 python3 Tools/verify-distribution.py --distribution /absolute/path/to/Formal-macos-arm64
+```

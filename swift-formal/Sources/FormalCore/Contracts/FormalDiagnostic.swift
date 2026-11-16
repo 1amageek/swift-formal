@@ -17,6 +17,7 @@ public struct FormalDiagnostic: Error, Codable, Sendable, Equatable, CustomStrin
         case timeout = "TIMEOUT"
         case interrupted = "INTERRUPTED"
         case toolFailure = "TOOL_FAILURE"
+        case counterexample = "COUNTEREXAMPLE"
     }
 
     public let code: Code
@@ -34,6 +35,7 @@ public struct FormalDiagnostic: Error, Codable, Sendable, Equatable, CustomStrin
         case .invalidArguments, .invalidManifest, .toolchainMismatch: 2
         case .unsupportedOperation, .unsupportedExternal, .unsupportedOpcode, .unsupportedAttribute, .unsupportedType: 3
         case .integrityMismatch, .sourceParseFailed, .silParseFailed: 4
+        case .counterexample: 5
         case .timeout, .interrupted: 6
         case .ioFailure, .toolFailure: 7
         }

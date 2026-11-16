@@ -30,9 +30,9 @@ def fetch(metadata, path):
 
 lean_root = store / 'lean-4.35.0-darwin_aarch64'
 if not (lean_root / 'bin/lean').is_file():
-    archive = store / 'lean-4.35.0-darwin_aarch64.tar.zst'
+    archive = store / 'lean-4.35.0-darwin_aarch64.zip'
     fetch(lock['lean'], archive)
-    listing = subprocess.run(['tar', '--zstd', '-tvf', str(archive)], capture_output=True,
+    listing = subprocess.run(['tar', '-tvf', str(archive)], capture_output=True,
                              text=True, check=True, timeout=90).stdout
     unpacked_bytes = 0
     for line in listing.splitlines():
@@ -43,12 +43,13 @@ if not (lean_root / 'bin/lean').is_file():
     if shutil.disk_usage(store).free < unpacked_bytes + 268435456:
         raise RuntimeError('Insufficient free space for verified Lean extraction and temporary files.')
     with tempfile.TemporaryDirectory(prefix='prepare-', dir=store) as temporary:
-        subprocess.run(['tar', '--zstd', '-xf', str(archive), '-C', temporary,
+        subprocess.run(['tar', '-xf', str(archive), '-C', temporary,
                         'lean-4.35.0-darwin_aarch64/bin/lean',
                         'lean-4.35.0-darwin_aarch64/bin/leanchecker',
                         'lean-4.35.0-darwin_aarch64/bin/lake',
                         'lean-4.35.0-darwin_aarch64/lib',
-                        'lean-4.35.0-darwin_aarch64/LICENSE'], check=True, timeout=180)
+                        'lean-4.35.0-darwin_aarch64/LICENSE',
+                        'lean-4.35.0-darwin_aarch64/LICENSES'], check=True, timeout=180)
         extracted = Path(temporary) / lean_root.name
         if lean_root.exists():
             raise RuntimeError('Incomplete Lean installation exists; inspect it before replacement.')

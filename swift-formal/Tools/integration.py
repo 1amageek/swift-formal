@@ -17,8 +17,8 @@ def run(arguments, expected):
     assert result.returncode == expected, (arguments, result.returncode, result.stdout, result.stderr)
     return result
 
-assert run(['--help'], 0).stdout.startswith('formal 0.1.0-bootstrap\n')
-assert run(['--version'], 0).stdout == 'formal 0.1.0-bootstrap\n'
+assert run(['--help'], 0).stdout.startswith('formal 0.2.0\n')
+assert run(['--version'], 0).stdout == 'formal 0.2.0\n'
 assert 'formal --help' in json.loads(run(['doctor'], 2).stderr)['message']
 report = json.loads(run(['doctor', '--toolchain-lock', str(root / 'toolchain.lock.json')], 0).stdout)
 assert report['compilerIdentityMatches'] and not report['generationSupported']
@@ -52,7 +52,7 @@ with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:
     module.write_bytes(b'tampered')
     assert json.loads(run(arguments, 4).stderr)['code'] == 'INTEGRITY_MISMATCH'
     generated = work / 'Generated'
-    for command in ['capture', 'generate', 'validate', 'check', 'coverage', 'replay']:
+    for command in ['capture', 'generate', 'validate', 'coverage', 'replay']:
         result = run([command, '--out', str(generated)], 3)
         assert not result.stdout and not generated.exists()
         assert json.loads(result.stderr)['code'] == 'UNSUPPORTED_OPERATION'

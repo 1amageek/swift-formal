@@ -4,7 +4,7 @@ The CLI command is `formal`; the package is named `swift-formal`. It has no exte
 
 A dependency-free Swift package for source/SIL → common IR → TLA+ and Lean translation. Five production modules separate core contracts, IR, compilation, independent inspection, and the `formal` executable. The requested v1 scope is defined in [SPEC.md](Documentation/SPEC.md); implementation progress is tracked in [PROGRESS.md](PROGRESS.md).
 
-**The current package is experimental, not the completed v1 compiler.** It provides input contracts, SHA-256 bundle inspection, compiler identity diagnostics, a structural SIL parser, scalar lowering/IR execution, and TLA+/Lean library emitters. Scalar fixture outputs pass SANY, TLC, Lean finite proofs, and independent Lean decoding/data-correspondence checks. Eight scalar source frontends and draft CLI translation are implemented. Strict semantic certification, complete SIL semantic preservation, memory/exception coverage, and Actor translation remain unfinished.
+**The current package is experimental, not the completed v1 compiler.** It provides input contracts, SHA-256 bundle inspection, compiler identity diagnostics, a structural SIL parser, scalar lowering/IR execution, and TLA+/Lean library emitters. Scalar fixture outputs pass SANY, TLC, Lean finite proofs, and independent Lean decoding/data-correspondence checks. Eight scalar source frontends, draft CLI translation, portable installation and finite-model verification are implemented. Strict semantic certification, complete SIL semantic preservation, memory/exception coverage, and Actor translation remain unfinished.
 
 ```text
 Swift / Rust / C / C++ / Go / TypeScript / JavaScript / Python
@@ -35,3 +35,12 @@ python3 Tools/run-with-timeout.py --seconds 900 -- python3 Tools/verify-frontend
 ```
 
 [CLI](Documentation/CLI.md) · [Architecture](DESIGN.md) · [Trust](Documentation/TRUST.md) · [Support](Documentation/SUPPORT.md)
+
+## Install with bundled verifiers
+
+```sh
+swift run -c release formal install --prefix "$PWD/InstalledFormal"
+./InstalledFormal/bin/formal check --language python --source input.py --scenario cases.json --output Checked
+```
+
+Installation acquires pinned Java, TLC and Lean automatically. A portable binary distribution needs no Java/Lean or Swift toolchain installation to run. Checking is offline and reports finite generated-model results separately from UNVALIDATED source translation. See [installation and scenario documentation](Documentation/DISTRIBUTION.md). macOS arm64 is the current distribution target.

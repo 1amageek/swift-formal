@@ -5,10 +5,10 @@ The requested completion scope is the entire v1 specification, including Actor s
 | Phase | Required result | Current evidence |
 |---|---|---|
 | P0 | Locked inputs, schemas, trust boundary, dependency-free package | Host lock, input records, bundle checks implemented/tested; certified semantics profile pending |
-| P1 | Arithmetic, branches, calls; both backends; independent validation | Scalar SIL -> IR -> both outputs works. SANY, TLC, Lean finite execution, separate Lean decoder and kernel data/step equality pass. Full SIL step relation, runtime audit, verifier orchestration, and complete mutation suite pending |
+| P1 | Arithmetic, branches, calls; both backends; independent validation | Scalar SIL -> IR -> both outputs works. SANY, TLC, Lean finite execution, separate Lean decoder and kernel data/step equality pass. Full SIL step relation, general runtime semantic audit and complete semantic mutation suite pending |
 | P2 | Memory, loops, recursion, enums, exceptions, dependency closure | IR loops/recursion execute and report fuel/stack bounds. Reachable scalar calls are closed. SIL memory/enum/exception lowering pending |
 | P3 | Actor and async with both backends and replay | Actual Swift 6.4.1 fixture SIL inspected and structurally parsed; semantic translation/replay not implemented |
-| P4 | All CLI operations, support matrix, provenance, acceptance/mutation suite | Operational bootstrap commands only; strict generation/verification commands fail explicitly |
+| P4 | All CLI operations, support matrix, provenance, acceptance/mutation suite | Portable installation and finite generated-model checking available; strict SIL certification remains disabled |
 
 ## Multi-language consolidation checkpoint
 
@@ -38,3 +38,13 @@ Swift 6.4.1 release, SDK 27.2, Java 24.0.2. Lean 4.35.0 and TLA tools 1.7.4 are 
 ## Four frontend regression corrections
 
 The four reviewed defects are corrected under the [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md#four-finding-regression-ownership). Regression evidence covers 19 positive observations in native execution, IR, TLA+, and Lean, plus 14 CLI rejection scenarios with no artifacts. The original 12 KB stack-overflow counterexample now fails diagnostically. Bounded nonrecursive expression lowering also preserves nested-call argument order. Existing eight-language external verification and package/CLI integration remain green. See [Verification](Documentation/VERIFICATION.md#four-frontend-regression-checkpoint) for the exact proof scope and remaining limitations.
+
+## Portable verification checkpoint
+
+`formal install` acquires pinned Temurin JRE 21.0.13+9, Lean 4.35.0 and TLC 1.7.4 automatically into a private prefix. `formal package` creates a relocatable folder with all runtime tools, resource bundles and notices. Java and Lean need no separate user installation; a distributed binary needs no Swift toolchain at runtime. Checks are offline and use audited sibling tools exclusively. The current distribution platform is macOS arm64.
+
+`formal check` generates and checks explicit scalar scenarios, or rechecks existing generated artifacts. Runtime byte identity and actual program data are audited before controlled Lean compilation and TLC execution. Reports distinguish finite MODEL_CHECKED/PROVED outcomes, COUNTEREXAMPLE/UNPROVED and UNKNOWN from UNVALIDATED source translation. The Lean proof audit permits only propext, Classical.choice and Quot.sound and records actual dependencies. Bounds, cancellation, malformed scenarios and modified files fail explicitly. Process groups, logs and workspaces have enforced limits.
+
+65 named Swift tests and existing CLI integration pass. The real portable-distribution test passes eight language checks, a wrong-expectation counterexample, a fuel bound, expected checked overflow, arbitrary integer arithmetic, runtime/tool tampering, offline installation, no-clobber, moved prefixes and PATH invocation. Host java/lean/lake/swift/swiftc/curl/zstd are blocked and caller Java/Lean settings are poisoned. Source installation was also exercised with no cached JRE: formal downloaded and installed it itself. Mach-O inspection of 55 executable/library files found no absolute dependency outside macOS system paths. Small successful checks took 5.3–8.1 seconds including full tool inventory hashing on this machine; no general performance guarantee is implied.
+
+This checkpoint does not complete general source semantic preservation, arbitrary temporal properties, full v1, or Actor support. The imported specification remains byte-for-byte unchanged.

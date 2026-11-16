@@ -22,3 +22,6 @@ The future TCB includes the fixed Swift compiler, independent SIL decoder, refer
 | Public library configurations and program values | Immutable Sendable records | May cross task boundaries | Mutation creates independent value state |
 
 No conditional synchronization or target-dependent Sendable branches exist. These facts establish the current macOS path only; WASM/Embedded runtime behavior is not tested or claimed.
+
+## Portable finite verification
+The [Verification contract](../Sources/FormalValidation/Verification/DESIGN.md) owns current finite checks. It audits runtime identity and independently decodes generated data before invoking controlled Lean/TLC inputs. Pinned toolchain inventories are trusted shipped resources, not signatures or sandboxing against an attacker able to replace the executable/resource bundles. Install/package alone may acquire pinned archives. End-user checks remain offline.

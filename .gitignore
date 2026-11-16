@@ -5,3 +5,5 @@
 *.silbundle/
 Generated/
 __pycache__/
+
+.build-portable/

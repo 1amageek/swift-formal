@@ -1,10 +1,10 @@
 # swift-formal
 
 ## Purpose and Scope
-This directory is both the system root and SwiftPM package root. The package provides language-specific scalar frontends, a common IR, TLA+/Lean emitters, independent artifact-data inspection, and a draft CLI. The requested compiler is specified in [SPEC.md](Documentation/SPEC.md); P1 has partial behavioral evidence; P2–P4 remain future work. There is no parent design.
+This directory is both the system root and SwiftPM package root. The package provides language-specific scalar frontends, a common IR, TLA+/Lean emitters, independent artifact-data inspection, and a draft CLI with portable finite-model checking. The requested compiler is specified in [SPEC.md](Documentation/SPEC.md); P1 has partial behavioral evidence; P2–P4 remain future work. There is no parent design.
 
 ## Responsibilities and Boundaries
-Source profiles and canonical SIL are separate frontend inputs. [Frontend contracts](Sources/FormalCompiler/Frontends/DESIGN.md) own accepted source subsets and their language semantics. Declaration indexing is outside the package. Package creation does not establish translation correctness. Scalar backend emission, restricted output-data decoding, and a separate Lean SIL decoder exist. Complete SIL step correspondence, trusted-runtime auditing, strict semantic certification, and Actor semantics remain unimplemented.
+Source profiles and canonical SIL are separate frontend inputs. [Frontend contracts](Sources/FormalCompiler/Frontends/DESIGN.md) own accepted source subsets and their language semantics. Declaration indexing is outside the package. Package creation does not establish translation correctness. Scalar backend emission, restricted output-data decoding, and a separate Lean SIL decoder exist. Complete SIL step correspondence, general runtime semantic certification, strict source semantic certification, and Actor semantics remain unimplemented.
 
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
@@ -39,9 +39,12 @@ Five production SwiftPM targets enforce the boundaries above. Parsing, lowering,
 `translate -> source profile -> common IR -> both emitters -> independent data decoding -> new draft directory`; `doctor -> bounded compiler probe -> exact lock comparison`; `inspect-bundle -> metadata and hash checks`. Strict semantic commands return exit 3.
 
 ## Failure, Concurrency, and Constraints
-Component contracts own explicit source, artifact, and execution budgets. Compiler probes have deadlines and bounded output. Current CLI commands do not evaluate SwiftPM manifests. No network or dependency installation occurs in CLI commands.
+Component contracts own explicit source, artifact, and execution budgets. Compiler probes have deadlines and bounded output. Current CLI commands do not evaluate SwiftPM manifests. Only explicit install/package commands acquire pinned tool archives into private local directories. All generation and checking commands remain offline; no system Java, Lean or Swift compiler is required by source-profile checks.
 
 ## Verification and Change Impact
 [Core tests](Tests/FormalCoreTests) and [CLI tests](Tests/FormalCLITests) own local behavior. [integration.py](Tools/integration.py) exercises the actual executable, lock mismatch, bundle tampering, removed-command rejection, and fail-closed commands. Use [run-with-timeout.py](Tools/run-with-timeout.py) for all test processes. Any new semantic operation must update this design and the relevant lower contracts before implementation.
 
 The [frontend regression contract](Sources/FormalCompiler/Frontends/DESIGN.md#four-finding-regression-ownership) owns lexical update rejection, Go constant conversion, expression-depth safety, and C/C++ declaration visibility. These corrections preserve the existing IR/backend contracts; draft composition continues to publish only after complete frontend success.
+
+## Portable Verification
+The user-authorized distribution contract supersedes the earlier CLI acquisition restriction only for install/package. [Toolchain](Sources/FormalValidation/Toolchain/DESIGN.md), [Verification](Sources/FormalValidation/Verification/DESIGN.md), and [Distribution](Sources/formal/Distribution/DESIGN.md) own the new boundaries. Finite model proofs do not change DRAFT_UNVALIDATED translation status or complete the original v1/Actor scope.
