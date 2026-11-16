@@ -4,7 +4,7 @@
 Parse commands, load bounded files, and map typed failures to documented exit codes. Parent: [FormalCLI](../DESIGN.md). No child components.
 
 ## Responsibilities and Boundaries
-Implemented commands: help, version, doctor, inspect-bundle, index. Future capture/generate/validate/check/coverage/replay fail with UNSUPPORTED_OPERATION and exit 3. No output directory is written. Bad arguments use exit 2.
+Implemented commands: help, version, doctor, inspect-bundle. Future capture/generate/validate/check/coverage/replay fail with UNSUPPORTED_OPERATION and exit 3. No output directory is written. Bad arguments and the removed declaration-index command use exit 2.
 
 The executable name is owned by the [package naming contract](../../../DESIGN.md#contracts-and-invariants). Help, version, and diagnostic hints use that invocation.
 
@@ -19,7 +19,7 @@ Caller -> Commands -> explicit value or error
 ```
 
 ## Contracts and Invariants
-Implemented commands: help, version, doctor, inspect-bundle, index. Future capture/generate/validate/check/coverage/replay fail with UNSUPPORTED_OPERATION and exit 3. No output directory is written. Bad arguments use exit 2.
+Implemented commands: help, version, doctor, inspect-bundle. Future capture/generate/validate/check/coverage/replay fail with UNSUPPORTED_OPERATION and exit 3. No output directory is written. Bad arguments and the removed declaration-index command use exit 2.
 
 ## State, Ownership, and Lifecycle
 State belongs to a call; no global mutable storage. Data and temporary resources remain scoped to the invocation.

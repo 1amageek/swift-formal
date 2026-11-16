@@ -2,10 +2,10 @@
 
 | Layer | Current support |
 |---|---|
+| External SwiftPM dependencies | None |
 | Host package | macOS; Swift 6.4.1 build and runtime tests |
 | Input contracts | JSON schema version 1, canonical SIL metadata, explicit context |
 | Bundle inspection | Bounded regular files, relative paths, symlink containment, SHA-256 |
-| Source metadata | Swift declarations through fixed swift-skeleton public APIs |
 | SIL parser | Structural canonical parsing, including actual Actor fixture syntax; no semantic support implied |
 | SIL lowering | Scalar thin functions, fixed-width bits/wrappers, tuples, branch, direct calls, trap |
 | TLA+ / Lean emitters | Scalar library emitters; actual files pass SANY and Lean checks |

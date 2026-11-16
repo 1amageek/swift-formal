@@ -1,9 +1,9 @@
 # Trust boundaries
 
 ## Current evidence
-The operational CLI performs metadata and byte-integrity inspection only. Experimental libraries additionally parse scalar SIL, lower to IR, and emit both backends. SHA-256 does not establish SIL correctness or semantic equivalence. Source indexing uses the public APIs of swift-skeleton revision `fb10ef666a30e892b9f3a4ca0740702c6c621d80`. Private declarations are not filtered out. Source indexing is never an execution-semantics input.
+The operational CLI performs metadata and byte-integrity inspection only. Experimental libraries additionally parse scalar SIL, lower to IR, and emit both backends. SHA-256 does not establish SIL correctness or semantic equivalence. The package has no external SwiftPM dependencies. Toolchain identity contains compiler/runtime metadata only. Declaration indexing and source-project metadata adapters are outside this package.
 
-Compiler probing invokes `swiftc -print-target-info` through an argument array. Probe processes have a deadline and bounded output files. This runner is not an isolation mechanism for arbitrary Lean code or untrusted build tools. Trusted SwiftPM metadata uses the upstream resolver's timeout and evaluates the manifest as executable code; the library requires an explicit `trustedProject` flag. No CLI command evaluates SwiftPM manifests.
+Compiler probing invokes `swiftc -print-target-info` through an argument array. Probe processes have a deadline and bounded output files. This runner is not an isolation mechanism for arbitrary Lean code or untrusted build tools. No current CLI command evaluates SwiftPM manifests.
 
 All mutable implementation state is invocation-local. No shared state, unchecked Sendable conformance, Embedded branch, GPU execution, daemon, or AsyncStream exists.
 

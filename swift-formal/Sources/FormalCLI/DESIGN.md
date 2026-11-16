@@ -15,7 +15,7 @@ No command can certify translations or properties in the bootstrap release.
 
 ## Architecture
 ```text
-FormalCLI -> FormalCore, FormalIndex
+FormalCLI -> FormalCore
 ```
 
 ## Contracts and Invariants

@@ -12,6 +12,5 @@
   "ownership": "ossa",
   "runtimeModel": "unimplemented",
   "semanticsVersion": "unimplemented",
-  "generationSupported": false,
-  "skeletonRevision": "fb10ef666a30e892b9f3a4ca0740702c6c621d80"
+  "generationSupported": false
 }

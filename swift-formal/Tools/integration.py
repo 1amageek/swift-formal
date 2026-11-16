@@ -29,16 +29,8 @@ with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:
     (work / 'wrong-lock.json').write_text(json.dumps(changed))
     result = run(['doctor', '--toolchain-lock', str(work / 'wrong-lock.json')], 2)
     assert json.loads(result.stderr)['code'] == 'TOOLCHAIN_MISMATCH'
-    source = work / 'Inventory.swift'
-    source.write_text('actor Inventory {\n private func reserve() -> Bool { true }\n}')
-    index = json.loads(run(['index', '--source', str(source)], 0).stdout)
-    assert any('reserve' in declaration['name'] for declaration in index['declarations'])
-    assert not index['providesExecutionSemantics']
-    source.write_text('actor Inventory { private func reserve() -> Bool { true } }')
-    partial = json.loads(run(['index', '--source', str(source)], 0).stdout)
-    assert not partial['completeDeclarationCoverage'] and partial['limitations']
-    source.write_text('actor Inventory { func broken(')
-    run(['index', '--source', str(source)], 4)
+    rejected = run(['index', '--source', str(work / 'unused.swift')], 2)
+    assert json.loads(rejected.stderr)['code'] == 'INVALID_ARGUMENTS'
     bundle = work / 'Input.silbundle'
     (bundle / 'modules').mkdir(parents=True)
     (bundle / 'toolchain.lock.json').write_text(json.dumps(lock))
@@ -64,4 +56,4 @@ with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:
         result = run([command, '--out', str(generated)], 3)
         assert not result.stdout and not generated.exists()
         assert json.loads(result.stderr)['code'] == 'UNSUPPORTED_OPERATION'
-print('CLI integration passed: compiler probe, mismatch, indexing, bundle tampering, fail-closed commands.')
+print('CLI integration passed: compiler probe, mismatch, removed-command rejection, bundle tampering, fail-closed commands.')

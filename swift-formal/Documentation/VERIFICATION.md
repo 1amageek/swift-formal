@@ -1,11 +1,12 @@
 # Verification checkpoint
 
-Date: 2026-11-16. This is a scalar-library checkpoint, not v1 completion.
+Date: 2026-11-16. This is a scalar-library checkpoint, not v1 completion. The dependency-free package contract in DESIGN.md supersedes the imported specification's declaration-index requirements.
 
 | Check | Evidence | Scope |
 |---|---|---|
-| Swift tests | 36 named tests passed across 8 targets | Contracts, integrity, indexing, syntax, scalar IR/lowering, emitted-data mutation |
-| CLI integration | Passed | Actual executable: doctor, mismatch, index, tampering, unsupported commands |
+| Fresh dependency-free build | Build and tests use a new scratch directory | No cached third-party products; SwiftPM graph has no dependencies |
+| Swift tests | 33 named tests passed across 7 targets | Contracts, integrity, syntax, scalar IR/lowering, emitted-data mutation |
+| CLI integration | Passed | Actual executable: doctor without index-tool metadata, mismatch, removed-command rejection, tampering, unsupported commands |
 | Lean 4.35.0 | Actual generated package builds | Scalar runtime, program, properties |
 | Lean finite execution | Four kernel-checked theorems | Subtraction, direct call, branch, wrapping endpoints |
 | Lean independent decoding | Kernel data, shared-step, reachability equality | Separate decoder reads original scalar fixture; not a complete SIL step proof |

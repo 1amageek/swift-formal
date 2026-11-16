@@ -4,7 +4,7 @@ The requested completion scope is the entire v1 specification, including Actor s
 
 | Phase | Required result | Current evidence |
 |---|---|---|
-| P0 | Locked inputs, schemas, trust boundary, Skeleton public adapter | Host lock, input records, bundle checks, source and project adapters implemented/tested; certified semantics profile pending |
+| P0 | Locked inputs, schemas, trust boundary, dependency-free package | Host lock, input records, bundle checks implemented/tested; certified semantics profile pending |
 | P1 | Arithmetic, branches, calls; both backends; independent validation | Scalar SIL -> IR -> both outputs works. SANY, TLC, Lean finite execution, separate Lean decoder and kernel data/step equality pass. Full SIL step relation, runtime audit, verifier orchestration, and complete mutation suite pending |
 | P2 | Memory, loops, recursion, enums, exceptions, dependency closure | IR loops/recursion execute and report fuel/stack bounds. Reachable scalar calls are closed. SIL memory/enum/exception lowering pending |
 | P3 | Actor and async with both backends and replay | Actual Swift 6.4.1 fixture SIL inspected and structurally parsed; semantic translation/replay not implemented |
@@ -12,8 +12,8 @@ The requested completion scope is the entire v1 specification, including Actor s
 
 ## Verified paths
 
-- Fixed swift-skeleton revision resolves/builds without local overrides.
-- Swift contract, bundle containment/tampering, source indexing, parser malformed-input, scalar arithmetic/CFG/calls, and artifact mutation tests pass.
+- The user's no-Skeleton requirement supersedes the imported specification. External SwiftPM dependencies, source-index adapters, their CLI command, and index-tool lock metadata are removed.
+- Swift contract, bundle containment/tampering, parser malformed-input, scalar arithmetic/CFG/calls, and artifact mutation tests pass.
 - Real canonical SIL fixtures cover subtraction, wrapping, branch, direct call, memory loops, and Actor accessors/coroutines. Scalar lowering currently rejects memory and Actor operations.
 - Four-bit arithmetic exhaustively matches independent mathematical expected results. Fixed 64-bit signed/unsigned overflow endpoints remain distinct.
 - Lean 4.35.0 compiles actual emitted files and kernel-checks subtraction, call, branch, and wrapping results. Audited dependencies: propext.

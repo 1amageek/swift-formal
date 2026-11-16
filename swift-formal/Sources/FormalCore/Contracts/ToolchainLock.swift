@@ -15,7 +15,6 @@ public struct ToolchainLock: Codable, Sendable, Equatable {
     public let runtimeModel: String
     public let semanticsVersion: String
     public let generationSupported: Bool
-    public let skeletonRevision: String
 
     public func validate() throws {
         guard schemaVersion == 1 else {
@@ -25,8 +24,7 @@ public struct ToolchainLock: Codable, Sendable, Equatable {
                       sdkVersion, ownership, runtimeModel, semanticsVersion]
         guard fields.allSatisfy({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }),
               [16, 32, 64, 128].contains(pointerWidth), languageMode == "6",
-              silStage == "canonical", optimization == "-Onone",
-              skeletonRevision == "fb10ef666a30e892b9f3a4ca0740702c6c621d80" else {
+              silStage == "canonical", optimization == "-Onone" else {
             throw FormalDiagnostic(.invalidManifest, "Incomplete or incompatible bootstrap toolchain lock.")
         }
         guard !generationSupported, runtimeModel == "unimplemented", semanticsVersion == "unimplemented" else {

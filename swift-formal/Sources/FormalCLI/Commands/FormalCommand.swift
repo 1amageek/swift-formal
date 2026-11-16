@@ -1,19 +1,15 @@
 import FormalCore
-import FormalIndex
 import Foundation
 
 public struct FormalCommand: Sendable {
     private let compiler: any CompilerProbing
-    private let indexer: any SourceIndexing
     private let bundles: any BundleInspecting
 
     public init(
         compiler: any CompilerProbing = LocalCompilerProbe(),
-        indexer: any SourceIndexing = SkeletonSourceIndexer(),
         bundles: any BundleInspecting = BundleInspector()
     ) {
         self.compiler = compiler
-        self.indexer = indexer
         self.bundles = bundles
     }
 
@@ -47,15 +43,6 @@ public struct FormalCommand: Sendable {
             let root = URL(fileURLWithPath: options["--bundle"]!)
             let report = try bundles.inspect(at: root, expectedLock: lock)
             return try json(report)
-        case "index":
-            let options = try options(Array(arguments.dropFirst()), required: ["--source"])
-            let path = options["--source"]!
-            let data = try ArtifactJSON.readBytes(from: URL(fileURLWithPath: path), maximumBytes: 4_194_304)
-            guard let source = String(data: data, encoding: .utf8) else {
-                throw FormalDiagnostic(.invalidArguments, "Swift source must be UTF-8.", path: path)
-            }
-            let index = try indexer.index(source: source, path: path)
-            return try json(index)
         case "capture", "generate", "validate", "check", "coverage", "replay":
             // FIXME(INCOMPLETE_IMPLEMENTATION): The bootstrap CLI routes these public commands here.
             // SIL capture, semantics, both emitters, and independent validation are not implemented.
@@ -110,7 +97,6 @@ public struct FormalCommand: Sendable {
     Usage:
       formal doctor --toolchain-lock <path>
       formal inspect-bundle --bundle <path> --toolchain-lock <path>
-      formal index --source <path>
       formal --version
       formal --help
 

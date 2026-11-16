@@ -11,7 +11,7 @@ struct CommandTests {
         #expect(result.standardError.contains("UNSUPPORTED_OPERATION"))
     }
 
-    @Test(.timeLimit(.minutes(1)), arguments: [["doctor"], ["unknown"], ["--version", "extra"], ["index", "--source", "a", "--source", "b"]])
+    @Test(.timeLimit(.minutes(1)), arguments: [["doctor"], ["unknown"], ["--version", "extra"], ["index", "--source", "Inventory.swift"]])
     func rejectsBadArguments(arguments: [String]) async {
         let result = await FormalCommand().run(arguments: arguments)
         #expect(result.exitCode == 2)
@@ -25,6 +25,7 @@ struct CommandTests {
         #expect(result.standardOutput.contains("not implemented"))
         #expect(result.standardOutput.hasPrefix("formal 0.1.0-bootstrap\n"))
         #expect(result.standardOutput.contains("formal doctor --toolchain-lock"))
+        #expect(!result.standardOutput.contains("formal index"))
     }
 
     @Test(.timeLimit(.minutes(1)))
