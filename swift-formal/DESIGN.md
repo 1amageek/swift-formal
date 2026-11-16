@@ -43,3 +43,5 @@ Component contracts own explicit source, artifact, and execution budgets. Compil
 
 ## Verification and Change Impact
 [Core tests](Tests/FormalCoreTests) and [CLI tests](Tests/FormalCLITests) own local behavior. [integration.py](Tools/integration.py) exercises the actual executable, lock mismatch, bundle tampering, removed-command rejection, and fail-closed commands. Use [run-with-timeout.py](Tools/run-with-timeout.py) for all test processes. Any new semantic operation must update this design and the relevant lower contracts before implementation.
+
+The [frontend regression contract](Sources/FormalCompiler/Frontends/DESIGN.md#four-finding-regression-ownership) owns lexical update rejection, Go constant conversion, expression-depth safety, and C/C++ declaration visibility. These corrections preserve the existing IR/backend contracts; draft composition continues to publish only after complete frontend success.

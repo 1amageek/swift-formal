@@ -1,0 +1,6 @@
+#include <stdint.h>
+int64_t g(int64_t a, int64_t b) { return a + b; }
+int64_t f(int64_t a, int64_t b) { return g(a, b); }
+int64_t recur(int64_t a, int64_t b) {
+    if (a < 1LL) { return b; } else { return recur(a - 1LL, b); }
+}

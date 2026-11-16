@@ -1,0 +1,6 @@
+#include <cstdint>
+std::int64_t g(std::int64_t a, std::int64_t b) { return a + b; }
+std::int64_t f(std::int64_t a, std::int64_t b) { return g(a, b); }
+std::int64_t recur(std::int64_t a, std::int64_t b) {
+    if (a < 1LL) { return b; } else { return recur(a - 1LL, b); }
+}

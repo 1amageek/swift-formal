@@ -3,6 +3,7 @@ struct SourceParser {
     let tokens: [SourceToken]
     var cursor = 0
     var nesting = 0
+    typealias ParsedExpression = (value: SourceExpression, depth: Int)
     let maximumNesting: Int
     private static let reserved: Set<String> = ["return", "if", "else", "func", "fn", "def", "function", "let", "const", "var", "mut", "pub", "public", "export", "async", "await", "true", "false", "True", "False", "package", "import", "class", "struct", "while", "for", "switch", "match", "int", "bool", "int64", "uint64", "i64", "u64", "Int64", "UInt64", "Bool", "bigint", "boolean", "int64_t", "uint64_t", "not", "and", "or", "None", "null", "undefined"]
     private static let keywords = Set("and_eq bitand bitor compl concept co_await co_return co_yield const_cast decltype dynamic_cast not_eq nullptr reinterpret_cast static_cast wchar_t char8_t char16_t char32_t xor xor_eq _Atomic _Alignas _Alignof _Bool _Complex _Generic _Imaginary _Noreturn _Static_assert _Thread_local crate dyn move mod impl box become priv unsized macro associatedtype deinit extension fileprivate inout precedencegroup subscript chan map type _ as assert async await auto break case catch char consteval constexpr constinit continue default defer delete do double elif enum except explicit extern extends final finally float for friend from global goto implements import in inline instanceof interface is lambda long match module namespace new nonlocal operator override pass private protected protocol raise range register repeat requires restrict select short signed sizeof static static_assert struct super switch template this thread_local throw throws trait try typedef type typename typeof union unsafe unsigned use using virtual void volatile when where with yield abstract boolean byte debugger del dynamic fallthrough false get init internal nil nonmutating open out readonly ref rethrows self Self set some synchronized then transient true typealias typeof unless val weak yield".split(separator: " ").map(String.init))
@@ -121,12 +122,12 @@ struct SourceParser {
         try expect("\n")
     }
     mutating func statement() throws -> SourceStatement {
-        if take("return") { let value = try expression(); try endStatement(); return .returned(value) }
+        if take("return") { let value = try expression(); try endStatement(); return .returned(value.value) }
         if take("if") {
             let condition: SourceExpression
             if language == .c || language == .cpp || language == .typescript || language == .javascript {
-                try expect("("); condition = try expression(); try expect(")")
-            } else { condition = try expression() }
+                try expect("("); condition = try expression().value; try expect(")")
+            } else { condition = try expression().value }
             let thenBody = try block()
             if language == .go && text == "\n" { throw error("Go else must follow the closing brace on the same line") }
             lines(); try expect("else"); let elseBody = try block()
@@ -144,7 +145,7 @@ struct SourceParser {
         case .go: name = try identifier(); try expect(":=")
         case .python: name = try identifier(); if take(":") { kind = try type() }; try expect("=")
         }
-        let value = try expression(); try endStatement(); return .binding(name, kind, value)
+        let value = try expression(); try endStatement(); return .binding(name, kind, value.value)
     }
     func precedence(_ op: String) -> Int {
         switch op {
@@ -155,7 +156,11 @@ struct SourceParser {
         default: -1
         }
     }
-    mutating func expression(_ minimum: Int = 0) throws -> SourceExpression {
+    func checkedDepth(_ depth: Int) throws -> Int {
+        guard depth <= maximumNesting else { throw error("Expression tree depth limit exceeded") }
+        return depth
+    }
+    mutating func expression(_ minimum: Int = 0) throws -> ParsedExpression {
         nesting += 1; defer { nesting -= 1 }
         guard nesting <= maximumNesting else { throw error("Expression nesting limit exceeded") }
         var left = try primary()
@@ -165,31 +170,39 @@ struct SourceParser {
             guard chainLength <= maximumNesting else { throw error("Expression chain limit exceeded") }
             let op = text; cursor += 1
             let right = try expression(precedence(op) + 1)
-            left = .binary(op, left, right)
+            let depth = try checkedDepth(1 + max(left.depth, right.depth))
+            left = (.binary(op, left.value, right.value), depth)
         }
         return left
     }
-    mutating func primary() throws -> SourceExpression {
+    mutating func primary() throws -> ParsedExpression {
         if take("(") { let value = try expression(); try expect(")"); return value }
         if text == "-" || (text == "!" && language != .python) || (text == "not" && language == .python) {
             let op = text; cursor += 1
             let value = try expression(op == "not" ? 1 : 5)
-            if op == "-", case .literal(let literal) = value { return .literal("-" + literal) }
-            return .unary(op, value)
+            if op == "-", case .literal(let literal) = value.value { return (.literal("-" + literal), 1) }
+            let depth = try checkedDepth(value.depth + 1)
+            return (.unary(op, value.value), depth)
         }
         let value = text
-        if let first = value.utf8.first, (48...57).contains(first) { cursor += 1; return .literal(value) }
+        if let first = value.utf8.first, (48...57).contains(first) { cursor += 1; return (.literal(value), 1) }
         let bools = language == .python ? ["True", "False"] : ["true", "false"]
-        if bools.contains(value) { cursor += 1; return .literal(value) }
+        if bools.contains(value) { cursor += 1; return (.literal(value), 1) }
         let name = try identifier()
         if take("(") {
             var arguments: [SourceExpression] = []
+            var deepestArgument = 0
             if !take(")") {
-                repeat { arguments.append(try expression()) } while take(",")
+                repeat {
+                    let argument = try expression()
+                    deepestArgument = max(deepestArgument, argument.depth)
+                    arguments.append(argument.value)
+                } while take(",")
                 try expect(")")
             }
-            return .call(name, arguments)
+            let depth = try checkedDepth(1 + deepestArgument)
+            return (.call(name, arguments), depth)
         }
-        return .variable(name)
+        return (.variable(name), 1)
     }
 }

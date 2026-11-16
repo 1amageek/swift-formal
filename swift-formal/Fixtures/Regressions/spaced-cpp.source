@@ -1,0 +1,2 @@
+#include <cstdint>
+std::int64_t f(std::int64_t a, std::int64_t b) { return - -a; }

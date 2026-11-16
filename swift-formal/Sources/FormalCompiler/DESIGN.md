@@ -23,3 +23,5 @@ Swift SIL / language source -> frontend -> FormalIR -> TLA+ / Lean
 
 ## Verification and Change Impact
 Frontend tests own native/reference comparisons and rejection behavior. Both emitted languages must be checked with their actual tools. The consolidation-only checkpoint preserved existing output bytes; subsequent explicit semantic extensions change runtime artifacts. Source-language expansion requires independent validation work before production semantic certification.
+
+The [four-finding regression contract](Frontends/DESIGN.md#four-finding-regression-ownership) tightens lexical rejection, Go constant conversion, AST bounds, and C/C++ declaration visibility without changing the common IR or either runtime. Upstream draft composition must preserve diagnostics and create no artifacts on rejection.

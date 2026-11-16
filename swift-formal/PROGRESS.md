@@ -14,7 +14,7 @@ The requested completion scope is the entire v1 specification, including Actor s
 
 Five production modules now separate FormalCore, FormalIR, FormalCompiler, FormalValidation, and formal. The consolidation checkpoint preserved all nine existing emitted files byte-for-byte. Eight source scalar-v1 profiles feed the common IR; source language contracts and limitations are authoritative in [Frontends/DESIGN.md](Sources/FormalCompiler/Frontends/DESIGN.md). Both backends and the independent data decoder support arbitrary integers, panic, and detected undefined behavior. The explicit draft CLI writes DRAFT_UNVALIDATED output with source bytes/hash, profile assumptions, IR, both backends, and data-comparison results.
 
-45 named Swift tests across eight targets and actual CLI integration pass. Native tools agree with IR on the checked normal/large-integer cases; Swift/Rust overflow fails, C/C++ UBSan detects signed overflow, and Go wraps. Source-generated outputs pass 39 finite Lean kernel result checks and 40 TLC scenarios including terminal reachability. These finite checks do not complete the original v1/Actor request or establish general source semantic preservation. Strict certification remains disabled.
+55 named Swift tests across eight targets and actual CLI integration pass. Native tools agree with IR on the checked normal/large-integer cases; Swift/Rust overflow fails, C/C++ UBSan detects signed overflow, and Go wraps. Source-generated outputs pass 39 finite Lean kernel result checks and 40 TLC scenarios including terminal reachability. These finite checks do not complete the original v1/Actor request or establish general source semantic preservation. Strict certification remains disabled.
 
 ## Verified paths
 
@@ -34,3 +34,7 @@ Independent Lean decoding currently normalizes scalar SIL directly into the comm
 ## Environment
 
 Swift 6.4.1 release, SDK 27.2, Java 24.0.2. Lean 4.35.0 and TLA tools 1.7.4 are installed under ignored .tools. Lean archive SHA-256 matches the upstream release digest. No system-wide installation, remote publication, or deployment occurred.
+
+## Four frontend regression corrections
+
+The four reviewed defects are corrected under the [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md#four-finding-regression-ownership). Regression evidence covers 19 positive observations in native execution, IR, TLA+, and Lean, plus 14 CLI rejection scenarios with no artifacts. The original 12 KB stack-overflow counterexample now fails diagnostically. Bounded nonrecursive expression lowering also preserves nested-call argument order. Existing eight-language external verification and package/CLI integration remain green. See [Verification](Documentation/VERIFICATION.md#four-frontend-regression-checkpoint) for the exact proof scope and remaining limitations.

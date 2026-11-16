@@ -69,6 +69,9 @@ struct SourceLexer {
                 try emit(String(decoding: bytes[start..<i], as: UTF8.self), l, c); continue
             }
             let pair = i+1 < bytes.count ? String(decoding: bytes[i...i+1], as: UTF8.self) : ""
+            if ["++", "--"].contains(pair), [.c, .cpp, .javascript, .typescript, .go, .swift].contains(language) {
+                throw fail("Unsupported update operator '\(pair)'", l, c)
+            }
             if ["->", "==", "!=", "<=", ">=", ":=", "::"].contains(pair) { advance(); advance(); try emit(pair, l, c); continue }
             guard "(){}:;,+-*<>=!".utf8.contains(b) else { throw fail("Unsupported character or operator", l, c) }
             advance(); try emit(String(decoding: [b], as: UTF8.self), l, c)
