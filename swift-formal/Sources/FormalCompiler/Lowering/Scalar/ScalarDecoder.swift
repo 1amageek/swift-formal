@@ -1,6 +1,5 @@
 import FormalCore
 import FormalIR
-import FormalSIL
 import Foundation
 
 struct ScalarDecoder {

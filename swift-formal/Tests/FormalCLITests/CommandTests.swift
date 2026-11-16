@@ -1,4 +1,4 @@
-import FormalCLI
+@testable import formal
 import Foundation
 import Testing
 

@@ -1,24 +1,25 @@
 # formal
 
 ## Purpose and Scope
-Executable entry, stdout/stderr delivery, and process exit. Parent: [system/package](../../DESIGN.md). Children: none (composition entry point).
+Command routing and environment diagnostics. Parent: [system/package](../../DESIGN.md). Children: Commands, Environment.
 
 ## Responsibilities and Boundaries
-All command behavior belongs to FormalCLI. Executable naming is owned by the parent package design.
+No command can certify translations or properties in the bootstrap release.
 
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|
 | [Package](../../DESIGN.md) | parent | Global truth and scope | Bootstrap composition | Do not promote metadata checks to semantic success |
-
+| [Commands](Commands/DESIGN.md) | child | Commands public contract | Internal responsibility owner | Recheck on contract changes |
+| [Environment](Environment/DESIGN.md) | child | Environment public contract | Internal responsibility owner | Recheck on contract changes |
 
 ## Architecture
 ```text
-formal -> FormalCLI
+formal -> FormalCore, FormalCompiler, FormalValidation
 ```
 
 ## Contracts and Invariants
-Inputs and results are immutable Sendable values. Errors remain explicit. No module stores shared mutable state. Dependencies use public contracts only. All command behavior belongs to FormalCLI. Executable naming is owned by the parent package design.
+Inputs and results are immutable Sendable values. Errors remain explicit. No module stores shared mutable state. Dependencies use public contracts only. No command can certify translations or properties in the bootstrap release.
 
 ## Verification and Change Impact
 See the corresponding test target linked by the package design and executable integration tests. Recheck the package and direct consumers when changing public data or failure contracts.

@@ -1,6 +1,5 @@
 import FormalIR
-import FormalLean
-import FormalTLA
+import FormalCompiler
 import FormalValidation
 import Testing
 

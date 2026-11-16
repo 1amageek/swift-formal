@@ -23,4 +23,4 @@ SSA IDs and block bindings remain explicit. Overflow builtins produce both wrapp
 All state is invocation-local. Closure work is bounded by finite input functions and an explicit function limit. Input syntax token bounds belong to FormalSIL. The fixed standard-library wrapper mapping is provisional: it currently erases nominal identity into aggregates. This is an explicit incomplete implementation, and production generation remains disabled until nominal types, provenance, and independent reference validation are complete.
 
 ## Verification and Change Impact
-[Tests](../../../Tests/FormalLoweringTests) own this slice. Any type/opcode expansion requires both backends, reference semantics, rule evidence, and mutation tests before publication as semantic support.
+[Tests](../../../../Tests/FormalLoweringTests) own this slice. Any type/opcode expansion requires both backends, reference semantics, rule evidence, and mutation tests before publication as semantic support.

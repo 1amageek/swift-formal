@@ -9,24 +9,20 @@ SIL is the execution-semantics input. Declaration indexing and source-project ad
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|
-| [FormalCore](Sources/FormalCore/DESIGN.md) | child | Input and diagnostic contracts | Immutable metadata and integrity inspection | Integrity is not semantic validation |
-| [FormalCLI](Sources/FormalCLI/DESIGN.md) | child | Commands and exit status | Operational interface | Future operations fail explicitly |
-| [Executable](Sources/formal/DESIGN.md) | child | Process entry point | I/O and exit | No conversion logic |
-| [FormalSIL](Sources/FormalSIL/DESIGN.md) | child | Structural canonical SIL parsing | Lossless lexical and CFG boundaries | No semantic support implied |
-| [FormalIR](Sources/FormalIR/DESIGN.md) | child | Common typed program and small-step semantics | Initial scalar execution slice | Full Core and Actor support pending |
-| [FormalLowering](Sources/FormalLowering/DESIGN.md) | child | Checked scalar lowering | Explicit type/opcode rules | Full SIL translation validation pending |
-| [FormalTLA](Sources/FormalTLA/DESIGN.md) | child | Scalar TLA emission | Bit-vector runtime and program data | Independent full correspondence pending |
-| [FormalLean](Sources/FormalLean/DESIGN.md) | child | Scalar Lean emission | Typed deep embedding and step relation | Does not imply application proofs |
-| [FormalValidation](Sources/FormalValidation/DESIGN.md) | child | Restricted actual-output decoding | Preserves all scalar program data | Runtime audit and complete SIL relation pending |
-| [FormalLean](Sources/FormalLean/DESIGN.md) | child | Lean scalar emission | Deep embedding | Independent validation pending |
-| [FormalTLA](Sources/FormalTLA/DESIGN.md) | child | TLA+ scalar emission | Parametric transition system | Independent validation pending |
+| [FormalCore](Sources/FormalCore/DESIGN.md) | child | Metadata and diagnostics | Shared contracts | Integrity is not semantic validation |
+| [FormalIR](Sources/FormalIR/DESIGN.md) | child | Typed program and execution | Language-neutral semantics | Complete Core and Actor support pending |
+| [FormalCompiler](Sources/FormalCompiler/DESIGN.md) | child | Frontends, lowering, emission | Compiler pipeline | Profiles require explicit semantics |
+| [FormalValidation](Sources/FormalValidation/DESIGN.md) | child | Actual-output decoding | Independent inspection | Cannot import FormalCompiler |
+| [formal](Sources/formal/DESIGN.md) | child | Commands and process entry | Executable composition | Unimplemented operations fail explicitly |
 
 ## Architecture
 ```text
-Executable -> FormalCLI -> FormalCore
-Future: SIL -> FormalIR -> TLA / Lean -> independent validation
+formal -> FormalCompiler -> FormalIR -> FormalCore
+       -> FormalValidation -> FormalIR
+       -> FormalCore
+FormalCompiler: language frontend -> common IR -> TLA+ / Lean
 ```
-The future modules in SPEC section 16 are not empty Swift targets. They are introduced when they own implemented behavior.
+Five production SwiftPM targets enforce the boundaries above. Parsing, lowering, and emission are components inside FormalCompiler, not separate modules. Test target boundaries remain independently traceable.
 
 ## Contracts and Invariants
 - The executable product, target, invocation, and source directory are `formal`, `formal`, `formal`, and `Sources/formal/`. The package identity remains `swift-formal`.

@@ -1,5 +1,4 @@
 import Darwin
-import FormalCLI
 import Foundation
 
 @main

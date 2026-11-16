@@ -1,8 +1,5 @@
 import FormalIR
-import FormalLean
-import FormalLowering
-import FormalSIL
-import FormalTLA
+import FormalCompiler
 import Foundation
 import Testing
 

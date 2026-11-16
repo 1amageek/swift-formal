@@ -1,6 +1,5 @@
 import FormalCore
 import FormalIR
-import FormalSIL
 
 public struct ScalarSILLowering: Sendable {
     public let maximumFunctions: Int

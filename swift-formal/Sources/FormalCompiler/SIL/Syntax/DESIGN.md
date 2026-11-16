@@ -23,4 +23,4 @@ Strings and comments cannot create instruction boundaries. Delimiters must balan
 All parser state is invocation-local. Maximum nesting and tokens are explicit limits; exhaustion fails. Missing or unknown semantic metadata never becomes a default semantic value.
 
 ## Verification and Change Impact
-[Tests](../../../Tests/FormalSILTests) own structural behavior. Changes affect future typed decoding and independent validator input compatibility.
+[Tests](../../../../Tests/FormalSILTests) own structural behavior. Changes affect future typed decoding and independent validator input compatibility.

@@ -23,4 +23,4 @@ Symbols are escaped as data. Artifact order is deterministic. No timestamps or a
 Emission is pure and invocation-local. Output publication belongs to orchestration.
 
 ## Verification and Change Impact
-[Backend tests](../../../Tests/FormalBackendTests), SANY, Lean kernel, and future independent decoding own verification. Output shape or runtime changes invalidate prior translation evidence.
+[Backend tests](../../../../Tests/FormalBackendTests), SANY, Lean kernel, and future independent decoding own verification. Output shape or runtime changes invalidate prior translation evidence.
