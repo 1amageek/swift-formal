@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
-store = root / '.tools'
+store = Path(os.environ.get('FORMAL_TOOLS_ROOT', root / '.tools')).resolve()
 store.mkdir(exist_ok=True)
 lock = json.loads((root / 'Tools/toolchain-artifacts.lock.json').read_text())
 

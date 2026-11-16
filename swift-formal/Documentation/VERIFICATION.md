@@ -1,17 +1,20 @@
 # Verification checkpoint
 
-Date: 2026-11-16. This is a scalar-library checkpoint, not v1 completion. The dependency-free package contract in DESIGN.md supersedes the imported specification's declaration-index requirements.
+Date: 2026-11-16. This is a multi-language scalar checkpoint, not v1 completion. The dependency-free package contract in DESIGN.md supersedes the imported specification's declaration-index requirements.
 
 | Check | Evidence | Scope |
 |---|---|---|
 | Fresh dependency-free build | Build and tests use a new scratch directory | No cached third-party products; SwiftPM graph has no dependencies |
-| Swift tests | 33 named tests passed across 7 targets | Contracts, integrity, syntax, scalar IR/lowering, emitted-data mutation |
-| CLI integration | Passed | Actual executable: doctor without index-tool metadata, mismatch, removed-command rejection, tampering, unsupported commands |
+| Swift tests | 45 named tests passed across 8 targets | Contracts, integrity, syntax, scalar IR/lowering, emitted-data mutation |
+| CLI integration | Passed | Actual executable: doctor, mismatch, removed-command rejection, tampering, strict unsupported commands, eight draft translations, no-clobber |
 | Lean 4.35.0 | Actual generated package builds | Scalar runtime, program, properties |
 | Lean finite execution | Four kernel-checked theorems | Subtraction, direct call, branch, wrapping endpoints |
 | Lean independent decoding | Kernel data, shared-step, reachability equality | Separate decoder reads original scalar fixture; not a complete SIL step proof |
-| Axiom audit | Data equality has no axioms; other checked theorems use propext | Explicit allowlist; no sorryAx or custom axioms |
+| Axiom audit | Data equality has no axioms; other checked theorems use only propext, Classical.choice, Quot.sound | Explicit allowlist; no sorryAx or custom axioms |
 | Mutation | Arithmetic substitution rejected by kernel equality; output-data/wrapper changes rejected by restricted parser | Does not cover the full required mutation suite |
+| Source frontend differential | Eight native compilers/runtimes agree with checked IR observations | Primitive scalar source subset; Rust checks enabled, C/C++ UBSan failure, Go wrapping |
+| Source Lean kernel | 39 result theorems and axiom audit | All eight profiles, overflow outcomes and 40-digit inputs |
+| Source TLC | 40 finite scenarios; DOT graph confirms expected terminal reachability | All eight profiles; 64-bit and arbitrary integers |
 | SANY/TLC 1.7.4 | Actual TLA files parse; five scenarios complete | 64-bit subtraction, call, branch, wrap, overflow trap |
 
 ## Reproduce
@@ -21,9 +24,10 @@ python3 Tools/prepare-tools.py
 python3 Tools/run-with-timeout.py --seconds 180 -- swift test
 python3 Tools/run-with-timeout.py --seconds 90 -- python3 Tools/integration.py
 python3 Tools/run-with-timeout.py --seconds 480 -- python3 Tools/verify-backends.py
+python3 Tools/run-with-timeout.py --seconds 900 -- python3 Tools/verify-frontends.py
 ```
 
-Tool preparation is explicit and project-local. The external checks never install tools. Java 24.0.2 was used. The package host was Swift 6.4.1 release on arm64 macOS with SDK 27.2.
+Tool preparation is explicit and project-local. The external checks never install tools. Use FORMAL_TOOLS_ROOT when the project-local tools are stored in a shared workspace cache; see [Support](SUPPORT.md). Java 24.0.2, Rust 1.92.0 (2021 edition, checks enabled), Apple clang 21.0.0 (C11/C++20), Go 1.26.5, Node 24.19.0, TypeScript 5.9.3, and Python 3.12.8 were used. TLC uses a 16 MB Java stack for recursive bit arithmetic. The package host was Swift 6.4.1 release on arm64 macOS with SDK 27.2.
 
 ## Inputs
 

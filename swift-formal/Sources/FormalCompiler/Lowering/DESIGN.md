@@ -9,7 +9,7 @@ Resolve every selected function_ref by complete symbol, include its body, valida
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|
-| [Package](../../../DESIGN.md) | parent | Strict generation | No premature success | Current output is unvalidated IR only |
+| [FormalCompiler](../DESIGN.md) | parent | Strict generation | No premature success | Current output is unvalidated IR only |
 | [FormalSIL](../SIL/DESIGN.md) | depends on | Structural syntax | Original tokens and locations | Parse success is not type validity |
 | [FormalIR](../../FormalIR/DESIGN.md) | depends on | Typed instructions and validation | Shared semantics | Preserve fixed-width operations |
 | [Scalar](Scalar/DESIGN.md) | child | Scalar lowering | Explicit supported grammar | Unsupported paths fail |

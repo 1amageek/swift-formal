@@ -1,4 +1,5 @@
 import FormalCore
+import FormalCompiler
 import Foundation
 
 public struct FormalCommand: Sendable {
@@ -15,6 +16,9 @@ public struct FormalCommand: Sendable {
 
     public func run(arguments: [String]) async -> CommandResult {
         do { return try await execute(arguments) }
+        catch let source as SourceDiagnostic {
+            return failure(FormalDiagnostic(.sourceParseFailed, source.description))
+        }
         catch let diagnostic as FormalDiagnostic {
             return failure(diagnostic)
         } catch {
@@ -31,6 +35,15 @@ public struct FormalCommand: Sendable {
         case "--version":
             guard arguments.count == 1 else { throw invalidArguments() }
             return CommandResult(standardOutput: "formal 0.1.0-bootstrap\n")
+        case "profiles":
+            guard arguments.count == 1 else { throw invalidArguments() }
+            return try json(SourceLanguage.allCases.map { ["language": $0.rawValue, "profile": $0.profile, "status": "DRAFT_UNVALIDATED", "assumptions": $0.assumptions.joined(separator: "; ")] })
+        case "translate":
+            guard arguments.last == "--draft-unvalidated" else { throw invalidArguments() }
+            let values = try options(Array(arguments.dropFirst().dropLast()), required: ["--language", "--source", "--output"])
+            guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
+            let report = try DraftTranslation().perform(source: values["--source"]!, language: language, output: values["--output"]!)
+            return try json(report)
         case "doctor":
             let options = try options(Array(arguments.dropFirst()), required: ["--toolchain-lock"])
             let lock = try loadLock(options["--toolchain-lock"]!)
@@ -45,7 +58,7 @@ public struct FormalCommand: Sendable {
             return try json(report)
         case "capture", "generate", "validate", "check", "coverage", "replay":
             // FIXME(INCOMPLETE_IMPLEMENTATION): The bootstrap CLI routes these public commands here.
-            // SIL capture, semantics, both emitters, and independent validation are not implemented.
+            // Strict SIL capture/generation, full semantics, and independent validation remain incomplete.
             // Do not return success until the corresponding specification acceptance tests pass.
             throw FormalDiagnostic(.unsupportedOperation, "\(command) is not implemented in this bootstrap package; no artifacts or verification results were produced.")
         default:
@@ -95,6 +108,8 @@ public struct FormalCommand: Sendable {
     private static let help = """
     formal 0.1.0-bootstrap
     Usage:
+      formal profiles
+      formal translate --language <name> --source <file> --output <new-directory> --draft-unvalidated
       formal doctor --toolchain-lock <path>
       formal inspect-bundle --bundle <path> --toolchain-lock <path>
       formal --version
@@ -102,7 +117,8 @@ public struct FormalCommand: Sendable {
 
     capture, generate, validate, check, coverage, replay: not implemented (exit 3).
     Bundle inspection checks metadata and hashes, not SIL semantics.
-    No TLA+ or Lean generation, translation validation, or property proof is available.
+    translate emits experimental TLA+ and Lean for scalar-v1 source profiles.
+    Draft output is UNVALIDATED; independent semantic validation and property proof are unavailable.
 
     """
 }

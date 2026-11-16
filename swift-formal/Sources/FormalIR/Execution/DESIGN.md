@@ -27,3 +27,6 @@ Malformed programs fail validation. The runner enforces caller-selected fuel, st
 
 ## Verification and Change Impact
 [Tests](../../../Tests/FormalIRTests) own behavioral evidence. Recheck parent, lowering, both emitters, and validator whenever instruction or state meaning changes.
+
+## Mathematical Integer Execution
+The [Program](../Program/DESIGN.md) contract owns integer representation and operations. This runner counts decimal digits as value-budget units and enforces caller-selected maximumIntegerDigits (default 4096) before arithmetic allocation; prospective operands above half the smaller digit/value capacity return boundExceeded. This conservative budget is operational, not a source exception. Integer addition/subtraction use linear digit work and multiplication uses quadratic digit work. Immutable storage is retained through Swift value semantics; canonical serialization is an output-boundary copy. Formal runtimes do not inherit runner bounds. Panic and undefinedBehavior are failed outcomes, separate from traps, returns, and bounds.

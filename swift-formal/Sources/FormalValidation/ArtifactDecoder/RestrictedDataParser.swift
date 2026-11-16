@@ -18,6 +18,9 @@ struct RestrictedDataParser {
             catch { throw bad("Invalid string escape") }
         }
         if let number = UInt64(token) { return .number(number) }
+        if !token.isEmpty && token.utf8.allSatisfy({ (48...57).contains($0) }) && token.count <= 100_000 && !token.hasPrefix("0") {
+            return .bigNumber(token)
+        }
         if token == (lean ? "[" : "<<") {
             let end = lean ? "]" : ">>"
             var values: [ArtifactData] = []

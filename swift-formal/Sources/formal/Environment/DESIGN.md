@@ -26,4 +26,4 @@ State belongs to a call; no global mutable storage. Data and temporary resources
 Failure is propagated or converted to a typed diagnostic. Independent calls share no mutable resources. Limits are selected by the caller and must be positive.
 
 ## Verification and Change Impact
-Behavior owner: [Tests/FormalCLITests/ProbeTests.swift](../../../Tests/FormalCLITests/ProbeTests.swift). Changes require rechecking the parent and its consuming CLI integration paths. Metadata verification never establishes semantic equivalence.
+Behavior owner: [Tests/FormalCLITests/CommandTests.swift](../../../Tests/FormalCLITests/CommandTests.swift). Changes require rechecking the parent and its consuming CLI integration paths. Metadata verification never establishes semantic equivalence.

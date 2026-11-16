@@ -24,3 +24,5 @@ Emission is pure and invocation-local. Output publication belongs to orchestrati
 
 ## Verification and Change Impact
 [Backend tests](../../../../Tests/FormalBackendTests), SANY, Lean kernel, and future independent decoding own verification. Output shape or runtime changes invalidate prior translation evidence.
+
+Mathematical integer instructions use Lean Int or canonical sign/magnitude bit sequences in TLA+, avoiding TLC machine-integer overflow. Panic and undefined behavior are distinct terminal states. Finite external-tool tests own these paths.

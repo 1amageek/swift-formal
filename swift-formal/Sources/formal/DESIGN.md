@@ -23,3 +23,5 @@ Inputs and results are immutable Sendable values. Errors remain explicit. No mod
 
 ## Verification and Change Impact
 See the corresponding test target linked by the package design and executable integration tests. Recheck the package and direct consumers when changing public data or failure contracts.
+
+Draft translation composes SourceCompiling, both emitters, and the independent actual-output decoder. [Commands](Commands/DESIGN.md) owns publication, draft status, limits, and failure cleanup.

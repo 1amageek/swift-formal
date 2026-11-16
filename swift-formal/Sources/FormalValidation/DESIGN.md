@@ -4,7 +4,7 @@
 Own independent inspection of actual emitted artifacts. Parent: [package](../../DESIGN.md). Child: [ArtifactDecoder](ArtifactDecoder/DESIGN.md). A separate Lean SIL decoder and reference-semantics checker are also required; artifact equality alone is insufficient.
 
 ## Responsibilities and Boundaries
-Reparse limited emitted TLA and Lean data; verify trusted runtime artifacts; reject arbitrary code, changed conditions, updates, imports, or program data. Do not invoke generator lowering as the independent SIL validator.
+Reparse limited emitted TLA and Lean data, rejecting arbitrary code and changed fixed wrappers. Return validated program data for caller-owned equality comparison. Trusted runtime auditing remains pending. Do not invoke generator lowering as the independent SIL validator.
 
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
@@ -20,7 +20,7 @@ Original SIL -> separate Lean decoder/reference semantics -> kernel corresponden
 ```
 
 ## Contracts and Invariants
-The decoder is independent of emitters and lowering. Trusted runtime identity covers all fixed transition expressions; dynamic program data is decoded structurally and compared including all branches and operand IDs. Translation remains UNVALIDATED until both artifact decoding and independent SIL/reference checking succeed.
+The decoder is independent of emitters and lowering. Fixed wrappers are checked token-for-token; dynamic program data is decoded structurally including all branches and operand IDs. Runtime resource identity and semantic auditing are not performed by this decoder. Translation remains UNVALIDATED until both artifact decoding and independent SIL/reference checking succeed.
 
 ## Verification and Change Impact
 [Mutation tests](../../Tests/FormalValidationTests) must reject changed opcodes, operands, widths, branches, runtime expressions, and arbitrary Lean code. Changes affect strict generation and all prior certificates.

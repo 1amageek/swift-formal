@@ -75,6 +75,41 @@ Binary(operation, left, right) ==
        [] operation = "equal" -> Flag(a = b)
        [] operation \in {"and", "or", "xor"} -> Bits(width, Bitwise(operation, a, b))
 
+RECURSIVE Trim(_)
+Trim(bits) == IF Len(bits) = 0 THEN <<>>
+              ELSE IF bits[Len(bits)] = 0 THEN Trim(SubSeq(bits, 1, Len(bits) - 1)) ELSE bits
+Pad(bits, width) == bits \o Zeros(width - Len(bits))
+Integer(negative, magnitude) == [tag |-> "integer", negative |-> negative /\ Len(Trim(magnitude)) > 0, magnitude |-> Trim(magnitude)]
+MagnitudeLess(a, b) == IF Len(a) # Len(b) THEN Len(a) < Len(b) ELSE BVUnsignedLess(a, b)
+MagnitudeAdd(a, b) == LET width == IF Len(a) > Len(b) THEN Len(a) + 1 ELSE Len(b) + 1
+                      IN Trim(BVAdd(Pad(a, width), Pad(b, width)).value)
+MagnitudeSubtract(a, b) == Trim(BVSubtract(a, Pad(b, Len(a))))
+MagnitudeMultiply(a, b) == LET width == Len(a) + Len(b)
+                           IN Trim(BVMultiply(Pad(a, width), Pad(b, width)))
+IntegerNegate(a) == Integer(~a.negative, a.magnitude)
+IntegerAdd(a, b) ==
+  IF a.negative = b.negative THEN Integer(a.negative, MagnitudeAdd(a.magnitude, b.magnitude))
+  ELSE IF MagnitudeLess(a.magnitude, b.magnitude)
+       THEN Integer(b.negative, MagnitudeSubtract(b.magnitude, a.magnitude))
+       ELSE Integer(a.negative, MagnitudeSubtract(a.magnitude, b.magnitude))
+IntegerLess(a, b) == IF a.negative # b.negative THEN a.negative
+                    ELSE IF a.negative THEN MagnitudeLess(b.magnitude, a.magnitude)
+                    ELSE MagnitudeLess(a.magnitude, b.magnitude)
+IntegerBinary(operation, a, b) ==
+  CASE operation = "add" -> IntegerAdd(a, b)
+    [] operation = "subtract" -> IntegerAdd(a, IntegerNegate(b))
+    [] operation = "multiply" -> Integer(a.negative # b.negative, MagnitudeMultiply(a.magnitude, b.magnitude))
+    [] operation = "lessThan" -> Flag(IntegerLess(a, b))
+    [] operation = "equal" -> Flag(a = b)
+DecimalDigit(character) == CHOOSE n \in 0..9: character = <<"0", "1", "2", "3", "4", "5", "6", "7", "8", "9">>[n+1]
+DigitBits(n) == Trim(<<n % 2, (n \div 2) % 2, (n \div 4) % 2, n \div 8>>)
+RECURSIVE ParseMagnitude(_, _)
+ParseMagnitude(text, count) ==
+  IF count = 0 THEN <<>>
+  ELSE MagnitudeAdd(MagnitudeMultiply(ParseMagnitude(text, count - 1), <<0, 1, 0, 1>>), DigitBits(DecimalDigit(SubSeq(text, count, count))))
+ParseInteger(text) == IF SubSeq(text, 1, 1) = "-" THEN Integer(TRUE, ParseMagnitude(SubSeq(text, 2, Len(text)), Len(text) - 1))
+                      ELSE Integer(FALSE, ParseMagnitude(text, Len(text)))
+
 FindFunction(program, symbol) == CHOOSE function \in Elements(program): function.symbol = symbol
 FindBlock(function, id) == CHOOSE block \in Elements(function.blocks): block.id = id
 EmptyEnvironment == [id \in {} |-> Unit]
@@ -93,7 +128,7 @@ Frame(program, symbol, actual, destination) ==
       environment |-> Bind(EmptyEnvironment, block.parameters, actual), destination |-> destination]
 Initial(program, symbol, actual) ==
   [frames |-> <<Frame(program, symbol, actual, "")>>, status |-> "running", result |-> Unit, message |-> ""]
-Terminal(state) == state.status \in {"returned", "trapped"}
+Terminal(state) == state.status \in {"returned", "trapped", "panic", "undefinedBehavior"}
 Advance(state, destination, value) ==
   [state EXCEPT !.frames[1].environment = SetValue(@, destination, value), !.frames[1].pc = @ + 1]
 Jump(function, frame, destination, arguments) ==
@@ -108,7 +143,15 @@ Step(program, before, after) ==
          block == FindBlock(function, frame.block)
          instruction == block.instructions[frame.pc]
          environment == frame.environment
-     IN CASE instruction.op = "literal" ->
+     IN CASE instruction.op = "integerLiteral" ->
+          after = Advance(before, instruction.destination, ParseInteger(instruction.decimal))
+       [] instruction.op = "integerBinary" ->
+          after = Advance(before, instruction.destination, IntegerBinary(instruction.operation, environment[instruction.left], environment[instruction.right]))
+       [] instruction.op = "failIf" ->
+          IF environment[instruction.condition].bits = <<1>>
+          THEN after = [before EXCEPT !.status = instruction.kind, !.message = instruction.message]
+          ELSE after = [before EXCEPT !.frames[1].pc = @ + 1]
+       [] instruction.op = "literal" ->
           after = Advance(before, instruction.destination, Bits(instruction.width, instruction.value))
        [] instruction.op = "aggregate" ->
           after = Advance(before, instruction.destination, Aggregate(Arguments(environment, instruction.elements)))
@@ -147,7 +190,10 @@ Step(program, before, after) ==
 
 RECURSIVE ValueHasType(_, _)
 ValueHasType(value, type) ==
-  CASE type.kind = "bits" ->
+  CASE type.kind = "integer" ->
+    /\ value.tag = "integer" /\ value.magnitude \in Seq({0, 1}) /\ Trim(value.magnitude) = value.magnitude
+    /\ value.negative \in BOOLEAN /\ (Len(value.magnitude) = 0 => ~value.negative)
+  [] type.kind = "bits" ->
     /\ value.tag = "bits" /\ value.width = type.width /\ value.bits \in Seq({0, 1}) /\ Len(value.bits) = type.width
   [] type.kind = "aggregate" ->
     /\ value.tag = "aggregate" /\ Len(value.elements) = Len(type.elements)

@@ -1,7 +1,7 @@
 # Trust boundaries
 
 ## Current evidence
-The operational CLI performs metadata and byte-integrity inspection only. Experimental libraries additionally parse scalar SIL, lower to IR, and emit both backends. SHA-256 does not establish SIL correctness or semantic equivalence. The package has no external SwiftPM dependencies. Toolchain identity contains compiler/runtime metadata only. Declaration indexing and source-project metadata adapters are outside this package.
+The operational CLI performs metadata/byte-integrity inspection and explicit draft source translation. Draft translation independently reparses both actual generated program data files and compares them to the IR; this is not a source-semantics proof. Experimental libraries additionally parse scalar SIL, lower to IR, and emit both backends. SHA-256 does not establish SIL correctness or semantic equivalence. The package has no external SwiftPM dependencies. Toolchain identity contains compiler/runtime metadata only. Declaration indexing is outside this package. Source profiles are defined by [frontend contracts](../Sources/FormalCompiler/Frontends/DESIGN.md).
 
 Compiler probing invokes `swiftc -print-target-info` through an argument array. Probe processes have a deadline and bounded output files. This runner is not an isolation mechanism for arbitrary Lean code or untrusted build tools. No current CLI command evaluates SwiftPM manifests.
 

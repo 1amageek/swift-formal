@@ -9,7 +9,7 @@ Render the shared program as data and apply an explicit small-step runtime. No s
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|
-| [Package](../../../DESIGN.md) | parent | Common input and strict validation | Formal backend | Scalar slice only |
+| [FormalCompiler](../DESIGN.md) | parent | Common input and strict validation | Formal backend | Scalar slice only |
 | [FormalIR](../../FormalIR/DESIGN.md) | depends on | Typed program and opcode semantics | Shared execution meaning | Cannot add backend-only support |
 | [Emission](Emission/DESIGN.md) | child | Deterministic files | Data and runtime formatting | Actual files require external checking |
 

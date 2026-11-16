@@ -1,0 +1,11 @@
+func helper(_ a: Int64, _ b: Int64) -> Int64 {
+    return a * b + 1
+}
+func calculate(_ a: Int64, _ b: Int64) -> Int64 {
+    let difference: Int64 = b - a
+    if a < b {
+        return helper(a, b)
+    } else {
+        return difference
+    }
+}

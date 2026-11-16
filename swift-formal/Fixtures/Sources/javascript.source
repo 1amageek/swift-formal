@@ -1,0 +1,5 @@
+function helper(a, b) { return a * b + 1n; }
+function calculate(a, b) {
+    const difference = b - a;
+    if (a < b) { return helper(a, b); } else { return difference; }
+}

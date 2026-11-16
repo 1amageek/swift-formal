@@ -1,0 +1,6 @@
+#include <stdint.h>
+int64_t helper(int64_t a, int64_t b) { return a * b + 1LL; }
+int64_t calculate(int64_t a, int64_t b) {
+    const int64_t difference = b - a;
+    if (a < b) { return helper(a, b); } else { return difference; }
+}

@@ -60,6 +60,7 @@ public struct LeanEmitter: LeanEmitting {
 
     private func type(_ value: IRType) throws -> String {
         switch value {
+        case .integer: return "(.integer)"
         case .bits(let width):
             return "(.bits \(width))"
         case .aggregate(let elements):
@@ -74,6 +75,19 @@ public struct LeanEmitter: LeanEmitting {
 
     private func instruction(_ value: IRInstruction) throws -> String {
         switch value {
+        case .integerLiteral(let destination, let value):
+            let d = try quote(destination)
+            let magnitude = value.description.hasPrefix("-") ? String(value.description.dropFirst()) : value.description
+            return "(.integerLiteral \(d) \(value.negative ? 1 : 0) \(magnitude))"
+        case .integerBinary(let destination, let operation, let left, let right):
+            let d = try quote(destination)
+            let a = try quote(left)
+            let b = try quote(right)
+            return "(.integerBinary \(d) .\(operation.rawValue) \(a) \(b))"
+        case .failIf(let condition, let kind, let message):
+            let c = try quote(condition)
+            let m = try quote(message)
+            return "(.failIf \(c) .\(kind.rawValue) \(m))"
         case .literal(let destination, let value):
             let rendered0 = try quote(destination)
             return "(.literal \(rendered0) \(value.width) \(value.bits))"

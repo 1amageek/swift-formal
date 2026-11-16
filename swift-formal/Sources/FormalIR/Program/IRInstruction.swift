@@ -1,4 +1,7 @@
 public enum IRInstruction: Codable, Sendable, Equatable {
+    case integerLiteral(destination: String, value: MathematicalInteger)
+    case integerBinary(destination: String, operation: IRIntegerOperation, left: String, right: String)
+    case failIf(condition: String, kind: IRFailureKind, message: String)
     case literal(destination: String, value: BitPattern)
     case aggregate(destination: String, elements: [String])
     case extract(destination: String, source: String, index: Int)
@@ -19,7 +22,7 @@ public enum IRInstruction: Codable, Sendable, Equatable {
 
     public var destination: String? {
         switch self {
-        case .literal(let destination, _), .aggregate(let destination, _), .extract(let destination, _, _),
+        case .integerLiteral(let destination, _), .integerBinary(let destination, _, _, _), .literal(let destination, _), .aggregate(let destination, _), .extract(let destination, _, _),
              .binary(let destination, _, _, _), .functionRef(let destination, _), .call(let destination, _, _): destination
         default: nil
         }

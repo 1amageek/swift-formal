@@ -24,3 +24,6 @@ Bit widths and operations are explicit. Call frames retain local environments. B
 
 ## Verification and Change Impact
 [IR tests](../../Tests/FormalIRTests) own arithmetic endpoints, branch bindings, calls, traps, and fuel exhaustion. Any operation change requires lowering, both backends, and independent validation changes before semantic support is advertised.
+
+## Extended Integer Contracts
+[Program](Program/DESIGN.md#mathematical-integers-and-failures) owns arbitrary integer and failure representation. [Execution](Execution/DESIGN.md#mathematical-integer-execution) owns host capacity and execution. Both backend runtimes consume those contracts; changing them requires backend/decoder and frontend regression checks.

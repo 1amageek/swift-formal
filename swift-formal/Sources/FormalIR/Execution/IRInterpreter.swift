@@ -1,11 +1,13 @@
 import FormalCore
 
 public struct IRInterpreter: IRExecuting {
+    public let maximumIntegerDigits: Int
     public let fuel: Int
     public let maximumStackDepth: Int
     public let maximumValueNodes: Int
 
-    public init(fuel: Int = 100_000, maximumStackDepth: Int = 1_024, maximumValueNodes: Int = 1_000_000) {
+    public init(fuel: Int = 100_000, maximumStackDepth: Int = 1_024, maximumValueNodes: Int = 1_000_000, maximumIntegerDigits: Int = 4096) {
+        self.maximumIntegerDigits = maximumIntegerDigits
         self.fuel = fuel
         self.maximumStackDepth = maximumStackDepth
         self.maximumValueNodes = maximumValueNodes
@@ -13,7 +15,7 @@ public struct IRInterpreter: IRExecuting {
 
     public func run(_ program: IRProgram, entry: String, arguments: [IRValue]) throws -> IRExecutionResult {
         try program.validate()
-        guard fuel > 0, maximumStackDepth > 0, maximumValueNodes > 0, maximumValueNodes < Int.max else { throw invalid("Execution limits must be positive and value capacity below Int.max") }
+        guard fuel > 0, maximumIntegerDigits > 0, maximumStackDepth > 0, maximumValueNodes > 0, maximumValueNodes < Int.max else { throw invalid("Execution limits must be positive and value capacity below Int.max") }
         guard let function = program.functions.first(where: { $0.symbol == entry }),
               let first = function.blocks.first, first.parameters.count == arguments.count else { throw invalid("Invalid entry point or argument count") }
         for (argument, parameter) in zip(arguments, first.parameters) {
@@ -34,6 +36,30 @@ public struct IRInterpreter: IRExecuting {
                 return value
             }
             switch instruction {
+            case .integerLiteral(let destination, let literal):
+                frame.values[destination] = .integer(literal); frame.instruction += 1
+            case .integerBinary(let destination, let operation, let left, let right):
+                let leftValue = try value(left)
+                let rightValue = try value(right)
+                guard case .integer(let a) = leftValue, case .integer(let b) = rightValue else { throw invalid("Invalid integer operands") }
+                // Bound the prospective allocation before arbitrary precision arithmetic.
+                if !operation.isComparison && (a.digitCount > min(maximumIntegerDigits, maximumValueNodes) / 2 || b.digitCount > min(maximumIntegerDigits, maximumValueNodes) / 2) {
+                    return .init(outcome: .boundExceeded("integer digits"), steps: step)
+                }
+                let result: IRValue
+                switch operation {
+                case .add: result = .integer(a.adding(b))
+                case .subtract: result = .integer(a.adding(b.negated()))
+                case .multiply: result = .integer(a.multiplied(by: b))
+                case .lessThan: result = .bits(try BitPattern(width: 1, bits: a < b ? 1 : 0))
+                case .equal: result = .bits(try BitPattern(width: 1, bits: a == b ? 1 : 0))
+                }
+                frame.values[destination] = result; frame.instruction += 1
+            case .failIf(let condition, let kind, let message):
+                let conditionValue = try value(condition)
+                guard case .bits(let bit) = conditionValue, bit.width == 1 else { throw invalid("Invalid failure condition") }
+                if bit.bits == 1 { return .init(outcome: .failed(kind, message), steps: step + 1) }
+                frame.instruction += 1
             case .literal(let destination, let literal): frame.values[destination] = .bits(literal); frame.instruction += 1
             case .aggregate(let destination, let elements):
                 var values: [IRValue] = []
@@ -105,6 +131,7 @@ public struct IRInterpreter: IRExecuting {
 
     private func nodeCount(_ value: IRValue, limit: Int) -> Int {
         guard limit > 0 else { return 0 }
+        if case .integer(let integer) = value { return min(limit, integer.digitCount > maximumIntegerDigits ? maximumValueNodes + 1 : integer.digitCount) }
         if case .aggregate(let elements) = value {
             var count = 1
             for element in elements {

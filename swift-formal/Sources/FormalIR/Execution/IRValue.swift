@@ -1,4 +1,5 @@
 public indirect enum IRValue: Codable, Sendable, Equatable {
+    case integer(MathematicalInteger)
     case bits(BitPattern)
     case aggregate([IRValue])
     case function(String)
@@ -8,6 +9,7 @@ public indirect enum IRValue: Codable, Sendable, Equatable {
     private func type(in program: IRProgram, depth: Int) -> IRType? {
         guard depth < 128 else { return nil }
         switch self {
+        case .integer: return .integer
         case .bits(let value): return .bits(width: value.width)
         case .aggregate(let values):
             var types: [IRType] = []

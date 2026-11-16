@@ -24,3 +24,5 @@ All state is invocation-local. Parse or comparison mismatches fail with diagnost
 
 ## Verification and Change Impact
 [Tests](../../../Tests/FormalValidationTests) own artifact tampering checks. Runtime changes require reference semantics review and external behavioral evidence, not merely a new accepted hash.
+
+The restricted data grammar also decodes integer types, decimal integer literals, integer operations, and explicit failure kinds. Every field and constructor arity is checked; arbitrary source code remains rejected. Decoding round trips do not establish source semantics.

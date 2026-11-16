@@ -1,4 +1,5 @@
 public indirect enum IRType: Codable, Sendable, Equatable {
+    case integer
     case bits(width: Int)
     case aggregate([IRType])
     case function(parameters: [IRType], result: IRType)
@@ -8,6 +9,7 @@ public indirect enum IRType: Codable, Sendable, Equatable {
     private func isValid(depth: Int) -> Bool {
         guard depth < 128 else { return false }
         switch self {
+        case .integer: return true
         case .bits(let width): return (1...64).contains(width)
         case .aggregate(let elements): return elements.allSatisfy { $0.isValid(depth: depth + 1) }
         case .function(let parameters, let result):

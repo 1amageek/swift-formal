@@ -1,0 +1,5 @@
+fn helper(a: i64, b: i64) -> i64 { return a * b + 1; }
+fn calculate(a: i64, b: i64) -> i64 {
+    let difference: i64 = b - a;
+    if a < b { return helper(a, b); } else { return difference; }
+}

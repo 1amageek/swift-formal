@@ -9,8 +9,9 @@ import tempfile
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
-lean = root / '.tools/lean-4.35.0-darwin_aarch64/bin'
-jar = root / '.tools/tla2tools.jar'
+store = Path(os.environ.get('FORMAL_TOOLS_ROOT', root / '.tools')).resolve()
+lean = store / 'lean-4.35.0-darwin_aarch64/bin'
+jar = store / 'tla2tools.jar'
 tool_lock = json.loads((root / 'Tools/toolchain-artifacts.lock.json').read_text())
 with jar.open('rb') as handle:
     assert hashlib.file_digest(handle, 'sha256').hexdigest() == tool_lock['tla']['sha256'], 'TLA tools hash mismatch'
@@ -76,7 +77,7 @@ theorem wrapping : result "$s4Core16wrappingSubtractys5Int64VAD_ADtF" [int64 (2^
     audit = run([str(lean / 'lake'), 'env', 'lean', str(properties)], cwd=output / 'lean', environment=environment)
     audit_axioms(audit, 4)
     print(audit)
-    reference_root = root / '.tools/reference'
+    reference_root = store / 'reference'
     (reference_root / 'SwiftFormal').mkdir(parents=True, exist_ok=True)
     reference_env = {**environment, 'LEAN_PATH': str(reference_root)}
     for name in ['Runtime', 'SILDecoder']:
@@ -101,7 +102,7 @@ theorem wrapping : result "$s4Core16wrappingSubtractys5Int64VAD_ADtF" [int64 (2^
     assert mutation.returncode != 0 and 'rfl' in mutation.stdout, mutation.stdout
     print('Independent Lean decoder: data equality and shared-step correspondence checked; arithmetic mutation rejected.')
     for file in ['Program.tla', 'Properties.tla']:
-        sany = run(['java', '-Xmx512m', '-cp', str(jar), 'tla2sany.SANY', file], cwd=output / 'tla')
+        sany = run(['java', '-Xss16m', '-Xmx512m', '-cp', str(jar), 'tla2sany.SANY', file], cwd=output / 'tla')
         if 'error' in sany.lower():
             print(sany)
             raise AssertionError('SANY reported errors despite its process exit status.')
@@ -125,8 +126,8 @@ Expected == {check}
 ====
 ''')
         (output / 'tla' / f'{name}.cfg').write_text('INIT Init\nNEXT Next\nINVARIANT Expected\n')
-        tlc = run(['java', '-Xmx512m', '-cp', str(jar), 'tlc2.TLC', '-workers', '1', '-cleanup', name], cwd=output / 'tla')
+        tlc = run(['java', '-Xss16m', '-Xmx512m', '-cp', str(jar), 'tlc2.TLC', '-workers', '1', '-cleanup', name], cwd=output / 'tla')
         assert 'Model checking completed. No error has been found.' in tlc, tlc
-        assert 'distinct states found' in tlc and '1 distinct states found' not in tlc, tlc
+        assert int(re.findall(r'(\d+) distinct states found', tlc)[-1]) > 1, tlc
         print(f'TLC {name}: completed with expected 64-bit result or trap.')
 print('External backend checks passed; independent SIL translation validation remains pending.')

@@ -1,0 +1,6 @@
+#include <cstdint>
+std::int64_t helper(std::int64_t a, std::int64_t b) { return a * b + 1LL; }
+std::int64_t calculate(std::int64_t a, std::int64_t b) {
+    const std::int64_t difference = b - a;
+    if (a < b) { return helper(a, b); } else { return difference; }
+}

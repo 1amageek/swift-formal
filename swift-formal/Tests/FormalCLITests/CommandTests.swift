@@ -44,4 +44,33 @@ struct CommandTests {
     func outputLimitDoesNotReturnSuccess() async {
         await #expect(throws: (any Error).self) { try await LocalCompilerProbe(maximumOutputBytes: 1).probe() }
     }
+    @Test(.timeLimit(.minutes(1)))
+    func draftsRequireExplicitFlagAndPreserveExistingOutput() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
+        defer { do { try FileManager.default.removeItem(at: directory) } catch { Issue.record("Cleanup failed: \(error)") } }
+        let source = directory.appendingPathComponent("input.py")
+        try "def f(a: int) -> int:\n    return a + 1\n".write(to: source, atomically: true, encoding: .utf8)
+        let output = directory.appendingPathComponent("Generated")
+        let arguments = ["translate", "--language", "python", "--source", source.path, "--output", output.path]
+        let missingFlag = await FormalCommand().run(arguments: arguments)
+        #expect(missingFlag.exitCode == 2)
+        #expect(!FileManager.default.fileExists(atPath: output.path))
+        let draft = await FormalCommand().run(arguments: arguments + ["--draft-unvalidated"])
+        #expect(draft.exitCode == 0)
+        #expect(draft.standardOutput.contains("DRAFT_UNVALIDATED"))
+        let report = try Data(contentsOf: output.appendingPathComponent("report.json"))
+        let duplicate = await FormalCommand().run(arguments: arguments + ["--draft-unvalidated"])
+        #expect(duplicate.exitCode == 2)
+        #expect(try Data(contentsOf: output.appendingPathComponent("report.json")) == report)
+        try "unsupported".write(to: source, atomically: true, encoding: .utf8)
+        let invalidOutput = directory.appendingPathComponent("Invalid")
+        let invalid = await FormalCommand().run(arguments: ["translate", "--language", "python", "--source", source.path, "--output", invalidOutput.path, "--draft-unvalidated"])
+        #expect(invalid.exitCode == 4)
+        #expect(invalid.standardError.contains("python:1:"))
+        #expect(!FileManager.default.fileExists(atPath: invalidOutput.path))
+        let names = try FileManager.default.contentsOfDirectory(atPath: directory.path)
+        #expect(!names.contains { $0.hasPrefix(".formal-") })
+    }
+
 }

@@ -27,6 +27,7 @@ public struct BackendArtifactDecoder: Sendable {
         Next == ActualStep \\/ (Terminal(state) /\\ UNCHANGED state)
         Spec == Init /\\ [][Next]_state
         NoTrap == state.status # "trapped"
+        NoFailure == state.status \\notin {"trapped", "panic", "undefinedBehavior"}
         NoDeadlock == Terminal(state) \\/ ENABLED ActualStep
         ============================================================================
         """)
@@ -63,6 +64,7 @@ public struct BackendArtifactDecoder: Sendable {
         if lean {
             guard case .constructor(let name, let args) = data else { throw bad("Invalid Lean type") }
             switch (name, args.count) {
+            case ("integer", 0): return .integer
             case ("bits", 1):
                 let decoded0 = try integer(args[0])
                 return .bits(width: decoded0)
@@ -80,6 +82,9 @@ public struct BackendArtifactDecoder: Sendable {
         guard case .record(let fields) = data else { throw bad("Invalid TLA type") }
         let kind = try text(fields["kind"])
         switch kind {
+        case "integer":
+            _ = try record(data, keys: ["kind"])
+            return .integer
         case "bits":
             _ = try record(data, keys: ["kind", "width"])
             let decoded0 = try integer(fields["width"])
@@ -110,6 +115,9 @@ public struct BackendArtifactDecoder: Sendable {
             name = try text(fields["op"])
             let keys: [String]
             switch name {
+            case "integerLiteral": keys = ["destination", "decimal"]
+            case "integerBinary": keys = ["destination", "operation", "left", "right"]
+            case "failIf": keys = ["condition", "kind", "message"]
             case "literal": keys = ["destination", "width", "value"]
             case "aggregate": keys = ["destination", "elements"]
             case "extract": keys = ["destination", "source", "index"]
@@ -129,6 +137,36 @@ public struct BackendArtifactDecoder: Sendable {
             }
         }
         switch (name, args.count) {
+        case ("integerLiteral", 3) where lean:
+            let d = try text(args[0])
+            let sign = try number(args[1])
+            guard sign <= 1 else { throw bad("Invalid integer sign") }
+            let magnitude: String
+            switch args[2] {
+            case .number(let value): magnitude = String(value)
+            case .bigNumber(let value): magnitude = value
+            default: throw bad("Expected integer magnitude")
+            }
+            let v = try MathematicalInteger((sign == 1 ? "-" : "") + magnitude)
+            return .integerLiteral(destination: d, value: v)
+        case ("integerLiteral", 2) where !lean:
+            let d = try text(args[0])
+            let decimal = try text(args[1])
+            let v = try MathematicalInteger(decimal)
+            return .integerLiteral(destination: d, value: v)
+        case ("integerBinary", 4):
+            let d = try text(args[0])
+            let name = try enumName(args[1], lean: lean)
+            guard let operation = IRIntegerOperation(rawValue: name) else { throw bad("Unknown integer operation") }
+            let a = try text(args[2])
+            let b = try text(args[3])
+            return .integerBinary(destination: d, operation: operation, left: a, right: b)
+        case ("failIf", 3):
+            let c = try text(args[0])
+            let name = try enumName(args[1], lean: lean)
+            guard let kind = IRFailureKind(rawValue: name) else { throw bad("Unknown failure kind") }
+            let message = try text(args[2])
+            return .failIf(condition: c, kind: kind, message: message)
         case ("literal", 3):
             let width = try integer(args[1])
             let raw: UInt64
@@ -198,6 +236,11 @@ public struct BackendArtifactDecoder: Sendable {
         }
     }
 
+    private func enumName(_ data: ArtifactData, lean: Bool) throws -> String {
+        if !lean { return try text(data) }
+        guard case .constructor(let name, let arguments) = data, arguments.isEmpty else { throw bad("Expected enum constructor") }
+        return name
+    }
     private func text(_ data: ArtifactData?) throws -> String {
         guard case .text(let value) = data else { throw bad("Expected string") }
         return value

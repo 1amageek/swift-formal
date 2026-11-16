@@ -9,7 +9,7 @@ Preserve source locations, all function headers and bodies, and non-function top
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|
-| [Package](../../../DESIGN.md) | parent | Locked host and honesty | Compiler front end | Structural success is not semantic success |
+| [FormalCompiler](../DESIGN.md) | parent | Locked host and honesty | Compiler front end | Structural success is not semantic success |
 | [Syntax](Syntax/DESIGN.md) | child | Lossless token structure | Lexing and function/CFG boundaries | No unsupported instruction is silently removed |
 | [FormalCore](../../FormalCore/DESIGN.md) | depends on | Typed diagnostics | Error propagation | Source position belongs to SIL, not Swift |
 

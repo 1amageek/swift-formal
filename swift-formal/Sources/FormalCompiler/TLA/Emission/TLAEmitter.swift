@@ -26,6 +26,7 @@ public struct TLAEmitter: TLAEmitting {
         Next == ActualStep \\/ (Terminal(state) /\\ UNCHANGED state)
         Spec == Init /\\ [][Next]_state
         NoTrap == state.status # "trapped"
+        NoFailure == state.status \\notin {"trapped", "panic", "undefinedBehavior"}
         NoDeadlock == Terminal(state) \\/ ENABLED ActualStep
         ============================================================================
 
@@ -33,7 +34,7 @@ public struct TLAEmitter: TLAEmitting {
         let properties = """
         ---------------------------- MODULE Properties -----------------------------
         EXTENDS Program
-        Safety == NoTrap /\\ NoDeadlock
+        Safety == NoFailure /\\ NoDeadlock
         ============================================================================
 
         """
@@ -63,6 +64,7 @@ public struct TLAEmitter: TLAEmitting {
 
     private func type(_ value: IRType) throws -> String {
         switch value {
+        case .integer: return "[kind |-> \"integer\"]"
         case .bits(let width):
             return "[kind |-> \"bits\", width |-> \(width)]"
         case .aggregate(let elements):
@@ -78,6 +80,21 @@ public struct TLAEmitter: TLAEmitting {
     private func instruction(_ value: IRInstruction) throws -> String {
         let fields: [String]
         switch value {
+        case .integerLiteral(let destination, let value):
+            let d = try quote(destination)
+            let v = try quote(value.description)
+            fields = ["op |-> \"integerLiteral\"", "destination |-> \(d)", "decimal |-> \(v)"]
+        case .integerBinary(let destination, let operation, let left, let right):
+            let d = try quote(destination)
+            let o = try quote(operation.rawValue)
+            let a = try quote(left)
+            let b = try quote(right)
+            fields = ["op |-> \"integerBinary\"", "destination |-> \(d)", "operation |-> \(o)", "left |-> \(a)", "right |-> \(b)"]
+        case .failIf(let condition, let kind, let message):
+            let c = try quote(condition)
+            let k = try quote(kind.rawValue)
+            let m = try quote(message)
+            fields = ["op |-> \"failIf\"", "condition |-> \(c)", "kind |-> \(k)", "message |-> \(m)"]
         case .literal(let destination, let value):
             let rendered0 = try quote(destination)
             fields = ["op |-> \"literal\"", "destination |-> \(rendered0)", "width |-> \(value.width)", "value |-> \(bitSequence(value))"]

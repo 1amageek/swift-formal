@@ -56,4 +56,20 @@ with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:
         result = run([command, '--out', str(generated)], 3)
         assert not result.stdout and not generated.exists()
         assert json.loads(result.stderr)['code'] == 'UNSUPPORTED_OPERATION'
-print('CLI integration passed: compiler probe, mismatch, removed-command rejection, bundle tampering, fail-closed commands.')
+    profiles = json.loads(run(['profiles'], 0).stdout)
+    assert len(profiles) == 8
+    for profile in profiles:
+        language = profile['language']
+        destination = work / f'Draft-{language}'
+        translated = run(['translate', '--language', language, '--source', str(root / f'Fixtures/Sources/{language}.source'),
+                          '--output', str(destination), '--draft-unvalidated'], 0)
+        draft = json.loads(translated.stdout)
+        assert draft['status'] == 'DRAFT_UNVALIDATED'
+        assert draft['actualOutputDataMatchesIR'] and not draft['semanticValidationPerformed']
+        assert not draft['externalToolsExecuted']
+        assert draft['sourceSHA256'] == hashlib.sha256((destination / 'source.txt').read_bytes()).hexdigest()
+        assert (destination / 'tla/Program.tla').is_file() and (destination / 'lean/Generated/Program.lean').is_file()
+        duplicate = run(['translate', '--language', language, '--source', str(root / f'Fixtures/Sources/{language}.source'),
+                         '--output', str(destination), '--draft-unvalidated'], 2)
+        assert 'Output already exists' in duplicate.stderr
+print('CLI integration passed: metadata paths, fail-closed strict commands, eight draft translations and no-clobber behavior.')

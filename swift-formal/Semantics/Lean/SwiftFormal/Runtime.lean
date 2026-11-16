@@ -3,6 +3,7 @@ import Std
 namespace SwiftFormal
 
 inductive ValueType where
+  | integer
   | bits (width : Nat)
   | aggregate (elements : List ValueType)
   | function (parameters : List ValueType) (result : ValueType)
@@ -14,6 +15,7 @@ structure Parameter where
   deriving Repr, BEq
 
 inductive Value where
+  | integer (value : Int)
   | bits (width : Nat) (value : Nat)
   | aggregate (elements : List Value)
   | function (symbol : String)
@@ -25,7 +27,18 @@ inductive Operation where
   | signedLessThan | unsignedLessThan | equal | and | or | xor
   deriving Repr, BEq
 
+inductive IntegerOperation where
+  | add | subtract | multiply | lessThan | equal
+  deriving Repr, BEq
+
+inductive FailureKind where
+  | panic | undefinedBehavior
+  deriving Repr, BEq
+
 inductive Instruction where
+  | integerLiteral (destination : String) (negative magnitude : Nat)
+  | integerBinary (destination : String) (operation : IntegerOperation) (left right : String)
+  | failIf (condition : String) (kind : FailureKind) (message : String)
   | literal (destination : String) (width value : Nat)
   | aggregate (destination : String) (elements : List String)
   | extract (destination source : String) (index : Nat)
@@ -64,6 +77,7 @@ structure Frame where
 
 inductive Status where
   | running | returned (value : Value) | trapped (message : String)
+  | failed (kind : FailureKind) (message : String)
   deriving Repr, BEq
 
 structure State where
@@ -116,6 +130,16 @@ def binary (operation : Operation) (left right : Value) : Option Value := do
     | .or => some (.bits width (Nat.lor a b))
     | .xor => some (.bits width (Nat.xor a b))
 
+def integerBinary (operation : IntegerOperation) (left right : Value) : Option Value := do
+  let .integer a := left | none
+  let .integer b := right | none
+  pure (match operation with
+    | .add => .integer (a + b)
+    | .subtract => .integer (a - b)
+    | .multiply => .integer (a * b)
+    | .lessThan => flag (decide (a < b))
+    | .equal => flag (a == b))
+
 def findFunction (program : Program) (symbol : String) : Option Function :=
   program.find? (fun function => function.symbol == symbol)
 
@@ -137,6 +161,18 @@ def tick (program : Program) (state : State) : Option State := do
     let advance (id : String) (value : Value) : State :=
       { state with frames := { frame with pc := frame.pc + 1, values := assign frame.values id value } :: rest }
     match instruction with
+    | .integerLiteral destination negative magnitude =>
+      if negative > 1 then none else
+        pure (advance destination (.integer (if negative == 1 then -(Int.ofNat magnitude) else Int.ofNat magnitude)))
+    | .integerBinary destination operation left right =>
+      let a ← lookup frame.values left
+      let b ← lookup frame.values right
+      let value ← integerBinary operation a b
+      pure (advance destination value)
+    | .failIf condition kind message =>
+      let .bits 1 bit ← lookup frame.values condition | none
+      if bit > 1 then none else if bit == 1 then pure { state with status := .failed kind message }
+      else pure { state with frames := { frame with pc := frame.pc + 1 } :: rest }
     | .literal destination width value =>
       if width == 0 || value ≥ 2 ^ width then none else pure (advance destination (.bits width value))
     | .aggregate destination ids =>

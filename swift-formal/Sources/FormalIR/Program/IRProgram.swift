@@ -85,6 +85,12 @@ public struct IRProgram: Codable, Sendable, Equatable {
             for instruction in block.instructions {
                 let result: IRType?
                 switch instruction {
+                case .integerLiteral: result = .integer
+                case .integerBinary(_, let operation, let left, let right):
+                    let a = try type(left)
+                    let b = try type(right)
+                    guard a == .integer, b == .integer else { throw invalid("Expected mathematical integers") }
+                    result = operation.isComparison ? .bits(width: 1) : .integer
                 case .literal(_, let value): result = .bits(width: value.width)
                 case .aggregate(_, let elements):
                     var elementTypes: [IRType] = []
@@ -122,7 +128,7 @@ public struct IRProgram: Codable, Sendable, Equatable {
                     try checkBranch(thenBlock, thenArguments)
                     try checkBranch(elseBlock, elseArguments)
                     result = nil
-                case .trapIf(let condition, _):
+                case .trapIf(let condition, _), .failIf(let condition, _, _):
                     let conditionType = try type(condition)
                     guard conditionType == .bits(width: 1) else { throw invalid("Trap condition must be one bit") }
                     result = nil
