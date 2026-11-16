@@ -57,6 +57,19 @@ struct ToolExecutionTests {
     }
 
     @Test(.timeLimit(.minutes(1)))
+    func workspaceMonitoringAllowsChildTemporaryFileCleanup() async throws {
+        try await temporary { root in
+            let script = "i=0; while [ $i -lt 300 ]; do /bin/mkdir state; /usr/bin/touch state/file; /bin/rm -rf state; i=$((i+1)); done; printf completed"
+            let result = try await LocalToolRunner().run(executable: URL(fileURLWithPath: "/bin/sh"),
+                arguments: ["-c", script], directory: root, log: root.appendingPathComponent("churn"),
+                timeout: 20, maximumWorkspaceBytes: 1_048_576)
+            #expect(result.exitCode == 0)
+            #expect(result.standardOutput == "completed")
+            #expect(result.standardError.isEmpty)
+        }
+    }
+
+    @Test(.timeLimit(.minutes(1)))
     func cancellationAndOutputLimitCannotSucceed() async throws {
         try await temporary { root in
             let task = Task {

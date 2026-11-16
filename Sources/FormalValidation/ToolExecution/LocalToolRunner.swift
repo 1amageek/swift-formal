@@ -92,7 +92,12 @@ public struct LocalToolRunner: ToolExecuting {
         while let relative = enumerator.nextObject() as? String {
             count += 1
             let path = directory.appendingPathComponent(relative).path
-            let attributes = try FileManager.default.attributesOfItem(atPath: path)
+            let attributes: [FileAttributeKey: Any]
+            do { attributes = try FileManager.default.attributesOfItem(atPath: path) }
+            catch let error as NSError where error.domain == NSCocoaErrorDomain && error.code == NSFileReadNoSuchFileError {
+                // The child may remove temporary state between enumeration and inspection.
+                continue
+            }
             let size = (attributes[.size] as? NSNumber)?.uint64Value ?? 0
             guard count <= 10_000, size <= UInt64(maximumBytes), total <= UInt64(maximumBytes) - size else {
                 throw FormalDiagnostic(.timeout, "Tool workspace exceeded its resource budget")
