@@ -7,7 +7,16 @@ public enum FileDigest {
         let file = try FileHandle(forReadingFrom: url)
         defer { file.closeFile() }
         var digest = SHA256()
-        while let data = try file.read(upToCount: 1_048_576), !data.isEmpty { digest.update(data: data) }
+        while true {
+            // Foundation file reads may create autoreleased buffers. Only the digest crosses this boundary.
+            let consumed = try autoreleasepool {
+                let chunk = try file.read(upToCount: 1_048_576)
+                guard let chunk, !chunk.isEmpty else { return false }
+                digest.update(data: chunk)
+                return true
+            }
+            if !consumed { break }
+        }
         return digest.finalize().map { String(format: "%02x", $0) }.joined()
     }
     public static func sha256(_ data: Data) -> String { SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined() }

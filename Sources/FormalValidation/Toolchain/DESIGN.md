@@ -33,3 +33,5 @@ Typed errors preserve failure; deadlines, cancellation, and output limits never 
 
 ## Verification and Change Impact
 Offline relocation integration owns absent host tools and altered tool rejection. Package preparation owns corrupted archive rejection and no-clobber publication. Changing policy requires rebuilding inventory and rerunning actual bundled Java/Lean/TLC paths.
+
+SHA-256 inventory reads drain autoreleased Foundation buffers after each 1 MiB chunk. The digest state outlives the chunk; file bytes do not. Peak process memory must not grow with the total 3 GB toolchain size. Verify this on the actual toolchain command as well as checking unchanged inventory digests.
