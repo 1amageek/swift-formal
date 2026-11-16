@@ -78,3 +78,23 @@ prefix checking with host Java/Lean/Swift tools blocked. Quantified addition is
 proved through that installed binary; existing finite checks still pass.
 Packaging from a symlinked toolchain now copies the verified real tree, and
 inventory hashing keeps per-chunk buffers bounded. No release tag was created.
+
+
+## Java and Bun source profiles
+
+Java static scalar methods and Bun JS/TS functions now feed the common IR.
+Java int32/int64 arithmetic wraps; literal widths are preserved and implicit
+width conversions are rejected. Bun supports BigInt/Boolean with explicit
+assumptions for unannotated JS parameters/results. Number and runtime APIs remain
+outside the source profile. No production target, dependency or backend runtime
+was added.
+
+79 Swift tests, ten-profile CLI conversion and the release build pass. The new
+native differential suite checks 18 observations across Java/Bun, IR, Lean and
+TLC; six universal properties and two natively reproduced counterexamples pass.
+The original eight source fixtures retain byte-identical output. Portable
+installation and moved-prefix checks pass with host javac/Bun blocked, and
+Java/Bun universal checks use only bundled tools under a missing host PATH.
+See [verification evidence](Documentation/VERIFICATION.md#java-and-bun-checkpoint).
+The project still reports UNVALIDATED source translation and remains incomplete
+for the original v1/Actor scope.

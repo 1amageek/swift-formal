@@ -1,0 +1,7 @@
+final class ScalarFixture {
+    static long helper(long a, long b) { return a * b + 1L; }
+    static long calculate(long a, long b) {
+        final long difference = b - a;
+        if (a < b) { return helper(a, b); } else { return difference; }
+    }
+}

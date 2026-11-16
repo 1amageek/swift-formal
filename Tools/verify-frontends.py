@@ -19,13 +19,13 @@ lock = json.loads((root / 'Tools/toolchain-artifacts.lock.json').read_text())
 with jar.open('rb') as handle:
     assert hashlib.file_digest(handle, 'sha256').hexdigest() == lock['tla']['sha256']
 assert json.loads((tsc.parent.parent / 'package.json').read_text())['version'] == '5.9.3'
-all_languages = ['swift', 'rust', 'c', 'cpp', 'go', 'typescript', 'javascript', 'python']
+all_languages = ['swift', 'rust', 'c', 'cpp', 'go', 'typescript', 'javascript', 'python', 'java', 'bun']
 parser = argparse.ArgumentParser()
 parser.add_argument('--languages', nargs='+', choices=all_languages, default=all_languages)
 parser.add_argument('--native-only', action='store_true')
 options = parser.parse_args()
 languages = options.languages
-math_languages = {'typescript', 'javascript', 'python'}
+math_languages = {'typescript', 'javascript', 'python', 'bun'}
 
 def run(args, cwd=root, environment=None, timeout=120, expected=0):
     result = subprocess.run([str(x) for x in args], cwd=cwd, env=environment, timeout=timeout,
@@ -49,7 +49,7 @@ def c_literal(n):
 
 def native(language, source, cases, directory, overflow=False):
     suffix = {'swift': 'swift', 'rust': 'rs', 'c': 'c', 'cpp': 'cpp', 'go': 'go',
-              'typescript': 'ts', 'javascript': 'js', 'python': 'py'}[language]
+              'typescript': 'ts', 'javascript': 'js', 'python': 'py', 'java': 'java', 'bun': 'ts'}[language]
     calls = [f'calculate({a}, {b})' for a, b, _ in cases]
     if language == 'swift': harness = '\n'.join(f'print({c})' for c in calls)
     elif language == 'rust': harness = 'fn main() { ' + ''.join(f'println!("{{}}", {c});' for c in calls) + ' }'
@@ -57,6 +57,8 @@ def native(language, source, cases, directory, overflow=False):
         calls = [f'calculate({c_literal(a)}, {c_literal(b)})' for a, b, _ in cases]
         harness = '#include <stdio.h>\nint main(void) {' + ''.join(f'printf("%lld\\n", (long long){c});' for c in calls) + 'return 0;}'
     elif language == 'go': harness = 'func main() { ' + ';'.join(f'println({c})' for c in calls) + ' }'
+    elif language == 'java':
+        harness = 'class NativeHarness { public static void main(String[] args) { ' + ''.join(f'System.out.println(ScalarFixture.calculate({a}L, {b}L));' for a, b, _ in cases) + ' } }'
     elif language in math_languages - {'python'}:
         harness = '\n'.join(f'console.log(calculate({a}n, {b}n).toString());' for a, b, _ in cases)
     else: harness = '\n'.join(f'print({c})' for c in calls)
@@ -72,6 +74,9 @@ def native(language, source, cases, directory, overflow=False):
         # Type-check with the pinned compiler, then execute its actual JavaScript output.
         run(['node', tsc, '--target', 'ES2020', '--strict', path]); command = ['node', path.with_suffix('.js')]
     elif language == 'javascript': command = ['node', path]
+    elif language == 'bun': command = ['bun', 'run', '--no-install', path]
+    elif language == 'java':
+        run(['javac', '-d', directory, path]); command = ['java', '-cp', directory, 'NativeHarness']
     else: command = ['python3', path]
     if overflow:
         result = subprocess.run([str(x) for x in command], cwd=directory, timeout=20, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
@@ -91,7 +96,7 @@ with tempfile.TemporaryDirectory(prefix='formal-frontends-') as temporary:
         native(language, source, observations, directory)
         if language in {'rust', 'c', 'cpp', 'swift'}:
             native(language, source, [[-(1 << 63), 1, None]], directory, overflow=True)
-        if language == 'go':
+        if language in {'go', 'java'}:
             native(language, source, [[-(1 << 63), 1, -(1 << 63)+1]], directory)
         if options.native_only:
             print(f'{language}: native result and applicable overflow checks passed.', flush=True)
@@ -134,7 +139,7 @@ def observe (actual : List Value) : Option Status := do
         scenarios = [(a, b, expected, 'returned') for a, b, expected in checks]
         if language in {'rust', 'c', 'cpp', 'swift'}:
             scenarios.append((-(1<<63), 1, None, {'rust':'panic', 'swift':'trapped'}.get(language, 'undefinedBehavior')))
-        if language == 'go': scenarios.append((-(1<<63), 1, -(1<<63)+1, 'returned'))
+        if language in {'go', 'java'}: scenarios.append((-(1<<63), 1, -(1<<63)+1, 'returned'))
         for i, (a, b, expected, status) in enumerate(scenarios):
             name = f'Case{i}'
             condition = f'state.status \\in {{"running", "{status}"}}'

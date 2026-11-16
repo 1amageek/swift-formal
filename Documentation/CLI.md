@@ -5,7 +5,7 @@ Run `swift run formal --help` from the package directory. The [package design](.
 | Command | Current behavior |
 |---|---|
 | `--help`, `--version` | Describe the current release |
-| `profiles` | List the eight versioned scalar source profiles and input assumptions |
+| `profiles` | List the ten versioned scalar source profiles and input assumptions |
 | `translate --language <name> --source <file> --output <new-directory> --draft-unvalidated` | Write experimental TLA+, Lean, IR, source, and report after independent data comparison |
 | `package --output <new-directory> [--cache <directory>]` | Create a self-contained portable distribution |
 | `install --prefix <directory> [--cache <directory>]` | Install formal and its pinned tools |

@@ -8,7 +8,7 @@
 | Bundle inspection | Bounded regular files, relative paths, symlink containment, SHA-256 |
 | SIL parser | Structural canonical parsing, including actual Actor fixture syntax; no semantic support implied |
 | SIL lowering | Scalar thin functions, fixed-width bits/wrappers, tuples, branch, direct calls, trap |
-| Source frontends | Eight scalar-v1 profiles; [grammar and assumptions](../Sources/FormalCompiler/Frontends/DESIGN.md); experimental draft translation |
+| Source frontends | Ten scalar-v1 profiles (including Java and Bun); [grammar and assumptions](../Sources/FormalCompiler/Frontends/DESIGN.md); experimental draft translation |
 | TLA+ / Lean emitters | Scalar library emitters; actual files pass SANY and Lean checks |
 | Independent translation validator | Restricted program-data reparsing and separate Lean decoder/data equality; full semantic relation pending |
 | Universal model properties | Scalar pre/postconditions over every typed input, kernel-checked Lean theorems; [scope and limits](PROPERTIES.md) |
@@ -26,3 +26,10 @@ Source profile boundaries and Go constant precision are owned by [Frontends/DESI
 
 ## End-user distribution
 [Portable installation](DISTRIBUTION.md) provides Java, TLC and Lean automatically for macOS arm64. The native compiler and TypeScript setup above is required only for developer differential tests that execute original languages; end-user model checking does not execute original source.
+
+
+Java accepts one class of static `int`/`long`/`boolean` methods, with 32/64-bit
+wrapping and explicit literal widths. Bun accepts the scalar JS/TS BigInt and
+Boolean surface. See [profile contracts](../Sources/FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles).
+Neither javac nor Bun is required by end-user translation/model verification;
+developer native differential checks require those source tools separately.

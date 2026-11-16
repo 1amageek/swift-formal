@@ -76,6 +76,8 @@ try:
         'go': ('package main\nfunc calculate(a int64) int64 { return a - a }', 'signed'),
         'typescript': ('function calculate(a: bigint): bigint { return a - a; }', 'integer'),
         'javascript': ('function calculate(a) { return a - a; }', 'integer'),
+        'java': ('class ScalarFixture { static long calculate(long a) { return a - a; } }', 'signed'),
+        'bun': ('function calculate(a: bigint): bigint { return a - a; }', 'integer'),
         'python': ('def calculate(a: int) -> int:\n    return a - a\n', 'integer'),
     }
     for language, (source, view) in sources.items():

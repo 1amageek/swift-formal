@@ -11,7 +11,7 @@ struct SourceFrontendTests {
     }
     private func arguments(_ language: SourceLanguage, _ values: [Int64]) throws -> [IRValue] {
         try values.map { value in
-            if [.python, .javascript, .typescript].contains(language) { return .integer(try MathematicalInteger(String(value))) }
+            if [.python, .javascript, .typescript, .bun].contains(language) { return .integer(try MathematicalInteger(String(value))) }
             return .bits(try BitPattern(width: 64, bits: UInt64(bitPattern: value)))
         }
     }
@@ -50,7 +50,7 @@ struct SourceFrontendTests {
             }
         }
     }
-    @Test(arguments: [SourceLanguage.python, .typescript, .javascript]) func preservesLargeIntegers(_ language: SourceLanguage) throws {
+    @Test(arguments: [SourceLanguage.python, .typescript, .javascript, .bun]) func preservesLargeIntegers(_ language: SourceLanguage) throws {
         let program = try ScalarSourceCompiler().compile(source(language), language: language, moduleID: "Large")
         let a = try MathematicalInteger("10000000000000000000000000000000000000000")
         let b = try MathematicalInteger("20000000000000000000000000000000000000000")

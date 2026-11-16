@@ -118,3 +118,33 @@ property and preserves the eight-language finite-case checks, expected overflow,
 large integers, counterexamples, fuel exhaustion and tamper rejection. Packaging
 copies the verifier-resolved tool tree, so its result does not retain a link to
 the original tool location.
+
+
+## Java and Bun checkpoint
+
+| Check | Actual result | Scope |
+|---|---|---|
+| SwiftPM | 79 named tests across eight targets; release build passes | Ten source profiles, including Java widths/literals/grammar and Bun typed/untyped functions |
+| Native differential | 18 input observations agree in native execution, IR, Lean and TLC | Java int32/int64 wrapping, Bun JS/TS large integers, branches/calls/locals, and both Boolean profiles |
+| Quantified proofs | Six kernel-checked all-input theorems | Java 32/64-bit cancellation, Bun JS/TS monotone increment over Int, Java/Bun Boolean negation |
+| Counterexamples | Two witnesses checked by IR, Lean and TLC and reproduced natively | Java int32 maximum increment wraps to minimum; Bun identity violates a property at a 41-digit integer |
+| Rejection | Eight actual CLI failures create no artifacts | Literal-width conversions, minimum-literal parentheses, instance methods, Java names/signatures, Bun Number and updates |
+| Existing profiles | Every generated artifact byte is unchanged for the eight original source fixtures | Existing frontend/runtime behavior is preserved for these fixtures |
+| Portable distribution | Ten profiles checked after offline installation and prefix relocation with host javac/Bun blocked | No new end-user source runtime dependency |
+| Offline universal checks | Java and Bun proofs succeed with missing host PATH and poisoned Java/Lean settings | Bundled tools are used exclusively |
+
+Native checks used javac/JVM 24.0.2 and Bun 1.3.11. The portable proof toolchain
+remains Lean 4.35.0, Temurin 21.0.13+9 and TLC 1.7.4. No runtime source, trusted
+artifact hash, IR opcode, production target or external dependency changed.
+
+```sh
+python3 Tools/run-with-timeout.py --seconds 900 python3 Tools/verify-java-bun.py --formal /absolute/path/to/formal
+python3 Tools/run-with-timeout.py --seconds 900 python3 Tools/verify-distribution.py --distribution /absolute/path/to/portable-directory
+```
+
+The first command requires developer-native javac/java and Bun for differential
+execution. End-user translation and model verification require neither. The
+[frontend contract](../Sources/FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles)
+owns the exact source subset and rejection rules. Translation remains
+`UNVALIDATED`; these results do not certify arbitrary Java/Bun applications or
+extend Actor, memory, loop-invariant or source-semantic certification support.

@@ -4,7 +4,7 @@
 
 swift-formal is an experimental formal-verification toolchain for checking program logic with TLA+ model checking and Lean proofs. It translates supported source code into mathematical models, proves preconditions and postconditions over all typed inputs, and preserves the models and verification evidence for inspection. Concrete regression cases can also be checked. The CLI is **`formal`**.
 
-It supports scalar functions written in Swift, Rust, C, C++, Go, TypeScript, JavaScript, and Python through a shared intermediate representation.
+It supports scalar functions written in Swift, Rust, C, C++, Go, TypeScript, JavaScript, Python, Java, and Bun through a shared intermediate representation.
 
 ## Why use formal
 
@@ -158,14 +158,48 @@ For individual inputs and expected outcomes, use `--scenario cases.json`. This r
 | TypeScript | `typescript` | Primitive `bigint` and `boolean` |
 | JavaScript | `javascript` | Primitive BigInt arguments and results assumed |
 | Python | `python` | Exact built-in `int` and `bool`; type annotations required |
+| Java | `java` | Static methods in one class; `int`, `long`, `boolean`; wrapping arithmetic |
+| Bun | `bun` | JS/TS functions; BigInt and Boolean; unannotated arguments/results assumed BigInt |
 
-The profiles accept standalone pure functions, immutable locals, integer arithmetic and comparisons, direct calls, and conditionals whose branches both return. Integer widths and overflow behavior follow each profile's language rules. Python `int` and JS/TS BigInt use arbitrary-precision integers.
+The profiles accept pure functions (static methods inside one class for Java), immutable locals, integer arithmetic and comparisons, direct calls, and conditionals whose branches both return. Integer widths and overflow behavior follow each profile's language rules. Python `int` and JS/TS/Bun BigInt use arbitrary-precision integers.
 
-General projects, classes and objects, mutable state and memory operations, exceptions, Actor/async, and JS/TS Number or implicit coercion are outside the current source profiles. Unsupported syntax is rejected with a source-position diagnostic. The [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md) defines the exact grammar and assumptions.
+General projects, object instances, mutable state and memory operations, exceptions, Actor/async, and JS/TS/Bun Number or implicit coercion are outside the current source profiles. Unsupported syntax is rejected with a source-position diagnostic. The [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md) defines the exact grammar and assumptions.
 
 ```sh
 ./InstalledFormal/bin/formal profiles
 ```
+
+### Java and Bun
+
+Java input is a complete class containing static scalar methods:
+
+```java
+final class Calculations {
+    static long calculate(long a) { return a - a; }
+}
+```
+
+Use `--language java --source Calculations.java`. `int` operations wrap at 32
+bits; `long` operations wrap at 64 bits. Long literals require `L` or `l`.
+Implicit int/long conversions, fields, instance methods and overloads are outside
+the current profile. Local declarations use `final`.
+
+Bun accepts TypeScript annotations and unannotated JavaScript functions:
+
+```typescript
+function calculate(a: bigint): bigint { return a - a; }
+```
+
+Use `--language bun --source input.ts` (or `.js`). Numeric literals require `n`,
+and unannotated parameters/results are assumed to be primitive BigInts. Number,
+coercion, runtime APIs, imports and async are outside the scalar profile.
+
+Both selections work with `translate`, `check --scenario` and `check --properties`.
+For the functions above, set `ensures` to `result == 0`, with input/result views
+`signed` for Java or `integer` for Bun. Installed checks need neither `javac` nor
+Bun; source conversion is implemented in Swift and verification uses bundled
+TLC/Lean. The [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles)
+defines the accepted source surface.
 
 ## Generate without verification
 

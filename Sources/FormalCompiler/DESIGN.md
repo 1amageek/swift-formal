@@ -27,3 +27,5 @@ Frontend tests own native/reference comparisons and rejection behavior. Both emi
 The [four-finding regression contract](Frontends/DESIGN.md#four-finding-regression-ownership) tightens lexical rejection, Go constant conversion, AST bounds, and C/C++ declaration visibility without changing the common IR or either runtime. Upstream draft composition must preserve diagnostics and create no artifacts on rejection.
 
 `CompilerResources.bundleURL` exposes only the module resource location for portable distribution composition. [Distribution](../formal/Distribution/DESIGN.md) copies the complete bundle beside the executable; runtime file contents and emission contracts are unchanged.
+
+Java and Bun profile expansion is owned by [Frontends](Frontends/DESIGN.md#java-and-bun-profiles). Java int32 uses existing width-generic IR; no runtime opcode, emitter, artifact decoder or trust-policy change is required. Bun shares the JS/TS scalar grammar with explicit profile assumptions.

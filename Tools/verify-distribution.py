@@ -36,7 +36,7 @@ def run(executable, arguments, environment, expected=0, timeout=180):
 with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     work = Path(temporary)
     poison = work / 'poison'; poison.mkdir()
-    for name in ['java', 'lean', 'lake', 'swift', 'swiftc', 'curl', 'zstd']:
+    for name in ['java', 'javac', 'bun', 'lean', 'lake', 'swift', 'swiftc', 'curl', 'zstd']:
         path = poison / name
         path.write_text('#!/bin/sh\nprintf "HOST TOOL MUST NOT RUN\\n" >&2\nexit 99\n')
         path.chmod(0o755)
@@ -72,6 +72,8 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
         'rust': 'fn calculate(a: i64, b: i64) -> i64 { return a + b; }',
         'c': '#include <stdint.h>\nint64_t calculate(int64_t a, int64_t b) { return a + b; }',
         'cpp': '#include <cstdint>\nint64_t calculate(int64_t a, int64_t b) { return a + b; }',
+        'java': 'class ScalarFixture { static long calculate(long a, long b) { return a + b; } }',
+        'bun': 'function calculate(a: bigint, b: bigint): bigint { return a + b; }',
         'go': 'package main\nfunc calculate(a int64, b int64) int64 { return a + b }',
     }
     def scenario(path, arguments, expected, fuel=512):
@@ -125,6 +127,6 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
         handle.seek(0); handle.write(b'BAD!')
     tool_tamper = run(binary, ['toolchain'], environment, expected=4)
     assert json.loads(tool_tamper.stderr)['code'] == 'INTEGRITY_MISMATCH'
-    print(json.dumps({'status': 'PASSED', 'scenarios': ['eight languages', 'counterexample', 'fuel bound',
+    print(json.dumps({'status': 'PASSED', 'scenarios': ['ten profiles', 'counterexample', 'fuel bound',
           'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber', 'linked toolchain packaging', 'all-input property'],
           'measurements': measurements}, indent=2))

@@ -52,3 +52,6 @@ The user-authorized distribution contract supersedes the earlier CLI acquisition
 
 ## Universal Verification
 [Properties](Sources/FormalValidation/Properties/DESIGN.md) owns all-input pre/postcondition proofs over audited generated models. Lean kernel theorems quantify Int, Boolean and all fixed-width bit patterns, including bounded normal termination. TLA universal specifications are generated and parsed separately from TLC finite exploration. No quantified proof is inferred from candidate enumeration. General source-to-model semantic certification is still UNVALIDATED.
+
+## Java and Bun Inputs
+[Frontend profiles](Sources/FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles) add Java static scalar methods and Bun JS/TS functions to the existing pipeline. This adds no production target or external dependency. Native source execution belongs to developer verification; installed model checks continue to use only bundled tools.

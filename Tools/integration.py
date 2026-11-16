@@ -57,7 +57,7 @@ with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:
         assert not result.stdout and not generated.exists()
         assert json.loads(result.stderr)['code'] == 'UNSUPPORTED_OPERATION'
     profiles = json.loads(run(['profiles'], 0).stdout)
-    assert len(profiles) == 8
+    assert {p['language'] for p in profiles} == {'swift', 'rust', 'c', 'cpp', 'go', 'typescript', 'javascript', 'python', 'java', 'bun'}
     for profile in profiles:
         language = profile['language']
         destination = work / f'Draft-{language}'
@@ -72,4 +72,4 @@ with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:
         duplicate = run(['translate', '--language', language, '--source', str(root / f'Fixtures/Sources/{language}.source'),
                          '--output', str(destination), '--draft-unvalidated'], 2)
         assert 'Output already exists' in duplicate.stderr
-print('CLI integration passed: metadata paths, fail-closed strict commands, eight draft translations and no-clobber behavior.')
+print('CLI integration passed: metadata paths, fail-closed strict commands, ten draft translations and no-clobber behavior.')

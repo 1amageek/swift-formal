@@ -1,0 +1,5 @@
+function helper(a: bigint, b: bigint): bigint { return a * b + 1n; }
+function calculate(a: bigint, b: bigint): bigint {
+    const difference: bigint = b - a;
+    if (a < b) { return helper(a, b); } else { return difference; }
+}

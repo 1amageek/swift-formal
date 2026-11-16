@@ -19,7 +19,7 @@ struct SourceLowering {
     mutating func fresh() -> String { defer { nextValue += 1 }; return "v\(nextValue)" }
     mutating func label() -> String { defer { nextBlock += 1 }; return "b\(nextBlock)" }
     mutating func finish() { blocks.append(.init(id: blockID, parameters: parameters, instructions: instructions)); instructions = []; parameters = [] }
-    var defaultInteger: ScalarType { [.python, .typescript, .javascript].contains(language) ? .integer : .signed }
+    var defaultInteger: ScalarType { [.python, .typescript, .javascript, .bun].contains(language) ? .integer : language == .java ? .signed32 : .signed }
 
     mutating func lower() throws -> IRProgram {
         guard !moduleID.isEmpty else { throw error("Module ID is required") }
@@ -78,6 +78,7 @@ struct SourceLowering {
             case .call(let name, _): if let type = signatures[name]?.result { return type }
             case .literal(let raw):
                 if ["True", "False", "true", "false"].contains(raw) { return .boolean }
+                if language == .java { return raw.hasSuffix("L") || raw.hasSuffix("l") ? .signed : .signed32 }
                 if raw.hasSuffix("ULL") || raw.hasSuffix("u64") { return .unsigned }
             case .unary(_, let value): pending.append(value)
             case .binary(let operation, let left, let right):
@@ -199,11 +200,15 @@ struct SourceLowering {
         var text = raw
         if !synthetic {
             switch language {
-            case .javascript, .typescript:
+            case .javascript, .typescript, .bun:
                 guard text.hasSuffix("n") else { throw error("Number literals are unsupported; use BigInt") }; text.removeLast()
             case .c, .cpp:
                 let suffix = type == .unsigned ? "ULL" : "LL"
                 guard text.hasSuffix(suffix) else { throw error("C/C++ integer literals require \(suffix) suffix") }; text.removeLast(suffix.count)
+            case .java:
+                let isLong = text.hasSuffix("L") || text.hasSuffix("l")
+                guard type == (isLong ? .signed : .signed32) else { throw error("Java literal width mismatch; implicit int/long conversions are outside this profile") }
+                if isLong { text.removeLast() }
             case .rust:
                 if text.hasSuffix("i64") || text.hasSuffix("u64") {
                     guard text.hasSuffix(type == .unsigned ? "u64" : "i64") else { throw error("Rust literal suffix type mismatch") }; text.removeLast(3)
@@ -220,9 +225,13 @@ struct SourceLowering {
         } else {
             if [.c, .cpp].contains(language) && text == "-9223372036854775808" { throw error("C/C++ minimum requires an in-range positive literal before unary minus") }
             let bits: UInt64
-            if type == .signed { guard let signed = Int64(text) else { throw error("Signed literal is out of range") }; bits = UInt64(bitPattern: signed) }
+            if type == .signed32 {
+                guard let signed = Int32(text) else { throw error("Java int literal is out of range") }
+                bits = UInt64(UInt32(bitPattern: signed))
+            }
+            else if type == .signed { guard let signed = Int64(text) else { throw error("Signed literal is out of range") }; bits = UInt64(bitPattern: signed) }
             else { guard let unsigned = UInt64(text) else { throw error("Unsigned literal is out of range") }; bits = unsigned }
-            let pattern = try BitPattern(width: 64, bits: bits); instructions.append(.literal(destination: id, value: pattern))
+            let pattern = try BitPattern(width: type == .signed32 ? 32 : 64, bits: bits); instructions.append(.literal(destination: id, value: pattern))
         }
         return (id, type)
     }

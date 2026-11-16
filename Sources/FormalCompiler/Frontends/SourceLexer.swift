@@ -7,6 +7,14 @@ struct SourceLexer {
             throw fail("Source exceeds byte limit or contains non-ASCII data", 1, 1)
         }
         let bytes = Array(source.utf8)
+        if language == .java, bytes.contains(92) {
+            throw fail("Java Unicode escapes and backslashes are outside this profile", 1, 1)
+        }
+        if language == .java || language == .bun {
+            for index in bytes.indices where bytes[index] == 13 {
+                guard index + 1 < bytes.count, bytes[index + 1] == 10 else { throw fail("Use LF or CRLF line endings", 1, 1) }
+            }
+        }
         var i = 0; var line = 1; var column = 1; var tokens: [SourceToken] = []
         var atLineStart = true; var indents = [0]; var commentDepth = 0; var headers: Set<String> = []
         func isName(_ byte: UInt8) -> Bool { (65...90).contains(byte) || (97...122).contains(byte) || byte == 95 }
@@ -69,7 +77,7 @@ struct SourceLexer {
                 try emit(String(decoding: bytes[start..<i], as: UTF8.self), l, c); continue
             }
             let pair = i+1 < bytes.count ? String(decoding: bytes[i...i+1], as: UTF8.self) : ""
-            if ["++", "--"].contains(pair), [.c, .cpp, .javascript, .typescript, .go, .swift].contains(language) {
+            if ["++", "--"].contains(pair), [.c, .cpp, .javascript, .typescript, .go, .swift, .java, .bun].contains(language) {
                 throw fail("Unsupported update operator '\(pair)'", l, c)
             }
             if ["->", "==", "!=", "<=", ">=", ":=", "::"].contains(pair) { advance(); advance(); try emit(pair, l, c); continue }

@@ -1,5 +1,5 @@
 public enum SourceLanguage: String, Codable, Sendable, CaseIterable {
-    case swift, rust, c, cpp, go, typescript, javascript, python
+    case swift, rust, c, cpp, go, typescript, javascript, python, java, bun
     public var profile: String { "\(rawValue)-scalar-v1" }
     public var assumptions: [String] {
         switch self {
@@ -10,6 +10,8 @@ public enum SourceLanguage: String, Codable, Sendable, CaseIterable {
         case .swift: ["Swift; Int64/UInt64/Bool; unlabeled arguments; checked arithmetic"]
         case .typescript: ["TypeScript; primitive bigint/boolean inputs; no Number or coercion"]
         case .javascript: ["ECMAScript; all parameters/results are primitive BigInts; no Number or coercion"]
+        case .java: ["Java; one class of static int/long/boolean methods; 32/64-bit wrapping arithmetic; no implicit width conversions; long literals require L/l"]
+        case .bun: ["Bun JavaScript/TypeScript; primitive bigint/boolean; unannotated parameters/results are BigInts; no Number, coercion or runtime APIs"]
         case .python: ["Python 3; annotations specify exact built-in int/bool inputs, excluding subclasses; no dynamic rebinding"]
         }
     }
