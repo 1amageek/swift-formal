@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "profileID": "swift-6.4.1-macos-arm64-bootstrap-v0",
+  "generationSupported": false,
+  "entries": [],
+  "reason": "No SIL semantics, lowering, backends, or independent translation checker are implemented. An empty matrix grants no semantic coverage."
+}

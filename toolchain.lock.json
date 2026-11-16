@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "profileID": "swift-6.4.1-macos-arm64-bootstrap-v0",
+  "compilerVersion": "Apple Swift version 6.4.1 (swift-6.4.1-RELEASE)",
+  "compilerTag": "swift-6.4.1-RELEASE",
+  "targetTriple": "arm64-apple-macosx27.2.0",
+  "pointerWidth": 64,
+  "languageMode": "6",
+  "sdkVersion": "27.2",
+  "silStage": "canonical",
+  "optimization": "-Onone",
+  "ownership": "ossa",
+  "runtimeModel": "unimplemented",
+  "semanticsVersion": "unimplemented",
+  "generationSupported": false,
+  "skeletonRevision": "fb10ef666a30e892b9f3a4ca0740702c6c621d80"
+}

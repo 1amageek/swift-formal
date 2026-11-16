@@ -1,0 +1,328 @@
+sil_stage canonical
+
+import Builtin
+import Swift
+import SwiftShims
+
+public actor Inventory {
+  @_hasStorage public var stock: Int64 { get set }
+  public init(stock: Int64)
+  public func reserveBuggy() async -> Bool
+  public func reserveFixed() async -> Bool
+  @objc deinit
+  @_semantics("defaultActor") nonisolated final var unownedExecutor: UnownedSerialExecutor {
+    get
+  }
+}
+
+// main
+// Isolation: unspecified
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
+  %2 = integer_literal $Builtin.Int32, 0          // user: %3
+  %3 = struct $Int32 (%2)                         // user: %4
+  return %3                                       // id: %4
+} // end sil function 'main'
+
+// Inventory.stock.getter
+// Isolation: actor_instance. name: 'self'
+sil [transparent] @$s9InventoryAAC5stocks5Int64Vvg : $@convention(method) (@sil_isolated @guaranteed Inventory) -> Int64 {
+// %0 "self"                                      // users: %2, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  %2 = ref_element_addr %0, #Inventory.stock      // user: %3
+  %3 = begin_access [read] [dynamic] %2           // users: %4, %5
+  %4 = load %3                                    // user: %6
+  end_access %3                                   // id: %5
+  return %4                                       // id: %6
+} // end sil function '$s9InventoryAAC5stocks5Int64Vvg'
+
+// Inventory.stock.setter
+// Isolation: actor_instance. name: 'self'
+sil [transparent] @$s9InventoryAAC5stocks5Int64Vvs : $@convention(method) (Int64, @sil_isolated @guaranteed Inventory) -> () {
+// %0 "value"                                     // users: %6, %2
+// %1 "self"                                      // users: %4, %3
+bb0(%0 : $Int64, %1 : $Inventory):
+  debug_value %0, let, name "value", argno 1      // id: %2
+  debug_value %1, let, name "self", argno 2       // id: %3
+  %4 = ref_element_addr %1, #Inventory.stock      // user: %5
+  %5 = begin_access [modify] [dynamic] %4         // users: %6, %7
+  store %0 to %5                                  // id: %6
+  end_access %5                                   // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8                                       // id: %9
+} // end sil function '$s9InventoryAAC5stocks5Int64Vvs'
+
+// Inventory.stock.modify
+// Isolation: actor_instance. name: 'self'
+sil [transparent] @$s9InventoryAAC5stocks5Int64VvM : $@yield_once @convention(method) (@sil_isolated @guaranteed Inventory) -> @yields @inout Int64 {
+// %0 "self"                                      // users: %2, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  %2 = ref_element_addr %0, #Inventory.stock      // user: %3
+  %3 = begin_access [modify] [dynamic] %2         // users: %5, %8, %4
+  yield %3, resume bb1, unwind bb2                // id: %4
+
+bb1:                                              // Preds: bb0
+  end_access %3                                   // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6                                       // id: %7
+
+bb2:                                              // Preds: bb0
+  end_access %3                                   // id: %8
+  unwind                                          // id: %9
+} // end sil function '$s9InventoryAAC5stocks5Int64VvM'
+
+// Inventory.__allocating_init(stock:)
+// Isolation: nonisolated
+sil [exact_self_class] @$s9InventoryAAC5stockABs5Int64V_tcfC : $@convention(method) (Int64, @thick Inventory.Type) -> @owned Inventory {
+// %0 "stock"                                     // user: %4
+// %1 "$metatype"
+bb0(%0 : $Int64, %1 : $@thick Inventory.Type):
+  %2 = alloc_ref $Inventory                       // user: %4
+  // function_ref Inventory.init(stock:)
+  %3 = function_ref @$s9InventoryAAC5stockABs5Int64V_tcfc : $@convention(method) (Int64, @owned Inventory) -> @owned Inventory // user: %4
+  %4 = apply %3(%0, %2) : $@convention(method) (Int64, @owned Inventory) -> @owned Inventory // user: %5
+  return %4                                       // id: %5
+} // end sil function '$s9InventoryAAC5stockABs5Int64V_tcfC'
+
+// Inventory.init(stock:)
+// Isolation: nonisolated
+sil @$s9InventoryAAC5stockABs5Int64V_tcfc : $@convention(method) (Int64, @owned Inventory) -> @owned Inventory {
+// %0 "stock"                                     // users: %8, %2
+// %1 "self"                                      // users: %5, %4, %3
+bb0(%0 : $Int64, %1 : $Inventory):
+  debug_value %0, let, name "stock", argno 1      // id: %2
+  debug_value %1, let, name "self", argno 2       // id: %3
+  %4 = builtin "initializeDefaultActor"(%1) : $()
+  %5 = end_init_let_ref %1                        // users: %6, %10
+  %6 = ref_element_addr %5, #Inventory.stock      // user: %7
+  %7 = begin_access [init] [static] %6            // users: %8, %9
+  store %0 to %7                                  // id: %8
+  end_access %7                                   // id: %9
+  return %5                                       // id: %10
+} // end sil function '$s9InventoryAAC5stockABs5Int64V_tcfc'
+
+// Inventory.reserveBuggy()
+// Isolation: actor_instance. name: 'self'
+sil @$s9InventoryAAC12reserveBuggySbyYaF : $@convention(method) @async (@sil_isolated @guaranteed Inventory) -> Bool {
+// %0 "self"                                      // users: %15, %14, %12, %4, %3, %2, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  hop_to_executor %0                              // id: %2
+  %3 = class_method %0, #Inventory.stock!getter : (isolated Inventory) -> () -> Int64, $@convention(method) (@sil_isolated @guaranteed Inventory) -> Int64 // user: %4
+  %4 = apply %3(%0) : $@convention(method) (@sil_isolated @guaranteed Inventory) -> Int64 // user: %6
+  %5 = integer_literal $Builtin.Int64, 0          // user: %7
+  %6 = struct_extract %4, #Int64._value           // user: %7
+  %7 = builtin "cmp_slt_Int64"(%5, %6) : $Builtin.Int1 // user: %8
+  cond_br %7, bb1, bb2                            // id: %8
+
+bb1:                                              // Preds: bb0
+  %9 = metatype $@thin Task<Never, Never>.Type    // user: %11
+  // function_ref static Task<>.yield()
+  %10 = function_ref @$sScTss5NeverORszABRs_rlE5yieldyyYaFZ : $@convention(method) @async (@thin Task<Never, Never>.Type) -> () // user: %11
+  %11 = apply %10(%9) : $@convention(method) @async (@thin Task<Never, Never>.Type) -> ()
+  hop_to_executor %0                              // id: %12
+  %13 = integer_literal $Builtin.Int64, 1         // user: %20
+  %14 = class_method %0, #Inventory.stock!modify : (isolated Inventory) -> () -> (), $@yield_once @convention(method) (@sil_isolated @guaranteed Inventory) -> @yields @inout Int64 // user: %15
+  (%15, %16) = begin_apply %14(%0) : $@yield_once @convention(method) (@sil_isolated @guaranteed Inventory) -> @yields @inout Int64 // users: %25, %17, %26
+  %17 = struct_element_addr %15, #Int64._value    // user: %18
+  %18 = load %17                                  // user: %20
+  %19 = integer_literal $Builtin.Int1, -1         // user: %20
+  %20 = builtin "ssub_with_overflow_Int64"(%18, %13, %19) : $(Builtin.Int64, Builtin.Int1) // users: %22, %21
+  %21 = tuple_extract %20, 0                      // user: %24
+  %22 = tuple_extract %20, 1                      // user: %23
+  cond_fail %22, "arithmetic overflow"            // id: %23
+  %24 = struct $Int64 (%21)                       // user: %25
+  store %24 to %15                                // id: %25
+  %26 = end_apply %16 as $()
+  %27 = integer_literal $Builtin.Int1, -1         // user: %28
+  %28 = struct $Bool (%27)                        // user: %29
+  br bb3(%28)                                     // id: %29
+
+bb2:                                              // Preds: bb0
+  %30 = integer_literal $Builtin.Int1, 0          // user: %31
+  %31 = struct $Bool (%30)                        // user: %32
+  br bb3(%31)                                     // id: %32
+
+// %33                                            // user: %34
+bb3(%33 : $Bool):                                 // Preds: bb2 bb1
+  return %33                                      // id: %34
+} // end sil function '$s9InventoryAAC12reserveBuggySbyYaF'
+
+// Int64.init(_builtinIntegerLiteral:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V22_builtinIntegerLiteralABBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int64.Type) -> Int64 {
+// %0                                             // user: %2
+bb0(%0 : $Builtin.IntLiteral, %1 : $@thin Int64.Type):
+  %2 = builtin "s_to_s_checked_trunc_IntLiteral_Int64"(%0) : $(Builtin.Int64, Builtin.Int1) // user: %3
+  %3 = tuple_extract %2, 0                        // user: %4
+  %4 = struct $Int64 (%3)                         // user: %5
+  return %4                                       // id: %5
+} // end sil function '$ss5Int64V22_builtinIntegerLiteralABBI_tcfC'
+
+// static Int64.> infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V1goiySbAB_ABtFZ : $@convention(method) (Int64, Int64, @thin Int64.Type) -> Bool {
+// %0                                             // user: %4
+// %1                                             // user: %3
+bb0(%0 : $Int64, %1 : $Int64, %2 : $@thin Int64.Type):
+  %3 = struct_extract %1, #Int64._value           // user: %5
+  %4 = struct_extract %0, #Int64._value           // user: %5
+  %5 = builtin "cmp_slt_Int64"(%3, %4) : $Builtin.Int1 // user: %6
+  %6 = struct $Bool (%5)                          // user: %7
+  return %6                                       // id: %7
+} // end sil function '$ss5Int64V1goiySbAB_ABtFZ'
+
+// static Task<>.yield()
+// Isolation: unspecified
+sil [available 12.0.0] @$sScTss5NeverORszABRs_rlE5yieldyyYaFZ : $@convention(method) @async (@thin Task<Never, Never>.Type) -> ()
+
+// static Int64.-= infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V2seoiyyABz_ABtFZ : $@convention(method) (@inout Int64, Int64, @thin Int64.Type) -> () {
+// %0                                             // users: %12, %3
+// %1                                             // user: %5
+bb0(%0 : $*Int64, %1 : $Int64, %2 : $@thin Int64.Type):
+  %3 = struct_element_addr %0, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %7
+  %5 = struct_extract %1, #Int64._value           // user: %7
+  %6 = integer_literal $Builtin.Int1, -1          // user: %7
+  %7 = builtin "ssub_with_overflow_Int64"(%4, %5, %6) : $(Builtin.Int64, Builtin.Int1) // users: %9, %8
+  %8 = tuple_extract %7, 0                        // user: %11
+  %9 = tuple_extract %7, 1                        // user: %10
+  cond_fail %9, "arithmetic overflow"             // id: %10
+  %11 = struct $Int64 (%8)                        // user: %12
+  store %11 to %0                                 // id: %12
+  %13 = tuple ()                                  // user: %14
+  return %13                                      // id: %14
+} // end sil function '$ss5Int64V2seoiyyABz_ABtFZ'
+
+// Bool.init(_builtinBooleanLiteral:)
+// Isolation: unspecified
+sil public_external [transparent] [_semantics "bool.literal_init"] @$sSb22_builtinBooleanLiteralSbBi1__tcfC : $@convention(method) (Builtin.Int1, @thin Bool.Type) -> Bool {
+// %0                                             // user: %2
+bb0(%0 : $Builtin.Int1, %1 : $@thin Bool.Type):
+  %2 = struct $Bool (%0)                          // user: %3
+  return %2                                       // id: %3
+} // end sil function '$sSb22_builtinBooleanLiteralSbBi1__tcfC'
+
+// Inventory.reserveFixed()
+// Isolation: actor_instance. name: 'self'
+sil @$s9InventoryAAC12reserveFixedSbyYaF : $@convention(method) @async (@sil_isolated @guaranteed Inventory) -> Bool {
+// %0 "self"                                      // users: %11, %10, %4, %3, %2, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  hop_to_executor %0                              // id: %2
+  %3 = class_method %0, #Inventory.stock!getter : (isolated Inventory) -> () -> Int64, $@convention(method) (@sil_isolated @guaranteed Inventory) -> Int64 // user: %4
+  %4 = apply %3(%0) : $@convention(method) (@sil_isolated @guaranteed Inventory) -> Int64 // user: %6
+  %5 = integer_literal $Builtin.Int64, 0          // user: %7
+  %6 = struct_extract %4, #Int64._value           // user: %7
+  %7 = builtin "cmp_slt_Int64"(%5, %6) : $Builtin.Int1 // user: %8
+  cond_br %7, bb1, bb2                            // id: %8
+
+bb1:                                              // Preds: bb0
+  %9 = integer_literal $Builtin.Int64, 1          // user: %16
+  %10 = class_method %0, #Inventory.stock!modify : (isolated Inventory) -> () -> (), $@yield_once @convention(method) (@sil_isolated @guaranteed Inventory) -> @yields @inout Int64 // user: %11
+  (%11, %12) = begin_apply %10(%0) : $@yield_once @convention(method) (@sil_isolated @guaranteed Inventory) -> @yields @inout Int64 // users: %21, %13, %22
+  %13 = struct_element_addr %11, #Int64._value    // user: %14
+  %14 = load %13                                  // user: %16
+  %15 = integer_literal $Builtin.Int1, -1         // user: %16
+  %16 = builtin "ssub_with_overflow_Int64"(%14, %9, %15) : $(Builtin.Int64, Builtin.Int1) // users: %18, %17
+  %17 = tuple_extract %16, 0                      // user: %20
+  %18 = tuple_extract %16, 1                      // user: %19
+  cond_fail %18, "arithmetic overflow"            // id: %19
+  %20 = struct $Int64 (%17)                       // user: %21
+  store %20 to %11                                // id: %21
+  %22 = end_apply %12 as $()
+  %23 = integer_literal $Builtin.Int1, -1         // user: %24
+  %24 = struct $Bool (%23)                        // user: %25
+  br bb3(%24)                                     // id: %25
+
+bb2:                                              // Preds: bb0
+  %26 = integer_literal $Builtin.Int1, 0          // user: %27
+  %27 = struct $Bool (%26)                        // user: %28
+  br bb3(%27)                                     // id: %28
+
+// %29                                            // user: %30
+bb3(%29 : $Bool):                                 // Preds: bb2 bb1
+  return %29                                      // id: %30
+} // end sil function '$s9InventoryAAC12reserveFixedSbyYaF'
+
+// Inventory.deinit
+// Isolation: unspecified
+sil @$s9InventoryAACfd : $@convention(method) (@guaranteed Inventory) -> @owned Builtin.NativeObject {
+// %0 "self"                                      // users: %3, %2, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  %2 = builtin "destroyDefaultActor"(%0) : $()
+  %3 = unchecked_ref_cast %0 to $Builtin.NativeObject // user: %4
+  return %3                                       // id: %4
+} // end sil function '$s9InventoryAACfd'
+
+// Inventory.__deallocating_deinit
+// Isolation: nonisolated
+sil @$s9InventoryAACfD : $@convention(method) (@owned Inventory) -> () {
+// %0 "self"                                      // users: %3, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  // function_ref Inventory.deinit
+  %2 = function_ref @$s9InventoryAACfd : $@convention(method) (@guaranteed Inventory) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2(%0) : $@convention(method) (@guaranteed Inventory) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 to $Inventory        // user: %5
+  dealloc_ref %4                                  // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6                                       // id: %7
+} // end sil function '$s9InventoryAACfD'
+
+// Inventory.unownedExecutor.getter
+// Isolation: nonisolated
+sil [_semantics "defaultActor"] @$s9InventoryAAC15unownedExecutorScevg : $@convention(method) (@guaranteed Inventory) -> UnownedSerialExecutor {
+// %0 "self"                                      // users: %3, %1
+bb0(%0 : $Inventory):
+  debug_value %0, let, name "self", argno 1       // id: %1
+  %2 = metatype $@thin UnownedSerialExecutor.Type // user: %5
+  %3 = builtin "buildDefaultActorExecutorRef"<Inventory>(%0) : $Builtin.Executor // user: %5
+  // function_ref UnownedSerialExecutor.init(_:)
+  %4 = function_ref @$sSceySceBecfC : $@convention(method) (Builtin.Executor, @thin UnownedSerialExecutor.Type) -> UnownedSerialExecutor // user: %5
+  %5 = apply %4(%3, %2) : $@convention(method) (Builtin.Executor, @thin UnownedSerialExecutor.Type) -> UnownedSerialExecutor // user: %6
+  return %5                                       // id: %6
+} // end sil function '$s9InventoryAAC15unownedExecutorScevg'
+
+// UnownedSerialExecutor.init(_:)
+// Isolation: unspecified
+sil [available 12.0.0] @$sSceySceBecfC : $@convention(method) (Builtin.Executor, @thin UnownedSerialExecutor.Type) -> UnownedSerialExecutor
+
+// protocol witness for Actor.unownedExecutor.getter in conformance Inventory
+// Isolation: nonisolated
+sil shared [transparent] [thunk] @$s9InventoryAACScAAAScA15unownedExecutorScevgTW : $@convention(witness_method: Actor) (@guaranteed Inventory) -> UnownedSerialExecutor {
+// %0                                             // user: %2
+bb0(%0 : $Inventory):
+  // function_ref Inventory.unownedExecutor.getter
+  %1 = function_ref @$s9InventoryAAC15unownedExecutorScevg : $@convention(method) (@guaranteed Inventory) -> UnownedSerialExecutor // user: %2
+  %2 = apply %1(%0) : $@convention(method) (@guaranteed Inventory) -> UnownedSerialExecutor // user: %3
+  return %2                                       // id: %3
+} // end sil function '$s9InventoryAACScAAAScA15unownedExecutorScevgTW'
+
+sil_vtable Inventory {
+  #Inventory.stock!getter: (isolated Inventory) -> () -> Int64 : @$s9InventoryAAC5stocks5Int64Vvg	// Inventory.stock.getter
+  #Inventory.stock!setter: (isolated Inventory) -> (Int64) -> () : @$s9InventoryAAC5stocks5Int64Vvs	// Inventory.stock.setter
+  #Inventory.stock!modify: (isolated Inventory) -> () -> () : @$s9InventoryAAC5stocks5Int64VvM	// Inventory.stock.modify
+  #Inventory.init!allocator: (Inventory.Type) -> (Int64) -> Inventory : @$s9InventoryAAC5stockABs5Int64V_tcfC	// Inventory.__allocating_init(stock:)
+  #Inventory.reserveBuggy: (isolated Inventory) -> () async -> Bool : @$s9InventoryAAC12reserveBuggySbyYaF	// Inventory.reserveBuggy()
+  #Inventory.reserveFixed: (isolated Inventory) -> () async -> Bool : @$s9InventoryAAC12reserveFixedSbyYaF	// Inventory.reserveFixed()
+  #Inventory.deinit!deallocator: @$s9InventoryAACfD	// Inventory.__deallocating_deinit
+}
+
+sil_witness_table Inventory: Actor module Inventory {
+  method #Actor.unownedExecutor!getter: <Self where Self : Actor> (Self) -> () -> UnownedSerialExecutor : @$s9InventoryAACScAAAScA15unownedExecutorScevgTW	// protocol witness for Actor.unownedExecutor.getter in conformance Inventory
+}
+
+sil_property #Inventory.stock ()
+sil_property #Inventory.unownedExecutor ()
+
+
+// Mappings from '#fileID' to '#filePath':
+//   'Inventory/Inventory.swift' => 'Fixtures/Swift/Inventory.swift'
+
+

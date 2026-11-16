@@ -1,0 +1,7 @@
+.build/
+.swiftpm/
+.tools/
+.DS_Store
+*.silbundle/
+Generated/
+__pycache__/

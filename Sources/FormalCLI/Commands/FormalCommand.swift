@@ -1,0 +1,122 @@
+import FormalCore
+import FormalIndex
+import Foundation
+
+public struct FormalCommand: Sendable {
+    private let compiler: any CompilerProbing
+    private let indexer: any SourceIndexing
+    private let bundles: any BundleInspecting
+
+    public init(
+        compiler: any CompilerProbing = LocalCompilerProbe(),
+        indexer: any SourceIndexing = SkeletonSourceIndexer(),
+        bundles: any BundleInspecting = BundleInspector()
+    ) {
+        self.compiler = compiler
+        self.indexer = indexer
+        self.bundles = bundles
+    }
+
+    public func run(arguments: [String]) async -> CommandResult {
+        do { return try await execute(arguments) }
+        catch let diagnostic as FormalDiagnostic {
+            return failure(diagnostic)
+        } catch {
+            return failure(FormalDiagnostic(.ioFailure, "Operation failed: \(error)"))
+        }
+    }
+
+    private func execute(_ arguments: [String]) async throws -> CommandResult {
+        guard let command = arguments.first else { return CommandResult(standardOutput: Self.help) }
+        switch command {
+        case "--help", "-h", "help":
+            guard arguments.count == 1 else { throw invalidArguments() }
+            return CommandResult(standardOutput: Self.help)
+        case "--version":
+            guard arguments.count == 1 else { throw invalidArguments() }
+            return CommandResult(standardOutput: "swift-formal 0.1.0-bootstrap\n")
+        case "doctor":
+            let options = try options(Array(arguments.dropFirst()), required: ["--toolchain-lock"])
+            let lock = try loadLock(options["--toolchain-lock"]!)
+            let identity = try await compiler.probe()
+            let report = try DoctorReport(lock: lock, compiler: identity)
+            return try json(report)
+        case "inspect-bundle":
+            let options = try options(Array(arguments.dropFirst()), required: ["--bundle", "--toolchain-lock"])
+            let lock = try loadLock(options["--toolchain-lock"]!)
+            let root = URL(fileURLWithPath: options["--bundle"]!)
+            let report = try bundles.inspect(at: root, expectedLock: lock)
+            return try json(report)
+        case "index":
+            let options = try options(Array(arguments.dropFirst()), required: ["--source"])
+            let path = options["--source"]!
+            let data = try ArtifactJSON.readBytes(from: URL(fileURLWithPath: path), maximumBytes: 4_194_304)
+            guard let source = String(data: data, encoding: .utf8) else {
+                throw FormalDiagnostic(.invalidArguments, "Swift source must be UTF-8.", path: path)
+            }
+            let index = try indexer.index(source: source, path: path)
+            return try json(index)
+        case "capture", "generate", "validate", "check", "coverage", "replay":
+            // FIXME(INCOMPLETE_IMPLEMENTATION): The bootstrap CLI routes these public commands here.
+            // SIL capture, semantics, both emitters, and independent validation are not implemented.
+            // Do not return success until the corresponding specification acceptance tests pass.
+            throw FormalDiagnostic(.unsupportedOperation, "\(command) is not implemented in this bootstrap package; no artifacts or verification results were produced.")
+        default:
+            throw FormalDiagnostic(.invalidArguments, "Unknown command: \(command)")
+        }
+    }
+
+    private func options(_ arguments: [String], required: Set<String>) throws -> [String: String] {
+        guard arguments.count == required.count * 2 else { throw invalidArguments() }
+        var result: [String: String] = [:]
+        for offset in stride(from: 0, to: arguments.count, by: 2) {
+            let key = arguments[offset]
+            let value = arguments[offset + 1]
+            guard required.contains(key), result[key] == nil, !value.isEmpty, !value.hasPrefix("--") else {
+                throw invalidArguments()
+            }
+            result[key] = value
+        }
+        guard Set(result.keys) == required else { throw invalidArguments() }
+        return result
+    }
+
+    private func loadLock(_ path: String) throws -> ToolchainLock {
+        let lock = try ArtifactJSON.read(ToolchainLock.self, from: URL(fileURLWithPath: path))
+        try lock.validate()
+        return lock
+    }
+
+    private func invalidArguments() -> FormalDiagnostic {
+        FormalDiagnostic(.invalidArguments, "Invalid, duplicate, or missing arguments. Run swift-formal --help.")
+    }
+
+    private func json<Value: Encodable>(_ value: Value) throws -> CommandResult {
+        let data = try ArtifactJSON.encode(value)
+        return CommandResult(standardOutput: String(decoding: data, as: UTF8.self))
+    }
+
+    private func failure(_ diagnostic: FormalDiagnostic) -> CommandResult {
+        do {
+            let data = try ArtifactJSON.encode(diagnostic)
+            return CommandResult(exitCode: diagnostic.exitCode, standardError: String(decoding: data, as: UTF8.self))
+        } catch {
+            return CommandResult(exitCode: 7, standardError: "IO_FAILURE: Cannot encode diagnostic: \(error)\n")
+        }
+    }
+
+    private static let help = """
+    swift-formal 0.1.0-bootstrap
+    Usage:
+      swift-formal doctor --toolchain-lock <path>
+      swift-formal inspect-bundle --bundle <path> --toolchain-lock <path>
+      swift-formal index --source <path>
+      swift-formal --version
+      swift-formal --help
+
+    capture, generate, validate, check, coverage, replay: not implemented (exit 3).
+    Bundle inspection checks metadata and hashes, not SIL semantics.
+    No TLA+ or Lean generation, translation validation, or property proof is available.
+
+    """
+}

@@ -1,0 +1,877 @@
+sil_stage canonical
+
+import Builtin
+import Swift
+import SwiftShims
+
+public func subtract(_ lhs: Int64, _ rhs: Int64) -> Int64
+
+public func wrappingSubtract(_ lhs: Int64, _ rhs: Int64) -> Int64
+
+public func choose(_ value: Int64) -> Int64
+
+public func call(_ lhs: Int64, _ rhs: Int64) -> Int64
+
+public func loop(_ count: Int64) -> Int64
+
+// main
+// Isolation: unspecified
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
+  %2 = integer_literal $Builtin.Int32, 0          // user: %3
+  %3 = struct $Int32 (%2)                         // user: %4
+  return %3                                       // id: %4
+} // end sil function 'main'
+
+// subtract(_:_:)
+// Isolation: unspecified
+sil @$s4Core8subtractys5Int64VAD_ADtF : $@convention(thin) (Int64, Int64) -> Int64 {
+// %0 "lhs"                                       // users: %4, %2
+// %1 "rhs"                                       // users: %5, %3
+bb0(%0 : $Int64, %1 : $Int64):
+  debug_value %0, let, name "lhs", argno 1        // id: %2
+  debug_value %1, let, name "rhs", argno 2        // id: %3
+  %4 = struct_extract %0, #Int64._value           // user: %7
+  %5 = struct_extract %1, #Int64._value           // user: %7
+  %6 = integer_literal $Builtin.Int1, -1          // user: %7
+  %7 = builtin "ssub_with_overflow_Int64"(%4, %5, %6) : $(Builtin.Int64, Builtin.Int1) // users: %9, %8
+  %8 = tuple_extract %7, 0                        // user: %11
+  %9 = tuple_extract %7, 1                        // user: %10
+  cond_fail %9, "arithmetic overflow"             // id: %10
+  %11 = struct $Int64 (%8)                        // user: %12
+  return %11                                      // id: %12
+} // end sil function '$s4Core8subtractys5Int64VAD_ADtF'
+
+// static Int64.- infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V1soiyA2B_ABtFZ : $@convention(method) (Int64, Int64, @thin Int64.Type) -> Int64 {
+// %0                                             // user: %3
+// %1                                             // user: %4
+bb0(%0 : $Int64, %1 : $Int64, %2 : $@thin Int64.Type):
+  %3 = struct_extract %0, #Int64._value           // user: %6
+  %4 = struct_extract %1, #Int64._value           // user: %6
+  %5 = integer_literal $Builtin.Int1, -1          // user: %6
+  %6 = builtin "ssub_with_overflow_Int64"(%3, %4, %5) : $(Builtin.Int64, Builtin.Int1) // users: %8, %7
+  %7 = tuple_extract %6, 0                        // user: %10
+  %8 = tuple_extract %6, 1                        // user: %9
+  cond_fail %8, "arithmetic overflow"             // id: %9
+  %10 = struct $Int64 (%7)                        // user: %11
+  return %10                                      // id: %11
+} // end sil function '$ss5Int64V1soiyA2B_ABtFZ'
+
+// wrappingSubtract(_:_:)
+// Isolation: unspecified
+sil @$s4Core16wrappingSubtractys5Int64VAD_ADtF : $@convention(thin) (Int64, Int64) -> Int64 {
+// %0 "lhs"                                       // users: %4, %2
+// %1 "rhs"                                       // users: %5, %3
+bb0(%0 : $Int64, %1 : $Int64):
+  debug_value %0, let, name "lhs", argno 1        // id: %2
+  debug_value %1, let, name "rhs", argno 2        // id: %3
+  %4 = struct_extract %0, #Int64._value           // user: %7
+  %5 = struct_extract %1, #Int64._value           // user: %7
+  %6 = integer_literal $Builtin.Int1, 0           // user: %7
+  %7 = builtin "ssub_with_overflow_Int64"(%4, %5, %6) : $(Builtin.Int64, Builtin.Int1) // user: %8
+  %8 = tuple_extract %7, 0                        // user: %9
+  %9 = struct $Int64 (%8)                         // user: %10
+  return %9                                       // id: %10
+} // end sil function '$s4Core16wrappingSubtractys5Int64VAD_ADtF'
+
+// static FixedWidthInteger.&- infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss17FixedWidthIntegerPsE2asoiyxx_xtFZ : $@convention(method) <Self where Self : FixedWidthInteger> (@in_guaranteed Self, @in_guaranteed Self, @thick Self.Type) -> @out Self {
+// %0                                             // user: %5
+// %1                                             // user: %5
+// %2                                             // user: %5
+bb0(%0 : $*Self, %1 : $*Self, %2 : $*Self, %3 : $@thick Self.Type):
+  %4 = witness_method $Self, #FixedWidthInteger.subtractingReportingOverflow : <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : $@convention(witness_method: FixedWidthInteger) <τ_0_0 where τ_0_0 : FixedWidthInteger> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> (@out τ_0_0, Bool) // user: %5
+  %5 = apply %4<Self>(%0, %2, %1) : $@convention(witness_method: FixedWidthInteger) <τ_0_0 where τ_0_0 : FixedWidthInteger> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> (@out τ_0_0, Bool)
+  %6 = tuple ()                                   // user: %7
+  return %6                                       // id: %7
+} // end sil function '$ss17FixedWidthIntegerPsE2asoiyxx_xtFZ'
+
+// choose(_:)
+// Isolation: unspecified
+sil @$s4Core6chooseys5Int64VADF : $@convention(thin) (Int64) -> Int64 {
+// %0 "value"                                     // users: %7, %3, %6, %1
+bb0(%0 : $Int64):
+  debug_value %0, let, name "value", argno 1      // id: %1
+  %2 = integer_literal $Builtin.Int64, 0          // user: %4
+  %3 = struct_extract %0, #Int64._value           // user: %4
+  %4 = builtin "cmp_slt_Int64"(%2, %3) : $Builtin.Int1 // user: %5
+  cond_br %4, bb1, bb2                            // id: %5
+
+bb1:                                              // Preds: bb0
+  br bb3(%0)                                      // id: %6
+
+bb2:                                              // Preds: bb0
+  %7 = struct_extract %0, #Int64._value           // user: %10
+  %8 = integer_literal $Builtin.Int64, 0          // user: %10
+  %9 = integer_literal $Builtin.Int1, -1          // user: %10
+  %10 = builtin "ssub_with_overflow_Int64"(%8, %7, %9) : $(Builtin.Int64, Builtin.Int1) // users: %12, %11
+  %11 = tuple_extract %10, 0                      // user: %14
+  %12 = tuple_extract %10, 1                      // user: %13
+  cond_fail %12, "arithmetic overflow"            // id: %13
+  %14 = struct $Int64 (%11)                       // user: %15
+  br bb3(%14)                                     // id: %15
+
+// %16                                            // user: %17
+bb3(%16 : $Int64):                                // Preds: bb2 bb1
+  return %16                                      // id: %17
+} // end sil function '$s4Core6chooseys5Int64VADF'
+
+// Int64.init(_builtinIntegerLiteral:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V22_builtinIntegerLiteralABBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int64.Type) -> Int64 {
+// %0                                             // user: %2
+bb0(%0 : $Builtin.IntLiteral, %1 : $@thin Int64.Type):
+  %2 = builtin "s_to_s_checked_trunc_IntLiteral_Int64"(%0) : $(Builtin.Int64, Builtin.Int1) // user: %3
+  %3 = tuple_extract %2, 0                        // user: %4
+  %4 = struct $Int64 (%3)                         // user: %5
+  return %4                                       // id: %5
+} // end sil function '$ss5Int64V22_builtinIntegerLiteralABBI_tcfC'
+
+// static Int64.> infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V1goiySbAB_ABtFZ : $@convention(method) (Int64, Int64, @thin Int64.Type) -> Bool {
+// %0                                             // user: %4
+// %1                                             // user: %3
+bb0(%0 : $Int64, %1 : $Int64, %2 : $@thin Int64.Type):
+  %3 = struct_extract %1, #Int64._value           // user: %5
+  %4 = struct_extract %0, #Int64._value           // user: %5
+  %5 = builtin "cmp_slt_Int64"(%3, %4) : $Builtin.Int1 // user: %6
+  %6 = struct $Bool (%5)                          // user: %7
+  return %6                                       // id: %7
+} // end sil function '$ss5Int64V1goiySbAB_ABtFZ'
+
+// call(_:_:)
+// Isolation: unspecified
+sil @$s4Core4callys5Int64VAD_ADtF : $@convention(thin) (Int64, Int64) -> Int64 {
+// %0 "lhs"                                       // users: %5, %2
+// %1 "rhs"                                       // users: %5, %3
+bb0(%0 : $Int64, %1 : $Int64):
+  debug_value %0, let, name "lhs", argno 1        // id: %2
+  debug_value %1, let, name "rhs", argno 2        // id: %3
+  // function_ref subtract(_:_:)
+  %4 = function_ref @$s4Core8subtractys5Int64VAD_ADtF : $@convention(thin) (Int64, Int64) -> Int64 // user: %5
+  %5 = apply %4(%0, %1) : $@convention(thin) (Int64, Int64) -> Int64 // user: %6
+  return %5                                       // id: %6
+} // end sil function '$s4Core4callys5Int64VAD_ADtF'
+
+// loop(_:)
+// Isolation: unspecified
+sil @$s4Core4loopys5Int64VADF : $@convention(thin) (Int64) -> Int64 {
+// %0 "count"                                     // users: %16, %1
+bb0(%0 : $Int64):
+  debug_value %0, let, name "count", argno 1      // id: %1
+  %2 = alloc_stack [var_decl] $Int64, var, name "total", type $Int64 // users: %5, %22, %40, %43
+  %3 = integer_literal $Builtin.Int64, 0          // user: %4
+  %4 = struct $Int64 (%3)                         // users: %5, %10
+  store %4 to %2                                  // id: %5
+  %6 = alloc_stack [var_decl] $Int64, var, name "index", type $Int64 // users: %9, %13, %19, %31, %42
+  %7 = integer_literal $Builtin.Int64, 0          // user: %8
+  %8 = struct $Int64 (%7)                         // users: %9, %10
+  store %8 to %6                                  // id: %9
+  br bb1(%4, %8)                                  // id: %10
+
+// %11                                            // users: %23, %44
+// %12                                            // users: %32, %21, %15
+// Loop header
+bb1(%11 : $Int64, %12 : $Int64):                  // Preds: bb2 bb0
+  %13 = begin_access [read] [static] %6           // user: %14
+  end_access %13                                  // id: %14
+  %15 = struct_extract %12, #Int64._value         // user: %17
+  %16 = struct_extract %0, #Int64._value          // user: %17
+  %17 = builtin "cmp_slt_Int64"(%15, %16) : $Builtin.Int1 // user: %18
+  cond_br %17, bb2, bb3                           // id: %18
+
+bb2:                                              // Preds: bb1
+  %19 = begin_access [read] [static] %6           // user: %20
+  end_access %19                                  // id: %20
+  %21 = struct_extract %12, #Int64._value         // user: %25
+  %22 = begin_access [modify] [static] %2         // users: %28, %29
+  %23 = struct_extract %11, #Int64._value         // user: %25
+  %24 = integer_literal $Builtin.Int1, 0          // user: %25
+  %25 = builtin "sadd_with_overflow_Int64"(%23, %21, %24) : $(Builtin.Int64, Builtin.Int1) // user: %26
+  %26 = tuple_extract %25, 0                      // user: %27
+  %27 = struct $Int64 (%26)                       // users: %28, %39
+  store %27 to %22                                // id: %28
+  end_access %22                                  // id: %29
+  %30 = integer_literal $Builtin.Int64, 1         // user: %34
+  %31 = begin_access [modify] [static] %6         // users: %37, %38
+  %32 = struct_extract %12, #Int64._value         // user: %34
+  %33 = integer_literal $Builtin.Int1, 0          // user: %34
+  %34 = builtin "sadd_with_overflow_Int64"(%32, %30, %33) : $(Builtin.Int64, Builtin.Int1) // user: %35
+  %35 = tuple_extract %34, 0                      // user: %36
+  %36 = struct $Int64 (%35)                       // users: %37, %39
+  store %36 to %31                                // id: %37
+  end_access %31                                  // id: %38
+  br bb1(%27, %36)                                // id: %39
+
+bb3:                                              // Preds: bb1
+  %40 = begin_access [read] [static] %2           // user: %41
+  end_access %40                                  // id: %41
+  dealloc_stack %6                                // id: %42
+  dealloc_stack %2                                // id: %43
+  return %11                                      // id: %44
+} // end sil function '$s4Core4loopys5Int64VADF'
+
+// static Int64.< infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss5Int64V1loiySbAB_ABtFZ : $@convention(method) (Int64, Int64, @thin Int64.Type) -> Bool {
+// %0                                             // user: %3
+// %1                                             // user: %4
+bb0(%0 : $Int64, %1 : $Int64, %2 : $@thin Int64.Type):
+  %3 = struct_extract %0, #Int64._value           // user: %5
+  %4 = struct_extract %1, #Int64._value           // user: %5
+  %5 = builtin "cmp_slt_Int64"(%3, %4) : $Builtin.Int1 // user: %6
+  %6 = struct $Bool (%5)                          // user: %7
+  return %6                                       // id: %7
+} // end sil function '$ss5Int64V1loiySbAB_ABtFZ'
+
+// static FixedWidthInteger.&+= infix(_:_:)
+// Isolation: unspecified
+sil public_external [transparent] @$ss17FixedWidthIntegerPsE3apeoiyyxz_xtFZ : $@convention(method) <Self where Self : FixedWidthInteger> (@inout Self, @in_guaranteed Self, @thick Self.Type) -> () {
+// %0                                             // users: %6, %4
+// %1                                             // user: %6
+bb0(%0 : $*Self, %1 : $*Self, %2 : $@thick Self.Type):
+  %3 = alloc_stack $Self                          // users: %8, %7, %6, %4
+  copy_addr [take] %0 to [init] %3                // id: %4
+  %5 = witness_method $Self, #FixedWidthInteger.addingReportingOverflow : <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : $@convention(witness_method: FixedWidthInteger) <τ_0_0 where τ_0_0 : FixedWidthInteger> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> (@out τ_0_0, Bool) // user: %6
+  %6 = apply %5<Self>(%0, %1, %3) : $@convention(witness_method: FixedWidthInteger) <τ_0_0 where τ_0_0 : FixedWidthInteger> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0) -> (@out τ_0_0, Bool)
+  destroy_addr %3                                 // id: %7
+  dealloc_stack %3                                // id: %8
+  %9 = tuple ()                                   // user: %10
+  return %9                                       // id: %10
+} // end sil function '$ss17FixedWidthIntegerPsE3apeoiyyxz_xtFZ'
+
+// protocol witness for static FixedWidthInteger.bitWidth.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP03bitC0SivgZTW : $@convention(witness_method: FixedWidthInteger) (@thick Int64.Type) -> Int {
+bb0(%0 : $@thick Int64.Type):
+  %1 = integer_literal $Builtin.Int64, 64         // user: %2
+  %2 = struct $Int (%1)                           // user: %3
+  return %2                                       // id: %3
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP03bitC0SivgZTW'
+
+// protocol witness for static FixedWidthInteger.max.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP3maxxvgZTW : $@convention(witness_method: FixedWidthInteger) (@thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %4
+bb0(%0 : $*Int64, %1 : $@thick Int64.Type):
+  %2 = integer_literal $Builtin.Int64, 9223372036854775807 // user: %3
+  %3 = struct $Int64 (%2)                         // user: %4
+  store %3 to %0                                  // id: %4
+  %5 = tuple ()                                   // user: %6
+  return %5                                       // id: %6
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP3maxxvgZTW'
+
+// protocol witness for static FixedWidthInteger.min.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP3minxvgZTW : $@convention(witness_method: FixedWidthInteger) (@thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %4
+bb0(%0 : $*Int64, %1 : $@thick Int64.Type):
+  %2 = integer_literal $Builtin.Int64, -9223372036854775808 // user: %3
+  %3 = struct $Int64 (%2)                         // user: %4
+  store %3 to %0                                  // id: %4
+  %5 = tuple ()                                   // user: %6
+  return %5                                       // id: %6
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP3minxvgZTW'
+
+// protocol witness for FixedWidthInteger.addingReportingOverflow(_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP23addingReportingOverflowyx12partialValue_Sb8overflowtxFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64) -> (@out Int64, Bool) {
+// %0                                             // user: %13
+// %1                                             // user: %3
+// %2                                             // user: %5
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %8
+  %5 = struct_element_addr %2, #Int64._value      // user: %6
+  %6 = load %5                                    // user: %8
+  %7 = integer_literal $Builtin.Int1, 0           // user: %8
+  %8 = builtin "sadd_with_overflow_Int64"(%6, %4, %7) : $(Builtin.Int64, Builtin.Int1) // users: %10, %9
+  %9 = tuple_extract %8, 0                        // user: %11
+  %10 = tuple_extract %8, 1                       // user: %12
+  %11 = struct $Int64 (%9)                        // user: %13
+  %12 = struct $Bool (%10)                        // user: %14
+  store %11 to %0                                 // id: %13
+  return %12                                      // id: %14
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP23addingReportingOverflowyx12partialValue_Sb8overflowtxFTW'
+
+// protocol witness for FixedWidthInteger.subtractingReportingOverflow(_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP28subtractingReportingOverflowyx12partialValue_Sb8overflowtxFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64) -> (@out Int64, Bool) {
+// %0                                             // user: %13
+// %1                                             // user: %3
+// %2                                             // user: %5
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %8
+  %5 = struct_element_addr %2, #Int64._value      // user: %6
+  %6 = load %5                                    // user: %8
+  %7 = integer_literal $Builtin.Int1, 0           // user: %8
+  %8 = builtin "ssub_with_overflow_Int64"(%6, %4, %7) : $(Builtin.Int64, Builtin.Int1) // users: %10, %9
+  %9 = tuple_extract %8, 0                        // user: %11
+  %10 = tuple_extract %8, 1                       // user: %12
+  %11 = struct $Int64 (%9)                        // user: %13
+  %12 = struct $Bool (%10)                        // user: %14
+  store %11 to %0                                 // id: %13
+  return %12                                      // id: %14
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP28subtractingReportingOverflowyx12partialValue_Sb8overflowtxFTW'
+
+// protocol witness for FixedWidthInteger.multipliedReportingOverflow(by:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP27multipliedReportingOverflow2byx12partialValue_Sb8overflowtx_tFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64) -> (@out Int64, Bool) {
+// %0                                             // user: %13
+// %1                                             // user: %3
+// %2                                             // user: %5
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %8
+  %5 = struct_element_addr %2, #Int64._value      // user: %6
+  %6 = load %5                                    // user: %8
+  %7 = integer_literal $Builtin.Int1, 0           // user: %8
+  %8 = builtin "smul_with_overflow_Int64"(%6, %4, %7) : $(Builtin.Int64, Builtin.Int1) // users: %10, %9
+  %9 = tuple_extract %8, 0                        // user: %11
+  %10 = tuple_extract %8, 1                       // user: %12
+  %11 = struct $Int64 (%9)                        // user: %13
+  %12 = struct $Bool (%10)                        // user: %14
+  store %11 to %0                                 // id: %13
+  return %12                                      // id: %14
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP27multipliedReportingOverflow2byx12partialValue_Sb8overflowtx_tFTW'
+
+// protocol witness for FixedWidthInteger.dividedReportingOverflow(by:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP24dividedReportingOverflow2byx12partialValue_Sb8overflowtx_tFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64) -> (@out Int64, Bool) {
+// %0                                             // user: %31
+// %1                                             // user: %3
+// %2                                             // user: %5
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // users: %7, %17, %21
+  %5 = load %2                                    // users: %12, %25, %27
+  %6 = integer_literal $Builtin.Int64, 0          // user: %7
+  %7 = builtin "cmp_eq_Int64"(%4, %6) : $Builtin.Int1 // user: %9
+  %8 = integer_literal $Builtin.Int1, 0           // users: %23, %18, %9
+  %9 = builtin "int_expect_Int1"(%7, %8) : $Builtin.Int1 // user: %10
+  cond_br %9, bb7, bb1                            // id: %10
+
+bb1:                                              // Preds: bb0
+  %11 = integer_literal $Builtin.Int64, -9223372036854775808 // user: %13
+  %12 = struct_extract %5, #Int64._value          // users: %21, %13
+  %13 = builtin "cmp_eq_Int64"(%12, %11) : $Builtin.Int1 // user: %14
+  cond_br %13, bb3, bb2                           // id: %14
+
+bb2:                                              // Preds: bb1
+  br bb5                                          // id: %15
+
+bb3:                                              // Preds: bb1
+  %16 = integer_literal $Builtin.Int64, -1        // user: %17
+  %17 = builtin "cmp_eq_Int64"(%4, %16) : $Builtin.Int1 // user: %18
+  %18 = builtin "int_expect_Int1"(%17, %8) : $Builtin.Int1 // user: %19
+  cond_br %18, bb6, bb4                           // id: %19
+
+bb4:                                              // Preds: bb3
+  br bb5                                          // id: %20
+
+bb5:                                              // Preds: bb4 bb2
+  %21 = builtin "sdiv_Int64"(%12, %4) : $Builtin.Int64 // user: %22
+  %22 = struct $Int64 (%21)                       // user: %23
+  br bb8(%22, %8)                                 // id: %23
+
+bb6:                                              // Preds: bb3
+  %24 = integer_literal $Builtin.Int1, -1         // user: %25
+  br bb8(%5, %24)                                 // id: %25
+
+bb7:                                              // Preds: bb0
+  %26 = integer_literal $Builtin.Int1, -1         // user: %27
+  br bb8(%5, %26)                                 // id: %27
+
+// %28                                            // user: %31
+// %29                                            // user: %30
+bb8(%28 : $Int64, %29 : $Builtin.Int1):           // Preds: bb7 bb6 bb5
+  %30 = struct $Bool (%29)                        // user: %32
+  store %28 to %0                                 // id: %31
+  return %30                                      // id: %32
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP24dividedReportingOverflow2byx12partialValue_Sb8overflowtx_tFTW'
+
+// protocol witness for FixedWidthInteger.remainderReportingOverflow(dividingBy:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP26remainderReportingOverflow10dividingByx12partialValue_Sb8overflowtx_tFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64) -> (@out Int64, Bool) {
+// %0                                             // user: %32
+// %1                                             // user: %3
+// %2                                             // user: %5
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // users: %7, %17, %21
+  %5 = load %2                                    // users: %12, %28
+  %6 = integer_literal $Builtin.Int64, 0          // users: %24, %7
+  %7 = builtin "cmp_eq_Int64"(%4, %6) : $Builtin.Int1 // user: %9
+  %8 = integer_literal $Builtin.Int1, 0           // users: %23, %18, %9
+  %9 = builtin "int_expect_Int1"(%7, %8) : $Builtin.Int1 // user: %10
+  cond_br %9, bb7, bb1                            // id: %10
+
+bb1:                                              // Preds: bb0
+  %11 = integer_literal $Builtin.Int64, -9223372036854775808 // user: %13
+  %12 = struct_extract %5, #Int64._value          // users: %21, %13
+  %13 = builtin "cmp_eq_Int64"(%12, %11) : $Builtin.Int1 // user: %14
+  cond_br %13, bb3, bb2                           // id: %14
+
+bb2:                                              // Preds: bb1
+  br bb5                                          // id: %15
+
+bb3:                                              // Preds: bb1
+  %16 = integer_literal $Builtin.Int64, -1        // user: %17
+  %17 = builtin "cmp_eq_Int64"(%4, %16) : $Builtin.Int1 // user: %18
+  %18 = builtin "int_expect_Int1"(%17, %8) : $Builtin.Int1 // user: %19
+  cond_br %18, bb6, bb4                           // id: %19
+
+bb4:                                              // Preds: bb3
+  br bb5                                          // id: %20
+
+bb5:                                              // Preds: bb4 bb2
+  %21 = builtin "srem_Int64"(%12, %4) : $Builtin.Int64 // user: %22
+  %22 = struct $Int64 (%21)                       // user: %23
+  br bb8(%22, %8)                                 // id: %23
+
+bb6:                                              // Preds: bb3
+  %24 = struct $Int64 (%6)                        // user: %26
+  %25 = integer_literal $Builtin.Int1, -1         // user: %26
+  br bb8(%24, %25)                                // id: %26
+
+bb7:                                              // Preds: bb0
+  %27 = integer_literal $Builtin.Int1, -1         // user: %28
+  br bb8(%5, %27)                                 // id: %28
+
+// %29                                            // user: %32
+// %30                                            // user: %31
+bb8(%29 : $Int64, %30 : $Builtin.Int1):           // Preds: bb7 bb6 bb5
+  %31 = struct $Bool (%30)                        // user: %33
+  store %29 to %0                                 // id: %32
+  return %31                                      // id: %33
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP26remainderReportingOverflow10dividingByx12partialValue_Sb8overflowtx_tFTW'
+
+// protocol witness for FixedWidthInteger.multipliedFullWidth(by:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP014multipliedFullC02byx4high_9MagnitudeQz3lowtx_tFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64) -> (@out Int64, @out UInt64) {
+// %0                                             // user: %17
+// %1                                             // user: %18
+// %2                                             // user: %4
+// %3                                             // user: %6
+bb0(%0 : $*Int64, %1 : $*UInt64, %2 : $*Int64, %3 : $*Int64):
+  %4 = struct_element_addr %2, #Int64._value      // user: %5
+  %5 = load %4                                    // user: %9
+  %6 = struct_element_addr %3, #Int64._value      // user: %7
+  %7 = load %6                                    // user: %8
+  %8 = builtin "sext_Int64_Int128"(%7) : $Builtin.Int128 // user: %10
+  %9 = builtin "sext_Int64_Int128"(%5) : $Builtin.Int128 // user: %10
+  %10 = builtin "mul_Int128"(%8, %9) : $Builtin.Int128 // users: %14, %11
+  %11 = builtin "truncOrBitCast_Int128_Int64"(%10) : $Builtin.Int64 // user: %12
+  %12 = struct $UInt64 (%11)                      // user: %18
+  %13 = integer_literal $Builtin.Int128, 64       // user: %14
+  %14 = builtin "ashr_Int128"(%10, %13) : $Builtin.Int128 // user: %15
+  %15 = builtin "truncOrBitCast_Int128_Int64"(%14) : $Builtin.Int64 // user: %16
+  %16 = struct $Int64 (%15)                       // user: %17
+  store %16 to %0                                 // id: %17
+  store %12 to %1                                 // id: %18
+  %19 = tuple ()                                  // user: %20
+  return %19                                      // id: %20
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP014multipliedFullC02byx4high_9MagnitudeQz3lowtx_tFTW'
+
+// protocol witness for FixedWidthInteger.dividingFullWidth(_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP012dividingFullC0yx8quotient_x9remaindertx4high_9MagnitudeQz3lowt_tFTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed UInt64, @in_guaranteed Int64) -> (@out Int64, @out Int64) {
+// %0                                             // user: %12
+// %1                                             // user: %13
+// %2                                             // user: %5
+// %3                                             // user: %6
+// %4                                             // user: %7
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64, %3 : $*UInt64, %4 : $*Int64):
+  %5 = load %2                                    // user: %9
+  %6 = load %3                                    // user: %9
+  %7 = load %4                                    // user: %9
+  // function_ref Int64.dividingFullWidth(_:)
+  %8 = function_ref @$ss5Int64V17dividingFullWidthyAB8quotient_AB9remaindertAB4high_s6UInt64V3lowt_tF : $@convention(method) (Int64, UInt64, Int64) -> (Int64, Int64) // user: %9
+  %9 = apply %8(%5, %6, %7) : $@convention(method) (Int64, UInt64, Int64) -> (Int64, Int64) // users: %11, %10
+  %10 = tuple_extract %9, 0                       // user: %12
+  %11 = tuple_extract %9, 1                       // user: %13
+  store %10 to %0                                 // id: %12
+  store %11 to %1                                 // id: %13
+  %14 = tuple ()                                  // user: %15
+  return %14                                      // id: %15
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP012dividingFullC0yx8quotient_x9remaindertx4high_9MagnitudeQz3lowt_tFTW'
+
+// protocol witness for FixedWidthInteger.init(_truncatingBits:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP15_truncatingBitsxSu_tcfCTW : $@convention(witness_method: FixedWidthInteger) (UInt, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %5
+// %1                                             // user: %3
+bb0(%0 : $*Int64, %1 : $UInt, %2 : $@thick Int64.Type):
+  %3 = struct_extract %1, #UInt._value            // user: %4
+  %4 = struct $Int64 (%3)                         // user: %5
+  store %4 to %0                                  // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6                                       // id: %7
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP15_truncatingBitsxSu_tcfCTW'
+
+// protocol witness for FixedWidthInteger.nonzeroBitCount.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP15nonzeroBitCountSivgTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64) -> Int {
+// %0                                             // user: %1
+bb0(%0 : $*Int64):
+  %1 = struct_element_addr %0, #Int64._value      // user: %2
+  %2 = load %1                                    // user: %3
+  %3 = builtin "int_ctpop_Int64"(%2) : $Builtin.Int64 // user: %4
+  %4 = struct $Int (%3)                           // user: %5
+  return %4                                       // id: %5
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP15nonzeroBitCountSivgTW'
+
+// protocol witness for FixedWidthInteger.leadingZeroBitCount.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP19leadingZeroBitCountSivgTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64) -> Int {
+// %0                                             // user: %1
+bb0(%0 : $*Int64):
+  %1 = struct_element_addr %0, #Int64._value      // user: %2
+  %2 = load %1                                    // user: %4
+  %3 = integer_literal $Builtin.Int1, 0           // user: %4
+  %4 = builtin "int_ctlz_Int64"(%2, %3) : $Builtin.Int64 // user: %5
+  %5 = struct $Int (%4)                           // user: %6
+  return %5                                       // id: %6
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP19leadingZeroBitCountSivgTW'
+
+// protocol witness for FixedWidthInteger.init(bigEndian:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP9bigEndianxx_tcfCTW : $@convention(witness_method: FixedWidthInteger) (@in Int64, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %7
+// %1                                             // user: %3
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $@thick Int64.Type):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %5
+  %5 = builtin "int_bswap_Int64"(%4) : $Builtin.Int64 // user: %6
+  %6 = struct $Int64 (%5)                         // user: %7
+  store %6 to %0                                  // id: %7
+  %8 = tuple ()                                   // user: %9
+  return %8                                       // id: %9
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP9bigEndianxx_tcfCTW'
+
+// protocol witness for FixedWidthInteger.init(littleEndian:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP12littleEndianxx_tcfCTW : $@convention(witness_method: FixedWidthInteger) (@in Int64, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %4
+// %1                                             // user: %3
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $@thick Int64.Type):
+  %3 = load %1                                    // user: %4
+  store %3 to %0                                  // id: %4
+  %5 = tuple ()                                   // user: %6
+  return %5                                       // id: %6
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP12littleEndianxx_tcfCTW'
+
+// protocol witness for FixedWidthInteger.bigEndian.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP9bigEndianxvgTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64) -> @out Int64 {
+// %0                                             // user: %6
+// %1                                             // user: %2
+bb0(%0 : $*Int64, %1 : $*Int64):
+  %2 = struct_element_addr %1, #Int64._value      // user: %3
+  %3 = load %2                                    // user: %4
+  %4 = builtin "int_bswap_Int64"(%3) : $Builtin.Int64 // user: %5
+  %5 = struct $Int64 (%4)                         // user: %6
+  store %5 to %0                                  // id: %6
+  %7 = tuple ()                                   // user: %8
+  return %7                                       // id: %8
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP9bigEndianxvgTW'
+
+// protocol witness for FixedWidthInteger.littleEndian.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP12littleEndianxvgTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64) -> @out Int64 {
+// %0                                             // user: %3
+// %1                                             // user: %2
+bb0(%0 : $*Int64, %1 : $*Int64):
+  %2 = load %1                                    // user: %3
+  store %2 to %0                                  // id: %3
+  %4 = tuple ()                                   // user: %5
+  return %4                                       // id: %5
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP12littleEndianxvgTW'
+
+// protocol witness for FixedWidthInteger.byteSwapped.getter in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP11byteSwappedxvgTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64) -> @out Int64 {
+// %0                                             // user: %6
+// %1                                             // user: %2
+bb0(%0 : $*Int64, %1 : $*Int64):
+  %2 = struct_element_addr %1, #Int64._value      // user: %3
+  %3 = load %2                                    // user: %4
+  %4 = builtin "int_bswap_Int64"(%3) : $Builtin.Int64 // user: %5
+  %5 = struct $Int64 (%4)                         // user: %6
+  store %5 to %0                                  // id: %6
+  %7 = tuple ()                                   // user: %8
+  return %7                                       // id: %8
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP11byteSwappedxvgTW'
+
+// protocol witness for static FixedWidthInteger.&>> infix(_:_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP3aggoiyxx_xtFZTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %12
+// %1                                             // user: %4
+// %2                                             // user: %6
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64, %3 : $@thick Int64.Type):
+  %4 = struct_element_addr %1, #Int64._value      // user: %5
+  %5 = load %4                                    // user: %10
+  %6 = struct_element_addr %2, #Int64._value      // user: %7
+  %7 = load %6                                    // user: %9
+  %8 = integer_literal $Builtin.Int64, 63         // user: %9
+  %9 = builtin "and_Int64"(%7, %8) : $Builtin.Int64 // user: %10
+  %10 = builtin "ashr_Int64"(%5, %9) : $Builtin.Int64 // user: %11
+  %11 = struct $Int64 (%10)                       // user: %12
+  store %11 to %0                                 // id: %12
+  %13 = tuple ()                                  // user: %14
+  return %13                                      // id: %14
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP3aggoiyxx_xtFZTW'
+
+// protocol witness for static FixedWidthInteger.&>>= infix(_:_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP4aggeoiyyxz_xtFZTW : $@convention(witness_method: FixedWidthInteger) (@inout Int64, @in_guaranteed Int64, @thick Int64.Type) -> () {
+// %0                                             // users: %11, %7
+// %1                                             // user: %3
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $@thick Int64.Type):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %6
+  %5 = integer_literal $Builtin.Int64, 63         // user: %6
+  %6 = builtin "and_Int64"(%4, %5) : $Builtin.Int64 // user: %9
+  %7 = struct_element_addr %0, #Int64._value      // user: %8
+  %8 = load %7                                    // user: %9
+  %9 = builtin "ashr_Int64"(%8, %6) : $Builtin.Int64 // user: %10
+  %10 = struct $Int64 (%9)                        // user: %11
+  store %10 to %0                                 // id: %11
+  %12 = tuple ()                                  // user: %13
+  return %12                                      // id: %13
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP4aggeoiyyxz_xtFZTW'
+
+// protocol witness for static FixedWidthInteger.&<< infix(_:_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP3alloiyxx_xtFZTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %12
+// %1                                             // user: %4
+// %2                                             // user: %6
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64, %3 : $@thick Int64.Type):
+  %4 = struct_element_addr %1, #Int64._value      // user: %5
+  %5 = load %4                                    // user: %10
+  %6 = struct_element_addr %2, #Int64._value      // user: %7
+  %7 = load %6                                    // user: %9
+  %8 = integer_literal $Builtin.Int64, 63         // user: %9
+  %9 = builtin "and_Int64"(%7, %8) : $Builtin.Int64 // user: %10
+  %10 = builtin "shl_Int64"(%5, %9) : $Builtin.Int64 // user: %11
+  %11 = struct $Int64 (%10)                       // user: %12
+  store %11 to %0                                 // id: %12
+  %13 = tuple ()                                  // user: %14
+  return %13                                      // id: %14
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP3alloiyxx_xtFZTW'
+
+// protocol witness for static FixedWidthInteger.&<<= infix(_:_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP4alleoiyyxz_xtFZTW : $@convention(witness_method: FixedWidthInteger) (@inout Int64, @in_guaranteed Int64, @thick Int64.Type) -> () {
+// %0                                             // users: %11, %7
+// %1                                             // user: %3
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $@thick Int64.Type):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %6
+  %5 = integer_literal $Builtin.Int64, 63         // user: %6
+  %6 = builtin "and_Int64"(%4, %5) : $Builtin.Int64 // user: %9
+  %7 = struct_element_addr %0, #Int64._value      // user: %8
+  %8 = load %7                                    // user: %9
+  %9 = builtin "shl_Int64"(%8, %6) : $Builtin.Int64 // user: %10
+  %10 = struct $Int64 (%9)                        // user: %11
+  store %10 to %0                                 // id: %11
+  %12 = tuple ()                                  // user: %13
+  return %12                                      // id: %13
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP4alleoiyyxz_xtFZTW'
+
+// protocol witness for static FixedWidthInteger.&* infix(_:_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs17FixedWidthIntegerssACP2amoiyxx_xtFZTW : $@convention(witness_method: FixedWidthInteger) (@in_guaranteed Int64, @in_guaranteed Int64, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %12
+// %1                                             // user: %4
+// %2                                             // user: %6
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $*Int64, %3 : $@thick Int64.Type):
+  %4 = struct_element_addr %1, #Int64._value      // user: %5
+  %5 = load %4                                    // user: %9
+  %6 = struct_element_addr %2, #Int64._value      // user: %7
+  %7 = load %6                                    // user: %9
+  %8 = integer_literal $Builtin.Int1, 0           // user: %9
+  %9 = builtin "smul_with_overflow_Int64"(%7, %5, %8) : $(Builtin.Int64, Builtin.Int1) // user: %10
+  %10 = tuple_extract %9, 0                       // user: %11
+  %11 = struct $Int64 (%10)                       // user: %12
+  store %11 to %0                                 // id: %12
+  %13 = tuple ()                                  // user: %14
+  return %13                                      // id: %14
+} // end sil function '$ss5Int64Vs17FixedWidthIntegerssACP2amoiyxx_xtFZTW'
+
+// Int64.dividingFullWidth(_:)
+// Isolation: unspecified
+sil public_external @$ss5Int64V17dividingFullWidthyAB8quotient_AB9remaindertAB4high_s6UInt64V3lowt_tF : $@convention(method) (Int64, UInt64, Int64) -> (Int64, Int64) {
+// %0                                             // user: %29
+// %1                                             // user: %33
+// %2                                             // users: %36, %15
+bb0(%0 : $Int64, %1 : $UInt64, %2 : $Int64):
+  %3 = string_literal utf8 "Division by zero"     // user: %5
+  %4 = integer_literal $Builtin.Word, 16          // user: %7
+  %5 = builtin "ptrtoint_Word"(%3) : $Builtin.Word // user: %7
+  %6 = integer_literal $Builtin.Int8, 2           // users: %60, %46, %23, %11, %7
+  %7 = struct $StaticString (%5, %4, %6)          // user: %27
+  %8 = string_literal utf8 "Swift/IntegerTypes.swift" // user: %10
+  %9 = integer_literal $Builtin.Word, 24          // user: %11
+  %10 = builtin "ptrtoint_Word"(%8) : $Builtin.Word // user: %11
+  %11 = struct $StaticString (%10, %9, %6)        // users: %64, %27
+  %12 = integer_literal $Builtin.Int64, 7430      // user: %13
+  %13 = struct $UInt (%12)                        // user: %27
+  %14 = integer_literal $Builtin.Int64, 0         // user: %16
+  %15 = struct_extract %2, #Int64._value          // user: %16
+  %16 = builtin "cmp_ne_Int64"(%15, %14) : $Builtin.Int1 // user: %18
+  %17 = integer_literal $Builtin.Int1, -1         // user: %18
+  %18 = builtin "int_expect_Int1"(%16, %17) : $Builtin.Int1 // user: %19
+  cond_br %18, bb2, bb1                           // id: %19
+
+bb1:                                              // Preds: bb0
+  %20 = string_literal utf8 "Fatal error"         // user: %22
+  %21 = integer_literal $Builtin.Word, 11         // user: %23
+  %22 = builtin "ptrtoint_Word"(%20) : $Builtin.Word // user: %23
+  %23 = struct $StaticString (%22, %21, %6)       // user: %27
+  %24 = integer_literal $Builtin.Int32, 1         // user: %25
+  %25 = struct $UInt32 (%24)                      // user: %27
+  // function_ref _assertionFailure(_:_:file:line:flags:)
+  %26 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never // user: %27
+  %27 = apply %26(%23, %7, %11, %13, %25) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable                                     // id: %28
+
+bb2:                                              // Preds: bb0
+  %29 = struct_extract %0, #Int64._value          // user: %30
+  %30 = builtin "sext_Int64_Int128"(%29) : $Builtin.Int128 // user: %32
+  %31 = integer_literal $Builtin.Int128, 64       // user: %32
+  %32 = builtin "shl_Int128"(%30, %31) : $Builtin.Int128 // user: %35
+  %33 = struct_extract %1, #UInt64._value         // user: %34
+  %34 = builtin "zext_Int64_Int128"(%33) : $Builtin.Int128 // user: %35
+  %35 = builtin "or_Int128"(%32, %34) : $Builtin.Int128 // users: %39, %38
+  %36 = struct_extract %2, #Int64._value          // user: %37
+  %37 = builtin "sext_Int64_Int128"(%36) : $Builtin.Int128 // users: %39, %38
+  %38 = builtin "sdiv_Int128"(%35, %37) : $Builtin.Int128 // user: %40
+  %39 = builtin "srem_Int128"(%35, %37) : $Builtin.Int128 // user: %52
+  %40 = builtin "s_to_s_checked_trunc_Int128_Int64"(%38) : $(Builtin.Int64, Builtin.Int1) // users: %42, %41
+  %41 = tuple_extract %40, 0                      // user: %53
+  %42 = tuple_extract %40, 1                      // user: %50
+  %43 = string_literal utf8 "Quotient is not representable" // user: %45
+  %44 = integer_literal $Builtin.Word, 29         // user: %46
+  %45 = builtin "ptrtoint_Word"(%43) : $Builtin.Word // user: %46
+  %46 = struct $StaticString (%45, %44, %6)       // user: %64
+  %47 = integer_literal $Builtin.Int64, 7447      // user: %48
+  %48 = struct $UInt (%47)                        // user: %64
+  %49 = integer_literal $Builtin.Int1, 0          // user: %50
+  %50 = builtin "int_expect_Int1"(%42, %49) : $Builtin.Int1 // user: %51
+  cond_br %50, bb4, bb3                           // id: %51
+
+bb3:                                              // Preds: bb2
+  %52 = builtin "truncOrBitCast_Int128_Int64"(%39) : $Builtin.Int64 // user: %54
+  %53 = struct $Int64 (%41)                       // user: %55
+  %54 = struct $Int64 (%52)                       // user: %55
+  %55 = tuple (%53, %54)                          // user: %56
+  return %55                                      // id: %56
+
+bb4:                                              // Preds: bb2
+  %57 = string_literal utf8 "Fatal error"         // user: %59
+  %58 = integer_literal $Builtin.Word, 11         // user: %60
+  %59 = builtin "ptrtoint_Word"(%57) : $Builtin.Word // user: %60
+  %60 = struct $StaticString (%59, %58, %6)       // user: %64
+  %61 = integer_literal $Builtin.Int32, 1         // user: %62
+  %62 = struct $UInt32 (%61)                      // user: %64
+  // function_ref _assertionFailure(_:_:file:line:flags:)
+  %63 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never // user: %64
+  %64 = apply %63(%60, %46, %11, %48, %62) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable                                     // id: %65
+} // end sil function '$ss5Int64V17dividingFullWidthyAB8quotient_AB9remaindertAB4high_s6UInt64V3lowt_tF'
+
+// _assertionFailure(_:_:file:line:flags:)
+// Isolation: unspecified
+sil [noinline] [_semantics "programtermination_point"] @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+
+// protocol witness for static SignedNumeric.- prefix(_:) in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs13SignedNumericssACP1sopyxxFZTW : $@convention(witness_method: SignedNumeric) (@in_guaranteed Int64, @thick Int64.Type) -> @out Int64 {
+// %0                                             // user: %12
+// %1                                             // user: %3
+bb0(%0 : $*Int64, %1 : $*Int64, %2 : $@thick Int64.Type):
+  %3 = struct_element_addr %1, #Int64._value      // user: %4
+  %4 = load %3                                    // user: %7
+  %5 = integer_literal $Builtin.Int64, 0          // user: %7
+  %6 = integer_literal $Builtin.Int1, -1          // user: %7
+  %7 = builtin "ssub_with_overflow_Int64"(%5, %4, %6) : $(Builtin.Int64, Builtin.Int1) // users: %9, %8
+  %8 = tuple_extract %7, 0                        // user: %11
+  %9 = tuple_extract %7, 1                        // user: %10
+  cond_fail %9, "arithmetic overflow"             // id: %10
+  %11 = struct $Int64 (%8)                        // user: %12
+  store %11 to %0                                 // id: %12
+  %13 = tuple ()                                  // user: %14
+  return %13                                      // id: %14
+} // end sil function '$ss5Int64Vs13SignedNumericssACP1sopyxxFZTW'
+
+// protocol witness for SignedNumeric.negate() in conformance Int64
+// Isolation: unspecified
+sil shared [transparent] [thunk] @$ss5Int64Vs13SignedNumericssACP6negateyyFTW : $@convention(witness_method: SignedNumeric) (@inout Int64) -> () {
+// %0                                             // users: %10, %2
+bb0(%0 : $*Int64):
+  %1 = integer_literal $Builtin.Int64, 0          // user: %5
+  %2 = struct_element_addr %0, #Int64._value      // user: %3
+  %3 = load %2                                    // user: %5
+  %4 = integer_literal $Builtin.Int1, -1          // user: %5
+  %5 = builtin "ssub_with_overflow_Int64"(%1, %3, %4) : $(Builtin.Int64, Builtin.Int1) // users: %7, %6
+  %6 = tuple_extract %5, 0                        // user: %9
+  %7 = tuple_extract %5, 1                        // user: %8
+  cond_fail %7, "arithmetic overflow"             // id: %8
+  %9 = struct $Int64 (%6)                         // user: %10
+  store %9 to %0                                  // id: %10
+  %11 = tuple ()                                  // user: %12
+  return %11                                      // id: %12
+} // end sil function '$ss5Int64Vs13SignedNumericssACP6negateyyFTW'
+
+sil_witness_table public_external Int64: FixedWidthInteger module Swift {
+  base_protocol BinaryInteger: Int64: BinaryInteger module Swift
+  base_protocol LosslessStringConvertible: Int64: LosslessStringConvertible module Swift
+  associated_conformance (Magnitude: FixedWidthInteger): UInt64: FixedWidthInteger module Swift
+  associated_conformance (Magnitude: UnsignedInteger): UInt64: UnsignedInteger module Swift
+  associated_conformance (Stride: FixedWidthInteger): Int: FixedWidthInteger module Swift
+  associated_conformance (Stride: SignedInteger): Int: SignedInteger module Swift
+  method #FixedWidthInteger.bitWidth!getter: <Self where Self : FixedWidthInteger> (Self.Type) -> () -> Int : @$ss5Int64Vs17FixedWidthIntegerssACP03bitC0SivgZTW	// protocol witness for static FixedWidthInteger.bitWidth.getter in conformance Int64
+  method #FixedWidthInteger.max!getter: <Self where Self : FixedWidthInteger> (Self.Type) -> () -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP3maxxvgZTW	// protocol witness for static FixedWidthInteger.max.getter in conformance Int64
+  method #FixedWidthInteger.min!getter: <Self where Self : FixedWidthInteger> (Self.Type) -> () -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP3minxvgZTW	// protocol witness for static FixedWidthInteger.min.getter in conformance Int64
+  method #FixedWidthInteger.addingReportingOverflow: <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : @$ss5Int64Vs17FixedWidthIntegerssACP23addingReportingOverflowyx12partialValue_Sb8overflowtxFTW	// protocol witness for FixedWidthInteger.addingReportingOverflow(_:) in conformance Int64
+  method #FixedWidthInteger.subtractingReportingOverflow: <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : @$ss5Int64Vs17FixedWidthIntegerssACP28subtractingReportingOverflowyx12partialValue_Sb8overflowtxFTW	// protocol witness for FixedWidthInteger.subtractingReportingOverflow(_:) in conformance Int64
+  method #FixedWidthInteger.multipliedReportingOverflow: <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : @$ss5Int64Vs17FixedWidthIntegerssACP27multipliedReportingOverflow2byx12partialValue_Sb8overflowtx_tFTW	// protocol witness for FixedWidthInteger.multipliedReportingOverflow(by:) in conformance Int64
+  method #FixedWidthInteger.dividedReportingOverflow: <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : @$ss5Int64Vs17FixedWidthIntegerssACP24dividedReportingOverflow2byx12partialValue_Sb8overflowtx_tFTW	// protocol witness for FixedWidthInteger.dividedReportingOverflow(by:) in conformance Int64
+  method #FixedWidthInteger.remainderReportingOverflow: <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (partialValue: Self, overflow: Bool) : @$ss5Int64Vs17FixedWidthIntegerssACP26remainderReportingOverflow10dividingByx12partialValue_Sb8overflowtx_tFTW	// protocol witness for FixedWidthInteger.remainderReportingOverflow(dividingBy:) in conformance Int64
+  method #FixedWidthInteger.multipliedFullWidth: <Self where Self : FixedWidthInteger> (Self) -> (Self) -> (high: Self, low: Self.Magnitude) : @$ss5Int64Vs17FixedWidthIntegerssACP014multipliedFullC02byx4high_9MagnitudeQz3lowtx_tFTW	// protocol witness for FixedWidthInteger.multipliedFullWidth(by:) in conformance Int64
+  method #FixedWidthInteger.dividingFullWidth: <Self where Self : FixedWidthInteger> (Self) -> ((high: Self, low: Self.Magnitude)) -> (quotient: Self, remainder: Self) : @$ss5Int64Vs17FixedWidthIntegerssACP012dividingFullC0yx8quotient_x9remaindertx4high_9MagnitudeQz3lowt_tFTW	// protocol witness for FixedWidthInteger.dividingFullWidth(_:) in conformance Int64
+  method #FixedWidthInteger.init!allocator: <Self where Self : FixedWidthInteger> (Self.Type) -> (UInt) -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP15_truncatingBitsxSu_tcfCTW	// protocol witness for FixedWidthInteger.init(_truncatingBits:) in conformance Int64
+  method #FixedWidthInteger.nonzeroBitCount!getter: <Self where Self : FixedWidthInteger> (Self) -> () -> Int : @$ss5Int64Vs17FixedWidthIntegerssACP15nonzeroBitCountSivgTW	// protocol witness for FixedWidthInteger.nonzeroBitCount.getter in conformance Int64
+  method #FixedWidthInteger.leadingZeroBitCount!getter: <Self where Self : FixedWidthInteger> (Self) -> () -> Int : @$ss5Int64Vs17FixedWidthIntegerssACP19leadingZeroBitCountSivgTW	// protocol witness for FixedWidthInteger.leadingZeroBitCount.getter in conformance Int64
+  method #FixedWidthInteger.init!allocator: <Self where Self : FixedWidthInteger> (Self.Type) -> (Self) -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP9bigEndianxx_tcfCTW	// protocol witness for FixedWidthInteger.init(bigEndian:) in conformance Int64
+  method #FixedWidthInteger.init!allocator: <Self where Self : FixedWidthInteger> (Self.Type) -> (Self) -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP12littleEndianxx_tcfCTW	// protocol witness for FixedWidthInteger.init(littleEndian:) in conformance Int64
+  method #FixedWidthInteger.bigEndian!getter: <Self where Self : FixedWidthInteger> (Self) -> () -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP9bigEndianxvgTW	// protocol witness for FixedWidthInteger.bigEndian.getter in conformance Int64
+  method #FixedWidthInteger.littleEndian!getter: <Self where Self : FixedWidthInteger> (Self) -> () -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP12littleEndianxvgTW	// protocol witness for FixedWidthInteger.littleEndian.getter in conformance Int64
+  method #FixedWidthInteger.byteSwapped!getter: <Self where Self : FixedWidthInteger> (Self) -> () -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP11byteSwappedxvgTW	// protocol witness for FixedWidthInteger.byteSwapped.getter in conformance Int64
+  method #FixedWidthInteger."&>>": <Self where Self : FixedWidthInteger> (Self.Type) -> (Self, Self) -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP3aggoiyxx_xtFZTW	// protocol witness for static FixedWidthInteger.&>> infix(_:_:) in conformance Int64
+  method #FixedWidthInteger."&>>=": <Self where Self : FixedWidthInteger> (Self.Type) -> (inout Self, Self) -> () : @$ss5Int64Vs17FixedWidthIntegerssACP4aggeoiyyxz_xtFZTW	// protocol witness for static FixedWidthInteger.&>>= infix(_:_:) in conformance Int64
+  method #FixedWidthInteger."&<<": <Self where Self : FixedWidthInteger> (Self.Type) -> (Self, Self) -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP3alloiyxx_xtFZTW	// protocol witness for static FixedWidthInteger.&<< infix(_:_:) in conformance Int64
+  method #FixedWidthInteger."&<<=": <Self where Self : FixedWidthInteger> (Self.Type) -> (inout Self, Self) -> () : @$ss5Int64Vs17FixedWidthIntegerssACP4alleoiyyxz_xtFZTW	// protocol witness for static FixedWidthInteger.&<<= infix(_:_:) in conformance Int64
+  method #FixedWidthInteger."&*": <Self where Self : FixedWidthInteger> (Self.Type) -> (Self, Self) -> Self : @$ss5Int64Vs17FixedWidthIntegerssACP2amoiyxx_xtFZTW	// protocol witness for static FixedWidthInteger.&* infix(_:_:) in conformance Int64
+}
+
+sil_witness_table public_external Int64: SignedNumeric module Swift {
+  base_protocol Numeric: Int64: Numeric module Swift
+  method #SignedNumeric."-": <Self where Self : SignedNumeric> (Self.Type) -> (Self) -> Self : @$ss5Int64Vs13SignedNumericssACP1sopyxxFZTW	// protocol witness for static SignedNumeric.- prefix(_:) in conformance Int64
+  method #SignedNumeric.negate: <Self where Self : SignedNumeric> (inout Self) -> () -> () : @$ss5Int64Vs13SignedNumericssACP6negateyyFTW	// protocol witness for SignedNumeric.negate() in conformance Int64
+}
+
+
+
+// Mappings from '#fileID' to '#filePath':
+//   'Core/Core.swift' => 'Fixtures/Swift/Core.swift'
+
+
