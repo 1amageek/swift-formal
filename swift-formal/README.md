@@ -6,7 +6,7 @@ swift-formal is an experimental formal-verification toolchain for checking progr
 
 It supports scalar functions written in Swift, Rust, C, C++, Go, TypeScript, JavaScript, and Python through a shared intermediate representation.
 
-## Why use swift-formal?
+## Why use formal
 
 Use swift-formal to check whether supported program logic behaves as intended, investigate unexpected outcomes, and retain verification evidence you can inspect during a review and rerun after a code change.
 
