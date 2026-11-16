@@ -1,2 +1,2 @@
 # Preserve the exact bytes of hashed compiler-emitted SIL fixtures.
-swift-formal/Fixtures/SIL/*.sil whitespace=-blank-at-eof
+Fixtures/SIL/*.sil whitespace=-blank-at-eof

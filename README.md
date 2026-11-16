@@ -48,6 +48,8 @@ The current distribution target is **macOS on Apple Silicon (arm64)**. The packa
 Run from the package root. Building the package requires a Swift toolchain.
 
 ```sh
+git clone https://github.com/1amageek/swift-formal.git
+cd swift-formal
 swift run -c release formal install --prefix "$PWD/InstalledFormal"
 ./InstalledFormal/bin/formal toolchain
 ```

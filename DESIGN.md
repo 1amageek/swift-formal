@@ -27,6 +27,7 @@ Five production SwiftPM targets enforce the boundaries above. Parsing, lowering,
 ## Contracts and Invariants
 - The executable product, target, invocation, and source directory are `formal`, `formal`, `formal`, and `Sources/formal/`. The package identity remains `swift-formal`.
 - This naming contract reflects the user's 2026-11-16 correction and supersedes the CLI name and executable directory in the immutable imported [specification snapshot](Documentation/SPEC.md).
+- `Package.swift`, README, Sources, and Tests live at the Git repository root so SwiftPM can consume the repository URL directly. This public layout supersedes the earlier nested workspace layout; source behavior and internal relative paths are unchanged.
 - The package has no external SwiftPM dependencies. Toolchain identity is independent of declaration-index tools; the declaration-index module and CLI command are removed.
 - This contract reflects the user's no-Skeleton requirement and supersedes all Skeleton dependencies, adapters, and revision requirements in the imported specification snapshot.
 - Draft translation reports DRAFT_UNVALIDATED and independently compares emitted data to IR. It does not claim VALIDATED, MODEL_CHECKED, or PROVED.
