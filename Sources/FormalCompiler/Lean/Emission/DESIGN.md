@@ -26,3 +26,6 @@ Emission is pure and invocation-local. Output publication belongs to orchestrati
 [Backend tests](../../../../Tests/FormalBackendTests), SANY, Lean kernel, and future independent decoding own verification. Output shape or runtime changes invalidate prior translation evidence.
 
 Mathematical integer instructions use Lean Int or canonical sign/magnitude bit sequences in TLA+, avoiding TLC machine-integer overflow. Panic and undefined behavior are distinct terminal states. Finite external-tool tests own these paths.
+
+
+Number operations are emitted as dedicated operation constructors using the [IR Number contract](../../../FormalIR/Execution/DESIGN.md#binary64-number-contract). The runtime implements logical IEEE semantics; trusted bytes and finite/universal evidence must be updated together.

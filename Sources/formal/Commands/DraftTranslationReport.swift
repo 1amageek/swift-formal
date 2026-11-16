@@ -6,6 +6,7 @@ struct DraftTranslationReport: Encodable {
     let sourceLanguage: SourceLanguage
     let profile: String
     let assumptions: [String]
+    let defaultNumeric: SourceNumericDefault?
     let sourceSHA256: String
     let functions: [String]
     let actualOutputDataMatchesIR = true

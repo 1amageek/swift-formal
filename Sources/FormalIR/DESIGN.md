@@ -27,3 +27,6 @@ Bit widths and operations are explicit. Call frames retain local environments. B
 
 ## Extended Integer Contracts
 [Program](Program/DESIGN.md#mathematical-integers-and-failures) owns arbitrary integer and failure representation. [Execution](Execution/DESIGN.md#mathematical-integer-execution) owns host capacity and execution. Both backend runtimes consume those contracts; changing them requires backend/decoder and frontend regression checks.
+
+
+The [Binary64 Number contract](Execution/DESIGN.md#binary64-number-contract) adds IEEE operations to existing 64-bit data. This extends the operation set without introducing a new value encoding; signed/unsigned integer semantics remain separate.

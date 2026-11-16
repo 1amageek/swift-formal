@@ -31,7 +31,7 @@ flowchart LR
 ```
 
 ## Contracts and Invariants
-- Schema 1 property files contain 1...16 named properties. Each has entry, inputViews, resultView, requires and ensures. Input views explicitly select integer, signed bits, unsigned bits or Boolean interpretation; their number/types must match the IR. No concrete input enumeration is required.
+- Schema 1 property files contain 1...16 named properties. Each has entry, inputViews, resultView, requires and ensures. Input views explicitly select integer, signed bits, unsigned bits, Boolean or Number interpretation; their number/types must match the IR. No concrete input enumeration is required.
 - The expression language accepts arg0...argN, result, canonical decimal integers, true/false, parentheses, arithmetic + - *, comparisons == != < <= > >=, and Boolean ! && ||. Types are checked; requires cannot reference result. Raw Lean/TLA syntax and unknown fields are rejected.
 - For each property, PROVED means every typed input satisfying requires terminates normally within the derived execution bound and satisfies ensures in the actual generated Lean interpreter. Bit inputs quantify all bit patterns using Nat variables with explicit width bounds; integers quantify Int without input bounds; Booleans quantify Bool. Preconditions are part of the theorem, and satisfiability is not implicitly claimed.
 - Only actual theorem success plus the standard axiom audit can produce PROVED. The theorem must depend only on propext, Classical.choice and Quot.sound; native reduction axioms, custom axioms and admissions are rejected. Tactics and helper lemmas are controlled by this component.
@@ -49,7 +49,14 @@ Load and type-check the property file against the audited snapshot; preserve exa
 All parser, graph, symbolic hint and verifier state belongs to the invocation. Snapshot bytes are read once and copied to private workspaces. Per-run and per-property output paths are unique. Existing source artifacts and previous runs are preserved.
 
 ## Failure, Concurrency, and Constraints
-Reuse Verification's 120-second per-process default, 1...3600-second timeout, 1024 MiB Lean limit, 512 MiB Java heap, 8 MiB stream caps and 512 MiB monitored workspace budgets. Proof search is incomplete. Logical falsehood is reported only with a checked witness; a failed tactic does not establish falsehood. Arbitrary recursion and loop invariants require a future proof profile and remain explicit UNKNOWN here.
+Reuse Verification's 120-second per-process default, 1...3600-second timeout, 2048 MiB Lean limit, 512 MiB Java heap, 8 MiB stream caps and 512 MiB monitored workspace budgets. Proof search is incomplete. Logical falsehood is reported only with a checked witness; a failed tactic does not establish falsehood. Arbitrary recursion and loop invariants require a future proof profile and remain explicit UNKNOWN here.
 
 ## Verification and Change Impact
 [PropertyTests.swift](../../../Tests/FormalValidationTests/PropertyTests.swift) owns strict parsing/type errors, expression depth, input interpretations, bound/cycle analysis, candidate witnesses and axiom rejection. [Tools/verify-properties.py](../../../Tools/verify-properties.py) owns real bundled-tool proofs over unbounded Int and all-64-bit-input domains across eight profiles, branches, direct calls and preconditions; checked boundary counterexamples; rejection of mutated actual Program data; mixed rechecks; and failure to prove after candidate exhaustion. [Tools/verify-distribution.py](../../../Tools/verify-distribution.py) owns offline checking after packaging, installation and relocation with poisoned host tools. Changes to Runtime, emitted Program wrappers, proof hints or pre/postcondition rendering require rechecking both the kernel theorem and TLA specification. Existing source-to-model limitations remain unchanged.
+
+
+Number properties add an explicit number view over width-64 patterns. Arithmetic, comparisons and classification use the [IR Number contract](../../FormalIR/Execution/DESIGN.md#binary64-number-contract), including NaN and signed zero. Numeric literals in Number properties round to binary64. All 64-bit patterns are quantified; helper hints remain untrusted. Witnesses serialize exact raw bits; unknown proofs remain failures. Integer/Boolean properties retain their meanings.
+
+Binary64 arithmetic can make kernel checking substantially larger than integer arithmetic: the two-input addition theorem peaks around 1.2 GiB with the pinned Lean model. Property checking therefore uses a bounded 2048 MiB Lean budget; finite scenarios retain their 1024 MiB budget. Exhaustion remains UNKNOWN.
+
+Each property owns a private Java temporary directory within its monitored TLA workspace, isolating SANY/TLC module extraction across invocations.

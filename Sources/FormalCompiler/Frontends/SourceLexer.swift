@@ -71,17 +71,36 @@ struct SourceLexer {
                 commentDepth = 1; advance(); advance(); continue
             }
             let start = i; let l = line; let c = column
+            if language.isJavaScriptFamily && ((48...57).contains(b) || (b == 46 && i + 1 < bytes.count && (48...57).contains(bytes[i+1]))) {
+                while i < bytes.count && (48...57).contains(bytes[i]) { advance() }
+                if i < bytes.count && bytes[i] == 46 {
+                    advance(); while i < bytes.count && (48...57).contains(bytes[i]) { advance() }
+                }
+                if i < bytes.count && (bytes[i] == 101 || bytes[i] == 69) {
+                    advance()
+                    if i < bytes.count && (bytes[i] == 43 || bytes[i] == 45) { advance() }
+                    let exponentStart = i
+                    while i < bytes.count && (48...57).contains(bytes[i]) { advance() }
+                    guard i > exponentStart else { throw fail("Missing decimal exponent", l, c) }
+                }
+                if i < bytes.count && bytes[i] == 110 { advance() }
+                try emit(String(decoding: bytes[start..<i], as: UTF8.self), l, c); continue
+            }
             if isName(b) || (48...57).contains(b) {
                 advance()
                 while i < bytes.count && (isName(bytes[i]) || (48...57).contains(bytes[i])) { advance() }
                 try emit(String(decoding: bytes[start..<i], as: UTF8.self), l, c); continue
             }
+            if language.isJavaScriptFamily && i + 2 < bytes.count {
+                let triple = String(decoding: bytes[i...i+2], as: UTF8.self)
+                if triple == "===" || triple == "!==" { advance(); advance(); advance(); try emit(triple, l, c); continue }
+            }
             let pair = i+1 < bytes.count ? String(decoding: bytes[i...i+1], as: UTF8.self) : ""
             if ["++", "--"].contains(pair), [.c, .cpp, .javascript, .typescript, .go, .swift, .java, .bun].contains(language) {
                 throw fail("Unsupported update operator '\(pair)'", l, c)
             }
-            if ["->", "==", "!=", "<=", ">=", ":=", "::"].contains(pair) { advance(); advance(); try emit(pair, l, c); continue }
-            guard "(){}:;,+-*<>=!".utf8.contains(b) else { throw fail("Unsupported character or operator", l, c) }
+            if (language.isJavaScriptFamily && ["&&", "||"].contains(pair)) || ["->", "==", "!=", "<=", ">=", ":=", "::"].contains(pair) { advance(); advance(); try emit(pair, l, c); continue }
+            guard "(){}:;,+-*<>=!".utf8.contains(b) || (language.isJavaScriptFamily && "./%".utf8.contains(b)) else { throw fail("Unsupported character or operator", l, c) }
             advance(); try emit(String(decoding: [b], as: UTF8.self), l, c)
         }
         if language == .c || language == .cpp {

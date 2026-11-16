@@ -26,3 +26,8 @@ Emission is pure and invocation-local. Output publication belongs to orchestrati
 [Backend tests](../../../../Tests/FormalBackendTests), SANY, Lean kernel, and future independent decoding own verification. Output shape or runtime changes invalidate prior translation evidence.
 
 Mathematical integer instructions use Lean Int or canonical sign/magnitude bit sequences in TLA+, avoiding TLC machine-integer overflow. Panic and undefined behavior are distinct terminal states. Finite external-tool tests own these paths.
+
+
+Number operation data uses existing width-64 bit sequences and the [IR Number contract](../../../FormalIR/Execution/DESIGN.md#binary64-number-contract). Runtime arithmetic uses exact bit magnitudes and IEEE rounding; TLC bounds never justify mathematical-real substitution.
+
+Number dispatch checks the operation-name length before reading its six-character prefix. Existing short names (and, or, xor, equal) retain their bit semantics; the runtime vector invariant and native Boolean source checks exercise both branches.

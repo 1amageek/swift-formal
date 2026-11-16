@@ -5,6 +5,11 @@ public enum BitArithmetic {
         guard left.width == right.width else {
             throw FormalDiagnostic(.invalidManifest, "Arithmetic operand widths differ.")
         }
+        if operation.isNumber {
+            guard left.width == 64 else { throw FormalDiagnostic(.invalidManifest, "Number operands require 64 bits") }
+            let result = try Binary64.evaluate(operation, left.bits, right.bits)
+            return try bitValue(width: result.boolean ? 1 : 64, bits: result.bits)
+        }
         let a = left.bits
         let b = right.bits
         let mask = left.mask
@@ -42,6 +47,7 @@ public enum BitArithmetic {
         case .and: return try bitValue(width: left.width, bits: a & b)
         case .or: return try bitValue(width: left.width, bits: a | b)
         case .xor: return try bitValue(width: left.width, bits: a ^ b)
+        default: throw FormalDiagnostic(.invalidManifest, "Invalid arithmetic operation")
         }
         let value = try BitPattern(width: left.width, bits: result)
         let flag = try BitPattern(width: 1, bits: overflow ? 1 : 0)

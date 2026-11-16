@@ -107,8 +107,9 @@ public struct IRProgram: Codable, Sendable, Equatable {
                     let leftType = try type(left)
                     let rightType = try type(right)
                     guard case .bits(let width) = leftType, rightType == leftType else { throw invalid("Binary operand types differ") }
+                    guard !operation.isNumber || width == 64 else { throw invalid("Number operations require 64-bit operands") }
                     if operation.returnsOverflow { result = .aggregate([leftType, .bits(width: 1)]) }
-                    else if [.signedLessThan, .unsignedLessThan, .equal].contains(operation) { result = .bits(width: 1) }
+                    else if operation.returnsFlag { result = .bits(width: 1) }
                     else { result = .bits(width: width) }
                 case .functionRef(_, let symbol):
                     guard let target = functions.first(where: { $0.symbol == symbol }) else { throw invalid("Unresolved callee") }

@@ -83,7 +83,7 @@ struct FrontendRegressionTests {
         let source: String
         if name == "depth-javascript" { source = nestedChain(levels: 7, terms: 18).replacingOccurrences(of: "; }", with: "+a; }") }
         else { source = try String(contentsOf: root.appendingPathComponent("Fixtures/Regressions/\(name).source"), encoding: .utf8) }
-        let program = try ScalarSourceCompiler().compile(source, language: language, moduleID: "Source")
+        let program = try ScalarSourceCompiler(defaultNumeric: language.isJavaScriptFamily ? .bigint : .number).compile(source, language: language, moduleID: "Source")
         // entry, left, right, input kind, expected value, output kind
         let cases: [[String]]
         if name == "constants-go" {

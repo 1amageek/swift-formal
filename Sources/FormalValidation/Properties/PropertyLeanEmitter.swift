@@ -14,7 +14,7 @@ struct PropertyLeanEmitter {
         source += "  unfold obligation\n  intro pre\n"
         for (index, proposition) in cuts.enumerated() { source += "  all_goals by_cases cut\(index) : \(proposition)\n" }
         // Canonicalize case hypotheses without turning negated guards into unrelated normal forms.
-        source += "  all_goals try simp_all only [SwiftFormal.signed, Nat.reducePow, Int.ofNat_eq_natCast, ite_true, ite_false]\n  all_goals try omega\n"
+        source += "  all_goals try simp_all only [SwiftFormal.signed, Nat.reducePow, Int.ofNat_eq_natCast, SwiftFormal.numberNaN, SwiftFormal.numberFinite, SwiftFormal.numberAbs, ite_true, ite_false]\n  all_goals try omega\n"
         // Reduce one interpreter step at a time so unresolved guards cannot expand all later ticks.
         // Every simplification is kernel checked; the final goal remains the actual interpreter obligation.
         source += "  all_goals simp [*, \(Self.definitions)]\n"
@@ -79,5 +79,5 @@ struct PropertyLeanEmitter {
 
         """
     }
-    private static let definitions = "propertyResult, observe, Generated.program, SwiftFormal.initial, SwiftFormal.findFunction, SwiftFormal.bind, SwiftFormal.assign, SwiftFormal.tick, SwiftFormal.findBlock, SwiftFormal.lookup, SwiftFormal.integerBinary, SwiftFormal.binary, SwiftFormal.overflowResult, SwiftFormal.signed, SwiftFormal.arguments, SwiftFormal.flag, SwiftFormal.jump, formalRunning, formalReturned, formalTrapped, formalFailed, bne, Int.ofNat_eq_natCast"
+    private static let definitions = "propertyResult, observe, Generated.program, SwiftFormal.initial, SwiftFormal.findFunction, SwiftFormal.bind, SwiftFormal.assign, SwiftFormal.tick, SwiftFormal.findBlock, SwiftFormal.lookup, SwiftFormal.integerBinary, SwiftFormal.binary, SwiftFormal.overflowResult, SwiftFormal.signed, SwiftFormal.arguments, SwiftFormal.flag, SwiftFormal.jump, formalRunning, formalReturned, formalTrapped, formalFailed, bne, Int.ofNat_eq_natCast, SwiftFormal.numberBinary, SwiftFormal.numberNeg, SwiftFormal.numberCanon, SwiftFormal.numberAbs, SwiftFormal.numberEq, SwiftFormal.numberLt, SwiftFormal.numberNaN, SwiftFormal.numberFinite, SwiftFormal.numberInteger, SwiftFormal.numberArithmeticBound, SwiftFormal.numberArithmeticFits, SwiftFormal.numberNegBound, SwiftFormal.numberNegFits"
 }

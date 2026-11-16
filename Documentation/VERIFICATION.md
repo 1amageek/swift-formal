@@ -148,3 +148,53 @@ execution. End-user translation and model verification require neither. The
 owns the exact source subset and rejection rules. Translation remains
 `UNVALIDATED`; these results do not certify arbitrary Java/Bun applications or
 extend Actor, memory, loop-invariant or source-semantic certification support.
+
+
+## Number checkpoint
+
+Date: 2026-11-17. Version 0.4.0 adds IEEE binary64 Number to the JS/TS/Bun
+scalar-v2 profiles. Other source profiles retain their integer semantics.
+This checkpoint supersedes the earlier BigInt-only JS-family restriction.
+
+| Check | Evidence | Scope |
+|---|---|---|
+| Swift tests and release build | 94 named tests and the macOS arm64 release build passed with Swift 6.4.1 | All eight test targets; Number parsing, operators, inference, views and failure paths |
+| Number arithmetic | 400 vectors agree in Node, Bun, Swift IR, Lean kernel reductions and TLC | 16 operations across 25 boundary and seeded-random pairs; NaN, infinities, signed zero, subnormals, rounding, precision and extrema |
+| Number source execution | 35 observations agree in Node/Bun, IR, Lean and TLC | JS/TS/Bun source, division/remainder, truthiness, short-circuiting, classification, logical not, inequality and NaN comparison |
+| Quantified Number proofs | Five kernel-checked theorems and universal TLA specifications parsed by SANY | Identity, irreflexive ordering, reflexivity excluding NaN, addition and negation over every 64-bit input pattern |
+| Number counterexamples | Four Lean refutations and TLC witness traces; each native result is independently rechecked by IR/Lean/TLC | Decimal rounding, NaN cancellation, NaN reflexivity and addition at the integer-precision boundary |
+| Actual-model mutation | Replacing generated Number addition with subtraction prevents the unchanged quantified theorem from checking | Proofs execute actual generated Program data |
+| Existing universal suite | 23 checks have the expected statuses: 19 proofs, two counterexamples, one UNKNOWN and one UNPROVED | All ten source profiles; bounds and failed search still cannot imply validity |
+| Java/Bun compatibility | 18 native/IR/Lean/TLC observations, six all-input proofs, two counterexamples and eight no-output rejections pass | Java widths, BigInt, Boolean and source-profile restrictions |
+| Original frontend regressions | 19 native/IR/TLA/Lean results and CLI rejection checks pass | Go constants, lexical updates, depth and C/C++ visibility |
+| Portable checking | Offline installation, linked-toolchain copying, prefix relocation, ten source profiles, Number rounding and all-input Number sum pass with host tools poisoned | Bundled Java/TLC/Lean only; no host Bun, Node or javac is required by formal |
+| Concurrency and cleanup | Concurrent Number source checks pass; transient child-file cleanup regression passes | Private Java temporary directories and workspace inspection tolerant of deleted entries |
+| Artifact integrity | Runtime/tool tampering is rejected; both runtime hashes are pinned | Regenerate artifacts from older runtime versions |
+
+Native Number observations used Node 24.19.0 and Bun 1.3.11. Verification used
+bundled Lean 4.35.0, TLC 1.7.4 and Temurin 21.0.13+9. The kernel axiom allowlist
+remains `propext`, `Classical.choice`, and `Quot.sound`; no native proof reduction
+or additional axiom is accepted. Mathematical-real substitution is not used.
+
+The current runtime identities are:
+
+| Runtime | SHA-256 |
+|---|---|
+| Lean | `2e2002013cfd2ab19b2ca8dd76d86b1bdf47546e4fded4359baa0d314c448267` |
+| TLA+ | `c75b5f2484bb23d24dfe4bc854cf6275c835d1bd28f6bf0e972d108e97ae67b6` |
+
+Reproduction uses a fresh output directory and an installed portable executable:
+
+```sh
+python3 Tools/run-with-timeout.py --seconds 240 swift test
+python3 Tools/run-with-timeout.py --seconds 240 swift build -c release
+python3 Tools/run-with-timeout.py --seconds 1200 python3 Tools/verify-numbers.py --formal /absolute/path/to/formal --output .tools/number-checkpoint
+python3 Tools/run-with-timeout.py --seconds 900 python3 Tools/verify-java-bun.py --formal /absolute/path/to/formal
+python3 Tools/run-with-timeout.py --seconds 1200 python3 Tools/verify-distribution.py --distribution /absolute/path/to/distribution
+```
+
+Runtime vectors, finite scenarios, universal model proofs and native observations
+have distinct scopes. General source-to-model semantic preservation remains
+UNVALIDATED; arbitrary projects, Actor/async and the original complete v1 scope
+remain unfinished. [Number verification](NUMBERS.md) describes supported source
+syntax, views, migration and automatic-proof limits.

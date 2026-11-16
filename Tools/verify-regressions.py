@@ -203,7 +203,7 @@ with tempfile.TemporaryDirectory(prefix='formal-regressions-') as temporary:
         observations = json.loads((directory / 'observations.json').read_text())
         native(language, source, observations, directory)
         draft = directory / 'Draft'
-        report = execute([formal, 'translate', '--language', language, '--source', directory / 'source.txt', '--output', draft, '--draft-unvalidated'])
+        report = execute([formal, 'translate', '--language', language, '--source', directory / 'source.txt', '--output', draft, *(['--default-numeric', 'bigint'] if language in {'javascript', 'typescript'} else []), '--draft-unvalidated'])
         assert json.loads(report.stdout)['status'] == 'DRAFT_UNVALIDATED'
         for path in ['lean/Generated/Program.lean', 'tla/Program.tla']:
             assert (directory / path).read_bytes() == (draft / path).read_bytes(), path

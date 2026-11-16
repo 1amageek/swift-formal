@@ -19,6 +19,14 @@ struct PropertyWitnessSearch {
                     if !values.contains(value) { values.append(value) }
                     if values.count >= 12 { break }
                 }
+            case .bits(let width) where property.specification.inputViews[index] == .number:
+                let raw: [UInt64] = [0, 0x8000000000000000, Binary64.canonicalNaN, 0x7ff0000000000000, 0xfff0000000000000,
+                    0x3ff0000000000000, 0xbff0000000000000, 1, 0x7fefffffffffffff, 0x4340000000000000] + property.precondition.numberConstants + property.postcondition.numberConstants
+                for bits in raw.prefix(32) {
+                    let pattern = try BitPattern(width: width, bits: Binary64.canonical(bits))
+                    let value = IRValue.bits(pattern)
+                    if !values.contains(value) { values.append(value) }
+                }
             case .bits(let width):
                 let mask = width == 64 ? UInt64.max : (UInt64(1) << width) - 1
                 let sign = UInt64(1) << (width - 1)
@@ -68,8 +76,8 @@ struct PropertyWitnessSearch {
             case .returned(let value):
                 let result = try PropertyScalar(value, view: property.specification.resultView)
                 let postcondition = try property.postcondition.evaluate(arguments: observed, result: result)
-                if try !postcondition.boolean { return PropertyWitness(arguments: arguments, outcome: execution.outcome) }
-            case .trapped, .failed: return PropertyWitness(arguments: arguments, outcome: execution.outcome)
+                if try !postcondition.boolean { return PropertyWitness(arguments: arguments, outcome: execution.outcome, views: property.specification.inputViews) }
+            case .trapped, .failed: return PropertyWitness(arguments: arguments, outcome: execution.outcome, views: property.specification.inputViews)
             case .boundExceeded: continue
             }
         }

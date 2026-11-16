@@ -7,6 +7,8 @@ public struct VerificationScenario: Codable, Sendable {
         public let name: String
         public let entry: String
         public let arguments: [String]
+        public let inputViews: [ScalarView]?
+        public let resultView: ScalarView?
         public let expected: Expected
     }
     public struct Expected: Codable, Sendable {
@@ -26,7 +28,7 @@ public struct VerificationScenario: Codable, Sendable {
         guard let root = object as? [String: Any], Set(root.keys) == ["schemaVersion", "fuel", "cases"],
               let cases = root["cases"] as? [[String: Any]], !cases.isEmpty, cases.count <= 32 else { throw invalid() }
         for item in cases {
-            guard Set(item.keys) == ["name", "entry", "arguments", "expected"], let expected = item["expected"] as? [String: Any],
+            guard Set(item.keys).isSubset(of: ["name", "entry", "arguments", "expected", "inputViews", "resultView"]), Set(["name", "entry", "arguments", "expected"]).isSubset(of: Set(item.keys)), let expected = item["expected"] as? [String: Any],
                   Set(expected.keys).isSubset(of: ["status", "value"]), expected["status"] != nil else { throw invalid() }
         }
         let result: Self
@@ -35,7 +37,7 @@ public struct VerificationScenario: Codable, Sendable {
         guard result.schemaVersion == 1, (1...4096).contains(result.fuel),
               Set(result.cases.map(\.name)).count == result.cases.count else { throw invalid() }
         for item in result.cases {
-            guard safeName(item.name), safeName(item.entry), item.arguments.count <= 128,
+            guard safeName(item.name), safeName(item.entry), item.arguments.count <= 128, item.inputViews == nil || item.inputViews?.count == item.arguments.count,
                   ["returned", "trapped", "panic", "undefinedBehavior"].contains(item.expected.status),
                   (item.expected.status == "returned") == (item.expected.value != nil),
                   (item.arguments + [item.expected.value].compactMap { $0 }).allSatisfy({ $0.utf8.count <= 257 }) else { throw invalid() }

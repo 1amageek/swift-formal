@@ -25,6 +25,7 @@ inductive Operation where
   | signedAddOverflow | signedSubtractOverflow | signedMultiplyOverflow
   | unsignedAddOverflow | unsignedSubtractOverflow | unsignedMultiplyOverflow
   | signedLessThan | unsignedLessThan | equal | and | or | xor
+  | numberAdd | numberSubtract | numberMultiply | numberDivide | numberRemainder | numberNegate | numberAbsolute | numberEqual | numberLessThan | numberLessEqual | numberSameValue | numberIsNaN | numberIsFinite | numberIsInteger | numberIsSafeInteger | numberTruthy
   deriving Repr, BEq
 
 inductive IntegerOperation where
@@ -104,6 +105,102 @@ def signed (width value : Nat) : Int :=
 
 def flag (value : Bool) : Value := .bits 1 (if value then 1 else 0)
 
+def numberAbs (a : Nat) : Nat := a % 9223372036854775808
+def numberNaN (a : Nat) : Bool := numberAbs a > 9218868437227405312
+def numberFinite (a : Nat) : Bool := numberAbs a < 9218868437227405312
+def numberCanon (a : Nat) : Nat := if numberNaN a then 9221120237041090560 else a
+def numberNeg (a : Nat) : Nat :=
+  if numberNaN a then 9221120237041090560
+  else if a < 9223372036854775808 then 9223372036854775808 + a else a % 9223372036854775808
+def numberEq (a b : Nat) : Bool :=
+  !numberNaN a && !numberNaN b && (a == b || (numberAbs a == 0 && numberAbs b == 0))
+def numberLt (a b : Nat) : Bool :=
+  !numberNaN a && !numberNaN b && !(numberAbs a == 0 && numberAbs b == 0) &&
+    (if (a < 9223372036854775808) != (b < 9223372036854775808) then a ≥ 9223372036854775808
+     else if a ≥ 9223372036854775808 then numberAbs b < numberAbs a else numberAbs a < numberAbs b)
+def numberInteger (a : Nat) : Bool :=
+  let e := a / 4503599627370496 % 2048
+  numberFinite a && (if e < 1023 then numberAbs a == 0 else if e ≥ 1075 then true else a % 4503599627370496 % 2 ^ (1075 - e) == 0)
+def numberExponent (a : Nat) : Int :=
+  Int.ofNat (max 1 (a / 4503599627370496 % 2048)) - 1075
+def numberMantissa (a : Nat) : Nat :=
+  a % 4503599627370496 + if a / 4503599627370496 % 2048 == 0 then 0 else 4503599627370496
+def numberRem (a b : Nat) : Nat :=
+  if numberNaN a || numberNaN b || numberAbs a == 9218868437227405312 || numberAbs b == 0 then 9221120237041090560
+  else if numberAbs b == 9218868437227405312 || numberAbs a == 0 then numberCanon a
+  else
+    let e := min (numberExponent a) (numberExponent b)
+    let n := numberMantissa a * 2 ^ (numberExponent a - e).toNat
+    let d := numberMantissa b * 2 ^ (numberExponent b - e).toNat
+    let sign := if a < 9223372036854775808 then Float.Model.UnpackedFloat.Sign.positive else .negative
+    let rounded := Float.Model.UnpackedFloat.round Float.Model.Format.binary64 sign (n % d) e
+    numberCanon (Float.Model.pack rounded).toBits.toNat
+
+inductive NumberArithmeticOperation where
+  | add | subtract | multiply | divide | remainder
+  deriving Repr, BEq
+
+def numberArithmetic (op : NumberArithmeticOperation) (a b : Nat) : Nat :=
+  let x := Float.ofBits (UInt64.ofNat a)
+  let y := Float.ofBits (UInt64.ofNat b)
+  match op with
+  | .add => numberCanon (x + y).toBits.toNat
+  | .subtract => numberCanon (x - y).toBits.toNat
+  | .multiply => numberCanon (x * y).toBits.toNat
+  | .divide => numberCanon (x / y).toBits.toNat
+  | .remainder => numberRem a b
+
+def numberBinary (op : Operation) (a b : Nat) : Option Value :=
+  match op with
+  | .numberNegate => some (.bits 64 (numberNeg a))
+  | .numberAbsolute => some (.bits 64 (numberCanon (numberAbs a)))
+  | .numberEqual => some (flag (numberEq a b))
+  | .numberLessThan => some (flag (numberLt a b))
+  | .numberLessEqual => some (flag (numberLt a b || numberEq a b))
+  | .numberSameValue => some (flag ((numberNaN a && numberNaN b) || a == b))
+  | .numberIsNaN => some (flag (numberNaN a))
+  | .numberIsFinite => some (flag (numberFinite a))
+  | .numberIsInteger => some (flag (numberInteger a))
+  | .numberIsSafeInteger => some (flag (numberInteger a && numberAbs a ≤ 4845873199050653695))
+  | .numberTruthy => some (flag (!numberNaN a && numberAbs a != 0))
+  | .numberAdd => some (.bits 64 (numberArithmetic .add a b))
+  | .numberSubtract => some (.bits 64 (numberArithmetic .subtract a b))
+  | .numberMultiply => some (.bits 64 (numberArithmetic .multiply a b))
+  | .numberDivide => some (.bits 64 (numberArithmetic .divide a b))
+  | .numberRemainder => some (.bits 64 (numberArithmetic .remainder a b))
+  | _ => none
+
+theorem numberCanonBound (n : Nat) (h : n < 18446744073709551616) : numberCanon n < 18446744073709551616 := by
+  unfold numberCanon
+  split <;> omega
+theorem numberRemBound (a b : Nat) (h : a < 18446744073709551616) : numberRem a b < 18446744073709551616 := by
+  unfold numberRem
+  split
+  · omega
+  · split
+    · exact numberCanonBound a h
+    · apply numberCanonBound
+      exact UInt64.toNat_lt _
+theorem numberArithmeticBound (op : NumberArithmeticOperation) (a b : Nat) (h : a < 18446744073709551616) : numberArithmetic op a b < 18446744073709551616 := by
+  cases op <;> unfold numberArithmetic
+  all_goals first | exact numberRemBound a b h | (apply numberCanonBound; exact UInt64.toNat_lt _)
+theorem numberArithmeticFits (op : NumberArithmeticOperation) (a b : Nat) (h : a < 18446744073709551616) : ¬ (18446744073709551616 ≤ numberArithmetic op a b) := by
+  have bound := numberArithmeticBound op a b h
+  omega
+
+theorem numberNegBound (a : Nat) (h : a < 18446744073709551616) : numberNeg a < 18446744073709551616 := by
+  unfold numberNeg
+  split
+  · omega
+  · split
+    · omega
+    · have bound := Nat.mod_lt a (by decide : 0 < 9223372036854775808)
+      omega
+
+theorem numberNegFits (a : Nat) (h : a < 18446744073709551616) : ¬ (18446744073709551616 ≤ numberNeg a) := by
+  have bound := numberNegBound a h
+  omega
+
 def overflowResult (width : Nat) (mathematical : Int) (isSigned : Bool) : Value :=
   let modulus := Int.ofNat (2 ^ width)
   let wrapped := (mathematical % modulus).toNat
@@ -129,6 +226,7 @@ def binary (operation : Operation) (left right : Value) : Option Value := do
     | .and => some (.bits width (Nat.land a b))
     | .or => some (.bits width (Nat.lor a b))
     | .xor => some (.bits width (Nat.xor a b))
+    | .numberAdd | .numberSubtract | .numberMultiply | .numberDivide | .numberRemainder | .numberNegate | .numberAbsolute | .numberEqual | .numberLessThan | .numberLessEqual | .numberSameValue | .numberIsNaN | .numberIsFinite | .numberIsInteger | .numberIsSafeInteger | .numberTruthy => if width == 64 then numberBinary operation a b else none
 
 def integerBinary (operation : IntegerOperation) (left right : Value) : Option Value := do
   let .integer a := left | none

@@ -13,11 +13,11 @@ Use swift-formal to check whether supported program logic behaves as intended, i
 - **State properties over input domains.** Write `requires` and `ensures` conditions and ask Lean to prove that every typed input satisfying the precondition terminates normally and meets the postcondition.
 - **Investigate failures.** Inspect a kernel-checked counterexample and its TLC trace, or an explicit `UNPROVED`/`UNKNOWN` result when automatic proof search cannot finish.
 - **Repeat proofs after changes.** Reuse property specifications with pinned verification tools and reports that record source hashes, theorem source, and tool versions.
-- **Use one workflow across languages.** Generate and check supported functions with the same CLI while retaining each language profile's integer and overflow semantics.
+- **Use one workflow across languages.** Generate and check supported functions with the same CLI while retaining each language profile's numeric and overflow semantics.
 
 This is useful for arithmetic and branching logic where boundary conditions and failure behavior matter. Installation manages Java, TLC, and Lean for you, and subsequent checks run offline.
 
-The current implementation proves properties of **audited generated models**. Integer inputs quantify over all mathematical integers; fixed-width inputs quantify over every bit pattern. General source-to-model semantic preservation remains uncertified. Automatic proofs currently cover acyclic scalar control flow and direct calls; recursion, loop invariants, Actor/async, and general application projects require additional proof support. See [implementation progress](PROGRESS.md).
+The current implementation proves properties of **audited generated models**. Integer inputs quantify over all mathematical integers; fixed-width inputs, including Number, quantify over every bit pattern. General source-to-model semantic preservation remains uncertified. Automatic proofs currently cover acyclic scalar control flow and direct calls; recursion, loop invariants, Actor/async, and general application projects require additional proof support. See [implementation progress](PROGRESS.md).
 
 ## How it works
 
@@ -155,15 +155,15 @@ For individual inputs and expected outcomes, use `--scenario cases.json`. This r
 | C | `c` | `int64_t`, `uint64_t`, `bool`; standard headers; C11 |
 | C++ | `cpp` | `int64_t`, `uint64_t`, `bool`; standard headers; C++20 |
 | Go | `go` | `int64`, `uint64`, `bool`; package declaration required |
-| TypeScript | `typescript` | Primitive `bigint` and `boolean` |
-| JavaScript | `javascript` | Primitive BigInt arguments and results assumed |
+| TypeScript | `typescript` | Inferred/annotated binary64 `number`, `bigint`, `boolean` |
+| JavaScript | `javascript` | Inferred monomorphic scalar types; unresolved types default to Number |
 | Python | `python` | Exact built-in `int` and `bool`; type annotations required |
 | Java | `java` | Static methods in one class; `int`, `long`, `boolean`; wrapping arithmetic |
-| Bun | `bun` | JS/TS functions; BigInt and Boolean; unannotated arguments/results assumed BigInt |
+| Bun | `bun` | JS/TS functions with Number, BigInt and Boolean |
 
-The profiles accept pure functions (static methods inside one class for Java), immutable locals, integer arithmetic and comparisons, direct calls, and conditionals whose branches both return. Integer widths and overflow behavior follow each profile's language rules. Python `int` and JS/TS/Bun BigInt use arbitrary-precision integers.
+The profiles accept pure functions (static methods inside one class for Java), immutable locals, integer arithmetic and comparisons, direct calls, and conditionals whose branches both return. Integer widths and overflow behavior follow each profile's language rules. Python `int` and JS/TS/Bun BigInt use arbitrary-precision integers. Number uses exact IEEE binary64 semantics, including NaN, infinities and signed zero.
 
-General projects, object instances, mutable state and memory operations, exceptions, Actor/async, and JS/TS/Bun Number or implicit coercion are outside the current source profiles. Unsupported syntax is rejected with a source-position diagnostic. The [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md) defines the exact grammar and assumptions.
+General projects, object instances, mutable state and memory operations, exceptions, Actor/async, and implicit coercion are outside the current source profiles. Unsupported syntax is rejected with a source-position diagnostic. The [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md) defines the exact grammar and assumptions.
 
 ```sh
 ./InstalledFormal/bin/formal profiles
@@ -187,16 +187,13 @@ the current profile. Local declarations use `final`.
 Bun accepts TypeScript annotations and unannotated JavaScript functions:
 
 ```typescript
-function calculate(a: bigint): bigint { return a - a; }
+function calculate(a: number): number { return a + 0.5; }
 ```
 
-Use `--language bun --source input.ts` (or `.js`). Numeric literals require `n`,
-and unannotated parameters/results are assumed to be primitive BigInts. Number,
-coercion, runtime APIs, imports and async are outside the scalar profile.
+Use `--language bun --source input.ts` (or `.js`). Ordinary numeric literals use Number; BigInt literals use `n`. Scalar types are inferred, and unresolved inputs default to Number. Mixed domains and implicit coercion are rejected. Only the documented pure numeric builtins are accepted; arbitrary runtime APIs, imports and async remain outside the profile.
 
 Both selections work with `translate`, `check --scenario` and `check --properties`.
-For the functions above, set `ensures` to `result == 0`, with input/result views
-`signed` for Java or `integer` for Bun. Installed checks need neither `javac` nor
+Use `signed` views for Java, `number` for Number and `integer` for BigInt. The [Number guide](Documentation/NUMBERS.md) includes scenarios, all-input properties and compatibility notes. Installed checks need neither `javac` nor
 Bun; source conversion is implemented in Swift and verification uses bundled
 TLC/Lean. The [frontend contract](Sources/FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles)
 defines the accepted source surface.
@@ -275,6 +272,7 @@ The [verification record](Documentation/VERIFICATION.md) documents actual TLC/Le
 
 ## Documentation
 
+- [JavaScript Number semantics and examples](Documentation/NUMBERS.md)
 - [Universal properties and proof scope](Documentation/PROPERTIES.md)
 - [CLI and exit codes](Documentation/CLI.md)
 - [Distribution, installation, and scenarios](Documentation/DISTRIBUTION.md)

@@ -55,3 +55,7 @@ The user-authorized distribution contract supersedes the earlier CLI acquisition
 
 ## Java and Bun Inputs
 [Frontend profiles](Sources/FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles) add Java static scalar methods and Bun JS/TS functions to the existing pipeline. This adds no production target or external dependency. Native source execution belongs to developer verification; installed model checks continue to use only bundled tools.
+
+
+## JavaScript Number Extension
+[IR execution](Sources/FormalIR/Execution/DESIGN.md#binary64-number-contract) owns IEEE binary64 semantics. JS/TS/Bun source profiles advance to v2 with type inference and default Number inputs. Dedicated operations reuse 64-bit data; both runtimes, scenario/property views and trusted hashes change together. This is a scalar Number extension, with native/IR/TLA/Lean comparison and kernel all-input evidence; no general application or source semantic certification is claimed.

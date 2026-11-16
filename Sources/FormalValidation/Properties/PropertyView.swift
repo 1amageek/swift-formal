@@ -1,14 +1,11 @@
-import FormalIR
+public typealias PropertyView = ScalarView
 
-public enum PropertyView: String, Codable, Sendable {
-    case integer, signed, unsigned, boolean
-
-    func accepts(_ type: IRType) -> Bool {
-        switch (self, type) {
-        case (.integer, .integer), (.boolean, .bits(width: 1)): true
-        case (.signed, .bits), (.unsigned, .bits): true
-        default: false
+extension ScalarView {
+    var expressionType: PropertyExpression.Kind {
+        switch self {
+        case .boolean: .boolean
+        case .number: .number
+        default: .integer
         }
     }
-    var expressionType: PropertyExpression.Kind { self == .boolean ? .boolean : .integer }
 }

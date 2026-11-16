@@ -62,11 +62,11 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     assert policy['java']['version'] == '21.0.13+9.0.LTS'
     environment['PATH'] = str(moved / 'bin') + os.pathsep + str(poison)
     # PATH invocation exercises executable discovery through the relative installed symlink.
-    assert run('formal', ['--version'], environment).stdout == 'formal 0.3.0\n'
+    assert run('formal', ['--version'], environment).stdout == 'formal 0.4.0\n'
     binary = 'formal'
     source_by_language = {
         'python': 'def calculate(a: int, b: int) -> int:\n    return a + b\n',
-        'javascript': 'function calculate(a, b) { return a + b; }',
+        'javascript': 'function calculate(a, b) { return a + b + 0n; }',
         'typescript': 'function calculate(a: bigint, b: bigint): bigint { return a + b; }',
         'swift': 'func calculate(_ a: Int64, _ b: Int64) -> Int64 { return a + b }',
         'rust': 'fn calculate(a: i64, b: i64) -> i64 { return a + b; }',
@@ -102,6 +102,22 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     assert universal['scope'] == 'ALL_INPUTS_UNDER_PRECONDITIONS'
     assert universal['properties'][0]['status'] == 'PROVED' and universal['properties'][0]['tla'] == 'SPECIFICATION_GENERATED'
     assert universal['translation'] == 'UNVALIDATED'
+    number_source = work / 'number.ts'
+    number_source.write_text('function calculate(a: number, b: number) { return a + b; }')
+    cases.write_text(json.dumps({'schemaVersion': 1, 'fuel': 32, 'cases': [{
+        'name': 'rounding', 'entry': 'calculate', 'arguments': ['0.1', '0.2'],
+        'inputViews': ['number', 'number'], 'resultView': 'number',
+        'expected': {'status': 'returned', 'value': 'bits:3fd3333333333334'}}]}))
+    number_output = work / 'number'
+    number_report = json.loads(run(binary, ['check', '--language', 'bun', '--source', number_source,
+        '--scenario', cases, '--output', number_output], environment).stdout)
+    assert number_report['cases'][0]['irMatchesExpected']
+    assert number_report['cases'][0]['lean'] == 'PROVED' and number_report['cases'][0]['tlc'] == 'MODEL_CHECKED'
+    properties.write_text(json.dumps({'schemaVersion': 1, 'properties': [{
+        'name': 'ieee_sum', 'entry': 'calculate', 'inputViews': ['number', 'number'],
+        'resultView': 'number', 'requires': 'true', 'ensures': 'sameValue(result, arg0 + arg1)'}]}))
+    number_property = json.loads(run(binary, ['check', '--artifact', number_output, '--properties', properties], environment).stdout)
+    assert number_property['properties'][0]['status'] == 'PROVED'
     scenario(cases, ['2', '9'], {'status': 'returned', 'value': '12'})
     counterexample = json.loads(run(binary, ['check', '--artifact', outputs['python'], '--scenario', cases], environment, expected=5).stdout)
     assert counterexample['cases'][0]['tlc'] == 'COUNTEREXAMPLE'
@@ -122,11 +138,11 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     tampered = run(binary, ['check', '--artifact', outputs['python'], '--scenario', cases], environment, expected=4)
     assert json.loads(tampered.stderr)['code'] == 'INTEGRITY_MISMATCH'
     # Tamper only a clone-owned file; the input distribution remains intact.
-    jar = moved / 'libexec/formal/0.3.0/toolchain/tla2tools.jar'
+    jar = moved / 'libexec/formal/0.4.0/toolchain/tla2tools.jar'
     with jar.open('r+b') as handle:
         handle.seek(0); handle.write(b'BAD!')
     tool_tamper = run(binary, ['toolchain'], environment, expected=4)
     assert json.loads(tool_tamper.stderr)['code'] == 'INTEGRITY_MISMATCH'
     print(json.dumps({'status': 'PASSED', 'scenarios': ['ten profiles', 'counterexample', 'fuel bound',
-          'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber', 'linked toolchain packaging', 'all-input property'],
+          'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber', 'linked toolchain packaging', 'all-input property', 'Number rounding', 'Number all-input sum'],
           'measurements': measurements}, indent=2))

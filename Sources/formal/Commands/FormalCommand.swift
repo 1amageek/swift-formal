@@ -36,15 +36,16 @@ public struct FormalCommand: Sendable {
             return CommandResult(standardOutput: Self.help)
         case "--version":
             guard arguments.count == 1 else { throw invalidArguments() }
-            return CommandResult(standardOutput: "formal 0.3.0\n")
+            return CommandResult(standardOutput: "formal 0.4.0\n")
         case "profiles":
             guard arguments.count == 1 else { throw invalidArguments() }
             return try json(SourceLanguage.allCases.map { ["language": $0.rawValue, "profile": $0.profile, "status": "DRAFT_UNVALIDATED", "assumptions": $0.assumptions.joined(separator: "; ")] })
         case "translate":
             guard arguments.last == "--draft-unvalidated" else { throw invalidArguments() }
-            let values = try options(Array(arguments.dropFirst().dropLast()), required: ["--language", "--source", "--output"])
+            let values = try flexibleOptions(Array(arguments.dropFirst().dropLast()), required: ["--language", "--source", "--output"], optional: ["--default-numeric"])
             guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
-            let report = try DraftTranslation().perform(source: values["--source"]!, language: language, output: values["--output"]!)
+            let numeric = try numericDefault(values, language: language)
+            let report = try DraftTranslation(defaultNumeric: numeric).perform(source: values["--source"]!, language: language, output: values["--output"]!)
             return try json(report)
         case "package":
             let values = try flexibleOptions(Array(arguments.dropFirst()), required: ["--output"], optional: ["--cache"])
@@ -62,7 +63,7 @@ public struct FormalCommand: Sendable {
             guard !(arguments.contains("--properties") && arguments.contains("--scenario")) else { throw invalidArguments() }
             let specificationOption = arguments.contains("--properties") ? "--properties" : "--scenario"
             let base: Set<String> = arguments.contains("--artifact") ? ["--artifact"] : ["--language", "--source", "--output"]
-            let values = try flexibleOptions(Array(arguments.dropFirst()), required: base.union([specificationOption]), optional: ["--timeout"])
+            let values = try flexibleOptions(Array(arguments.dropFirst()), required: base.union([specificationOption]), optional: ["--timeout", "--default-numeric"])
             let timeout: Double
             if let text = values["--timeout"] {
                 guard let value = Double(text), value.isFinite, (1...3600).contains(value) else { throw invalidArguments() }
@@ -73,10 +74,14 @@ public struct FormalCommand: Sendable {
             else { _ = try VerificationScenario.load(specificationURL) }
             let tools = try PinnedToolchain().verify(at: try PortableDistribution().toolsURL)
             let artifact: URL
-            if let path = values["--artifact"] { artifact = URL(fileURLWithPath: path) }
+            if let path = values["--artifact"] {
+                guard values["--default-numeric"] == nil else { throw invalidArguments() }
+                artifact = URL(fileURLWithPath: path)
+            }
             else {
                 guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
-                _ = try DraftTranslation().perform(source: values["--source"]!, language: language, output: values["--output"]!)
+                let numeric = try numericDefault(values, language: language)
+                _ = try DraftTranslation(defaultNumeric: numeric).perform(source: values["--source"]!, language: language, output: values["--output"]!)
                 artifact = URL(fileURLWithPath: values["--output"]!)
             }
             if specificationOption == "--properties" {
@@ -107,6 +112,12 @@ public struct FormalCommand: Sendable {
         default:
             throw FormalDiagnostic(.invalidArguments, "Unknown command: \(command)")
         }
+    }
+
+    private func numericDefault(_ options: [String: String], language: SourceLanguage) throws -> SourceNumericDefault {
+        guard let text = options["--default-numeric"] else { return .number }
+        guard language.isJavaScriptFamily, let selected = SourceNumericDefault(rawValue: text) else { throw invalidArguments() }
+        return selected
     }
 
     private func flexibleOptions(_ arguments: [String], required: Set<String>, optional: Set<String>) throws -> [String: String] {
@@ -161,7 +172,7 @@ public struct FormalCommand: Sendable {
     }
 
     private static let help = """
-    formal 0.3.0
+    formal 0.4.0
     Usage:
       formal package --output <new-directory> [--cache <directory>]
       formal install --prefix <directory> [--cache <directory>]
@@ -179,9 +190,10 @@ public struct FormalCommand: Sendable {
 
     capture, generate, validate, coverage, replay: not implemented (exit 3).
     Bundle inspection checks metadata and hashes, not SIL semantics.
-    translate emits experimental TLA+ and Lean for scalar-v1 source profiles.
+    translate emits experimental TLA+ and Lean for versioned scalar source profiles.
     check --properties proves quantified generated-model pre/postconditions with Lean.
     check --scenario checks finite cases with bundled TLC and Lean.
+    --default-numeric number|bigint selects unconstrained JS-family scalar types during generation.
     Translation remains UNVALIDATED; general source semantic certification is unavailable.
     install/package acquire pinned tools; checking is offline and requires an installed distribution.
 

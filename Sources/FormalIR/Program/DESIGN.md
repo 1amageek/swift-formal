@@ -30,3 +30,6 @@ Malformed programs fail validation. The runner enforces caller-selected fuel, st
 
 ## Mathematical Integers and Failures
 IRType.integer and IRValue.integer are separate from fixed-width bits. IRIntegerOperation has add/subtract/multiply/lessThan/equal. Integer literals serialize canonically as signed decimal strings; zero has no sign or leading zero. MathematicalInteger is the immutable host owner. IR validation requires integer operands and returns one bit for comparisons. IRFailureKind distinguishes panic and undefinedBehavior; the existing trap instruction remains distinct. A failed computation never becomes a returned value. [Execution](../Execution/DESIGN.md) owns bounded host execution, while formal runtimes model unbounded integers. Backend and decoder consumers must change with this contract. [Frontend tests](../../../Tests/FormalFrontendTests) own language composition; [IR tests](../../../Tests/FormalIRTests) own static validity and instruction behavior.
+
+
+Number operations reuse width-64 values with dedicated operations under [Execution](../Execution/DESIGN.md#binary64-number-contract). Validation rejects other widths; comparisons/classifications return one bit. Integer operations retain their contracts.

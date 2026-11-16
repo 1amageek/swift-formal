@@ -98,3 +98,29 @@ Java/Bun universal checks use only bundled tools under a missing host PATH.
 See [verification evidence](Documentation/VERIFICATION.md#java-and-bun-checkpoint).
 The project still reports UNVALIDATED source translation and remains incomplete
 for the original v1/Actor scope.
+
+
+## IEEE Number support
+
+2026-11-17: Version 0.4.0 adds Number to JavaScript, TypeScript and Bun scalar-v2.
+This supersedes the BigInt-only restriction in the preceding checkpoint.
+Dedicated binary64 operations preserve rounding, NaN, infinities, subnormals and
+signed zero through Swift IR, exact TLA bit arithmetic and Lean's logical Float
+model. Inference handles Number/BigInt/Boolean; unresolved numeric types default
+to Number and may select BigInt explicitly. Number scenario/property views,
+short-circuit logical operations and documented pure numeric builtins are
+available. No production target or external SwiftPM dependency was added.
+
+94 Swift tests, the release build and ten-language CLI integration pass. The
+Number suite checks 400 native/IR/Lean/TLC vectors and 35 source observations,
+proves five all-input properties, confirms four counterexamples against native
+execution and rejects a mutated actual generated program. Existing universal,
+Java/Bun and frontend regression suites pass. Portable offline installation and
+relocation checks include Number rounding and a quantified Number sum with
+host verification tools blocked. Private Java temporary directories and a
+workspace cleanup regression protect concurrent checks.
+
+See [Number evidence](Documentation/VERIFICATION.md#number-checkpoint) and the
+[Number guide](Documentation/NUMBERS.md). Source translation remains
+UNVALIDATED, automatic proof search remains bounded and incomplete, and the
+original full v1/Actor scope is still unfinished.

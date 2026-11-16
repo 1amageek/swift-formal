@@ -33,7 +33,7 @@ public struct PropertySpecification: Codable, Sendable {
         guard result.schemaVersion == 1, Set(result.properties.map(\.name)).count == result.properties.count else { throw invalid("Invalid schema or duplicate property names") }
         for property in result.properties {
             guard validName(property.name), validName(property.entry), property.inputViews.count <= 128 else { throw invalid("Invalid property name, entry or argument count") }
-            _ = try PropertyExpressionParser.parse(property.requires, inputs: property.inputViews, result: nil)
+            _ = try PropertyExpressionParser.parse(property.requires, inputs: property.inputViews, result: nil, numberLiterals: property.resultView == .number)
             _ = try PropertyExpressionParser.parse(property.ensures, inputs: property.inputViews, result: property.resultView)
         }
         return result

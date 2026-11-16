@@ -82,8 +82,8 @@ struct SourceFrontendTests {
     }
     @Test func rejectsSemanticChanges() throws {
         let invalid: [(SourceLanguage, String)] = [
-            (.javascript, "function f(a) { return a + 1; }"),
-            (.typescript, "function f(a: number): number { return a + 1; }"),
+            (.javascript, "function f(a) { return a + 1n + 1; }"),
+            (.typescript, "function f(a: number): bigint { return a + 1; }"),
             (.rust, "fn f(a: i64) -> i64 { let mut x = a; return x; }"),
             (.c, "#define VALUE 1\nint64_t f(int64_t a) { return a; }"),
             (.c, "int64_t f(int64_t a) { return a + 1; }"),

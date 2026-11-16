@@ -19,7 +19,7 @@ struct SourceLowering {
     mutating func fresh() -> String { defer { nextValue += 1 }; return "v\(nextValue)" }
     mutating func label() -> String { defer { nextBlock += 1 }; return "b\(nextBlock)" }
     mutating func finish() { blocks.append(.init(id: blockID, parameters: parameters, instructions: instructions)); instructions = []; parameters = [] }
-    var defaultInteger: ScalarType { [.python, .typescript, .javascript, .bun].contains(language) ? .integer : language == .java ? .signed32 : .signed }
+    var defaultInteger: ScalarType { language.isJavaScriptFamily ? .number : language == .python ? .integer : language == .java ? .signed32 : .signed }
 
     mutating func lower() throws -> IRProgram {
         guard !moduleID.isEmpty else { throw error("Module ID is required") }
@@ -61,7 +61,8 @@ struct SourceLowering {
                 instructions.append(.returnValue(value.id)); finish(); return
             case .conditional(let condition, let thenBody, let elseBody):
                 guard index == body.count - 1 else { throw error("Conditional branches must terminate the function") }
-                let value = try expressionValue(condition, expected: .boolean, environment: environment)
+                let tested = try expressionValue(condition, expected: language.isJavaScriptFamily ? nil : .boolean, environment: environment)
+                let value = try booleanValue(tested)
                 let thenID = label(); let elseID = label()
                 instructions.append(.branch(condition: value.id, thenBlock: thenID, thenArguments: [], elseBlock: elseID, elseArguments: [])); finish()
                 blockID = thenID; try statements(thenBody, environment: environment, result: result)
@@ -74,13 +75,20 @@ struct SourceLowering {
         var pending = [expression]
         while let expression = pending.popLast() {
             switch expression {
-            case .variable(let name): if let type = environment[name]?.type { return type }
-            case .call(let name, _): if let type = signatures[name]?.result { return type }
+            case .variable(let name):
+                if let type = environment[name]?.type { return type }
+                if language.isJavaScriptFamily && ["NaN", "Infinity"].contains(name) { return .number }
+            case .call(let name, _):
+                if language.isJavaScriptFamily, let operation = SourceNumberBuiltin.operation(name) { return operation.returnsFlag ? .boolean : .number }
+                if let type = signatures[name]?.result { return type }
             case .literal(let raw):
                 if ["True", "False", "true", "false"].contains(raw) { return .boolean }
+                if language.isJavaScriptFamily { return raw.hasSuffix("n") ? .integer : .number }
                 if language == .java { return raw.hasSuffix("L") || raw.hasSuffix("l") ? .signed : .signed32 }
                 if raw.hasSuffix("ULL") || raw.hasSuffix("u64") { return .unsigned }
-            case .unary(_, let value): pending.append(value)
+            case .unary(let operation, let value):
+                if operation == "!" || operation == "not" { return .boolean }
+                pending.append(value)
             case .binary(let operation, let left, let right):
                 if isComparison(operation) { return .boolean }
                 pending.append(right); pending.append(left)
@@ -89,7 +97,7 @@ struct SourceLowering {
         return nil
     }
     private func isComparison(_ operation: String) -> Bool {
-        ["==", "!=", "<", ">", "<=", ">="].contains(operation)
+        ["==", "!=", "===", "!==", "<", ">", "<=", ">="].contains(operation)
     }
     private func checked(_ value: Binding, expected: ScalarType?) throws -> Binding {
         if let expected, value.type != expected { throw error("Expression type mismatch; implicit conversions are unsupported") }
@@ -117,6 +125,8 @@ struct SourceLowering {
         case negate(Binding, ScalarType?)
         case binary(String, ScalarType?)
         case call(String, Int, ScalarType?)
+        case builtin(IROperation, Int, ScalarType?)
+        case logical(String, SourceExpression, ScalarType?)
     }
     mutating func expressionValue(_ expression: SourceExpression, expected: ScalarType?, environment: [String: Binding]) throws -> Binding {
         var pending: [ExpressionWork] = [.evaluate(expression, expected)]
@@ -127,12 +137,21 @@ struct SourceLowering {
                 if let constant = try constantValue(expression, expected: expected) { values.append(constant); continue }
                 switch expression {
                 case .variable(let name):
+                    if language.isJavaScriptFamily && ["NaN", "Infinity"].contains(name) {
+                        let value = try literal(name, type: .number); values.append(try checked(value, expected: expected)); continue
+                    }
                     guard let value = environment[name] else { throw error("Unknown variable '\(name)'") }
                     values.append(try checked(value, expected: expected))
                 case .literal(let raw):
                     let value = try literal(raw, type: expected ?? hint(expression, environment) ?? defaultInteger)
                     values.append(try checked(value, expected: expected))
                 case .call(let name, let expressions):
+                    if language.isJavaScriptFamily, let operation = SourceNumberBuiltin.operation(name) {
+                        guard expressions.count == SourceNumberBuiltin.arity(name) else { throw error("Builtin argument count mismatch") }
+                        pending.append(.builtin(operation, expressions.count, expected))
+                        for argument in expressions.reversed() { pending.append(.evaluate(argument, .number)) }
+                        continue
+                    }
                     guard visibleFunctions.contains(name) else { throw error("Call to '\(name)' precedes its declaration or is unresolved") }
                     guard let function = signatures[name], function.parameters.count == expressions.count else { throw error("Unknown call or argument count '\(name)'") }
                     if language == .c || language == .cpp {
@@ -144,7 +163,9 @@ struct SourceLowering {
                     }
                 case .unary(let operation, let operand):
                     if operation == "!" || operation == "not" {
-                        pending.append(.invert(expected)); pending.append(.evaluate(operand, .boolean))
+                        pending.append(.invert(expected)); pending.append(.evaluate(operand, language.isJavaScriptFamily ? nil : .boolean))
+                    } else if operation == "+" && language.isJavaScriptFamily {
+                        pending.append(.evaluate(operand, .number))
                     } else {
                         let type = expected ?? hint(operand, environment) ?? defaultInteger
                         guard type != .boolean, type != .unsigned else { throw error("Unary minus requires a signed or mathematical integer") }
@@ -157,26 +178,50 @@ struct SourceLowering {
                     }
                     let comparison = isComparison(operation)
                     let type = hint(left, environment) ?? hint(right, environment) ?? (comparison ? defaultInteger : expected ?? defaultInteger)
-                    guard type != .boolean || operation == "==" || operation == "!=" else { throw error("Boolean arithmetic and ordering are unsupported") }
+                    guard type != .boolean || ["==", "!=", "===", "!==", "&&", "||"].contains(operation) else { throw error("Boolean arithmetic and ordering are unsupported") }
                     if comparison {
                         for operand in [left, right] {
                             if case .binary(let inner, _, _) = operand, isComparison(inner) { throw error("Nested or chained comparisons are unsupported") }
                         }
+                    }
+                    if language.isJavaScriptFamily && ["&&", "||"].contains(operation) {
+                        pending.append(.logical(operation, right, expected)); pending.append(.evaluate(left, type)); continue
                     }
                     pending.append(.binary(operation, expected))
                     pending.append(.evaluate(right, type)); pending.append(.evaluate(left, type))
                 }
             case .invert(let expected):
                 guard let operand = values.popLast() else { throw error("Missing unary operand") }
-                let value = try invert(operand)
+                let tested = try booleanValue(operand)
+                let value = try invert(tested)
                 values.append(try checked(value, expected: expected))
             case .negate(let zero, let expected):
                 guard let operand = values.popLast() else { throw error("Missing unary operand") }
-                let value = try binary("-", zero, operand)
+                let value = operand.type == .number ? try numberValue(.numberNegate, [operand]) : try binary("-", zero, operand)
                 values.append(try checked(value, expected: expected))
             case .binary(let operation, let expected):
                 guard let right = values.popLast(), let left = values.popLast() else { throw error("Missing binary operand") }
                 let value = try binary(operation, left, right)
+                values.append(try checked(value, expected: expected))
+            case .logical(let operation, let rightExpression, let expected):
+                guard let left = values.popLast() else { throw error("Missing short-circuit operand") }
+                let condition = try booleanValue(left)
+                let rhsBlock = label(); let skippedBlock = label(); let merge = label()
+                instructions.append(.branch(condition: condition.id,
+                    thenBlock: operation == "&&" ? rhsBlock : skippedBlock, thenArguments: [],
+                    elseBlock: operation == "&&" ? skippedBlock : rhsBlock, elseArguments: []))
+                finish()
+                blockID = rhsBlock
+                let right = try expressionValue(rightExpression, expected: left.type, environment: environment)
+                instructions.append(.jump(block: merge, arguments: [right.id])); finish()
+                blockID = skippedBlock
+                instructions.append(.jump(block: merge, arguments: [left.id])); finish()
+                let merged = fresh(); blockID = merge; parameters = [.init(id: merged, type: left.type.ir)]
+                values.append(try checked((merged, left.type), expected: expected))
+            case .builtin(let operation, let count, let expected):
+                guard values.count >= count else { throw error("Missing builtin arguments") }
+                let arguments = Array(values.suffix(count)); values.removeLast(count)
+                let value = try numberValue(operation, arguments)
                 values.append(try checked(value, expected: expected))
             case .call(let name, let count, let expected):
                 guard let function = signatures[name], values.count >= count else { throw error("Missing call arguments") }
@@ -197,11 +242,18 @@ struct SourceLowering {
             guard let bit = allowed.firstIndex(of: raw) else { throw error("Expected a Boolean literal") }
             let pattern = try BitPattern(width: 1, bits: UInt64(bit)); instructions.append(.literal(destination: id, value: pattern)); return (id, type)
         }
+        if type == .number {
+            let rawBits: UInt64
+            do { rawBits = try Binary64.parse(raw) }
+            catch { throw self.error("Invalid Number literal: \(raw)") }
+            let pattern = try BitPattern(width: 64, bits: rawBits)
+            instructions.append(.literal(destination: id, value: pattern)); return (id, .number)
+        }
         var text = raw
         if !synthetic {
             switch language {
             case .javascript, .typescript, .bun:
-                guard text.hasSuffix("n") else { throw error("Number literals are unsupported; use BigInt") }; text.removeLast()
+                guard text.hasSuffix("n") else { throw error("BigInt expressions require n-suffixed literals") }; text.removeLast()
             case .c, .cpp:
                 let suffix = type == .unsigned ? "ULL" : "LL"
                 guard text.hasSuffix(suffix) else { throw error("C/C++ integer literals require \(suffix) suffix") }; text.removeLast(suffix.count)
@@ -239,7 +291,41 @@ struct SourceLowering {
         let one = fresh(); let pattern = try BitPattern(width: 1, bits: 1); instructions.append(.literal(destination: one, value: pattern))
         let id = fresh(); instructions.append(.binary(destination: id, operation: .xor, left: value.id, right: one)); return (id, .boolean)
     }
+    private mutating func numberValue(_ operation: IROperation, _ arguments: [Binding]) throws -> Binding {
+        guard (1...2).contains(arguments.count), arguments.allSatisfy({ $0.type == .number }) else { throw error("Number operands required") }
+        let id = fresh()
+        instructions.append(.binary(destination: id, operation: operation, left: arguments[0].id, right: arguments[arguments.count - 1].id))
+        return (id, operation.returnsFlag ? .boolean : .number)
+    }
+    private mutating func booleanValue(_ value: Binding) throws -> Binding {
+        if value.type == .boolean { return value }
+        guard language.isJavaScriptFamily else { throw error("Boolean condition required") }
+        if value.type == .number { return try numberValue(.numberTruthy, [value]) }
+        if value.type == .integer {
+            let zero = try literal("0", type: .integer, synthetic: true)
+            let equality = try binary("==", value, zero)
+            return try invert(equality)
+        }
+        throw error("Unsupported truthiness conversion")
+    }
     mutating func binary(_ op: String, _ a: Binding, _ b: Binding) throws -> Binding {
+        let op = op == "===" ? "==" : op == "!==" ? "!=" : op
+        if a.type == .number && b.type == .number {
+            let operation: IROperation
+            switch op {
+            case "+": operation = .numberAdd
+            case "-": operation = .numberSubtract
+            case "*": operation = .numberMultiply
+            case "/": operation = .numberDivide
+            case "%": operation = .numberRemainder
+            case "==", "!=": operation = .numberEqual
+            case "<", ">": operation = .numberLessThan
+            case "<=", ">=": operation = .numberLessEqual
+            default: throw error("Unsupported Number operator")
+            }
+            let result = try numberValue(operation, op == ">" || op == ">=" ? [b, a] : [a, b])
+            return op == "!=" ? try invert(result) : result
+        }
         guard a.type == b.type else { throw error("Mixed operand types") }
         if [">", "<=", ">="].contains(op) {
             let value = try binary("<", op == ">=" ? a : b, op == ">=" ? b : a)

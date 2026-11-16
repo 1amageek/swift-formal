@@ -76,6 +76,7 @@ struct PropertyTLAEmitter {
     }
     private func view(_ view: PropertyView, value: String, type: IRType) -> String {
         switch view {
+        case .number: value
         case .integer: "MathInteger(\(value))"
         case .unsigned: "BitsToNat(\(value).bits)"
         case .signed: "SignedBits(\(value))"

@@ -72,7 +72,7 @@ def property_check(name, language, source, views, result, ensures, status='PROVE
         'inputViews': views, 'resultView': result, 'requires': 'true', 'ensures': ensures}]}
     (directory / 'properties.json').write_text(json.dumps(specification, indent=2))
     report = json.loads(run([formal, 'check', '--language', language, '--source', directory / 'source',
-        '--properties', directory / 'properties.json', '--output', directory / 'Checked'], expected=exit_code))
+        '--properties', directory / 'properties.json', '--output', directory / 'Checked', *(['--default-numeric', 'bigint'] if language == 'bun' and 'bigint' not in source and views == ['integer'] else [])], expected=exit_code))
     (directory / 'result.json').write_text(json.dumps(report, indent=2))
     item = report['properties'][0]
     assert report['scope'] == 'ALL_INPUTS_UNDER_PRECONDITIONS' and report['translation'] == 'UNVALIDATED'
@@ -124,7 +124,7 @@ try:
                 ('java', 'class ScalarFixture { static long calculate() { return 2147483647 + 1; } }'),
                 ('java', 'class ScalarFixture { static int calculate() { return -(2147483648); } }'),
                 ('java', 'class ScalarFixture { long calculate(long a) { return a; } }'),
-                ('bun', 'function calculate(a: number): number { return a + 1; }'),
+                ('bun', 'function calculate(a: number): number { return a + 1n; }'),
                 ('bun', 'function calculate(a) { return a++; }')]
     for index, (language, source) in enumerate(rejected):
         path = work / f'rejected{index}.source'; path.write_text(source)
@@ -133,7 +133,7 @@ try:
              '--output', output, '--draft-unvalidated'], expected=4)
         assert not output.exists()
     profiles = json.loads(run([formal, 'profiles']))
-    assert {'java-scalar-v1', 'bun-scalar-v1'} <= {item['profile'] for item in profiles}
+    assert {'java-scalar-v1', 'bun-scalar-v2'} <= {item['profile'] for item in profiles}
     summary = {'status': 'PASSED', 'nativeVersions': versions, 'checks': records, 'noOutputRejections': len(rejected)}
     (work / 'summary.json').write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))

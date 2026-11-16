@@ -46,7 +46,7 @@ Bitwise(operation, left, right) ==
                           [] operation = "or" -> IF left[i] + right[i] > 0 THEN 1 ELSE 0
                           [] OTHER -> (left[i] + right[i]) % 2]
 
-Binary(operation, left, right) ==
+BitBinary(operation, left, right) ==
   LET width == left.width
       a == left.bits
       b == right.bits
@@ -109,6 +109,116 @@ ParseMagnitude(text, count) ==
   ELSE MagnitudeAdd(MagnitudeMultiply(ParseMagnitude(text, count - 1), <<0, 1, 0, 1>>), DigitBits(DecimalDigit(SubSeq(text, count, count))))
 ParseInteger(text) == IF SubSeq(text, 1, 1) = "-" THEN Integer(TRUE, ParseMagnitude(SubSeq(text, 2, Len(text)), Len(text) - 1))
                       ELSE Integer(FALSE, ParseMagnitude(text, Len(text)))
+
+\* Exact IEEE binary64 operations; magnitudes never use TLC machine integers.
+FPAbs(a) == SubSeq(a.bits, 1, 63) \o <<0>>
+FPSign(a) == a.bits[64]
+FPZero(a) == FPAbs(a) = Zeros(64)
+FPInf(a) == SubSeq(a.bits, 53, 63) = Ones(11) /\ SubSeq(a.bits, 1, 52) = Zeros(52)
+FPNaN(a) == SubSeq(a.bits, 53, 63) = Ones(11) /\ SubSeq(a.bits, 1, 52) # Zeros(52)
+FPFinite(a) == SubSeq(a.bits, 53, 63) # Ones(11)
+FPQuietNaN == Bits(64, Zeros(51) \o <<1>> \o Ones(11) \o <<0>>)
+FPCanon(a) == IF FPNaN(a) THEN FPQuietNaN ELSE a
+FPSmallBits(n, width) == [i \in 1..width |-> (n \div (2 ^ (i - 1))) % 2]
+RECURSIVE FPSmallNat(_)
+FPSmallNat(b) == IF Len(b) = 0 THEN 0 ELSE Head(b) + 2 * FPSmallNat(Tail(b))
+FPExp(a) == FPSmallNat(SubSeq(a.bits, 53, 63))
+FPMantissa(a) == Trim(SubSeq(a.bits, 1, 52) \o <<IF FPExp(a) = 0 THEN 0 ELSE 1>>)
+FPE(a) == (IF FPExp(a) = 0 THEN 1 ELSE FPExp(a)) - 1075
+FPShift(n, count) == IF Len(n) = 0 THEN <<>> ELSE Zeros(count) \o n
+FPInfinity(sign) == Bits(64, Zeros(52) \o Ones(11) \o <<sign>>)
+FPZeroValue(sign) == Bits(64, Zeros(63) \o <<sign>>)
+FPNeg(a) == IF FPNaN(a) THEN FPQuietNaN ELSE Bits(64, SubSeq(a.bits, 1, 63) \o <<1 - FPSign(a)>>)
+FPEqual(a, b) == ~FPNaN(a) /\ ~FPNaN(b) /\ (a.bits = b.bits \/ (FPZero(a) /\ FPZero(b)))
+FPLess(a, b) ==
+  /\ ~FPNaN(a) /\ ~FPNaN(b) /\ ~(FPZero(a) /\ FPZero(b))
+  /\ IF FPSign(a) # FPSign(b) THEN FPSign(a) = 1
+     ELSE IF FPSign(a) = 1 THEN BVUnsignedLess(FPAbs(b), FPAbs(a)) ELSE BVUnsignedLess(FPAbs(a), FPAbs(b))
+FPInteger(a) == FPFinite(a) /\
+  IF FPExp(a) < 1023 THEN FPZero(a)
+  ELSE IF FPExp(a) >= 1075 THEN TRUE
+  ELSE SubSeq(a.bits, 1, 1075 - FPExp(a)) = Zeros(1075 - FPExp(a))
+RECURSIVE FPDividePrefix(_, _, _)
+FPDividePrefix(n, d, count) ==
+  IF count = 0 THEN [q |-> <<>>, r |-> Trim(SubSeq(n, Len(n) - Len(d) + 2, Len(n)))]
+  ELSE LET prior == FPDividePrefix(n, d, count - 1)
+           next == Trim(<<n[Len(n) - Len(d) + 2 - count]>> \o prior.r)
+           subtract == ~MagnitudeLess(next, d)
+       IN [q |-> <<IF subtract THEN 1 ELSE 0>> \o prior.q,
+           r |-> IF subtract THEN MagnitudeSubtract(next, d) ELSE next]
+FPDivide(n, d) ==
+  IF MagnitudeLess(n, d) THEN [q |-> <<>>, r |-> n]
+  ELSE IF d = <<1>> THEN [q |-> n, r |-> <<>>]
+  ELSE LET result == FPDividePrefix(n, d, Len(n) - Len(d) + 1) IN [q |-> Trim(result.q), r |-> result.r]
+FPAtLeastPower(n, d, e, power) ==
+  IF e >= power THEN ~MagnitudeLess(FPShift(n, e - power), d)
+  ELSE ~MagnitudeLess(n, FPShift(d, power - e))
+FPRound(sign, n, d, e) ==
+  IF Len(n) = 0 THEN FPZeroValue(sign)
+  ELSE LET firstPower == Len(n) - Len(d) + e
+           power == IF FPAtLeastPower(n, d, e, firstPower) THEN firstPower ELSE firstPower - 1
+           quantum == IF power - 52 < -1074 THEN -1074 ELSE power - 52
+           numerator == FPShift(n, IF e >= quantum THEN e - quantum ELSE 0)
+           denominator == FPShift(d, IF quantum >= e THEN quantum - e ELSE 0)
+           division == FPDivide(numerator, denominator)
+           doubled == FPShift(division.r, 1)
+           odd == IF Len(division.q) = 0 THEN FALSE ELSE division.q[1] = 1
+           up == MagnitudeLess(denominator, doubled) \/ (doubled = denominator /\ odd)
+           rounded == IF up THEN MagnitudeAdd(division.q, <<1>>) ELSE division.q
+           carry == Len(rounded) > 53
+           mantissa == IF carry THEN SubSeq(rounded, 2, Len(rounded)) ELSE rounded
+           adjusted == quantum + IF carry THEN 1 ELSE 0
+           exponent == IF Len(mantissa) < 53 THEN 0 ELSE adjusted + 1075
+       IN IF Len(mantissa) = 0 THEN FPZeroValue(sign)
+          ELSE IF exponent >= 2047 THEN FPInfinity(sign)
+          ELSE Bits(64, Low(Pad(mantissa, IF Len(mantissa) < 52 THEN 52 ELSE Len(mantissa)), 52) \o FPSmallBits(exponent, 11) \o <<sign>>)
+FPAdd(a, b) ==
+  IF FPNaN(a) \/ FPNaN(b) \/ (FPInf(a) /\ FPInf(b) /\ FPSign(a) # FPSign(b)) THEN FPQuietNaN
+  ELSE IF FPInf(a) THEN a ELSE IF FPInf(b) THEN b
+  ELSE LET e == IF FPE(a) < FPE(b) THEN FPE(a) ELSE FPE(b)
+           left == Integer(FPSign(a) = 1, FPShift(FPMantissa(a), FPE(a) - e))
+           right == Integer(FPSign(b) = 1, FPShift(FPMantissa(b), FPE(b) - e))
+           sum == IntegerAdd(left, right)
+           negative == sum.negative \/ (Len(sum.magnitude) = 0 /\ FPSign(a) = 1 /\ FPSign(b) = 1)
+       IN FPRound(IF negative THEN 1 ELSE 0, sum.magnitude, <<1>>, e)
+FPMultiply(a, b) ==
+  LET sign == (FPSign(a) + FPSign(b)) % 2
+  IN IF FPNaN(a) \/ FPNaN(b) \/ (FPInf(a) /\ FPZero(b)) \/ (FPZero(a) /\ FPInf(b)) THEN FPQuietNaN
+     ELSE IF FPInf(a) \/ FPInf(b) THEN FPInfinity(sign)
+     ELSE FPRound(sign, MagnitudeMultiply(FPMantissa(a), FPMantissa(b)), <<1>>, FPE(a) + FPE(b))
+FPQuotient(a, b) ==
+  LET sign == (FPSign(a) + FPSign(b)) % 2
+  IN IF FPNaN(a) \/ FPNaN(b) \/ (FPInf(a) /\ FPInf(b)) \/ (FPZero(a) /\ FPZero(b)) THEN FPQuietNaN
+     ELSE IF FPInf(a) \/ FPZero(b) THEN FPInfinity(sign)
+     ELSE IF FPInf(b) \/ FPZero(a) THEN FPZeroValue(sign)
+     ELSE FPRound(sign, FPMantissa(a), FPMantissa(b), FPE(a) - FPE(b))
+FPRem(a, b) ==
+  IF FPNaN(a) \/ FPNaN(b) \/ FPInf(a) \/ FPZero(b) THEN FPQuietNaN
+  ELSE IF FPInf(b) \/ FPZero(a) THEN FPCanon(a)
+  ELSE LET e == IF FPE(a) < FPE(b) THEN FPE(a) ELSE FPE(b)
+           n == FPShift(FPMantissa(a), FPE(a) - e)
+           d == FPShift(FPMantissa(b), FPE(b) - e)
+       IN FPRound(FPSign(a), FPDivide(n, d).r, <<1>>, e)
+NumberBinary(operation, a, b) ==
+  CASE operation = "numberAdd" -> FPAdd(a, b)
+    [] operation = "numberSubtract" -> FPAdd(a, FPNeg(b))
+    [] operation = "numberMultiply" -> FPMultiply(a, b)
+    [] operation = "numberDivide" -> FPQuotient(a, b)
+    [] operation = "numberRemainder" -> FPRem(a, b)
+    [] operation = "numberNegate" -> FPNeg(a)
+    [] operation = "numberAbsolute" -> FPCanon(Bits(64, FPAbs(a)))
+    [] operation = "numberEqual" -> Flag(FPEqual(a, b))
+    [] operation = "numberLessThan" -> Flag(FPLess(a, b))
+    [] operation = "numberLessEqual" -> Flag(FPLess(a, b) \/ FPEqual(a, b))
+    [] operation = "numberSameValue" -> Flag((FPNaN(a) /\ FPNaN(b)) \/ a.bits = b.bits)
+    [] operation = "numberIsNaN" -> Flag(FPNaN(a))
+    [] operation = "numberIsFinite" -> Flag(FPFinite(a))
+    [] operation = "numberIsInteger" -> Flag(FPInteger(a))
+    [] operation = "numberIsSafeInteger" -> Flag(FPInteger(a) /\ ~BVUnsignedLess(Ones(52) \o FPSmallBits(1075, 11) \o <<0>>, FPAbs(a)))
+    [] operation = "numberTruthy" -> Flag(~FPNaN(a) /\ ~FPZero(a))
+Binary(operation, left, right) ==
+  IF Len(operation) < 6 THEN BitBinary(operation, left, right)
+  ELSE IF SubSeq(operation, 1, 6) = "number" THEN NumberBinary(operation, left, right) ELSE BitBinary(operation, left, right)
 
 FindFunction(program, symbol) == CHOOSE function \in Elements(program): function.symbol = symbol
 FindBlock(function, id) == CHOOSE block \in Elements(function.blocks): block.id = id

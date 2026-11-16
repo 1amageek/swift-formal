@@ -34,8 +34,10 @@ Future command behavior follows SPEC section 14, subject to the user corrections
 
 ## Draft source translation
 
-Languages: `swift`, `rust`, `c`, `cpp`, `go`, `typescript`, `javascript`, `python`. `--draft-unvalidated` is mandatory and last. The output directory must not exist; its parent must already exist. Failure does not replace prior output. The frontend never executes the input or downloads tools. See [source-profile contracts](../Sources/FormalCompiler/Frontends/DESIGN.md) for grammar, integer semantics, and input assumptions. Draft output is not accepted as a certified SIL bundle by the strict generation path. `report.json` records the source hash, profile assumptions, data equality, and absent semantic certification. No actual external verifier is run by translate.
+Languages: `swift`, `rust`, `c`, `cpp`, `go`, `typescript`, `javascript`, `python`, `java`, `bun`. `--draft-unvalidated` is mandatory and last. The output directory must not exist; its parent must already exist. Failure does not replace prior output. The frontend never executes the input or downloads tools. See [source-profile contracts](../Sources/FormalCompiler/Frontends/DESIGN.md) for grammar, integer semantics, and input assumptions. Draft output is not accepted as a certified SIL bundle by the strict generation path. `report.json` records the source hash, profile assumptions, data equality, and absent semantic certification. No actual external verifier is run by translate.
 
 Portable installation, scenario schema, resource limits, report scope and examples are documented in [DISTRIBUTION.md](DISTRIBUTION.md). `check` accepts optional `--timeout <seconds>`.
 
 Universal properties use [PROPERTIES.md](PROPERTIES.md). They quantify all typed inputs satisfying explicit preconditions; TLA specification generation and SANY parsing are separate from Lean’s universal proof. `--properties` and `--scenario` are mutually exclusive.
+
+JS-family source generation accepts `--default-numeric number|bigint` for unresolved scalar types. Number scenarios/properties use `number` views; [Number guide](NUMBERS.md). Artifact rechecking rejects this generation-only option.

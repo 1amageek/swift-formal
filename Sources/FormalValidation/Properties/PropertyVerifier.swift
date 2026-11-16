@@ -22,7 +22,7 @@ public struct PropertyVerifier: PropertyVerifying {
         var preparationError: (String, Int32)?
         do {
             for name in ["SwiftFormal/Runtime", "Generated/Program"] {
-                let result = try await invoke(toolchain.lean, ["-M", "1024", "-o", name + ".olean", name + ".lean"], at: leanRoot,
+                let result = try await invoke(toolchain.lean, ["-M", "2048", "-o", name + ".olean", name + ".lean"], at: leanRoot,
                     environment: environment, log: work.appendingPathComponent(name.replacingOccurrences(of: "/", with: "-")), timeout: timeout)
                 guard result.exitCode == 0 else { throw failure(result, message: "Lean module preparation failed; inspect logs") }
             }
@@ -32,6 +32,7 @@ public struct PropertyVerifier: PropertyVerifying {
             let directory = work.appendingPathComponent("property-\(index)")
             let tlaRoot = directory.appendingPathComponent("tla")
             try manager.createDirectory(at: tlaRoot, withIntermediateDirectories: true)
+            try manager.createDirectory(at: tlaRoot.appendingPathComponent("java-tmp"), withIntermediateDirectories: false)
             for path in ["Program.tla", "SwiftFormalRuntime.tla"] { try snapshot.files["tla/" + path]!.write(to: tlaRoot.appendingPathComponent(path)) }
             let model = PropertyTLAEmitter().emit(property)
             try model.write(to: tlaRoot.appendingPathComponent("Universal.tla"), atomically: true, encoding: .utf8)
@@ -51,7 +52,7 @@ public struct PropertyVerifier: PropertyVerifying {
                         let proof = PropertyLeanEmitter().counterexample(property, bound: executionBound, witness: candidate)
                         let proofURL = leanRoot.appendingPathComponent("Counterexample\(index).lean")
                         try proof.write(to: proofURL, atomically: true, encoding: .utf8)
-                        let checked = try await invoke(toolchain.lean, ["-M", "1024", proofURL.path], at: leanRoot, environment: environment,
+                        let checked = try await invoke(toolchain.lean, ["-M", "2048", proofURL.path], at: leanRoot, environment: environment,
                             log: directory.appendingPathComponent("counterexample-lean"), timeout: timeout)
                         seconds["counterexampleLean"] = checked.elapsedSeconds
                         guard checked.exitCode == 0 else { throw failure(checked, message: "Candidate counterexample was not kernel checked") }
@@ -60,7 +61,7 @@ public struct PropertyVerifier: PropertyVerifying {
                         try witnessModel.write(to: tlaRoot.appendingPathComponent("Witness.tla"), atomically: true, encoding: .utf8)
                         try "INIT Init\nNEXT Next\nINVARIANT NotWitness\n".write(to: tlaRoot.appendingPathComponent("Witness.cfg"), atomically: true, encoding: .utf8)
                         _ = try await runSANY("Witness", at: tlaRoot, tools: toolchain, log: directory.appendingPathComponent("witness-sany"), timeout: timeout)
-                        let checkedTLC = try await invoke(toolchain.java, javaArguments(toolchain) + ["tlc2.TLC", "-tool", "-workers", "1", "-cleanup", "-dump", "dot", "trace.dot", "Witness"],
+                        let checkedTLC = try await invoke(toolchain.java, javaArguments(toolchain, at: tlaRoot) + ["tlc2.TLC", "-tool", "-workers", "1", "-cleanup", "-dump", "dot", "trace.dot", "Witness"],
                             at: tlaRoot, environment: toolchain.environment, log: directory.appendingPathComponent("counterexample-tlc"), timeout: timeout)
                         seconds["counterexampleTLC"] = checkedTLC.elapsedSeconds
                         let output = checkedTLC.standardOutput + checkedTLC.standardError
@@ -76,7 +77,7 @@ public struct PropertyVerifier: PropertyVerifying {
                         let proof = try PropertyLeanEmitter().universal(property, bound: executionBound, cuts: hints)
                         let proofURL = leanRoot.appendingPathComponent("Property\(index).lean")
                         try proof.write(to: proofURL, atomically: true, encoding: .utf8)
-                        let result = try await invoke(toolchain.lean, ["-M", "1024", proofURL.path], at: leanRoot, environment: environment,
+                        let result = try await invoke(toolchain.lean, ["-M", "2048", proofURL.path], at: leanRoot, environment: environment,
                             log: directory.appendingPathComponent("universal-lean"), timeout: timeout)
                         seconds["universalLean"] = result.elapsedSeconds
                         if result.exitCode == 0 {
@@ -106,7 +107,7 @@ public struct PropertyVerifier: PropertyVerifying {
         return report
     }
     private func runSANY(_ name: String, at directory: URL, tools: BundledToolchain, log: URL, timeout: Double) async throws -> ToolResult {
-        let result = try await invoke(tools.java, javaArguments(tools) + ["tla2sany.SANY", name + ".tla"], at: directory, environment: tools.environment, log: log, timeout: timeout)
+        let result = try await invoke(tools.java, javaArguments(tools, at: directory) + ["tla2sany.SANY", name + ".tla"], at: directory, environment: tools.environment, log: log, timeout: timeout)
         let output = result.standardOutput + result.standardError
         let errors = try NSRegularExpression(pattern: "(?im)^(\\*\\*\\*.*error|semantic errors:|fatal errors|exception in thread)")
         let matches = errors.numberOfMatches(in: output, range: NSRange(output.startIndex..., in: output))
@@ -117,10 +118,10 @@ public struct PropertyVerifier: PropertyVerifying {
         try await runner.run(executable: executable, arguments: arguments, directory: directory, environment: environment, log: log,
             timeout: timeout, maximumOutputBytes: 8_388_608, maximumWorkspaceBytes: 536_870_912)
     }
-    private func javaArguments(_ tools: BundledToolchain) -> [String] { ["-Xss16m", "-Xmx512m", "-cp", tools.jar.path] }
+    private func javaArguments(_ tools: BundledToolchain, at directory: URL) -> [String] { ["-Djava.io.tmpdir=" + directory.appendingPathComponent("java-tmp").path, "-Xss32m", "-Xmx512m", "-cp", tools.jar.path] }
     private func resourceFailure(_ output: String) -> Bool {
         let text = output.lowercased()
-        return ["maximum memory", "excessive memory consumption", "memory limit", "maximum number of heartbeats", "maximum recursion depth", "deep recursion", "maximum number of steps", "outofmemoryerror"].contains { text.contains($0) }
+        return ["stackoverflowerror", "stack overflow", "maximum memory", "excessive memory consumption", "memory limit", "maximum number of heartbeats", "maximum recursion depth", "deep recursion", "maximum number of steps", "outofmemoryerror"].contains { text.contains($0) }
     }
     private func failure(_ result: ToolResult, message: String) -> FormalDiagnostic {
         FormalDiagnostic(resourceFailure(result.standardOutput + result.standardError) ? .timeout : .toolFailure, message)

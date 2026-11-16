@@ -13,16 +13,25 @@ struct ScalarCase: Sendable {
         }
         self.specification = specification
         var arguments: [IRValue] = []
-        for (text, parameter) in zip(specification.arguments, block.parameters) {
-            let value = try Self.value(text, type: parameter.type)
+        for (index, pair) in zip(specification.arguments, block.parameters).enumerated() {
+            let (text, parameter) = pair
+            let value = try Self.value(text, type: parameter.type, view: specification.inputViews?[index])
             arguments.append(value)
         }
         self.arguments = arguments
-        if let value = specification.expected.value { self.expected = try Self.value(value, type: function.result) }
+        if let value = specification.expected.value { self.expected = try Self.value(value, type: function.result, view: specification.resultView) }
         else { self.expected = nil }
     }
 
-    static func value(_ text: String, type: IRType) throws -> IRValue {
+    static func value(_ text: String, type: IRType, view: ScalarView? = nil) throws -> IRValue {
+        if let view {
+            guard view.accepts(type) else { throw VerificationScenario.invalid() }
+            if view == .number {
+                let raw = try Binary64.parse(text)
+                let pattern = try BitPattern(width: 64, bits: raw)
+                return .bits(pattern)
+            }
+        }
         switch type {
         case .integer: return .integer(try MathematicalInteger(text, maximumDigits: 256))
         case .bits(let width):

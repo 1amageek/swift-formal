@@ -125,6 +125,32 @@ struct PropertyProofHints {
     }
     private mutating func binary(_ operation: IROperation, left: Value, right: Value) throws -> Value {
         guard case .bits(let width, let a, let aTruth) = left, case .bits(let otherWidth, let b, let bTruth) = right, width == otherWidth else { throw exhausted("Unsupported bit hint") }
+        if operation.isNumber {
+            guard width == 64 else { throw exhausted("Number hints require 64 bits") }
+            let expression: String
+            let predicate: String?
+            switch operation {
+            case .numberNegate: expression = "(SwiftFormal.numberNeg \(a))"; predicate = nil
+            case .numberAbsolute: expression = "(SwiftFormal.numberCanon (SwiftFormal.numberAbs \(a)))"; predicate = nil
+            case .numberAdd, .numberSubtract, .numberMultiply, .numberDivide, .numberRemainder:
+                let op = String(operation.rawValue.dropFirst(6)).lowercased()
+                expression = "(SwiftFormal.numberArithmetic .\(op) \(a) \(b))"; predicate = nil
+            case .numberEqual, .numberLessThan, .numberLessEqual, .numberSameValue:
+                let symbol = operation == .numberEqual ? "==" : operation == .numberLessThan ? "<" : operation == .numberLessEqual ? "<=" : "sameValue"
+                predicate = PropertyNumberOperation.leanBinary(symbol, a, b)
+                expression = "(if decide (\(predicate!)) then 1 else 0)"
+            case .numberIsNaN, .numberIsFinite, .numberIsInteger, .numberIsSafeInteger:
+                let name = String(operation.rawValue.dropFirst(6)); let text = name.prefix(1).lowercased() + name.dropFirst()
+                predicate = PropertyNumberOperation.leanUnary(text, a)
+                expression = "(if decide (\(predicate!)) then 1 else 0)"
+            case .numberTruthy:
+                predicate = "(SwiftFormal.numberNaN \(a) = false ∧ SwiftFormal.numberAbs \(a) ≠ 0)"
+                expression = "(if decide (\(predicate!)) then 1 else 0)"
+            default: throw exhausted("Invalid Number hint operation")
+            }
+            if let predicate { try cut(predicate) }
+            return .bits(operation.returnsFlag ? 1 : 64, expression, predicate)
+        }
         if operation.returnsOverflow {
             let isSigned = [.signedAddOverflow, .signedSubtractOverflow, .signedMultiplyOverflow].contains(operation)
             let x = isSigned ? try signed(width, a) : "(Int.ofNat \(a))"

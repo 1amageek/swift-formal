@@ -5,6 +5,7 @@ extension PropertyExpression {
     func evaluate(arguments: [PropertyScalar], result: PropertyScalar?) throws -> PropertyScalar {
         switch self {
         case .integer(let value): return .integer(try MathematicalInteger(value, maximumDigits: 256))
+        case .number(let bits): return .number(bits)
         case .boolean(let value): return .boolean(value)
         case .argument(let index, _): return arguments[index]
         case .result:
@@ -16,11 +17,22 @@ extension PropertyExpression {
                 let boolean = try value.boolean
                 return .boolean(!boolean)
             }
+            if case .number(let bits) = value {
+                if operation == "isNegativeZero" { return .boolean(bits == 0x8000000000000000) }
+                guard let op = PropertyNumberOperation.unary(operation) else { throw PropertySpecification.invalid("Unknown Number predicate") }
+                let actual = try Binary64.evaluate(op, bits, bits)
+                return actual.boolean ? .boolean(actual.bits == 1) : .number(actual.bits)
+            }
             guard case .integer(let integer) = value else { throw PropertySpecification.invalid("Expected an integer") }
             return .integer(integer.negated())
         case .binary(let operation, let left, let right):
             let a = try left.evaluate(arguments: arguments, result: result)
             let b = try right.evaluate(arguments: arguments, result: result)
+            if case .number(let x) = a, case .number(let y) = b {
+                guard let op = PropertyNumberOperation.binary(operation) else { throw PropertySpecification.invalid("Unknown Number expression") }
+                let actual = try Binary64.evaluate(op, operation == ">" || operation == ">=" ? y : x, operation == ">" || operation == ">=" ? x : y)
+                return actual.boolean ? .boolean(operation == "!=" ? actual.bits == 0 : actual.bits == 1) : .number(actual.bits)
+            }
             if operation == "==" { return .boolean(a == b) }
             if operation == "!=" { return .boolean(a != b) }
             if operation == "&&" || operation == "||" {

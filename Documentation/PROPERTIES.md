@@ -64,6 +64,7 @@ Unknown fields and ill-typed expressions are rejected.
 | `signed` | Bits of width 1...64 | `Nat`, constrained below `2^width` | Signed two's-complement interpretation |
 | `unsigned` | Bits of width 1...64 | `Nat`, constrained below `2^width` | Unsigned integer interpretation |
 | `boolean` | One bit | `Bool` | Boolean proposition |
+| `number` | 64 bits | `Nat` with a width bound | IEEE binary64, including NaN, infinities and signed zero |
 
 Signed and unsigned views both cover every bit pattern. A view specifies how the
 property interprets those patterns; the operations inside the program continue
@@ -175,6 +176,9 @@ The automatic profile accepts 1...16 properties per file, up to 128 arguments,
 4096 bytes and 1024 tokens per expression, depth 64, and 256-digit decimal
 constants. The derived evaluation bound is at most 4096; at most eight logical
 proof cuts are generated. Hint expressions are capped at 32 KiB and proof source
-at 1 MiB. Lean has a 1024 MiB memory limit and 1,000,000 heartbeats; per-process
+at 1 MiB. Lean has a 2048 MiB memory limit and 1,000,000 heartbeats; per-process
 wall-clock timeout defaults to 120 seconds and accepts 1...3600. Tool output and
 workspace limits follow the [verification execution contract](../Sources/FormalValidation/Verification/DESIGN.md).
+
+
+Number expressions use IEEE arithmetic and predicates; see [Number verification](NUMBERS.md). `PropertyView` is retained as a public alias for shared `ScalarView`.

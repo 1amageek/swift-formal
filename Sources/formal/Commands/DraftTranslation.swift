@@ -7,7 +7,11 @@ import Foundation
 
 struct DraftTranslation {
     let compiler: any SourceCompiling
-    init(compiler: any SourceCompiling = ScalarSourceCompiler()) { self.compiler = compiler }
+    let defaultNumeric: SourceNumericDefault
+    init(compiler: (any SourceCompiling)? = nil, defaultNumeric: SourceNumericDefault = .number) {
+        self.compiler = compiler ?? ScalarSourceCompiler(defaultNumeric: defaultNumeric)
+        self.defaultNumeric = defaultNumeric
+    }
 
     func perform(source path: String, language: SourceLanguage, output: String) throws -> DraftTranslationReport {
         let sourceURL = URL(fileURLWithPath: path)
@@ -43,7 +47,7 @@ struct DraftTranslation {
         let decodedTLA = try decoder.decodeTLAProgram(tla.contents)
         guard decodedLean == program, decodedTLA == program else { throw FormalDiagnostic(.integrityMismatch, "Actual output differs from IR") }
         let report = DraftTranslationReport(sourceLanguage: language, profile: language.profile,
-            assumptions: language.assumptions, sourceSHA256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined(), functions: program.functions.map(\.symbol))
+            assumptions: language.assumptions, defaultNumeric: language.isJavaScriptFamily ? defaultNumeric : nil, sourceSHA256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined(), functions: program.functions.map(\.symbol))
         let manager = FileManager.default
         let destination = URL(fileURLWithPath: output).standardizedFileURL
         guard !manager.fileExists(atPath: destination.path) else { throw FormalDiagnostic(.invalidArguments, "Output already exists", path: output) }

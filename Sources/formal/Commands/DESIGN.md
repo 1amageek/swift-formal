@@ -42,3 +42,6 @@ Frontend rejection (including unsupported update operators, AST-depth limits, Go
 `check` accepts exactly one of `--properties <json>` and `--scenario <json>` in both source-generation and artifact-recheck forms. PropertyVerifying owns universal proof semantics, limits and statuses under [Properties](../../FormalValidation/Properties/DESIGN.md). Validate specification syntax before generation, then compose the audited proof pipeline. The scenario mode remains finite case checking.
 
 Java and Bun are explicit `--language java` / `--language bun` selections for translate/check. Profiles list their source assumptions. Both compose existing finite and universal verification without running a Java source compiler or Bun runtime. The [frontend contract](../../FormalCompiler/Frontends/DESIGN.md#java-and-bun-profiles) owns supported syntax and integer widths.
+
+
+JS-family profiles advance to scalar-v2 for inferred Number/BigInt types; check supports Number views. The 0.4.0 layout and runtime trust policy require regenerating older artifacts. [Frontend](../../FormalCompiler/Frontends/DESIGN.md) and [Number execution](../../FormalIR/Execution/DESIGN.md#binary64-number-contract) own grammar and semantics.

@@ -58,7 +58,9 @@ public struct ModelVerifier: ModelVerifying {
             try "INIT Init\nNEXT Next\nINVARIANT Expected\n".write(to: tlaRoot.appendingPathComponent("CaseModel.cfg"), atomically: true, encoding: .utf8)
             var tlcStatus = "UNKNOWN"; var leanStatus = "UNKNOWN"; var distinct: Int?; var details: [String] = []; var leanAxioms: [String] = []
             do {
-                let java = ["-Xss16m", "-Xmx512m", "-cp", toolchain.jar.path]
+                let temporary = tlaRoot.appendingPathComponent("java-tmp")
+                try manager.createDirectory(at: temporary, withIntermediateDirectories: false)
+                let java = ["-Djava.io.tmpdir=" + temporary.path, "-Xss32m", "-Xmx512m", "-cp", toolchain.jar.path]
                 let sany = try await invoke(toolchain.java, java + ["tla2sany.SANY", "CaseModel.tla"], at: tlaRoot,
                     environment: toolchain.environment, log: caseRoot.appendingPathComponent("sany"), timeout: timeout)
                 guard sany.exitCode == 0, !(sany.standardOutput + sany.standardError).lowercased().contains("error") else {
@@ -67,7 +69,7 @@ public struct ModelVerifier: ModelVerifying {
                 let result = try await invoke(toolchain.java, java + ["tlc2.TLC", "-tool", "-workers", "1", "-cleanup", "-dump", "dot", "trace.dot", "CaseModel"],
                     at: tlaRoot, environment: toolchain.environment, log: caseRoot.appendingPathComponent("tlc"), timeout: timeout)
                 let output = result.standardOutput + result.standardError
-                if output.contains("OutOfMemoryError") { throw FormalDiagnostic(.timeout, "TLC exhausted its memory budget") }
+                if isResourceFailure(output) { throw FormalDiagnostic(.timeout, "TLC exhausted its computation budget") }
                 if [2107, 2110, 2114].contains(where: { output.contains("STARTMSG \($0):") }) {
                     tlcStatus = "COUNTEREXAMPLE"; exitCode = merge(exitCode, 5)
                 } else {
@@ -131,7 +133,7 @@ public struct ModelVerifier: ModelVerifying {
     }
     private func isResourceFailure(_ output: String) -> Bool {
         let text = output.lowercased()
-        return ["maximum memory", "maximum number of heartbeats", "maximum recursion depth", "deep recursion"].contains { text.contains($0) }
+        return ["outofmemoryerror", "stackoverflowerror", "stack overflow", "excessive memory consumption", "maximum memory", "maximum number of heartbeats", "maximum recursion depth", "deep recursion"].contains { text.contains($0) }
     }
     private func externalFailure(_ result: ToolResult, message: String) -> FormalDiagnostic {
         FormalDiagnostic(isResourceFailure(result.standardOutput + result.standardError) ? .timeout : .toolFailure, message)

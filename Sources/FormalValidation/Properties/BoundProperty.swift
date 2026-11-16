@@ -18,7 +18,7 @@ struct BoundProperty {
         self.specification = specification
         self.function = function
         self.inputTypes = first.parameters.map(\.type)
-        self.precondition = try PropertyExpressionParser.parse(specification.requires, inputs: specification.inputViews, result: nil)
+        self.precondition = try PropertyExpressionParser.parse(specification.requires, inputs: specification.inputViews, result: nil, numberLiterals: specification.resultView == .number)
         self.postcondition = try PropertyExpressionParser.parse(specification.ensures, inputs: specification.inputViews, result: specification.resultView)
     }
     var binders: String {
@@ -65,7 +65,7 @@ struct BoundProperty {
     static func powerOfTwo(_ width: Int) -> String { width == 64 ? "18446744073709551616" : String(UInt64(1) << width) }
     private static func leanView(_ view: PropertyView, type: IRType, name: String) -> String {
         switch view {
-        case .integer: return name
+        case .integer, .number: return name
         case .boolean: return name == "r" ? "(r = 1)" : "(\(name) = true)"
         case .unsigned: return "(Int.ofNat \(name))"
         case .signed:

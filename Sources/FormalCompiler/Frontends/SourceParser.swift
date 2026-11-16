@@ -41,7 +41,9 @@ struct SourceParser {
         case .java:
             if name == "int" { return .signed32 }
             signed = "long"; unsigned = ""; boolean = "boolean"
-        case .typescript, .bun: signed = "bigint"; unsigned = ""; boolean = "boolean"
+        case .typescript, .bun:
+            if name == "number" { return .number }
+            signed = "bigint"; unsigned = ""; boolean = "boolean"
         case .javascript: throw error("JavaScript type annotations are unsupported")
         }
         if name == boolean { return .boolean }
@@ -49,8 +51,8 @@ struct SourceParser {
         if name == unsigned { return .unsigned }
         throw error("Unsupported source type '\(name)'")
     }
-    mutating func parse() throws -> [SourceFunction] {
-        var functions: [SourceFunction] = []; lines()
+    mutating func parse() throws -> [ParsedSourceFunction] {
+        var functions: [ParsedSourceFunction] = []; lines()
         if language == .java {
             _ = take("public"); _ = take("final"); try expect("class")
             let className = try identifier()
@@ -75,7 +77,7 @@ struct SourceParser {
         guard !functions.isEmpty else { throw error("Source contains no functions") }
         return functions
     }
-    mutating func function() throws -> SourceFunction {
+    mutating func function() throws -> ParsedSourceFunction {
         let position = tokens[cursor]
         let resultFirst: ScalarType?
         switch language {
@@ -92,15 +94,15 @@ struct SourceParser {
         let name = try identifier()
         if [.c, .cpp, .go].contains(language) && name == "main" { throw error("The process entry point is outside the pure-function profile") }
         try expect("(")
-        var parameters: [(String, ScalarType)] = []
+        var parameters: [(String, ScalarType?)] = []
         if !take(")") {
             repeat {
-                let name: String; let kind: ScalarType
+                let name: String; let kind: ScalarType?
                 if [.c, .cpp, .java].contains(language) { kind = try type(); name = try identifier() }
                 else {
                     if language == .swift { try expect("_") }
                     name = try identifier()
-                    if language == .javascript || (language == .bun && text != ":") { kind = .integer }
+                    if language == .javascript || (language.isJavaScriptFamily && text != ":") { kind = nil }
                     else { if language != .go { try expect(":") }; kind = try type() }
                 }
                 parameters.append((name, kind))
@@ -113,9 +115,9 @@ struct SourceParser {
             let waitConflict = name == "wait" && (types == [.signed] || types == [.signed, .signed32])
             guard !zeroArgumentConflict, !waitConflict else { throw error("Static signature conflicts with an inherited Java Object method") }
         }
-        let result: ScalarType
+        let result: ScalarType?
         if let resultFirst { result = resultFirst }
-        else if language == .javascript || (language == .bun && text != ":") { result = .integer }
+        else if language == .javascript || (language.isJavaScriptFamily && text != ":") { result = nil }
         else {
             if language == .typescript || language == .bun { try expect(":") }
             else if language != .go { try expect("->") }
@@ -139,7 +141,11 @@ struct SourceParser {
         return statements
     }
     mutating func endStatement() throws {
-        if [.c, .cpp, .rust, .typescript, .javascript, .java, .bun].contains(language) {
+        if language.isJavaScriptFamily {
+            if take(";") || text == "\n" || text == "}" || text == "<eof>" { return }
+            throw error("Expected a statement boundary")
+        }
+        if [.c, .cpp, .rust, .java].contains(language) {
             try expect(";"); return
         }
         if take(";") { return }
@@ -163,7 +169,7 @@ struct SourceParser {
         case .swift, .rust:
             try expect("let"); name = try identifier(); if take(":") { kind = try type() }; try expect("=")
         case .typescript, .javascript, .bun:
-            try expect("const"); name = try identifier()
+            if language.isJavaScriptFamily && take("let") {} else { try expect("const") }; name = try identifier()
             if (language == .typescript || language == .bun) && take(":") { kind = try type() }; try expect("=")
         case .java:
             try expect("final"); kind = try type(); name = try identifier(); try expect("=")
@@ -176,10 +182,12 @@ struct SourceParser {
     }
     func precedence(_ op: String) -> Int {
         switch op {
-        case "==", "!=": 1
-        case "<", ">", "<=", ">=": 2
-        case "+", "-": 3
-        case "*": 4
+        case "||": 0
+        case "&&": 1
+        case "==", "!=", "===", "!==": 2
+        case "<", ">", "<=", ">=": 3
+        case "+", "-": 4
+        case "*", "/", "%": 5
         default: -1
         }
     }
@@ -204,19 +212,23 @@ struct SourceParser {
     }
     mutating func primary() throws -> ParsedExpression {
         if take("(") { let value = try expression(); try expect(")"); return value }
-        if text == "-" || (text == "!" && language != .python) || (text == "not" && language == .python) {
+        if text == "-" || (text == "+" && language.isJavaScriptFamily) || (text == "!" && language != .python) || (text == "not" && language == .python) {
             let op = text; cursor += 1
             let immediateLiteral = text.utf8.first.map { (48...57).contains($0) } == true
-            let value = try expression(op == "not" ? 1 : 5)
-            if op == "-", (language != .java || immediateLiteral), case .literal(let literal) = value.value { return (.literal("-" + literal), 1) }
+            let value = try expression(op == "not" ? 2 : 6)
+            if op == "-", (language != .java || immediateLiteral), case .literal(let literal) = value.value, !(language.isJavaScriptFamily && literal.hasPrefix("-")) { return (.literal("-" + literal), 1) }
             let depth = try checkedDepth(value.depth + 1)
             return (.unary(op, value.value), depth)
         }
         let value = text
-        if let first = value.utf8.first, (48...57).contains(first) { cursor += 1; return (.literal(value), 1) }
+        if let first = value.utf8.first, (48...57).contains(first) || (language.isJavaScriptFamily && first == 46) { cursor += 1; return (.literal(value), 1) }
         let bools = language == .python ? ["True", "False"] : ["true", "false"]
         if bools.contains(value) { cursor += 1; return (.literal(value), 1) }
-        let name = try identifier()
+        var name = try identifier()
+        if language.isJavaScriptFamily && take(".") {
+            name += "." + (try identifier())
+            guard SourceNumberBuiltin.operation(name) != nil, text == "(" else { throw error("Unsupported member access") }
+        }
         if take("(") {
             var arguments: [SourceExpression] = []
             var deepestArgument = 0

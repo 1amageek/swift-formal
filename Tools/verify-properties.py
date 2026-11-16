@@ -49,7 +49,7 @@ def check(name, language, source, views, result_view, ensures, requires='true', 
     specification = directory / 'properties.json'
     specification.write_text(json.dumps(properties, indent=2))
     report = json.loads(run([formal, 'check', '--language', language, '--source', directory / 'source',
-                            '--properties', specification, '--output', directory / 'Checked'], expected=exit_code).stdout)
+                            '--properties', specification, '--output', directory / 'Checked', *(['--default-numeric', 'bigint'] if language == 'javascript' and views == ['integer'] else [])], expected=exit_code).stdout)
     (directory / 'result.json').write_text(json.dumps(report, indent=2))
     assert report['scope'] == 'ALL_INPUTS_UNDER_PRECONDITIONS' and report['translation'] == 'UNVALIDATED'
     property = report['properties'][0]

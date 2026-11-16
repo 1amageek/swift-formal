@@ -95,8 +95,8 @@ ASCII alphanumeric/underscore names and existing entry symbols. Unknown fields
 are rejected. Limits: 32 cases, 128 arguments per case, 256 decimal digits,
 4096 execution fuel. Per-tool timeout defaults to 120 seconds and accepts
 1...3600. The runner caps each output stream at 8 MiB and kills the process group
-on deadline, output limit or cancellation. Java heap is 512 MiB, stack 16 MiB;
-Lean uses a 1024 MiB memory limit and a 1,000,000-heartbeat proof limit. Each tool workspace has a 512 MiB budget, polled every 250 ms and checked at completion. Resource exhaustion means UNKNOWN.
+on deadline, output limit or cancellation. Java heap is 512 MiB, stack 32 MiB;
+Lean uses a 1024 MiB memory limit for finite checks and 2048 MiB for quantified properties, with a 1,000,000-heartbeat proof limit. Each tool workspace has a 512 MiB budget, polled every 250 ms and checked at completion. Resource exhaustion means UNKNOWN.
 
 ## Meaning of success
 

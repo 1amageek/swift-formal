@@ -92,8 +92,8 @@ struct JavaBunFrontendTests {
             ("java", "class Calculations { static long calculate(long a) { return a++; } }"),
             ("java", "class Calculations { static long calculate(long a) { return --a; } }"),
             ("java", "class Calculations { static long calculate(long a) { return (long)a; } }"),
-            ("bun", "function calculate(a: number): number { return a + 1; }"),
-            ("bun", "function calculate(a) { return a + 1; }"),
+            ("bun", "function calculate(a: number): number { return a + 1n; }"),
+            ("bun", "function calculate(a: bigint) { return a + 1; }"),
             ("bun", "function calculate(a) { return a++; }"),
             ("bun", "async function calculate(a) { return a; }"),
             ("bun", "function calculate(a) { return Bun.file(a); }")

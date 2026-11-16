@@ -36,7 +36,16 @@ Typed errors preserve failure; deadlines, cancellation, and output limits never 
 ## Verification and Change Impact
 Tests/FormalValidationTests own scenario/audit rejection. Tools/verify-distribution.py owns real positive, counterexample, bound, relocation and tamper paths. Runtime changes require updating trusted hashes and rerunning both tools.
 
-Verification subprocesses use a 512 MiB monitored workspace budget. Lean is launched with a 1024 MiB memory limit; Java uses a 512 MiB heap and 16 MiB stack. Exceeding these budgets reports UNKNOWN and exit 6.
+Verification subprocesses use a 512 MiB monitored workspace budget. Lean is launched with a 1024 MiB memory limit; Java uses a 512 MiB heap and 32 MiB stack. Exceeding these budgets reports UNKNOWN and exit 6.
 
 ## Internal Consumers
 [Properties](../Properties/DESIGN.md) may consume ArtifactSnapshot’s audited immutable program/files/hashes, ScalarValueRenderer’s exact scalar literals, and LeanProofAudit with an explicit controlled theorem name. The default checkedCase audit remains backward compatible. These contracts perform identity/data checks and axiom inspection; they do not establish source semantic preservation.
+
+
+Finite scenarios may select Number using explicit inputViews/resultView fields; absent views preserve existing integer/bit parsing. Number values accept decimal/special values or exact bits: encodings. Expected Number results compare canonical bits, preserving signed zero. [IR execution](../../FormalIR/Execution/DESIGN.md#binary64-number-contract) owns the meaning.
+
+The binary64 exact-magnitude suite includes exponent alignment across more than 2000 bits. A cold TLC run exhausted 16 MiB stack on maximum-finite addition; the same 144-vector suite completes with 32 MiB. Stack exhaustion is a bounded UNKNOWN, not a semantic result.
+
+ScalarView owns interpretation shared by finite and universal checking. Properties consumes it through the compatible PropertyView alias and owns only its expression-kind mapping. This preserves the component dependency direction.
+
+Each case owns a private Java temporary directory beneath its monitored workspace. SANY/TLC standard-module extraction must not collide with another verification process or host TLC invocation. Concurrent source checks exercise this invariant.
