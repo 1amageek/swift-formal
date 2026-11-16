@@ -21,7 +21,7 @@ public struct LocalCompilerProbe: CompilerProbing {
         try manager.createDirectory(at: directory, withIntermediateDirectories: false)
         defer {
             do { try manager.removeItem(at: directory) }
-            catch { fputs("swift-formal: temporary compiler probe cleanup failed: \(error)\n", stderr) }
+            catch { fputs("formal: temporary compiler probe cleanup failed: \(error)\n", stderr) }
         }
         let stdoutURL = directory.appendingPathComponent("stdout.json")
         let stderrURL = directory.appendingPathComponent("stderr.txt")

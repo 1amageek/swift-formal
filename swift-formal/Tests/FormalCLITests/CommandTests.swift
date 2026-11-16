@@ -23,6 +23,8 @@ struct CommandTests {
         let result = await FormalCommand().run(arguments: ["--help"])
         #expect(result.exitCode == 0)
         #expect(result.standardOutput.contains("not implemented"))
+        #expect(result.standardOutput.hasPrefix("formal 0.1.0-bootstrap\n"))
+        #expect(result.standardOutput.contains("formal doctor --toolchain-lock"))
     }
 
     @Test(.timeLimit(.minutes(1)))

@@ -34,7 +34,7 @@ public struct FormalCommand: Sendable {
             return CommandResult(standardOutput: Self.help)
         case "--version":
             guard arguments.count == 1 else { throw invalidArguments() }
-            return CommandResult(standardOutput: "swift-formal 0.1.0-bootstrap\n")
+            return CommandResult(standardOutput: "formal 0.1.0-bootstrap\n")
         case "doctor":
             let options = try options(Array(arguments.dropFirst()), required: ["--toolchain-lock"])
             let lock = try loadLock(options["--toolchain-lock"]!)
@@ -88,7 +88,7 @@ public struct FormalCommand: Sendable {
     }
 
     private func invalidArguments() -> FormalDiagnostic {
-        FormalDiagnostic(.invalidArguments, "Invalid, duplicate, or missing arguments. Run swift-formal --help.")
+        FormalDiagnostic(.invalidArguments, "Invalid, duplicate, or missing arguments. Run formal --help.")
     }
 
     private func json<Value: Encodable>(_ value: Value) throws -> CommandResult {
@@ -106,13 +106,13 @@ public struct FormalCommand: Sendable {
     }
 
     private static let help = """
-    swift-formal 0.1.0-bootstrap
+    formal 0.1.0-bootstrap
     Usage:
-      swift-formal doctor --toolchain-lock <path>
-      swift-formal inspect-bundle --bundle <path> --toolchain-lock <path>
-      swift-formal index --source <path>
-      swift-formal --version
-      swift-formal --help
+      formal doctor --toolchain-lock <path>
+      formal inspect-bundle --bundle <path> --toolchain-lock <path>
+      formal index --source <path>
+      formal --version
+      formal --help
 
     capture, generate, validate, check, coverage, replay: not implemented (exit 3).
     Bundle inspection checks metadata and hashes, not SIL semantics.

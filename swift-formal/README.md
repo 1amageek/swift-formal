@@ -1,5 +1,7 @@
 # swift-formal
 
+The CLI command is `formal`; the package is named `swift-formal`.
+
 A Swift package under development for deterministic SIL → TLA+ and Lean translation through a shared FormalIR. The requested v1 scope is defined in [SPEC.md](Documentation/SPEC.md); implementation progress is tracked in [PROGRESS.md](PROGRESS.md).
 
 **The current package is a bootstrap, not the completed compiler.** It provides input contracts, SHA-256 bundle inspection, optional Swift declaration indexing, compiler identity diagnostics, a structural SIL parser, scalar lowering/IR execution, and TLA+/Lean library emitters. Scalar fixture outputs pass SANY, TLC, Lean finite proofs, and independent Lean decoding/data-correspondence checks. Strict CLI generation, complete SIL semantic preservation, memory/exception coverage, and Actor translation remain unfinished.
@@ -16,9 +18,9 @@ Requires macOS 13 or later and Swift tools 6.2 or later to build. The currently 
 
 ```sh
 swift build
-swift run swift-formal --help
-swift run swift-formal doctor --toolchain-lock ./toolchain.lock.json
-swift run swift-formal index --source ./Fixtures/Swift/Inventory.swift
+swift run formal --help
+swift run formal doctor --toolchain-lock ./toolchain.lock.json
+swift run formal index --source ./Fixtures/Swift/Inventory.swift
 python3 Tools/run-with-timeout.py --seconds 180 -- swift test
 python3 Tools/run-with-timeout.py --seconds 90 -- python3 Tools/integration.py
 python3 Tools/prepare-tools.py

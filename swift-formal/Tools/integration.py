@@ -9,7 +9,7 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 output = subprocess.run(['swift', 'build', '--show-bin-path'], cwd=root, text=True,
                         capture_output=True, timeout=30, check=True).stdout.strip()
-executable = Path(output) / 'swift-formal'
+executable = Path(output) / 'formal'
 
 def run(arguments, expected):
     result = subprocess.run([str(executable), *arguments], cwd=root, text=True,
@@ -17,7 +17,9 @@ def run(arguments, expected):
     assert result.returncode == expected, (arguments, result.returncode, result.stdout, result.stderr)
     return result
 
-assert 'swift-formal' in run(['--help'], 0).stdout
+assert run(['--help'], 0).stdout.startswith('formal 0.1.0-bootstrap\n')
+assert run(['--version'], 0).stdout == 'formal 0.1.0-bootstrap\n'
+assert 'formal --help' in json.loads(run(['doctor'], 2).stderr)['message']
 report = json.loads(run(['doctor', '--toolchain-lock', str(root / 'toolchain.lock.json')], 0).stdout)
 assert report['compilerIdentityMatches'] and not report['generationSupported']
 with tempfile.TemporaryDirectory(prefix='formal-integration-') as temporary:

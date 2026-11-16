@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "FormalLean", targets: ["FormalLean"]),
         .library(name: "FormalTLA", targets: ["FormalTLA"]),
         .library(name: "FormalValidation", targets: ["FormalValidation"]),
-        .executable(name: "swift-formal", targets: ["swift-formal"]),
+        .executable(name: "formal", targets: ["formal"]),
     ],
     dependencies: [
         .package(
@@ -45,7 +45,7 @@ let package = Package(
             dependencies: ["FormalCore", "FormalIndex"],
             exclude: ["DESIGN.md", "Commands/DESIGN.md", "Environment/DESIGN.md"]
         ),
-        .executableTarget(name: "swift-formal", dependencies: ["FormalCLI"], exclude: ["DESIGN.md"]),
+        .executableTarget(name: "formal", dependencies: ["FormalCLI"], exclude: ["DESIGN.md"]),
         .testTarget(name: "FormalCoreTests", dependencies: ["FormalCore"]),
         .testTarget(name: "FormalIndexTests", dependencies: ["FormalIndex"]),
         .testTarget(name: "FormalCLITests", dependencies: ["FormalCLI"]),

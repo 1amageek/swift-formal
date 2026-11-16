@@ -1,5 +1,7 @@
 # CLI
 
+Run `swift run formal --help` from the package directory. The [package design](../DESIGN.md#contracts-and-invariants) owns executable naming; the imported SPEC.md is an unchanged historical snapshot.
+
 | Command | Current behavior |
 |---|---|
 | `--help`, `--version` | Describe the bootstrap release |

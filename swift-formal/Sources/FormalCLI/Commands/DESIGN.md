@@ -6,6 +6,8 @@ Parse commands, load bounded files, and map typed failures to documented exit co
 ## Responsibilities and Boundaries
 Implemented commands: help, version, doctor, inspect-bundle, index. Future capture/generate/validate/check/coverage/replay fail with UNSUPPORTED_OPERATION and exit 3. No output directory is written. Bad arguments use exit 2.
 
+The executable name is owned by the [package naming contract](../../../DESIGN.md#contracts-and-invariants). Help, version, and diagnostic hints use that invocation.
+
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|

@@ -12,7 +12,7 @@ SIL is the only future execution-semantics input. Source indexing is presentatio
 | [FormalCore](Sources/FormalCore/DESIGN.md) | child | Input and diagnostic contracts | Immutable metadata and integrity inspection | Integrity is not semantic validation |
 | [FormalIndex](Sources/FormalIndex/DESIGN.md) | child | Optional declaration metadata | Fixed upstream public APIs | No mangled-symbol identity or semantics |
 | [FormalCLI](Sources/FormalCLI/DESIGN.md) | child | Commands and exit status | Operational interface | Future operations fail explicitly |
-| [Executable](Sources/swift-formal/DESIGN.md) | child | Process entry point | I/O and exit | No conversion logic |
+| [Executable](Sources/formal/DESIGN.md) | child | Process entry point | I/O and exit | No conversion logic |
 | [FormalSIL](Sources/FormalSIL/DESIGN.md) | child | Structural canonical SIL parsing | Lossless lexical and CFG boundaries | No semantic support implied |
 | [FormalIR](Sources/FormalIR/DESIGN.md) | child | Common typed program and small-step semantics | Initial scalar execution slice | Full Core and Actor support pending |
 | [FormalLowering](Sources/FormalLowering/DESIGN.md) | child | Checked scalar lowering | Explicit type/opcode rules | Full SIL translation validation pending |
@@ -32,6 +32,8 @@ Future: SIL -> FormalIR -> TLA / Lean -> independent validation
 The future modules in SPEC section 16 are not empty Swift targets. They are introduced when they own implemented behavior.
 
 ## Contracts and Invariants
+- The executable product, target, invocation, and source directory are `formal`, `formal`, `formal`, and `Sources/formal/`. The package identity remains `swift-formal`.
+- This naming contract reflects the user's 2026-11-16 correction and supersedes the CLI name and executable directory in the immutable imported [specification snapshot](Documentation/SPEC.md).
 - No command claims GENERATED, VALIDATED, MODEL_CHECKED, or PROVED.
 - A bootstrap lock does not authorize any SIL opcode.
 - Missing metadata and mismatching hashes fail; host defaults never fill semantic input gaps.
