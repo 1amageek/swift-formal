@@ -44,9 +44,18 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
                    'JAVA_TOOL_OPTIONS': '-invalid-option', 'JDK_JAVA_OPTIONS': '-invalid-option',
                    '_JAVA_OPTIONS': '-invalid-option', 'LEAN_SYSROOT': '/missing-lean',
                    'LEAN_PATH': '/missing-lean', 'ELAN_TOOLCHAIN': 'missing'}
+    linked = work / 'LinkedSource'; linked.mkdir()
+    shutil.copy2(distribution / 'formal', linked / 'formal')
+    for bundle in distribution.glob('*.bundle'):
+        shutil.copytree(bundle, linked / bundle.name)
+    (linked / 'toolchain').symlink_to(distribution / 'toolchain', target_is_directory=True)
+    packaged = work / 'CopiedTools'
+    run(linked / 'formal', ['package', '--output', packaged], environment)
+    assert (packaged / 'toolchain').is_dir() and not (packaged / 'toolchain').is_symlink()
+    shutil.rmtree(linked)
     prefix = work / 'OriginalPrefix'
-    run(distribution / 'formal', ['install', '--prefix', prefix], environment)
-    run(distribution / 'formal', ['install', '--prefix', prefix], environment, expected=2)
+    run(packaged / 'formal', ['install', '--prefix', prefix], environment)
+    run(packaged / 'formal', ['install', '--prefix', prefix], environment, expected=2)
     moved = work / 'MovedPrefix'; prefix.rename(moved)
     binary = moved / 'bin/formal'
     policy = json.loads(run(binary, ['toolchain'], environment).stdout)
@@ -109,5 +118,5 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     tool_tamper = run(binary, ['toolchain'], environment, expected=4)
     assert json.loads(tool_tamper.stderr)['code'] == 'INTEGRITY_MISMATCH'
     print(json.dumps({'status': 'PASSED', 'scenarios': ['eight languages', 'counterexample', 'fuel bound',
-          'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber'],
+          'overflow expectation', 'BigInt', 'runtime tamper', 'tool tamper', 'offline install', 'relocation', 'no clobber', 'linked toolchain packaging'],
           'measurements': measurements}, indent=2))

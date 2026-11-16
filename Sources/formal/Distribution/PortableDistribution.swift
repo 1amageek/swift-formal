@@ -27,8 +27,8 @@ struct PortableDistribution {
             }
             let destination = stage.appendingPathComponent("toolchain")
             if manager.fileExists(atPath: sourceTools.path) {
-                _ = try PinnedToolchain().verify(at: sourceTools)
-                let result = try await LocalToolRunner().run(executable: URL(fileURLWithPath: "/bin/cp"), arguments: ["-cR", sourceTools.path, destination.path],
+                let verifiedTools = try PinnedToolchain().verify(at: sourceTools)
+                let result = try await LocalToolRunner().run(executable: URL(fileURLWithPath: "/bin/cp"), arguments: ["-cR", verifiedTools.root.path, destination.path],
                     directory: stage, log: stage.appendingPathComponent("copy"), timeout: 300, maximumOutputBytes: 1_048_576)
                 guard result.exitCode == 0 else { throw FormalDiagnostic(.ioFailure, "Cannot copy bundled toolchain: \(result.standardError)") }
                 try manager.removeItem(at: stage.appendingPathComponent("copy.stdout"))
