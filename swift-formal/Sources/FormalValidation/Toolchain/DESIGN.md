@@ -22,6 +22,9 @@ Pinned artifact policy -> checksum-verified archives -> staged extraction -> pin
 ## Contracts and Invariants
 Archive URLs, SHA-256 and deterministic extracted file inventory digest are trusted package resources. Every tool file, symlink and executable mode is verified against the pinned inventory before execution. Symlinks must resolve inside the toolchain. No system-wide install. Existing cache bytes are rehashed. Only macOS arm64 is supported. Installation preserves upstream licenses and source links. Inventory generation is deterministic and streaming; a modified file or extra executable fails closed.
 
+## Runtime Flows
+Create staging; fetch Lean, Java and TLC sequentially, rehashing each cache hit or download. Extract only after archive verification. Normalize fixed directory names, verify the full payload inventory, then rename it into the absent destination. Failure removes staging; already verified cache archives remain reusable.
+
 ## State, Ownership, and Lifecycle
 Invocation-local immutable configuration and locally owned temporary files. No shared mutable state. Staging is removed on failure. Completed reports persist in the requested output.
 

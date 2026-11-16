@@ -22,6 +22,9 @@ Invocation -> posix_spawn process group -> bounded logs -> exit status
 ## Contracts and Invariants
 Child environment is explicitly supplied. C strings live only through posix_spawn; file descriptors and spawn attributes are destroyed exactly once. Group kill and waitpid complete before return, including cancellation and timeout. Logs are capped per stream; optional workspace byte budgets are polled every 250 ms and checked again before returning; no pipes can block a writer.
 
+## Runtime Flows
+Create exclusive stdout/stderr logs, configure spawn actions and a new process group, then spawn with explicit argv/environment. Poll cancellation, elapsed time, stream sizes and the optional workspace budget. Reap the leader and stop remaining group members before reading bounded logs. Every exit destroys native attributes/actions and closes owned descriptors.
+
 ## State, Ownership, and Lifecycle
 Invocation-local immutable configuration and locally owned temporary files. No shared mutable state. Staging is removed on failure. Completed reports persist in the requested output.
 
