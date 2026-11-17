@@ -39,6 +39,10 @@ formal translate --language javascript --source input.js --default-numeric bigin
 
 `--default-numeric number|bigint` applies only during JS-family generation. It
 selects unresolved types and does not override annotations or constraints.
+Unary `+` constrains its operand and result to Number before this default is
+applied, including through locals and direct calls. BigInt and Boolean coercions
+remain outside the profile.
+
 Generation reports record the selection. Artifact rechecking uses the types and
 operations already in the artifact and rejects that option.
 

@@ -99,6 +99,7 @@ struct SourceTypeResolver {
             throw error("Unknown variable '\(name)'")
         case .unary(let operation, let value):
             let operand = try expression(value, environment: environment)
+            if operation == "+" { try constrain(operand, .number) }
             return operation == "!" ? try fresh(.boolean) : operand
         case .binary(let operation, let left, let right):
             let a = try expression(left, environment: environment)

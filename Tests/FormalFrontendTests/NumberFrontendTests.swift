@@ -30,6 +30,32 @@ struct NumberFrontendTests {
         }
     }
 
+    @Test(.timeLimit(.minutes(1)), arguments: [SourceLanguage.javascript, .typescript, .bun])
+    func unaryPlusConstrainsNumberBeforeBigIntDefault(_ language: SourceLanguage) throws {
+        let sources = [
+            "function calculate(a){return +a;}",
+            "function calculate(a){const b = a; return +b;}",
+            "function calculate(a){return helper(a);} function helper(b){return +b;}",
+        ]
+        for source in sources {
+            let program = try ScalarSourceCompiler(defaultNumeric: .bigint).compile(source, language: language, moduleID: "Plus")
+            let function = try #require(program.functions.first(where: { $0.symbol == "calculate" }))
+            #expect(function.result == .bits(width: 64))
+            #expect(function.blocks[0].parameters[0].type == .bits(width: 64))
+            for text in ["-0", "0", "NaN", "Infinity", "-1", "0.1"] {
+                let bits = try Binary64.parse(text)
+                let input = IRValue.bits(try BitPattern(width: 64, bits: bits))
+                let result = try IRInterpreter().run(program, entry: "calculate", arguments: [input])
+                #expect(result.outcome == .returned(input))
+            }
+        }
+        for source in ["function calculate(){return +1n;}", "function calculate(){return +true;}"] {
+            #expect(throws: SourceDiagnostic.self) {
+                try ScalarSourceCompiler(defaultNumeric: .bigint).compile(source, language: language, moduleID: "InvalidPlus")
+            }
+        }
+    }
+
     @Test(.timeLimit(.minutes(1)), arguments: [SourceLanguage.bun, .typescript])
     func typedNumberAndInferredReturnUseBinary64(_ language: SourceLanguage) throws {
         let source = "function calculate(a: number, b: number) { const amount: number = a + b; return amount; }"

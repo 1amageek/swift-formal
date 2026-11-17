@@ -101,3 +101,9 @@ that returns undefined is outside the scalar profile and must fail before any
 artifact is published. This preserves the existing LF/CRLF grammar and runtime
 semantics.
 
+Unary plus constrains its operand and result to Number during type resolution,
+including across bindings and direct calls. Explicit BigInt and Boolean operands
+remain errors under the no-coercion contract. The unresolved-numeric default is
+applied only after these constraints. NumberFrontendTests owns rejection,
+signature inference and exact signed-zero/NaN behavior; Tools/verify-number-regressions.py
+owns native observations and real IR/Lean/TLC checking.
