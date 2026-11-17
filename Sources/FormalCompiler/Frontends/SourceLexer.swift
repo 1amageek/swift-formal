@@ -10,7 +10,7 @@ struct SourceLexer {
         if language == .java, bytes.contains(92) {
             throw fail("Java Unicode escapes and backslashes are outside this profile", 1, 1)
         }
-        if language == .java || language == .bun {
+        if language == .java || language.isJavaScriptFamily {
             for index in bytes.indices where bytes[index] == 13 {
                 guard index + 1 < bytes.count, bytes[index + 1] == 10 else { throw fail("Use LF or CRLF line endings", 1, 1) }
             }

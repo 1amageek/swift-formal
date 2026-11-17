@@ -92,3 +92,12 @@ JS/TS/Bun scalar-v2 adds Number under [IR execution](../../FormalIR/Execution/DE
 Type inference uses at most 200000 invocation-local scalar nodes. `--default-numeric number|bigint` (or ScalarSourceCompiler.defaultNumeric) selects only unconstrained types; annotations and literal/call constraints take precedence. Generation reports record this selection. Inference is monomorphic and rejects coercion and shadowing of numeric builtins. JS-family semicolon insertion is limited to supported single-line expressions at newline/closing-brace boundaries.
 
 JS-family logical && and || require matching scalar operand types and return the selected operand. They lower to short-circuit CFG branches and a typed merge parameter, so an unevaluated RHS cannot execute or consume fuel. Union-valued logical expressions remain outside the monomorphic profile. Expression depth remains parser-bounded when lowering nested short-circuit RHS expressions.
+
+
+### Review regression contracts
+JS/TS/Bun accept LF and CRLF and reject every isolated CR before tokenization,
+including inside comments. Return-line boundaries cannot be erased: a source
+that returns undefined is outside the scalar profile and must fail before any
+artifact is published. This preserves the existing LF/CRLF grammar and runtime
+semantics.
+

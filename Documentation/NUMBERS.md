@@ -57,6 +57,13 @@ profile. Semicolons may be omitted at supported newline/closing-brace boundaries
 expressions remain single-line. Assignment, arrays, strings, objects, arbitrary
 member access, imports, loops and async remain outside this source profile.
 
+JS/TS/Bun files accept LF and CRLF line endings. Isolated CR bytes, including
+inside comments, are rejected before artifact generation. A newline immediately
+after `return` can produce `undefined` in JavaScript; that result is outside this
+scalar profile and is rejected. Regenerate older JS/TS artifacts whose source
+contains isolated CR; artifact rechecking audits the existing model and does not
+rerun the source frontend.
+
 ## All-input properties
 
 `properties.json`:

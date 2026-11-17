@@ -16,6 +16,20 @@ struct NumberFrontendTests {
     }
     private enum TestFailure: Error { case failed }
 
+    @Test(.timeLimit(.minutes(1)), arguments: [SourceLanguage.javascript, .typescript, .bun])
+    func isolatedCarriageReturnCannotEraseReturnBoundaries(_ language: SourceLanguage) throws {
+        for source in ["function calculate(){return\r1;}", "function calculate(){return /*\r*/ 1;}", "function calculate(){// comment\rreturn 1;}"] {
+            #expect(throws: SourceDiagnostic.self) {
+                try ScalarSourceCompiler().compile(source, language: language, moduleID: "CR")
+            }
+        }
+        for newline in ["\n", "\r\n"] {
+            let source = "function calculate(a){" + newline + "return a;" + newline + "}"
+            let result = try execute(source, language: language, values: ["-0"])
+            #expect(result == .bits(try BitPattern(width: 64, bits: 0x8000000000000000)))
+        }
+    }
+
     @Test(.timeLimit(.minutes(1)), arguments: [SourceLanguage.bun, .typescript])
     func typedNumberAndInferredReturnUseBinary64(_ language: SourceLanguage) throws {
         let source = "function calculate(a: number, b: number) { const amount: number = a + b; return amount; }"
