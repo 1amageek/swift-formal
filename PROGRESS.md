@@ -124,3 +124,20 @@ See [Number evidence](Documentation/VERIFICATION.md#number-checkpoint) and the
 [Number guide](Documentation/NUMBERS.md). Source translation remains
 UNVALIDATED, automatic proof search remains bounded and incomplete, and the
 original full v1/Actor scope is still unfinished.
+
+
+## Three review findings fixed
+
+2026-11-17: JS/TS now reject isolated CR bytes like Bun, preventing return-line
+boundaries from being erased. Unary plus contributes its Number constraint
+before unresolved numeric defaults are selected. Finite and universal checking
+share an exact-module SANY diagnostic audit; paths containing error are accepted,
+while actual semantic errors remain failures even when SANY exits zero.
+
+99 Swift tests, the release build and ten-language CLI integration pass. The
+focused differential regression checks 74 accepted observations in Node/Bun,
+IR, TLC and Lean, and verifies six native undefined-returning inputs are rejected
+by both generation/check commands without artifacts. A universal Number identity
+proof, a NaN counterexample, and the real zero-exit SANY semantic-error transcript
+also pass their expected checks. Backend runtime bytes are unchanged. See the
+[regression checkpoint](Documentation/VERIFICATION.md#three-finding-regression-checkpoint).

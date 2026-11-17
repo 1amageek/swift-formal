@@ -198,3 +198,36 @@ have distinct scopes. General source-to-model semantic preservation remains
 UNVALIDATED; arbitrary projects, Actor/async and the original complete v1 scope
 remain unfinished. [Number verification](NUMBERS.md) describes supported source
 syntax, views, migration and automatic-proof limits.
+
+
+## Three-finding regression checkpoint
+
+Date: 2026-11-17. The CR lexer, SANY diagnostic audit and unary-plus inference
+findings are fixed. The focused red run reproduced seven failures before the
+frontend fixes. The final Swift test run passes 99 named tests across eight
+targets; the release build and ten-language CLI integration also pass.
+
+| Finding | Regression evidence | Verified scope |
+|---|---|---|
+| CR return boundaries | Six JS/TS/Bun sources return undefined in both Node and Bun; translate and check reject all six before publishing any artifact | Both raw CR and CR inside a block comment; 12 CLI rejection paths |
+| Accepted CRLF and Number unary plus | 74 observations agree between Node, Bun, IR execution, actual TLC and Lean | Three source profiles; CRLF, direct plus, local aliases, calls, negative zero, NaN, infinity and finite values; BigInt unresolved default does not override plus constraints |
+| SANY path independence | All model-check outputs live under a path containing error; explicit error-directory and uppercase/spaced ERROR handling cases pass | Actual finite checking, including module parsing, terminal-state reachability and kernel proofs |
+| Shared universal audit | Value-preserving unary plus is PROVED for every Number bit pattern; numeric reflexivity produces a NaN counterexample checked by Lean and TLC | Both Universal and Witness specifications pass SANY through the shared audit; source translation remains UNVALIDATED |
+| Zero-exit SANY error | Pinned SANY processes an invalid module, reports a semantic error and exits zero; the actual transcript is rejected by SANYOutputAuditTests | Success-marker presence and exit zero cannot hide a semantic diagnostic |
+
+Native observations used Node 24.19.0 and Bun 1.3.11. Verifier versions, backend
+runtime bytes, arithmetic semantics and trusted hashes are unchanged from the
+Number checkpoint. Its runtime-vector evidence remains applicable. These
+changes do not add undefined to the IR: unsupported undefined-returning sources
+are rejected rather than mapped to a numeric result.
+
+```sh
+python3 Tools/run-with-timeout.py --seconds 240 swift test
+python3 Tools/run-with-timeout.py --seconds 1200 python3 Tools/verify-number-regressions.py --formal /absolute/path/to/formal --output .tools/number-regression-checkpoint
+```
+
+Use a fresh output directory. The differential script retains native results,
+exact cases, generated artifacts, verifier reports and the real SANY error
+transcript when an output directory is supplied. Older artifacts generated from
+sources with isolated CR should be regenerated; artifact rechecking audits the
+existing generated model and does not reparse its source.
