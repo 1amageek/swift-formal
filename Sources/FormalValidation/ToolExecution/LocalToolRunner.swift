@@ -3,7 +3,10 @@ import Foundation
 import FormalCore
 
 public struct LocalToolRunner: ToolExecuting {
-    public init() {}
+    private let ownership: ToolProcessGroupOwnership
+    private let limits: ToolProcessLimits?
+    private let journal: ToolLaunchJournal?
+    public init(ownership: ToolProcessGroupOwnership = .isolated, limits: ToolProcessLimits? = nil, journal: ToolLaunchJournal? = nil) { self.ownership = ownership; self.limits = limits; self.journal = journal }
 
     public func run(executable: URL, arguments: [String], directory: URL,
                     environment: [String: String] = [:], log: URL,
@@ -11,6 +14,12 @@ public struct LocalToolRunner: ToolExecuting {
         guard timeout.isFinite, timeout > 0, maximumOutputBytes > 0, maximumWorkspaceBytes.map({ $0 > 0 }) ?? true else {
             throw FormalDiagnostic(.invalidArguments, "Invalid process limits")
         }
+        if let limits {
+            guard ownership != .inherited, limits.maximumResidentBytes > 0, (1...1024).contains(limits.maximumProcesses), limits.maximumCPUSeconds.isFinite, limits.maximumCPUSeconds > 0 else { throw FormalDiagnostic(.invalidArguments, "Invalid process monitoring limits/ownership") }
+        }
+        guard journal == nil || ownership == .isolatedSession else { throw FormalDiagnostic(.invalidArguments, "Launch journalling requires an isolated session") }
+        let intent = try journal?.intent(executable: executable, arguments: arguments)
+        var launchRecord = intent
         try Task.checkCancellation()
         let out = log.appendingPathExtension("stdout")
         let err = log.appendingPathExtension("stderr")
@@ -30,7 +39,7 @@ public struct LocalToolRunner: ToolExecuting {
               posix_spawn_file_actions_adddup2(&actions, stderrFD, STDERR_FILENO) == 0,
               posix_spawn_file_actions_addopen(&actions, STDIN_FILENO, "/dev/null", O_RDONLY, 0) == 0,
               posix_spawn_file_actions_addchdir_np(&actions, directory.path) == 0,
-              posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_CLOEXEC_DEFAULT)) == 0,
+              posix_spawnattr_setflags(&attributes, Int16((ownership == .isolated ? POSIX_SPAWN_SETPGROUP : ownership == .isolatedSession ? POSIX_SPAWN_SETSID : 0) | POSIX_SPAWN_CLOEXEC_DEFAULT | (journal == nil ? 0 : POSIX_SPAWN_START_SUSPENDED))) == 0,
               posix_spawnattr_setpgroup(&attributes, 0) == 0 else { throw failure("Cannot configure child process") }
         let values = [executable.path] + arguments
         let variables = environment.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value)" }
@@ -47,15 +56,23 @@ public struct LocalToolRunner: ToolExecuting {
         let start = clock.now
         let code = posix_spawn(&pid, executable.path, &actions, &attributes, &argv, &envp)
         guard code == 0 else { throw failure("Cannot launch \(executable.lastPathComponent): \(code)") }
+        var monitor = limits.map { ProcessGroupMonitor(limits: $0) }
         var nextBudgetCheck = start
         var reaped = false
+        var stopped = false
         defer {
             // A subprocess may have left descendants even after its leader exited.
-            kill(-pid, SIGKILL)
+            if !stopped { kill(ownership == .inherited ? pid : -pid, SIGKILL); kill(pid, SIGKILL); stopped = true }
             if !reaped { var status: Int32 = 0; while waitpid(pid, &status, 0) < 0 && errno == EINTR {} }
         }
+        if let intent, let journal {
+            do { launchRecord = try journal.spawned(intent, pid: pid); guard kill(pid, SIGCONT) == 0 else { throw failure("Cannot resume registered session") } }
+            catch { kill(pid, SIGKILL); var status: Int32 = 0; while waitpid(pid, &status, 0) < 0 && errno == EINTR {}; reaped = true; stopped = true; throw error }
+        }
+        do {
         while true {
             try Task.checkCancellation()
+            try monitor?.sample(pid)
             if let maximumWorkspaceBytes, clock.now >= nextBudgetCheck {
                 try checkWorkspace(directory, maximumBytes: maximumWorkspaceBytes)
                 nextBudgetCheck = clock.now.advanced(by: .milliseconds(250))
@@ -68,20 +85,35 @@ public struct LocalToolRunner: ToolExecuting {
             let duration = start.duration(to: clock.now).components
             let seconds = Double(duration.seconds) + Double(duration.attoseconds) / 1e18
             guard seconds < timeout else { throw FormalDiagnostic(.timeout, "Tool exceeded \(timeout) seconds") }
-            var status: Int32 = 0
-            let waited = waitpid(pid, &status, WNOHANG)
-            if waited == pid {
+            var info = siginfo_t()
+            let waited = waitid(P_PID, id_t(pid), &info, WEXITED | WNOHANG | WNOWAIT)
+            guard waited == 0 || errno == EINTR else { throw failure("Cannot observe owned child") }
+            if waited == 0 && info.si_pid == pid {
+                // The leader remains an unreaped child until group cleanup, preventing PID/group reuse.
+                if !stopped { kill(ownership == .inherited ? pid : -pid, SIGKILL); kill(pid, SIGKILL); stopped = true }
+                var status: Int32 = 0, usage = rusage()
+                guard wait4(pid, &status, 0, &usage) == pid else { throw failure("Cannot reap child") }
                 reaped = true
-                kill(-pid, SIGKILL)
+                try monitor?.finish(usage)
+                if !stopped { kill(ownership == .inherited ? pid : -pid, SIGKILL); kill(pid, SIGKILL); stopped = true }
                 if let maximumWorkspaceBytes { try checkWorkspace(directory, maximumBytes: maximumWorkspaceBytes) }
                 let output = try ArtifactJSON.readBytes(from: out, maximumBytes: maximumOutputBytes)
                 let errors = try ArtifactJSON.readBytes(from: err, maximumBytes: maximumOutputBytes)
                 let exitCode = status & 0x7f == 0 ? (status >> 8) & 0xff : 128 + (status & 0x7f)
+                if let launchRecord { try journal?.finish(launchRecord) }
                 return ToolResult(exitCode: exitCode, standardOutput: String(decoding: output, as: UTF8.self),
-                                  standardError: String(decoding: errors, as: UTF8.self), elapsedSeconds: seconds)
+                                  standardError: String(decoding: errors, as: UTF8.self), elapsedSeconds: seconds, measurements: monitor?.measurements ?? ToolMeasurements())
             }
-            guard waited == 0 || errno == EINTR else { throw failure("Cannot reap child") }
             try await Task.sleep(for: .milliseconds(25))
+        }
+        } catch {
+            if !stopped { kill(ownership == .inherited ? pid : -pid, SIGKILL); kill(pid, SIGKILL); stopped = true }
+            if !reaped { var status: Int32 = 0; while waitpid(pid, &status, 0) < 0 && errno == EINTR {}; reaped = true }
+            if let launchRecord {
+                do { try journal?.finish(launchRecord) }
+                catch let cleanup { throw failure("Execution failed (\(error)); journal completion failed (\(cleanup))") }
+            }
+            throw error
         }
     }
 

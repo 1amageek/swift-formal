@@ -5,4 +5,5 @@ public struct ToolResult: Sendable {
     public let standardOutput: String
     public let standardError: String
     public let elapsedSeconds: Double
+    public let measurements: ToolMeasurements
 }

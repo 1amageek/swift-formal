@@ -87,4 +87,28 @@ struct ToolExecutionTests {
             } catch let error as FormalDiagnostic { #expect(error.code == .timeout) }
         }
     }
+    @Test(.timeLimit(.minutes(1)))
+    func monitorsAggregateMemoryProcessesAndCPU() async throws {
+        try await temporary { root in
+            let cases: [(String, [String], ToolProcessLimits)] = [
+                ("memory", ["-c", "sleep 30"], ToolProcessLimits(maximumResidentBytes: 1, maximumProcesses: 8, maximumCPUSeconds: 10)),
+                ("processes", ["-c", "sleep 30 & sleep 30 & wait"], ToolProcessLimits(maximumResidentBytes: 268435456, maximumProcesses: 1, maximumCPUSeconds: 10)),
+                ("cpu", ["-c", "while :; do :; done"], ToolProcessLimits(maximumResidentBytes: 268435456, maximumProcesses: 8, maximumCPUSeconds: 0.02))
+            ]
+            for (name, arguments, limits) in cases {
+                do {
+                    _ = try await LocalToolRunner(limits: limits).run(executable: URL(fileURLWithPath: "/bin/sh"), arguments: arguments,
+                        directory: root, log: root.appendingPathComponent(name), timeout: 3)
+                    Issue.record("Resource cap returned success: \(name)")
+                } catch let error as FormalDiagnostic {
+                    #expect(error.code == .timeout)
+                    #expect(error.message.lowercased().contains(name == "processes" ? "process" : name == "memory" ? "memory" : "cpu"))
+                }
+            }
+            let result = try await LocalToolRunner(limits: ToolProcessLimits(maximumResidentBytes: 268435456, maximumProcesses: 8, maximumCPUSeconds: 10))
+                .run(executable: URL(fileURLWithPath: "/bin/sleep"), arguments: ["0.1"], directory: root, log: root.appendingPathComponent("measured"))
+            #expect(result.measurements.sampledPeakResidentBytes > 0)
+            #expect(result.measurements.sampledPeakProcesses == 1)
+        }
+    }
 }
