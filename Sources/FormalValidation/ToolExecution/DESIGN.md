@@ -45,3 +45,7 @@ A selected ToolLaunchJournal writes a private artifact-bound intent before spawn
 Each launch-record replacement fsyncs its file and parent directory before returning. Recovery rejects a mismatched record UUID/filename before any signal or journal rewrite, so corrupted metadata cannot select an output path.
 
 The opt-in monitored profile reports ToolResourceLimit for memory/process/CPU/output/workspace exhaustion. Wall deadlines remain FormalDiagnostic.timeout. The unrestricted compatibility profile preserves its existing output/workspace timeout diagnostics.
+
+
+## Structured evidence change impact
+[Inspection](../Inspection/DESIGN.md) and [SDK transition](../../../Documentation/SDK-TRANSITION.md) define the target structured-output/correspondence/graph contract. Preserve this component's actual semantic and trust invariants. Update direct callers/results/resource audits in the same cutover; do not add legacy-report adapters. User Lean elaboration requires its explicit isolation capability; current trusted generated-model tooling is not evidence of safe arbitrary Lean execution.

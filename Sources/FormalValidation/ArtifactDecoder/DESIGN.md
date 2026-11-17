@@ -29,3 +29,7 @@ The restricted data grammar also decodes integer types, decimal integer literals
 
 
 Number instructions reuse restricted operation data; IR validation enforces width/result types. [IR execution](../../FormalIR/Execution/DESIGN.md#binary64-number-contract) owns semantics. Updated runtime hashes require regeneration of older artifacts.
+
+
+## Structured evidence change impact
+[Inspection](../Inspection/DESIGN.md) and [SDK transition](../../../Documentation/SDK-TRANSITION.md) define the target structured-output/correspondence/graph contract. Preserve this component's actual semantic and trust invariants. Update direct callers/results/resource audits in the same cutover; do not add legacy-report adapters. User Lean elaboration requires its explicit isolation capability; current trusted generated-model tooling is not evidence of safe arbitrary Lean execution.

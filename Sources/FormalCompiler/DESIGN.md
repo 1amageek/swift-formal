@@ -29,3 +29,7 @@ The [four-finding regression contract](Frontends/DESIGN.md#four-finding-regressi
 `CompilerResources.bundleURL` exposes only the module resource location for portable distribution composition. [Distribution](../formal/Distribution/DESIGN.md) copies the complete bundle beside the executable; runtime file contents and emission contracts are unchanged.
 
 Java and Bun profile expansion is owned by [Frontends](Frontends/DESIGN.md#java-and-bun-profiles). Java int32 uses existing width-generic IR; no runtime opcode, emitter, artifact decoder or trust-policy change is required. Bun shares the JS/TS scalar grammar with explicit profile assumptions.
+
+
+## Target located compilation SDK
+[Artifacts](Artifacts/DESIGN.md) now owns the major-2 compilation/origin contract. The target module additionally depends on [FormalEvidence](../FormalEvidence/DESIGN.md), which depends only on FormalCore. Frontends/SIL retain byte ranges; lowering and emitters produce origin links while constructing output. Do not recover mapping with display names or generated-text searches. Public bare-IR/files/report-only paths are removed at the [transition gate](../../Documentation/SDK-TRANSITION.md), with CLI and Invar callers changed together. This design update adds no production API yet.

@@ -31,3 +31,7 @@ Mathematical integer instructions use Lean Int or canonical sign/magnitude bit s
 Number operation data uses existing width-64 bit sequences and the [IR Number contract](../../../FormalIR/Execution/DESIGN.md#binary64-number-contract). Runtime arithmetic uses exact bit magnitudes and IEEE rounding; TLC bounds never justify mathematical-real substitution.
 
 Number dispatch checks the operation-name length before reading its six-character prefix. Existing short names (and, or, xor, equal) retain their bit semantics; the runtime vector invariant and native Boolean source checks exercise both branches.
+
+
+## Target tracked emission
+The [Artifacts owner](../../Artifacts/DESIGN.md) replaces contents-only GeneratedFile output with tracked generated documents and origin links. Segment byte ranges are recorded while emitting actual text, validated against that text's digest. This does not alter the meaning of IR operations or certify source semantics. Independent decoder/runtime audits must still pass; changing emission/resources requires the actual Lean/TLC regression and range-mutation tests.

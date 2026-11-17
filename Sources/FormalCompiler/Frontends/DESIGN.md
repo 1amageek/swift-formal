@@ -107,3 +107,7 @@ remain errors under the no-coercion contract. The unresolved-numeric default is
 applied only after these constraints. NumberFrontendTests owns rejection,
 signature inference and exact signed-zero/NaN behavior; Tools/verify-number-regressions.py
 owns native observations and real IR/Lean/TLC checking.
+
+
+## Target source origin capture
+The [Artifacts major-2 contract](../Artifacts/DESIGN.md) replaces the bare source-to-IR SDK. Tokenization must retain original half-open UTF-8 byte ranges before unescaping/normalizing token values. Syntax expressions/statements/functions retain those spans through type resolution/lowering. Display line/column data is derived and does not substitute for a byte range. NFC/NFD, escaped literals, comments and synthetic instructions must not create false precision. Supported language semantics and strict rejection remain unchanged; multiple-source/Actor support is not implied by source-map fields. Implementation acceptance is FE-01/02, owned by Artifacts/SDK transition.

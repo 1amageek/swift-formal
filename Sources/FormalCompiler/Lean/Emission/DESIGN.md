@@ -29,3 +29,7 @@ Mathematical integer instructions use Lean Int or canonical sign/magnitude bit s
 
 
 Number operations are emitted as dedicated operation constructors using the [IR Number contract](../../../FormalIR/Execution/DESIGN.md#binary64-number-contract). The runtime implements logical IEEE semantics; trusted bytes and finite/universal evidence must be updated together.
+
+
+## Target tracked emission
+The [Artifacts owner](../../Artifacts/DESIGN.md) replaces contents-only GeneratedFile output with tracked generated documents and origin links. Segment byte ranges are recorded while emitting actual text, validated against that text's digest. This does not alter the meaning of IR operations or certify source semantics. Independent decoder/runtime audits must still pass; changing emission/resources requires the actual Lean/TLC regression and range-mutation tests.

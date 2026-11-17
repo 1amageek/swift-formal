@@ -141,3 +141,8 @@ by both generation/check commands without artifacts. A universal Number identity
 proof, a NaN counterexample, and the real zero-exit SANY semantic-error transcript
 also pass their expected checks. Backend runtime bytes are unchanged. See the
 [regression checkpoint](Documentation/VERIFICATION.md#three-finding-regression-checkpoint).
+
+## Structured evidence SDK design
+[Package design](DESIGN.md) and [SDK transition](Documentation/SDK-TRANSITION.md) specify proposed FormalEvidence records/readers, origin-tracked compilation and actual TLA+/Lean inspection for Invar/Explorer. These are design-only; new products, collectors and FE acceptance tests are not implemented. Existing checking semantics and source UNVALIDATED limits remain. Replacement APIs/artifact layout deliberately remove old interfaces at coordinated implementation gates.
+
+This design checkpoint checked all 32 Formal designs and 36 Invar designs for required sections, local links and root reachability. Manifest decoding passed; only design-document exclusions changed. Production Swift sources are unchanged. The pinned Lean environment probe observed actual checked type/body dependencies; SANY semantic analysis passed, while interactive `-d` was rejected as an extraction transport. Neither is counted as implementation of the proposed collector/reader.

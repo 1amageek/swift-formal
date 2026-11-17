@@ -28,3 +28,7 @@ Draft translation composes SourceCompiling, both emitters, and the independent a
 
 ## Packaged Verification Extension
 Child: [Distribution](Distribution/DESIGN.md). Commands can now check finite generated-model outcomes, while general translation certification remains unavailable. Only install/package may acquire pinned dependencies; checks are offline.
+
+
+## Structured evidence change impact
+[Inspection](../FormalValidation/Inspection/DESIGN.md) and [SDK transition](../../Documentation/SDK-TRANSITION.md) define the target structured-output/correspondence/graph contract. Preserve this component's actual semantic and trust invariants. Update direct callers/results/resource audits in the same cutover; do not add legacy-report adapters. User Lean elaboration requires its explicit isolation capability; current trusted generated-model tooling is not evidence of safe arbitrary Lean execution.

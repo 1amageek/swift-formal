@@ -62,3 +62,7 @@ failures retain their caller-owned typed error handling. VerificationTests owns
 positive/path, semantic-error, parse-error, exception and incomplete-output
 cases; Tools/verify-number-regressions.py checks actual SANY and finite/universal
 CLI runs, including paths containing error.
+
+
+## Structured evidence change impact
+[Inspection](../Inspection/DESIGN.md) and [SDK transition](../../../Documentation/SDK-TRANSITION.md) define the target structured-output/correspondence/graph contract. Preserve this component's actual semantic and trust invariants. Update direct callers/results/resource audits in the same cutover; do not add legacy-report adapters. User Lean elaboration requires its explicit isolation capability; current trusted generated-model tooling is not evidence of safe arbitrary Lean execution.

@@ -34,3 +34,7 @@ Children: [ToolExecution](ToolExecution/DESIGN.md), [Toolchain](Toolchain/DESIGN
 
 ## Universal Property Extension
 Child: [Properties](Properties/DESIGN.md). It consumes Verification’s internal ArtifactSnapshot and LeanProofAudit contracts to prove quantified interpreter obligations. Finite cases and universal proofs have distinct scopes; source translation remains UNVALIDATED.
+
+
+## Target structured inspection SDK
+Add child [Inspection](Inspection/DESIGN.md) and the proposed [FormalEvidence](../FormalEvidence/DESIGN.md) dependency. Inspection owns actual formal-language declaration/state/proof extraction and source-origin data audit; Compiler is still not a dependency. Existing finite/quantified checking contracts keep their truth scope but return structured per-obligation evidence/bundle references at cutover. The [transition](../../Documentation/SDK-TRANSITION.md) removes old summary-only public reports and whole-DOT scanning as an SDK, without removing private forensic logs or independent trust checks. No new implementation is claimed by this design.

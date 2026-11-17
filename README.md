@@ -281,3 +281,6 @@ The [verification record](Documentation/VERIFICATION.md) documents actual TLC/Le
 - [Trust boundary](Documentation/TRUST.md)
 - [Implementation progress](PROGRESS.md)
 - [Original specification snapshot](Documentation/SPEC.md)
+
+## Structured evidence SDK design
+[Package design](DESIGN.md) and [SDK transition](Documentation/SDK-TRANSITION.md) specify proposed FormalEvidence records/readers, origin-tracked compilation and actual TLA+/Lean inspection for Invar/Explorer. These are design-only; new products, collectors and FE acceptance tests are not implemented. Existing checking semantics and source UNVALIDATED limits remain. Replacement APIs/artifact layout deliberately remove old interfaces at coordinated implementation gates.

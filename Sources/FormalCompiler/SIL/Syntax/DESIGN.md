@@ -24,3 +24,7 @@ All parser state is invocation-local. Maximum nesting and tokens are explicit li
 
 ## Verification and Change Impact
 [Tests](../../../../Tests/FormalSILTests) own structural behavior. Changes affect future typed decoding and independent validator input compatibility.
+
+
+## Target located token output
+The [major-2 artifact contract](../../Artifacts/DESIGN.md) requires exact original UTF-8 token/syntax ranges in addition to display line/column. Canonical SIL location does not assert a location in original Swift source; debug/source correspondence is a separately evidenced mapping. Unknown original-source ranges remain missing. The current SILToken location-only API is replaced with its actual callers at FE-01/02.

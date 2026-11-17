@@ -67,3 +67,7 @@ SANY success and diagnostic interpretation use Verification's
 including exact module completion and rejection of zero-exit semantic errors.
 PropertyVerifier retains ownership of process/resource failures. This unifies
 finite and universal checking without changing theorem or counterexample scope.
+
+
+## Structured evidence change impact
+[Inspection](../Inspection/DESIGN.md) and [SDK transition](../../../Documentation/SDK-TRANSITION.md) define the target structured-output/correspondence/graph contract. Preserve this component's actual semantic and trust invariants. Update direct callers/results/resource audits in the same cutover; do not add legacy-report adapters. User Lean elaboration requires its explicit isolation capability; current trusted generated-model tooling is not evidence of safe arbitrary Lean execution.
