@@ -39,7 +39,7 @@ Tests/FormalValidationTests own scenario/audit rejection. Tools/verify-distribut
 Verification subprocesses use a 512 MiB monitored workspace budget. Lean is launched with a 1024 MiB memory limit; Java uses a 512 MiB heap and 32 MiB stack. Exceeding these budgets reports UNKNOWN and exit 6.
 
 ## Internal Consumers
-[Properties](../Properties/DESIGN.md) may consume ArtifactSnapshot’s audited immutable program/files/hashes, ScalarValueRenderer’s exact scalar literals, and LeanProofAudit with an explicit controlled theorem name. The default checkedCase audit remains backward compatible. These contracts perform identity/data checks and axiom inspection; they do not establish source semantic preservation.
+[Properties](../Properties/DESIGN.md) may consume ArtifactSnapshot’s audited immutable program/files/hashes, ScalarValueRenderer’s exact scalar literals, and LeanProofAudit with an explicit controlled theorem name, plus SANYOutputAudit for parser diagnostics. The default checkedCase audit remains backward compatible. These contracts perform identity/data checks and axiom inspection; they do not establish source semantic preservation.
 
 
 Finite scenarios may select Number using explicit inputViews/resultView fields; absent views preserve existing integer/bit parsing. Number values accept decimal/special values or exact bits: encodings. Expected Number results compare canonical bits, preserving signed zero. [IR execution](../../FormalIR/Execution/DESIGN.md#binary64-number-contract) owns the meaning.
@@ -49,3 +49,16 @@ The binary64 exact-magnitude suite includes exponent alignment across more than 
 ScalarView owns interpretation shared by finite and universal checking. Properties consumes it through the compatible PropertyView alias and owns only its expression-kind mapping. This preserves the component dependency direction.
 
 Each case owns a private Java temporary directory beneath its monitored workspace. SANY/TLC standard-module extraction must not collide with another verification process or host TLC invocation. Concurrent source checks exercise this invariant.
+
+
+### SANY diagnostic contract
+SANYOutputAudit owns the shared interpretation of pinned SANY output. Success
+requires process exit zero, an exact semantic-processing line for the requested
+module, and no anchored SANY error/fatal diagnostic or Java exception. Paths
+containing error or ERROR are ordinary log data. Exit zero alone is insufficient:
+SANY may report semantic errors after processing a module and still exit zero.
+ModelVerifier and Properties both consume this audit; transport and resource
+failures retain their caller-owned typed error handling. VerificationTests owns
+positive/path, semantic-error, parse-error, exception and incomplete-output
+cases; Tools/verify-number-regressions.py checks actual SANY and finite/universal
+CLI runs, including paths containing error.

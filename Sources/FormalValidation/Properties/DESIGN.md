@@ -60,3 +60,10 @@ Number properties add an explicit number view over width-64 patterns. Arithmetic
 Binary64 arithmetic can make kernel checking substantially larger than integer arithmetic: the two-input addition theorem peaks around 1.2 GiB with the pinned Lean model. Property checking therefore uses a bounded 2048 MiB Lean budget; finite scenarios retain their 1024 MiB budget. Exhaustion remains UNKNOWN.
 
 Each property owns a private Java temporary directory within its monitored TLA workspace, isolating SANY/TLC module extraction across invocations.
+
+
+SANY success and diagnostic interpretation use Verification's
+[SANYOutputAudit contract](../Verification/DESIGN.md#sany-diagnostic-contract),
+including exact module completion and rejection of zero-exit semantic errors.
+PropertyVerifier retains ownership of process/resource failures. This unifies
+finite and universal checking without changing theorem or counterexample scope.

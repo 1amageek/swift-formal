@@ -109,9 +109,8 @@ public struct PropertyVerifier: PropertyVerifying {
     private func runSANY(_ name: String, at directory: URL, tools: BundledToolchain, log: URL, timeout: Double) async throws -> ToolResult {
         let result = try await invoke(tools.java, javaArguments(tools, at: directory) + ["tla2sany.SANY", name + ".tla"], at: directory, environment: tools.environment, log: log, timeout: timeout)
         let output = result.standardOutput + result.standardError
-        let errors = try NSRegularExpression(pattern: "(?im)^(\\*\\*\\*.*error|semantic errors:|fatal errors|exception in thread)")
-        let matches = errors.numberOfMatches(in: output, range: NSRange(output.startIndex..., in: output))
-        guard result.exitCode == 0, matches == 0, output.contains("Semantic processing of module " + name) else { throw failure(result, message: "SANY rejected the generated property specification") }
+        guard result.exitCode == 0 else { throw failure(result, message: "SANY rejected the generated property specification") }
+        try SANYOutputAudit.check(output, module: name)
         return result
     }
     private func invoke(_ executable: URL, _ arguments: [String], at directory: URL, environment: [String: String], log: URL, timeout: Double) async throws -> ToolResult {

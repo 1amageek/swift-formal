@@ -63,9 +63,8 @@ public struct ModelVerifier: ModelVerifying {
                 let java = ["-Djava.io.tmpdir=" + temporary.path, "-Xss32m", "-Xmx512m", "-cp", toolchain.jar.path]
                 let sany = try await invoke(toolchain.java, java + ["tla2sany.SANY", "CaseModel.tla"], at: tlaRoot,
                     environment: toolchain.environment, log: caseRoot.appendingPathComponent("sany"), timeout: timeout)
-                guard sany.exitCode == 0, !(sany.standardOutput + sany.standardError).lowercased().contains("error") else {
-                    throw FormalDiagnostic(.toolFailure, "SANY rejected the model")
-                }
+                guard sany.exitCode == 0 else { throw externalFailure(sany, message: "SANY rejected the model") }
+                try SANYOutputAudit.check(sany.standardOutput + sany.standardError, module: "CaseModel")
                 let result = try await invoke(toolchain.java, java + ["tlc2.TLC", "-tool", "-workers", "1", "-cleanup", "-dump", "dot", "trace.dot", "CaseModel"],
                     at: tlaRoot, environment: toolchain.environment, log: caseRoot.appendingPathComponent("tlc"), timeout: timeout)
                 let output = result.standardOutput + result.standardError
