@@ -43,3 +43,5 @@ An isolated-session option starts the child as session/group leader. Combined wi
 A selected ToolLaunchJournal writes a private artifact-bound intent before spawn, starts the isolated-session leader suspended, publishes PID/start identity before SIGCONT, and records terminal cleanup. Exclusive service recovery checks that identity, or exact launcher argv/private artifact binding for an interrupted suspended spawn, before stopping a session. Record count/bytes and cleanup waiting are bounded. User code must be sandboxed without fork; an isolated session alone does not restrict filesystem/network access.
 
 Each launch-record replacement fsyncs its file and parent directory before returning. Recovery rejects a mismatched record UUID/filename before any signal or journal rewrite, so corrupted metadata cannot select an output path.
+
+The opt-in monitored profile reports ToolResourceLimit for memory/process/CPU/output/workspace exhaustion. Wall deadlines remain FormalDiagnostic.timeout. The unrestricted compatibility profile preserves its existing output/workspace timeout diagnostics.

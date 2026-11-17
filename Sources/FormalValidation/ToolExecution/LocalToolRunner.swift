@@ -80,6 +80,7 @@ public struct LocalToolRunner: ToolExecuting {
             var outputStat = stat(); var errorStat = stat()
             guard fstat(stdoutFD, &outputStat) == 0, fstat(stderrFD, &errorStat) == 0 else { throw failure("Cannot inspect logs") }
             guard outputStat.st_size <= maximumOutputBytes, errorStat.st_size <= maximumOutputBytes else {
+                if limits != nil { throw ToolResourceLimit.output }
                 throw FormalDiagnostic(.timeout, "Tool output exceeded its byte limit")
             }
             let duration = start.duration(to: clock.now).components
@@ -132,6 +133,7 @@ public struct LocalToolRunner: ToolExecuting {
             }
             let size = (attributes[.size] as? NSNumber)?.uint64Value ?? 0
             guard count <= 10_000, size <= UInt64(maximumBytes), total <= UInt64(maximumBytes) - size else {
+                if limits != nil { throw ToolResourceLimit.workspace }
                 throw FormalDiagnostic(.timeout, "Tool workspace exceeded its resource budget")
             }
             total += size

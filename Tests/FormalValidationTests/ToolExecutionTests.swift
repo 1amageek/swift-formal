@@ -100,9 +100,8 @@ struct ToolExecutionTests {
                     _ = try await LocalToolRunner(limits: limits).run(executable: URL(fileURLWithPath: "/bin/sh"), arguments: arguments,
                         directory: root, log: root.appendingPathComponent(name), timeout: 3)
                     Issue.record("Resource cap returned success: \(name)")
-                } catch let error as FormalDiagnostic {
-                    #expect(error.code == .timeout)
-                    #expect(error.message.lowercased().contains(name == "processes" ? "process" : name == "memory" ? "memory" : "cpu"))
+                } catch let error as ToolResourceLimit {
+                    #expect(error.rawValue == name)
                 }
             }
             let result = try await LocalToolRunner(limits: ToolProcessLimits(maximumResidentBytes: 268435456, maximumProcesses: 8, maximumCPUSeconds: 10))
@@ -111,4 +110,18 @@ struct ToolExecutionTests {
             #expect(result.measurements.sampledPeakProcesses == 1)
         }
     }
+    @Test(.timeLimit(.minutes(1)))
+    func monitoredOutputAndWorkspaceHaveTypedResourceFailures() async throws {
+        let limits = ToolProcessLimits(maximumResidentBytes: 268435456, maximumProcesses: 8, maximumCPUSeconds: 10)
+        for kind in [ToolResourceLimit.output, .workspace] {
+            try await temporary { root in
+                let command = kind == .output ? "printf 'too much output'" : "dd if=/dev/zero of=payload bs=4096 count=1 2>/dev/null"
+                do {
+                    _ = try await LocalToolRunner(limits: limits).run(executable: URL(fileURLWithPath: "/bin/sh"), arguments: ["-c", command], directory: root, log: root.appendingPathComponent("logs"), maximumOutputBytes: kind == .output ? 1 : 8192, maximumWorkspaceBytes: kind == .workspace ? 1024 : nil)
+                    Issue.record("Monitored resource failure returned success")
+                } catch let error as ToolResourceLimit { #expect(error == kind) }
+            }
+        }
+    }
+
 }
