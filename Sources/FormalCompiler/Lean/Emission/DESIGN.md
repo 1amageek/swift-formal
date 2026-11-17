@@ -17,7 +17,7 @@ IRProgram -> data constructors -> runtime Step relation -> output files
 ```
 
 ## Contracts and Invariants
-Symbols are escaped as data. Artifact order is deterministic. No timestamps or absolute local paths. Integer bit patterns keep their widths. Terminal states are distinct from nonterminal deadlock. The runtime is a versioned semantics artifact, not a business-specific model.
+Symbols are escaped as data. Artifact order is deterministic. No timestamps or absolute local paths. Integer bit patterns keep their widths. Terminal states are distinct from nonterminal deadlock. The runtime is a versioned semantics artifact, not a business-specific model. Its canonical bytes are the regular package resource in this directory; the Semantics development tree refers to it by repository-local symlink, so consuming packages receive self-contained bundles.
 
 ## State, Ownership, and Lifecycle
 Emission is pure and invocation-local. Output publication belongs to orchestration.

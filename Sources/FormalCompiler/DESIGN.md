@@ -1,7 +1,7 @@
 # FormalCompiler
 
 ## Purpose and Scope
-Own source-language frontends, checked lowering, and deterministic TLA+/Lean emission. Parent: [package](../../DESIGN.md). Children: [SIL](SIL/DESIGN.md), [Lowering](Lowering/DESIGN.md), [TLA](TLA/DESIGN.md), [Lean](Lean/DESIGN.md), [Frontends](Frontends/DESIGN.md).
+Own source-language frontends, checked lowering, and deterministic TLA+/Lean emission. Parent: [package](../../DESIGN.md). Children: [Artifacts](Artifacts/DESIGN.md), [SIL](SIL/DESIGN.md), [Lowering](Lowering/DESIGN.md), [TLA](TLA/DESIGN.md), [Lean](Lean/DESIGN.md), [Frontends](Frontends/DESIGN.md).
 
 ## Responsibilities and Boundaries
 Every language frontend must produce the same language-independent FormalIR. Language semantics and supported grammar belong to versioned frontend profiles. Runtime tools and source names must not supply guessed meaning. Independent validation remains outside this module.

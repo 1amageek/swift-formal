@@ -20,6 +20,8 @@ Pinned artifact policy -> checksum-verified archives -> staged extraction -> pin
 ```
 
 ## Contracts and Invariants
+The canonical toolchain policy is the regular package resource `Toolchain/toolchain-artifacts.lock.json`. Development Tools refer to it through a repository-local symlink; shipped resource bundles must not depend on repository-relative links.
+
 Archive URLs, SHA-256 and deterministic extracted file inventory digest are trusted package resources. Every tool file, symlink and executable mode is verified against the pinned inventory before execution. Symlinks must resolve inside the toolchain. No system-wide install. Existing cache bytes are rehashed. Only macOS arm64 is supported. Installation preserves upstream licenses and source links. Inventory generation is deterministic and streaming; a modified file or extra executable fails closed.
 
 ## Runtime Flows
@@ -35,3 +37,5 @@ Typed errors preserve failure; deadlines, cancellation, and output limits never 
 Offline relocation integration owns absent host tools and altered tool rejection. Package preparation owns corrupted archive rejection and no-clobber publication. Changing policy requires rebuilding inventory and rerunning actual bundled Java/Lean/TLC paths.
 
 SHA-256 inventory reads drain autoreleased Foundation buffers after each 1 MiB chunk. The digest state outlives the chunk; file bytes do not. Peak process memory must not grow with the total 3 GB toolchain size. Verify this on the actual toolchain command as well as checking unchanged inventory digests.
+
+Resource identity uses Bundle.module resource lookup, preserving both flat SwiftPM and Apple Contents/Resources layouts. resourceBundle remains the entire bundle for portable distribution; policyResourceURL and resourceIdentity locate actual policy/audit bytes. The identity does not depend on an assumed bundle directory shape.

@@ -16,7 +16,7 @@ let package = Package(
         .target(name: "FormalCore", exclude: ["DESIGN.md", "Contracts/DESIGN.md", "Bundle/DESIGN.md"]),
         .target(name: "FormalIR", dependencies: ["FormalCore"], exclude: ["DESIGN.md", "Program/DESIGN.md", "Execution/DESIGN.md"]),
         .target(name: "FormalCompiler", dependencies: ["FormalCore", "FormalIR"],
-                exclude: ["DESIGN.md", "Frontends/DESIGN.md", "SIL/DESIGN.md", "SIL/Syntax/DESIGN.md", "Lowering/DESIGN.md", "Lowering/Scalar/DESIGN.md", "Lean/DESIGN.md", "Lean/Emission/DESIGN.md", "TLA/DESIGN.md", "TLA/Emission/DESIGN.md"],
+                exclude: ["DESIGN.md", "Frontends/DESIGN.md", "Artifacts/DESIGN.md", "SIL/DESIGN.md", "SIL/Syntax/DESIGN.md", "Lowering/DESIGN.md", "Lowering/Scalar/DESIGN.md", "Lean/DESIGN.md", "Lean/Emission/DESIGN.md", "TLA/DESIGN.md", "TLA/Emission/DESIGN.md"],
                 resources: [.copy("Lean/Emission/Runtime.lean"), .copy("TLA/Emission/SwiftFormalRuntime.tla")]),
         .target(name: "FormalValidation", dependencies: ["FormalCore", "FormalIR"], exclude: ["DESIGN.md", "ArtifactDecoder/DESIGN.md", "ToolExecution/DESIGN.md", "Toolchain/DESIGN.md", "Verification/DESIGN.md", "Properties/DESIGN.md"], resources: [.copy("Toolchain/toolchain-artifacts.lock.json"), .copy("Verification/trusted-artifacts.json")]),
         .executableTarget(name: "formal", dependencies: ["FormalCore", "FormalIR", "FormalCompiler", "FormalValidation"],

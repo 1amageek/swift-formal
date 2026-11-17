@@ -36,8 +36,9 @@ struct DraftTranslation {
         guard data.count <= 1_000_000, let source = String(data: data, encoding: .utf8) else {
             throw FormalDiagnostic(.sourceParseFailed, "Source exceeds 1 MB or is not UTF-8", path: path)
         }
-        let program = try compiler.compile(source, language: language, moduleID: "Source")
-        let files = try LeanEmitter().emit(program) + TLAEmitter().emit(program)
+        let artifact = try SourceArtifactGenerator(compiler: compiler, defaultNumeric: defaultNumeric).generate(data, language: language, moduleID: "Source")
+        let program = artifact.program
+        let files = artifact.files
         let decoder = BackendArtifactDecoder()
         guard let lean = files.first(where: { $0.path == "lean/Generated/Program.lean" }),
               let tla = files.first(where: { $0.path == "tla/Program.tla" }) else {
@@ -48,29 +49,7 @@ struct DraftTranslation {
         guard decodedLean == program, decodedTLA == program else { throw FormalDiagnostic(.integrityMismatch, "Actual output differs from IR") }
         let report = DraftTranslationReport(sourceLanguage: language, profile: language.profile,
             assumptions: language.assumptions, defaultNumeric: language.isJavaScriptFamily ? defaultNumeric : nil, sourceSHA256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined(), functions: program.functions.map(\.symbol))
-        let manager = FileManager.default
-        let destination = URL(fileURLWithPath: output).standardizedFileURL
-        guard !manager.fileExists(atPath: destination.path) else { throw FormalDiagnostic(.invalidArguments, "Output already exists", path: output) }
-        let parent = destination.deletingLastPathComponent()
-        let temporary = parent.appendingPathComponent(".formal-\(UUID().uuidString)")
-        try manager.createDirectory(at: temporary, withIntermediateDirectories: false)
-        do {
-            for file in files {
-                let url = temporary.appendingPathComponent(file.path)
-                try manager.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-                try file.contents.write(to: url, atomically: true, encoding: .utf8)
-            }
-            try data.write(to: temporary.appendingPathComponent("source.txt"))
-            let encodedProgram = try ArtifactJSON.encode(program)
-            try encodedProgram.write(to: temporary.appendingPathComponent("program.json"))
-            let encodedReport = try ArtifactJSON.encode(report)
-            try encodedReport.write(to: temporary.appendingPathComponent("report.json"))
-            try manager.moveItem(at: temporary, to: destination)
-        } catch {
-            do { try manager.removeItem(at: temporary) }
-            catch let cleanupError { throw FormalDiagnostic(.ioFailure, "Translation failed (\(error)); staging cleanup also failed (\(cleanupError))", path: temporary.path) }
-            throw error
-        }
+        try artifact.write(to: URL(fileURLWithPath: output))
         return report
     }
 }
