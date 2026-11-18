@@ -124,7 +124,7 @@ struct SourceParser {
             result = try type()
         }
         let body = try block()
-        return .init(position: position, name: name, parameters: parameters, result: result, body: body)
+        return .init(position: position, range: SourceByteRange(start: position.startByte, end: tokens[max(0,cursor-1)].endByte), name: name, parameters: parameters, result: result, body: body)
     }
     mutating func block() throws -> [SourceStatement] {
         nesting += 1; defer { nesting -= 1 }
@@ -153,7 +153,9 @@ struct SourceParser {
         try expect("\n")
     }
     mutating func statement() throws -> SourceStatement {
-        if take("return") { let value = try expression(); try endStatement(); return .returned(value.value) }
+        let start = tokens[cursor].startByte
+        func located(_ value: SourceStatement, end: Int) -> SourceStatement { value.located(start, end) }
+        if take("return") { let value = try expression(); try endStatement(); return located(.returned(value.value), end: tokens[max(0,cursor-1)].endByte) }
         if take("if") {
             let condition: SourceExpression
             if [.c, .cpp, .typescript, .javascript, .java, .bun].contains(language) {
@@ -162,7 +164,7 @@ struct SourceParser {
             let thenBody = try block()
             if language == .go && text == "\n" { throw error("Go else must follow the closing brace on the same line") }
             lines(); try expect("else"); let elseBody = try block()
-            return .conditional(condition, thenBody, elseBody)
+            return located(.conditional(condition, thenBody, elseBody), end: tokens[max(0,cursor-1)].endByte)
         }
         let name: String; var kind: ScalarType?
         switch language {
@@ -178,7 +180,7 @@ struct SourceParser {
         case .go: name = try identifier(); try expect(":=")
         case .python: name = try identifier(); if take(":") { kind = try type() }; try expect("=")
         }
-        let value = try expression(); try endStatement(); return .binding(name, kind, value.value)
+        let value = try expression(); try endStatement(); return located(.binding(name, kind, value.value), end: tokens[max(0,cursor-1)].endByte)
     }
     func precedence(_ op: String) -> Int {
         switch op {
@@ -198,6 +200,7 @@ struct SourceParser {
     mutating func expression(_ minimum: Int = 0) throws -> ParsedExpression {
         nesting += 1; defer { nesting -= 1 }
         guard nesting <= maximumNesting else { throw error("Expression nesting limit exceeded") }
+        let start = tokens[cursor].startByte
         var left = try primary()
         var chainLength = 0
         while precedence(text) >= minimum {
@@ -206,24 +209,26 @@ struct SourceParser {
             let op = text; cursor += 1
             let right = try expression(precedence(op) + 1)
             let depth = try checkedDepth(1 + max(left.depth, right.depth))
-            left = (.binary(op, left.value, right.value), depth)
+            left = (SourceExpression.binary(op, left.value, right.value).located(start, tokens[max(0,cursor-1)].endByte), depth)
         }
         return left
     }
     mutating func primary() throws -> ParsedExpression {
-        if take("(") { let value = try expression(); try expect(")"); return value }
+        let start = tokens[cursor].startByte
+        func located(_ value: SourceExpression, end: Int) -> SourceExpression { value.located(start, end) }
+        if take("(") { let value = try expression(); try expect(")"); return (located(value.value, end: tokens[max(0,cursor-1)].endByte),value.depth) }
         if text == "-" || (text == "+" && language.isJavaScriptFamily) || (text == "!" && language != .python) || (text == "not" && language == .python) {
             let op = text; cursor += 1
             let immediateLiteral = text.utf8.first.map { (48...57).contains($0) } == true
             let value = try expression(op == "not" ? 2 : 6)
-            if op == "-", (language != .java || immediateLiteral), case .literal(let literal) = value.value, !(language.isJavaScriptFamily && literal.hasPrefix("-")) { return (.literal("-" + literal), 1) }
+            if op == "-", (language != .java || immediateLiteral), case .literal(let literal) = value.value.kind, !(language.isJavaScriptFamily && literal.hasPrefix("-")) { return (located(.literal("-" + literal), end: tokens[max(0,cursor-1)].endByte), 1) }
             let depth = try checkedDepth(value.depth + 1)
-            return (.unary(op, value.value), depth)
+            return (located(.unary(op, value.value), end: tokens[max(0,cursor-1)].endByte), depth)
         }
         let value = text
-        if let first = value.utf8.first, (48...57).contains(first) || (language.isJavaScriptFamily && first == 46) { cursor += 1; return (.literal(value), 1) }
+        if let first = value.utf8.first, (48...57).contains(first) || (language.isJavaScriptFamily && first == 46) { cursor += 1; return (located(.literal(value), end: tokens[max(0,cursor-1)].endByte), 1) }
         let bools = language == .python ? ["True", "False"] : ["true", "false"]
-        if bools.contains(value) { cursor += 1; return (.literal(value), 1) }
+        if bools.contains(value) { cursor += 1; return (located(.literal(value), end: tokens[max(0,cursor-1)].endByte), 1) }
         var name = try identifier()
         if language.isJavaScriptFamily && take(".") {
             name += "." + (try identifier())
@@ -241,8 +246,8 @@ struct SourceParser {
                 try expect(")")
             }
             let depth = try checkedDepth(1 + deepestArgument)
-            return (.call(name, arguments), depth)
+            return (located(.call(name, arguments), end: tokens[max(0,cursor-1)].endByte), depth)
         }
-        return (.variable(name), 1)
+        return (located(.variable(name), end: tokens[max(0,cursor-1)].endByte), 1)
     }
 }

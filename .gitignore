@@ -7,3 +7,5 @@ Generated/
 __pycache__/
 
 .build-portable/
+
+.build-asan/

@@ -19,13 +19,13 @@ struct FrontendRegressionTests {
         }
         for expression in ["--a", "a--", "a---b", "++a", "a++"] {
             #expect(throws: SourceDiagnostic.self) {
-                try ScalarSourceCompiler().compile(prefix + expression + suffix, language: language, moduleID: "Updates")
+                try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((prefix + expression + suffix).utf8), language: language, moduleID: "Updates")).program
             }
         }
     }
     @Test func preservesGoUntypedConstantComparison() throws {
         let source = "package main\nfunc f(a int64, b int64) bool { return 9223372036854775807 + 1 < 0 }\n"
-        let program = try ScalarSourceCompiler().compile(source, language: .go, moduleID: "Constants")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .go, moduleID: "Constants")).program
         let nine = try BitPattern(width: 64, bits: 9)
         let two = try BitPattern(width: 64, bits: 2)
         let result = try IRInterpreter().run(program, entry: "f", arguments: [.bits(nine), .bits(two)])
@@ -35,7 +35,7 @@ struct FrontendRegressionTests {
         let header = language == .c ? "stdint.h" : "cstdint"
         let type = language == .c ? "int64_t" : "std::int64_t"
         let source = "#include <\(header)>\n\(type) f(\(type) a, \(type) b) { return g(a, b); }\n\(type) g(\(type) a, \(type) b) { return a + b; }\n"
-        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(source, language: language, moduleID: "Visibility") }
+        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "Visibility")).program }
     }
     private var root: URL { URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent() }
 
@@ -47,32 +47,32 @@ struct FrontendRegressionTests {
     @Test func rejectsNestedChainCounterexample() throws {
         let source = nestedChain(levels: 50, terms: 120)
         #expect(source.utf8.count < 13_000)
-        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(source, language: .javascript, moduleID: "Depth") }
+        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .javascript, moduleID: "Depth")).program }
     }
     @Test func enforcesTotalDepthForBinaryUnaryAndCallNodes() throws {
         let compiler = ScalarSourceCompiler(maximumNesting: 32)
         let chain = "(" + Array(repeating: "a", count: 20).joined(separator: "+") + ")"
         let second = "function f(a, b) { return " + chain + String(repeating: "+a", count: 20) + "; }"
-        #expect(throws: SourceDiagnostic.self) { try compiler.compile(second, language: .javascript, moduleID: "Depth") }
+        #expect(throws: SourceDiagnostic.self) { try compiler.compile(SourceCompilationRequest(source: Data((second).utf8), language: .javascript, moduleID: "Depth")).program }
         let unary = "function f(a, b) { return - - - - - - - - - - - - - " + chain + "; }"
-        #expect(throws: SourceDiagnostic.self) { try compiler.compile(unary, language: .javascript, moduleID: "Depth") }
+        #expect(throws: SourceDiagnostic.self) { try compiler.compile(SourceCompilationRequest(source: Data((unary).utf8), language: .javascript, moduleID: "Depth")).program }
         let call = "function g(a, b) { return a; } function f(a, b) { return g(" + chain + String(repeating: "+a", count: 12) + ", b); }"
-        #expect(throws: SourceDiagnostic.self) { try compiler.compile(call, language: .javascript, moduleID: "Depth") }
+        #expect(throws: SourceDiagnostic.self) { try compiler.compile(SourceCompilationRequest(source: Data((call).utf8), language: .javascript, moduleID: "Depth")).program }
     }
     @Test func rejectsUnrepresentableGoConstantConversions() throws {
         let expressions = ["9223372036854775807 + 1", "a + (9223372036854775807 + 1)", "true + false"]
         for expression in expressions {
             let source = "package main\nfunc f(a int64, b int64) int64 { return " + expression + " }\n"
-            #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(source, language: .go, moduleID: "Constants") }
+            #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .go, moduleID: "Constants")).program }
         }
         let unsigned = "package main\nfunc f(a uint64, b uint64) bool { return a < -1 }\n"
-        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(unsigned, language: .go, moduleID: "Constants") }
+        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((unsigned).utf8), language: .go, moduleID: "Constants")).program }
         let oversized = "package main\nfunc f(a int64, b int64) bool { return " + String(repeating: "9", count: 76) + " * 10 > 0 }\n"
-        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(oversized, language: .go, moduleID: "Constants") }
+        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((oversized).utf8), language: .go, moduleID: "Constants")).program }
     }
     @Test(arguments: [SourceLanguage.python, .rust]) func retainsRepeatedUnaryMinusGrammar(_ language: SourceLanguage) throws {
         let source = language == .python ? "def f(a: int, b: int) -> int:\n    return --a\n" : "fn f(a: i64, b: i64) -> i64 { return --a; }"
-        let program = try ScalarSourceCompiler().compile(source, language: language, moduleID: "Unary")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "Unary")).program
         let nine: IRValue = language == .python ? .integer(try MathematicalInteger("9")) : .bits(try BitPattern(width: 64, bits: 9))
         let result = try IRInterpreter().run(program, entry: "f", arguments: [nine, nine])
         #expect(result.outcome == .returned(nine))
@@ -83,7 +83,7 @@ struct FrontendRegressionTests {
         let source: String
         if name == "depth-javascript" { source = nestedChain(levels: 7, terms: 18).replacingOccurrences(of: "; }", with: "+a; }") }
         else { source = try String(contentsOf: root.appendingPathComponent("Fixtures/Regressions/\(name).source"), encoding: .utf8) }
-        let program = try ScalarSourceCompiler(defaultNumeric: language.isJavaScriptFamily ? .bigint : .number).compile(source, language: language, moduleID: "Source")
+        let program = try ScalarSourceCompiler(defaultNumeric: language.isJavaScriptFamily ? .bigint : .number).compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "Source")).program
         // entry, left, right, input kind, expected value, output kind
         let cases: [[String]]
         if name == "constants-go" {
@@ -147,7 +147,7 @@ struct FrontendRegressionTests {
     @Test func handlesConstantTreesNearTheDepthLimit() throws {
         let expression = Array(repeating: "1", count: 127).joined(separator: "+")
         let source = "package main\nfunc f(a int64, b int64) bool { return " + expression + " < 0 }\n"
-        let program = try ScalarSourceCompiler().compile(source, language: .go, moduleID: "Boundary")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .go, moduleID: "Boundary")).program
         let bit = try BitPattern(width: 64, bits: 0)
         let result = try IRInterpreter().run(program, entry: "f", arguments: [.bits(bit), .bits(bit)])
         #expect(result.outcome == .returned(.bits(try BitPattern(width: 1, bits: 0))))
@@ -158,7 +158,7 @@ struct FrontendRegressionTests {
         function encode(a, b) { return a * 10n + b; }
         function f(a, b) { return encode(encode(a, b), encode(b, a)) - encode(b, a); }
         """
-        let program = try ScalarSourceCompiler().compile(source, language: .javascript, moduleID: "Order")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .javascript, moduleID: "Order")).program
         let a = try MathematicalInteger("9")
         let b = try MathematicalInteger("2")
         let expected = try MathematicalInteger("920")

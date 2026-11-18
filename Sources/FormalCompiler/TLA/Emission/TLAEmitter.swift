@@ -1,24 +1,32 @@
 import FormalCore
 import FormalIR
+import FormalEvidence
 import Foundation
 
 public struct TLAEmitter: TLAEmitting {
     public init() {}
 
-    public func emit(_ program: IRProgram) throws -> [GeneratedFile] {
+    public func emit(_ program: IRProgram) throws -> [GeneratedDocument] {
         try program.validate()
         guard let url = Bundle.module.url(forResource: "SwiftFormalRuntime", withExtension: "tla") else {
             throw FormalDiagnostic(.ioFailure, "Missing TLA runtime resource.")
         }
         let runtime = try String(contentsOf: url, encoding: .utf8)
-        let functions = try program.functions.map(function).joined(separator: ",\n  ")
-        let source = """
+        var source = TrackedEmission()
+        source.append("""
         ------------------------------ MODULE Program ------------------------------
         EXTENDS SwiftFormalRuntime
         CONSTANTS EntrySymbol, EntryArguments
         VARIABLE state
         ProgramData == <<
-          \(functions)
+
+        """)
+        for (index, value) in program.functions.enumerated() {
+            if index > 0 { source.append(",\n  ") }
+            source.append(try function(value))
+        }
+        source.append("""
+
         >>
         Init == /\\ InputTypesMatch(ProgramData, EntrySymbol, EntryArguments)
                 /\\ state = Initial(ProgramData, EntrySymbol, EntryArguments)
@@ -30,7 +38,8 @@ public struct TLAEmitter: TLAEmitting {
         NoDeadlock == Terminal(state) \\/ ENABLED ActualStep
         ============================================================================
 
-        """
+        """)
+        let programDigest = EvidenceIdentity.digest(try ArtifactJSON.encode(program))
         let properties = """
         ---------------------------- MODULE Properties -----------------------------
         EXTENDS Program
@@ -38,28 +47,38 @@ public struct TLAEmitter: TLAEmitting {
         ============================================================================
 
         """
-        return [.init(path: "tla/Program.tla", contents: source),
-                .init(path: "tla/SwiftFormalRuntime.tla", contents: runtime),
-                .init(path: "tla/Properties.tla", contents: properties)]
+        return [source.document(path: "tla/Program.tla",programDigest: programDigest),
+                .init(path: "tla/SwiftFormalRuntime.tla", contents: runtime, origins: []),
+                .init(path: "tla/Properties.tla", contents: properties, origins: [])]
     }
 
-    private func function(_ value: IRFunction) throws -> String {
-        let blocks = try value.blocks.map(block).joined(separator: ",\n    ")
-        let rendered0 = try quote(value.moduleID)
-        let rendered1 = try quote(value.symbol)
-        let rendered2 = try type(value.result)
-        return "[moduleID |-> \(rendered0), symbol |-> \(rendered1), resultType |-> \(rendered2), blocks |-> <<\n    \(blocks)\n  >>]"
+    private func function(_ value: IRFunction) throws -> TrackedEmission {
+        let module = try quote(value.moduleID), symbol = try quote(value.symbol), result = try type(value.result)
+        var text = TrackedEmission()
+        text.append("[moduleID |-> \(module), symbol |-> \(symbol), resultType |-> \(result), blocks |-> <<\n    ")
+        for (index, valueBlock) in value.blocks.enumerated() {
+            if index > 0 { text.append(",\n    ") }
+            text.append(try block(valueBlock,function: value.symbol))
+        }
+        text.append("\n  >>]"); text.mark(function: value.symbol,start: 0)
+        return text
     }
-
-    private func block(_ value: IRBlock) throws -> String {
+    private func block(_ value: IRBlock, function: String) throws -> TrackedEmission {
         let parameters = try value.parameters.map { parameter in
-            let rendered0 = try quote(parameter.id)
-            let rendered1 = try type(parameter.type)
-            return "[id |-> \(rendered0), type |-> \(rendered1)]"
+            let id = try quote(parameter.id), kind = try type(parameter.type)
+            return "[id |-> \(id), type |-> \(kind)]"
         }.joined(separator: ", ")
-        let instructions = try value.instructions.map(instruction).joined(separator: ",\n      ")
-        let rendered0 = try quote(value.id)
-        return "[id |-> \(rendered0), parameters |-> <<\(parameters)>>, instructions |-> <<\n      \(instructions)\n    >>]"
+        let id = try quote(value.id)
+        var text = TrackedEmission()
+        text.append("[id |-> \(id), parameters |-> <<\(parameters)>>, instructions |-> <<\n      ")
+        for (index, valueInstruction) in value.instructions.enumerated() {
+            if index > 0 { text.append(",\n      ") }
+            let start = text.byteCount
+            text.append(try instruction(valueInstruction))
+            text.mark(function: function,block: value.id,instruction: index,start: start)
+        }
+        text.append("\n    >>]"); text.mark(function: function,block: value.id,start: 0)
+        return text
     }
 
     private func type(_ value: IRType) throws -> String {

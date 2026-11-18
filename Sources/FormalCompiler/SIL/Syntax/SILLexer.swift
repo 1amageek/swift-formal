@@ -30,7 +30,7 @@ public struct SILLexer: Sendable {
                 continue
             }
             if byte == 10 {
-                tokens.append(SILToken(kind: .newline, text: "\n", line: line, column: column))
+                tokens.append(SILToken(kind: .newline, text: "\n", line: line, column: column, startByte: index, endByte: index + 1))
                 index += 1
                 line += 1
                 column = 1
@@ -84,7 +84,7 @@ public struct SILLexer: Sendable {
             }
             guard index > start else { throw failure("Invalid token") }
             tokens.append(SILToken(kind: kind, text: String(decoding: bytes[start..<index], as: UTF8.self),
-                                   line: line, column: startColumn))
+                                   line: line, column: startColumn, startByte: start, endByte: index))
         }
         return tokens
     }

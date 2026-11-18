@@ -10,4 +10,6 @@ public struct SILToken: Sendable, Equatable {
     public let text: String
     public let line: Int
     public let column: Int
+    public let startByte: Int
+    public let endByte: Int
 }

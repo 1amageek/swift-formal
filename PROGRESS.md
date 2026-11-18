@@ -146,3 +146,27 @@ also pass their expected checks. Backend runtime bytes are unchanged. See the
 [Package design](DESIGN.md) and [SDK transition](Documentation/SDK-TRANSITION.md) specify proposed FormalEvidence records/readers, origin-tracked compilation and actual TLA+/Lean inspection for Invar/Explorer. These are design-only; new products, collectors and FE acceptance tests are not implemented. Existing checking semantics and source UNVALIDATED limits remain. Replacement APIs/artifact layout deliberately remove old interfaces at coordinated implementation gates.
 
 This design checkpoint checked all 32 Formal designs and 36 Invar designs for required sections, local links and root reachability. Manifest decoding passed; only design-document exclusions changed. Production Swift sources are unchanged. The pinned Lean environment probe observed actual checked type/body dependencies; SANY semantic analysis passed, while interactive `-d` was rejected as an extraction transport. Neither is counted as implementation of the proposed collector/reader.
+
+## 2026-11-18 structured evidence implementation checkpoint
+
+The accepted breaking SDK implementation is in progress; this is not task completion. New FormalEvidence/GraphStore, origin-tracked compilation, structured checker results and actual SANY/TLC/Lean collectors now have implementation and behavioral evidence. The earlier design-only section is historical. Invar and Formal still require final schema/document migration, package integration, review and coherent commits; ArchitectureExplorer is independently owned and has not been edited by this task.
+
+| Owner | Confirmed behavior | Evidence |
+|---|---|---|
+| FormalEvidence | Immutable SQLite bundles, bounded replayable edge/endpoint pages, Unicode document ranges, exact ordered trace/loop records, integrity/reference audit, discard of failed optional extraction | /tmp/formal-unit-suite.log, /tmp/formal-storage-review.log |
+| Compiler/origins | Layout2 compilation, byte/token/syntax/lowering ranges, independently audited immutable artifact publication; old SourceArtifact public aggregate removed | /tmp/formal-snapshot-red.log then green, /tmp/formal-immutable-red.log then green |
+| Actual tools | Pinned SANY semantic graph, TLC states and ordered witness, actual requested Lean declaration closure independently kernel replayed without imported initializers; optional graph failure does not upgrade/downgrade original proof axes | /tmp/formal-finite-evidence.log, /tmp/formal-checker-integration.log, /tmp/formal-inspection-tests.log |
+| Inspection safety | Explicit user-code authority, actual outside-file/fork/network denial, admitted/custom-axiom roots rejected, initializer replay distinction | /tmp/formal-inspection-safety.log, /tmp/formal-inspection-safety-followup.log |
+| Declared graph roots | Producer-derived IR function/SANY ModuleNode/TLC initial and trace/Lean declaration and term roots; missing/duplicate roots reject sealing | /tmp/formal-graph-root-tests.log:7 tests; /tmp/formal-root-collector-rebuild.log |
+| Direct consumer integration | Invar's real isolated TLC/Lean worker produces original structured bundles; a separate authenticated SDK client queries rooted TLA/Lean/IR pages/documents; bounded redacted graphs publish through the actual unmodified Explorer Provider API | /tmp/invar-real-explorer-formal-publication-tests.log; details and limits in ../Invar/PROGRESS.md |
+
+The direct consumer test measured sampled aggregate worker RSS2129362944 bytes and wall13.873387792s under an explicit4096MiB admitted limit. This is macOS27 arm64/Swift6.4.1 with the existing pinned offline tools; it is not a WASM/Embedded/GPU or GUI-rendering claim. Source-to-model translation remains UNVALIDATED. Source ranges with non-ASCII/tab Java columns remain unavailable rather than guessed. No runtime installation or download occurred.
+
+
+## Final scoped SDK verification — 2026-11-18
+
+The immutable FormalEvidence/origin/inspection SDK and breaking layout2 consumer cutover are implemented. `/tmp/formal-final-native-package-tests.log` passes129 tests in28 suites using the selected Swift6.4.1 native build system and explicit macOS27 target. An initial default-build-system run used an older Xcode Testing runtime and is not baseline evidence. `/tmp/formal-evidence-asan-tests.log` passes8 actual bundle/SQLite/range/cursor/root/integrity tests with Address Sanitizer in an isolated scratch directory.
+
+The final actual Invar/Source/CLI/MCP path in `/tmp/invar-final-real-integration3.log` exercises pinned SANY/TLC/Lean generation/checking, original rooted graphs and documents, persistent read leases/EOF release, confirmed Action cancellation and worker SIGKILL/no external restart. Its complete generated-model worker measured sampled peak RSS2086043648 bytes and wall29.079513041 seconds under an explicit4096MiB budget. Source-to-model correspondence remains UNVALIDATED; no GUI or WASM/Embedded/GPU claim follows. Exact frontend/recovery/Native evidence and disclosed failed diagnostic attempts remain in `../Invar/PROGRESS.md`.
+
+The superseded SourceArtifact aggregate/generator and summary-only public checker returns remain deleted. Current module/component designs now describe actual products/APIs instead of unimplemented proposals. No ArchitectureExplorer or swift-sdk source edits, runtime tool installation, tag, release or deployment is part of this change.

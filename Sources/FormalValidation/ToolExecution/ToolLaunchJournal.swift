@@ -14,7 +14,11 @@ public struct ToolLaunchJournal: Sendable {
         self.directory = directory; self.artifactRoot = artifactRoot.standardizedFileURL.resolvingSymlinksInPath()
     }
     func intent(executable: URL, arguments: [String]) throws -> ToolLaunchRecord {
-        guard arguments.contains(where: { $0.hasPrefix(artifactRoot.path + "/") }), arguments.count <= 256 else { throw FormalDiagnostic(.invalidArguments, "Journalled execution must bind a private artifact path") }
+        guard arguments.contains(where: { argument in
+            guard argument.hasPrefix("/") else { return false }
+            let path = URL(fileURLWithPath: argument).standardizedFileURL.resolvingSymlinksInPath().path
+            return path.hasPrefix(artifactRoot.path + "/")
+        }), arguments.count <= 256 else { throw FormalDiagnostic(.invalidArguments, "Journalled execution must bind a private artifact path") }
         let value = ToolLaunchRecord(id: UUID().uuidString, executable: executable.path, arguments: arguments, createdSeconds: UInt64(Date().timeIntervalSince1970), terminal: false)
         try write(value); return value
     }

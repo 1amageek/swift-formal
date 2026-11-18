@@ -1,32 +1,35 @@
 import Foundation
 import FormalCore
 import FormalIR
+import FormalEvidence
 
 public struct ModelVerifier: ModelVerifying {
     private let runner: any ToolExecuting
     public init(runner: any ToolExecuting = LocalToolRunner()) { self.runner = runner }
 
-    public func check(artifact: URL, scenario scenarioURL: URL, toolchain: BundledToolchain, timeout: Double = 120) async throws -> VerificationReport {
+    public func check(artifact: URL, scenario scenarioURL: URL, output: URL, evidenceBudget: EvidenceReadBudget, toolchain: BundledToolchain, timeout: Double = 120) async throws -> FormalVerificationResult {
         guard timeout.isFinite, (1...3600).contains(timeout) else { throw FormalDiagnostic(.invalidArguments, "Timeout must be in 1...3600 seconds") }
+        let deadline = VerificationDeadline(seconds: timeout)
         let scenarioData = try ArtifactJSON.readBytes(from: scenarioURL, maximumBytes: 262_144)
         let scenario = try VerificationScenario.decode(scenarioData)
-        let snapshot = try ArtifactSnapshot(artifact)
+        let snapshot = try await ArtifactSnapshot(artifact)
         let cases = try scenario.cases.map { try ScalarCase($0, program: snapshot.program) }
         let manager = FileManager.default
-        let work = artifact.appendingPathComponent("verification/\(UUID().uuidString)")
+        let work = output
+        guard !manager.fileExists(atPath: work.path) else { throw FormalDiagnostic(.invalidArguments,"Verification output already exists") }
         try manager.createDirectory(at: work, withIntermediateDirectories: true)
         try scenarioData.write(to: work.appendingPathComponent("scenario.json"))
         try snapshot.write(to: work)
         let leanRoot = work.appendingPathComponent("lean")
         var environment = toolchain.environment
         environment["LEAN_PATH"] = leanRoot.path
-        var observations: [VerificationReport.Case] = []
+        var observations: [FiniteRunRecord.Case] = []
         var exitCode: Int32 = 0
         var preparationFailure: String?
         do {
             for path in ["SwiftFormal/Runtime", "Generated/Program"] {
                 let result = try await invoke(toolchain.lean, ["-M", "1024", "-o", path + ".olean", path + ".lean"], at: leanRoot,
-                    environment: environment, log: work.appendingPathComponent(path.replacingOccurrences(of: "/", with: "-")), timeout: timeout)
+                    environment: environment, log: work.appendingPathComponent(path.replacingOccurrences(of: "/", with: "-")), deadline: deadline)
                 guard result.exitCode == 0 else { throw externalFailure(result, message: "Lean module compilation failed; inspect logs") }
             }
         } catch {
@@ -62,11 +65,11 @@ public struct ModelVerifier: ModelVerifying {
                 try manager.createDirectory(at: temporary, withIntermediateDirectories: false)
                 let java = ["-Djava.io.tmpdir=" + temporary.path, "-Xss32m", "-Xmx512m", "-cp", toolchain.jar.path]
                 let sany = try await invoke(toolchain.java, java + ["tla2sany.SANY", "CaseModel.tla"], at: tlaRoot,
-                    environment: toolchain.environment, log: caseRoot.appendingPathComponent("sany"), timeout: timeout)
+                    environment: toolchain.environment, log: caseRoot.appendingPathComponent("sany"), deadline: deadline)
                 guard sany.exitCode == 0 else { throw externalFailure(sany, message: "SANY rejected the model") }
                 try SANYOutputAudit.check(sany.standardOutput + sany.standardError, module: "CaseModel")
                 let result = try await invoke(toolchain.java, java + ["tlc2.TLC", "-tool", "-workers", "1", "-cleanup", "-dump", "dot", "trace.dot", "CaseModel"],
-                    at: tlaRoot, environment: toolchain.environment, log: caseRoot.appendingPathComponent("tlc"), timeout: timeout)
+                    at: tlaRoot, environment: toolchain.environment, log: caseRoot.appendingPathComponent("tlc"), deadline: deadline)
                 let output = result.standardOutput + result.standardError
                 if isResourceFailure(output) { throw FormalDiagnostic(.timeout, "TLC exhausted its computation budget") }
                 if [2107, 2110, 2114].contains(where: { output.contains("STARTMSG \($0):") }) {
@@ -75,9 +78,7 @@ public struct ModelVerifier: ModelVerifying {
                     let expression = try NSRegularExpression(pattern: "([0-9]+) distinct states found")
                     let range = NSRange(output.startIndex..., in: output)
                     if let match = expression.matches(in: output, range: range).last, let countRange = Range(match.range(at: 1), in: output) { distinct = Int(output[countRange]) }
-                    let graphData = try ArtifactJSON.readBytes(from: tlaRoot.appendingPathComponent("trace.dot"), maximumBytes: 67_108_864)
-                    let graph = String(decoding: graphData, as: UTF8.self)
-                    let reachedTerminal = ["returned", "trapped", "panic", "undefinedBehavior"].contains { graph.contains("label=\"state = [ status |-> \\\"\($0)\\\"") }
+                    let reachedTerminal = try await TLCGraphAudit.reachedTerminal(tlaRoot.appendingPathComponent("trace.dot"))
                     guard result.exitCode == 0, output.contains("STARTMSG 2193:"), output.contains("STARTMSG 2186:"),
                           let distinct, distinct > 1, reachedTerminal else { throw FormalDiagnostic(.toolFailure, "TLC did not establish complete nonvacuous exploration and terminal reachability") }
                     tlcStatus = "MODEL_CHECKED"
@@ -100,8 +101,8 @@ public struct ModelVerifier: ModelVerifying {
             let proofURL = leanRoot.appendingPathComponent("Check\(index).lean")
             try proof.write(to: proofURL, atomically: true, encoding: .utf8)
             do {
-                let result = try await invoke(toolchain.lean, ["-M", "1024", proofURL.path], at: leanRoot, environment: environment,
-                    log: caseRoot.appendingPathComponent("lean"), timeout: timeout)
+                let result = try await invoke(toolchain.lean, ["-M", "1024", "-o", proofURL.deletingPathExtension().appendingPathExtension("olean").path, proofURL.path], at: leanRoot, environment: environment,
+                    log: caseRoot.appendingPathComponent("lean"), deadline: deadline)
                 let output = result.standardOutput + result.standardError
                 if result.exitCode != 0, isResourceFailure(output) { throw FormalDiagnostic(.timeout, "Lean exhausted its computation budget") }
                 if result.exitCode == 0 {
@@ -119,16 +120,42 @@ public struct ModelVerifier: ModelVerifying {
             observations.append(.init(name: item.specification.name, entry: item.specification.entry, irOutcome: String(describing: ir.outcome),
                 irMatchesExpected: matches, tlc: tlcStatus, lean: leanStatus, leanAxioms: leanAxioms, distinctStates: distinct, detail: details.joined(separator: "; ")))
         }
-        let report = VerificationReport(schemaVersion: 1, scope: "FINITE_GENERATED_MODEL_CASES", translation: "UNVALIDATED",
+        let report = FiniteRunRecord(schemaVersion: 1, scope: "FINITE_GENERATED_MODEL_CASES", translation: "UNVALIDATED",
             artifactDataMatchesIR: true, artifactSHA256: snapshot.hashes, scenarioSHA256: FileDigest.sha256(scenarioData), toolchain: toolchain.policy,
             timeoutSeconds: timeout, fuel: scenario.fuel, cases: observations, exitCode: exitCode, runDirectory: work.path)
-        let data = try ArtifactJSON.encode(report)
-        try data.write(to: work.appendingPathComponent("report.json"), options: .atomic)
-        return report
+        let reportBytes = try ArtifactJSON.encode(report)
+        try reportBytes.write(to: work.appendingPathComponent("forensic.json"), options: .atomic)
+        let specification = VerificationClaimFactory.artifact(scenarioData,profile: "formal-finite-scenario/1")
+        let baseContext = try VerificationClaimFactory.context(snapshot: snapshot,specification: specification,tools: toolchain)
+        let collector = try GeneratedEvidenceCollector(work: work,budget: evidenceBudget,runner: runner,tools: toolchain,deadline: deadline)
+        do {
+            var claims: [VerificationClaim] = []
+            for (index,item) in observations.enumerated() {
+                let context = EvidenceIdentity.id("finite-obligation",baseContext,String(index),item.name)
+                let propositionBytes = try EvidenceIdentity.encode(scenario.cases[index])
+                let proposition = String(decoding: propositionBytes,as: UTF8.self)
+                let scope = "Named finite generated-model case; fuel \(scenario.fuel)"
+                claims.append(VerificationClaimFactory.claim(context: context,obligation: item.name,proposition: proposition,domain: "generatedModel.tla.finite",scope: scope,status: item.tlc,axioms: [],tools: toolchain,artifacts: [snapshot.compilation.sha256,specification.sha256]))
+                claims.append(VerificationClaimFactory.claim(context: context,obligation: item.name,proposition: proposition,domain: "generatedModel.lean.finite",scope: scope,status: item.lean,axioms: item.leanAxioms,tools: toolchain,artifacts: [snapshot.compilation.sha256,specification.sha256]))
+                let caseRoot = work.appendingPathComponent("case-\(index)"), tlaRoot = caseRoot.appendingPathComponent("tla")
+                try await collector.sany(module: "CaseModel",root: tlaRoot,context: context)
+                try await collector.tlc(root: tlaRoot,log: caseRoot.appendingPathComponent("tlc.stdout"),context: context,obligation: item.name,complete: item.tlc == "MODEL_CHECKED",counterexample: item.tlc == "COUNTEREXAMPLE")
+                try await collector.lean(module: "Check\(index)",declaration: "checkedCase",root: leanRoot,context: context,checked: item.lean == "PROVED")
+            }
+            let (evidence,graphs) = try await collector.finish(claims: claims)
+            let result = FormalVerificationResult(schemaVersion: 1,compilation: snapshot.compilation,compilationEvidence: snapshot.evidence,specification: specification,evidence: evidence,claims: claims,graphs: graphs,diagnostics: observations.filter { !$0.detail.isEmpty }.map { $0.name + ": " + $0.detail },exitCode: exitCode)
+            let bytes = try ArtifactJSON.encode(result)
+            try bytes.write(to: work.appendingPathComponent("result.json"),options: .atomic)
+            return result
+        } catch {
+            do { try await collector.shutdown() } catch let cleanup { throw FormalDiagnostic(.ioFailure,"Verification failed (\(error)); evidence cleanup failed (\(cleanup))") }
+            throw error
+        }
     }
-    private func invoke(_ executable: URL, _ arguments: [String], at directory: URL, environment: [String: String], log: URL, timeout: Double) async throws -> ToolResult {
-        try await runner.run(executable: executable, arguments: arguments, directory: directory, environment: environment,
-            log: log, timeout: timeout, maximumOutputBytes: 8_388_608, maximumWorkspaceBytes: 536_870_912)
+    private func invoke(_ executable: URL, _ arguments: [String], at directory: URL, environment: [String: String], log: URL, deadline: VerificationDeadline) async throws -> ToolResult {
+        let remaining = try deadline.remaining()
+        return try await runner.run(executable: executable, arguments: arguments, directory: directory, environment: environment,
+            log: log, timeout: remaining, maximumOutputBytes: 8_388_608, maximumWorkspaceBytes: 536_870_912)
     }
     private func isResourceFailure(_ output: String) -> Bool {
         let text = output.lowercased()

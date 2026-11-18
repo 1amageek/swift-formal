@@ -1,7 +1,7 @@
 # FormalCompiler.Artifacts
 
 ## Purpose and Scope
-Own complete generated artifacts and origin maps. Parent: [Compiler](../DESIGN.md). No children. **Target major-2 contract supersedes the current source/IR/files/report-only SDK; production replacement is not implemented.**
+Own complete generated artifacts and origin maps. Parent: [Compiler](../DESIGN.md). No children. Implemented layout2 contract replaces the source/IR/files/report-only aggregate SDK.
 
 ## Responsibilities and Boundaries
 Compose located source compilation, tracked TLA/Lean emission and formal-evidence storage. Preserve exact original bytes. Do not perform independent checking or invent source correspondence.
@@ -11,7 +11,7 @@ Compose located source compilation, tracked TLA/Lean emission and formal-evidenc
 |---|---|---|---|---|
 | [Compiler](../DESIGN.md) | parent | Compilation composition | Pipeline owner | Source profiles remain restricted |
 | [Frontends](../Frontends/DESIGN.md) | depends on | Located source compilation | Original ranges | Missing origin remains explicit |
-| [FormalEvidence](../../FormalEvidence/DESIGN.md) | depends on | Records and bundle writer | Typed output | Proposed lower SDK first |
+| [FormalEvidence](../../FormalEvidence/DESIGN.md) | depends on | Records and bundle writer | Typed output | Implemented lower SDK contract |
 | [Inspection](../../FormalValidation/Inspection/DESIGN.md) | used by | Auditable generated artifacts | Independent consumer | No reverse Compiler import |
 
 ## Architecture
@@ -23,9 +23,9 @@ owned original source + explicit profile
 ```
 
 ## Contracts and Invariants
-Proposed `SourceCompiling.compile(SourceCompilationRequest) -> SourceCompilation` replaces the bare String/language -> IRProgram protocol. The request owns original UTF-8 bytes, document digest, language/profile/numeric settings, module identity and cancellation/resource budget. The result contains validated IR and origin links. There is one compile path; no convenience overload reconstructs or discards locations.
+`SourceCompiling.compile(SourceCompilationRequest) -> SourceCompilation` replaces the bare String/language -> IRProgram protocol. The request owns original UTF-8 bytes, language, module identity and optional numeric interpretation. Document identity is derived from those original bytes; profile source/token/depth limits and cancellation checks belong to the compiler, while CompilationRequest supplies the evidence publication budget. The result contains validated IR and origin links. There is one compile path; no convenience overload reconstructs or discards locations.
 
-Proposed `CompilationArtifactGenerating.generate(CompilationRequest) -> CompilationArtifactReference` composes compilation and requested outputs. `CompilationArtifact` catalogs source documents, IR, generated documents, origin graph and generator identity. The generator's declaration/specification graph is labeled generator-produced. Independent Validation checks emitted bytes separately. No generator field states semantic validation succeeded.
+`CompilationArtifactGenerating.generate(CompilationRequest) -> CompilationArtifact`, then `write(to:) async -> CompilationArtifactReference`, composes compilation and requested outputs. Pure generation allows independent actual-output audit before publication; the asynchronous writer seals the evidence bundle and returns the immutable reference. `CompilationArtifact` catalogs source documents, IR, generated documents, origin graph and generator identity. The generator's declaration/specification graph is labeled generator-produced. Independent Validation checks emitted bytes separately. No generator field states semantic validation succeeded.
 
 Frontend tokenization records exact UTF-8 start/end offsets; syntax/IR lowering retains ranges at the precision actually known. Function/block/instruction addresses are artifact-local and never matched to Explorer by a display name. Compiler-generated/synthetic instructions carry `synthetic` origin plus parent provenance; missing locations do not become the entire file as an asserted instruction range.
 
@@ -40,4 +40,6 @@ Compilation runs in caller-owned workers. The original buffer is retained once; 
 The caller provides byte/token/depth/output/map-record/time budgets; the frontend's supported cap further restricts them. Overflow and invalid byte boundaries fail before allocation. Unsupported syntax/profile or incomplete required source mapping is explicit. Partial mapping may be returned only when the caller requests that precision and receives its actual coverage. No empty artifact succeeds after compilation failure.
 
 ## Verification and Change Impact
-**FE-01/02/08** require actual Unicode/comment/branch/call fixtures, changed offsets, synthetic IR, generated-range round trips, artifact mutation, cancellation and atomic publication. Existing ArtifactGenerationTests validate the old path only. Remove SourceArtifact/SourceArtifactReport/old generator interfaces in the same implementation change that updates the formal CLI and Invar consumers; no adapter or compatibility overload survives. See [transition](../../../Documentation/SDK-TRANSITION.md).
+**FE-01/02/08** require actual Unicode/comment/branch/call fixtures, changed offsets, synthetic IR, generated-range round trips, artifact mutation, cancellation and atomic publication. ArtifactGenerationTests and CompilationOriginTests exercise actual located generation, immutable publication and corruption refusal. SourceArtifact/SourceArtifactReport/old generator interfaces are removed; CLI and Invar consume the same replacement without a compatibility overload. See [transition](../../../Documentation/SDK-TRANSITION.md).
+
+The layout-2 compilation manifest also binds the metadata bytes, including source profile, default numeric interpretation and assumptions. Metadata mutation cannot retain a compilation identity.

@@ -1,7 +1,7 @@
 # FormalEvidence.GraphStore
 
 ## Purpose and Scope
-**Target contract, not implemented.** Own failure-atomic evidence-bundle storage and bounded graph/trace/artifact reads. Parent: [FormalEvidence](../DESIGN.md). No children.
+Implemented component contract. Own failure-atomic evidence-bundle storage and bounded graph/trace/artifact reads. Parent: [FormalEvidence](../DESIGN.md). No children.
 
 ## Responsibilities and Boundaries
 Validate and store records produced by Compiler/Validation; serve fixed-bundle queries without loading an entire state space. No parsing of application sources, execution, truth assessment or Explorer serialization.
@@ -9,10 +9,12 @@ Validate and store records produced by Compiler/Validation; serve fixed-bundle q
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
 |---|---|---|---|---|
-| [Module](../DESIGN.md) | parent | Library boundary | Resource composition | Proposed SDK |
+| [Module](../DESIGN.md) | parent | Library boundary | Resource composition | Implemented SDK |
 | [Records](../Records/DESIGN.md) | depends on | Evidence record invariants | Data meaning | Store cannot upgrade evidence claims |
 | [Inspection](../../FormalValidation/Inspection/DESIGN.md) | used by | Streaming bundle writer | Tool output publication | Seal only validated record sets |
 | [Invar evidence](../../../../Invar/Sources/VerificationCore/Evidence/DESIGN.md) | used by | Retained artifact references | Shared evidence queries | Caller retains the bundle lease |
+
+SQLite owns indexed bounded rows, adjacency and document chunks in one immutable sealed database. Rows retain independent payload digests; the published database has a complete digest checked once on open under its explicit budget. Each returned row/chunk is checked again. Queries do not reload the database into memory.
 
 ## Architecture
 ```text
@@ -21,7 +23,7 @@ sealed bundle lease -> catalog / roots / neighborhood / trace window / document 
 ```
 
 ## Contracts and Invariants
-Proposed public interfaces:
+Public interfaces:
 ```swift
 public protocol FormalEvidenceReading: Sendable {
     func catalog() async throws -> EvidenceCatalog
@@ -36,7 +38,7 @@ public protocol FormalEvidenceOpening: Sendable {
               budget: EvidenceReadBudget) async throws -> any FormalEvidenceReading
 }
 ```
-Names are proposed contracts, not current callable APIs. `LocalFormalEvidenceStore` is the planned implementation. A writer accepts bounded validated batches, finishes indexes/checksums, fsyncs data/directories and atomically publishes the manifest last. Failed extraction can retain a separately sealed partial bundle with diagnostics; it cannot label a complete graph. A caller asking for complete extraction receives a typed incomplete result/error.
+`LocalFormalEvidenceStore` opens the implemented retained reader; EvidenceBundleWriter owns publication. Identical immutable record writes converge; different content or parent under the same identity is rejected. A failed optional extraction can discard its entire graph (descriptor, nodes, edges and traces) before sealing, without changing other graphs or verification claims. Cursors are replayable within a bounded reader-owned LRU window; eviction yields invalidCursor and never resumes under a different query. A writer accepts bounded validated batches, finishes indexes/checksums, fsyncs data/directories and atomically publishes the manifest last. Failed extraction can retain a separately sealed partial bundle with diagnostics; it cannot label a complete graph. A caller asking for complete extraction receives a typed incomplete result/error.
 
 Queries identify bundle/graph digests, root/focus, relation filters, direction, depth and page budget. Cursors bind the immutable bundle, query hash and position. Pages carry represented roots, frontier/omitted boundaries, counts if known, completeness and next cursor. Edges either include both endpoints or use explicit boundary nodes. Paging cannot silently drop cross-page relations. Trace windows preserve step indices and loop-back references even when endpoints are outside the window. `moreAvailable` is a query property, not an incomplete model-checking verdict.
 
@@ -50,3 +52,5 @@ Effective limits are the minimum of caller budget, format caps, backend capabili
 
 ## Verification and Change Impact
 Planned `FormalEvidenceTests` **FE-05..07** cover multi-page edges, incomplete/large graph bounds, trace windows/loops, corrupt indexes, concurrent reads versus shutdown, lease release and input retention. Differential fixtures compare all paged records with an independent small reference graph. Recheck Records, Inspection and Invar client/projection consumers when query or lifetime contracts change.
+
+Graph descriptors carry producer-declared root node IDs. Empty roots mean no distinguished root was provided, never a name-based inference. Writers validate unique root identities and membership in the same graph before sealing. Compiler IR roots are function nodes; SANY reports its actual root module identity; TLC records observed initial states/first trace state; Lean declares the requested replayed declaration and actual expression root. Client projections use these roots with bounded neighborhoods instead of choosing arbitrary hash-sorted dependencies.

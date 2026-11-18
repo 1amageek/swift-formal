@@ -45,7 +45,7 @@ public struct FormalCommand: Sendable {
             let values = try flexibleOptions(Array(arguments.dropFirst().dropLast()), required: ["--language", "--source", "--output"], optional: ["--default-numeric"])
             guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
             let numeric = try numericDefault(values, language: language)
-            let report = try DraftTranslation(defaultNumeric: numeric).perform(source: values["--source"]!, language: language, output: values["--output"]!)
+            let report = try await DraftTranslation(defaultNumeric: numeric).perform(source: values["--source"]!, language: language, output: values["--output"]!)
             return try json(report)
         case "package":
             let values = try flexibleOptions(Array(arguments.dropFirst()), required: ["--output"], optional: ["--cache"])
@@ -81,15 +81,15 @@ public struct FormalCommand: Sendable {
             else {
                 guard let language = SourceLanguage(rawValue: values["--language"]!) else { throw invalidArguments() }
                 let numeric = try numericDefault(values, language: language)
-                _ = try DraftTranslation(defaultNumeric: numeric).perform(source: values["--source"]!, language: language, output: values["--output"]!)
+                _ = try await DraftTranslation(defaultNumeric: numeric).perform(source: values["--source"]!, language: language, output: values["--output"]!)
                 artifact = URL(fileURLWithPath: values["--output"]!)
             }
             if specificationOption == "--properties" {
-                let report = try await PropertyVerifier().check(artifact: artifact, properties: specificationURL, toolchain: tools, timeout: timeout)
+                let report = try await PropertyVerifier().check(artifact: artifact, properties: specificationURL, output: artifact.appendingPathComponent("verification/" + UUID().uuidString), evidenceBudget: CompilationPolicy.budget, toolchain: tools, timeout: timeout)
                 let data = try ArtifactJSON.encode(report)
                 return CommandResult(exitCode: report.exitCode, standardOutput: String(decoding: data, as: UTF8.self))
             }
-            let report = try await ModelVerifier().check(artifact: artifact, scenario: specificationURL, toolchain: tools, timeout: timeout)
+            let report = try await ModelVerifier().check(artifact: artifact, scenario: specificationURL, output: artifact.appendingPathComponent("verification/" + UUID().uuidString), evidenceBudget: CompilationPolicy.budget, toolchain: tools, timeout: timeout)
             let data = try ArtifactJSON.encode(report)
             return CommandResult(exitCode: report.exitCode, standardOutput: String(decoding: data, as: UTF8.self))
         case "doctor":

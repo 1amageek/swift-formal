@@ -13,7 +13,7 @@ struct DraftTranslation {
         self.defaultNumeric = defaultNumeric
     }
 
-    func perform(source path: String, language: SourceLanguage, output: String) throws -> DraftTranslationReport {
+    func perform(source path: String, language: SourceLanguage, output: String) async throws -> DraftTranslationReport {
         let sourceURL = URL(fileURLWithPath: path)
         let attributes = try sourceURL.resourceValues(forKeys: [.isRegularFileKey])
         guard attributes.isRegularFile == true else { throw FormalDiagnostic(.invalidArguments, "Source must be a regular file", path: path) }
@@ -33,10 +33,10 @@ struct DraftTranslation {
             throw error
         }
         try handle.close()
-        guard data.count <= 1_000_000, let source = String(data: data, encoding: .utf8) else {
+        guard data.count <= 1_000_000, String(data: data, encoding: .utf8) != nil else {
             throw FormalDiagnostic(.sourceParseFailed, "Source exceeds 1 MB or is not UTF-8", path: path)
         }
-        let artifact = try SourceArtifactGenerator(compiler: compiler, defaultNumeric: defaultNumeric).generate(data, language: language, moduleID: "Source")
+        let artifact = try CompilationArtifactGenerator(compiler: compiler, defaultNumeric: defaultNumeric).generate(CompilationRequest(source: data, language: language, moduleID: "Source", evidenceBudget: CompilationPolicy.budget))
         let program = artifact.program
         let files = artifact.files
         let decoder = BackendArtifactDecoder()
@@ -49,7 +49,7 @@ struct DraftTranslation {
         guard decodedLean == program, decodedTLA == program else { throw FormalDiagnostic(.integrityMismatch, "Actual output differs from IR") }
         let report = DraftTranslationReport(sourceLanguage: language, profile: language.profile,
             assumptions: language.assumptions, defaultNumeric: language.isJavaScriptFamily ? defaultNumeric : nil, sourceSHA256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined(), functions: program.functions.map(\.symbol))
-        try artifact.write(to: URL(fileURLWithPath: output))
+        _ = try await artifact.write(to: URL(fileURLWithPath: output))
         return report
     }
 }

@@ -49,3 +49,5 @@ The opt-in monitored profile reports ToolResourceLimit for memory/process/CPU/ou
 
 ## Structured evidence change impact
 [Inspection](../Inspection/DESIGN.md) and [SDK transition](../../../Documentation/SDK-TRANSITION.md) define the target structured-output/correspondence/graph contract. Preserve this component's actual semantic and trust invariants. Update direct callers/results/resource audits in the same cutover; do not add legacy-report adapters. User Lean elaboration requires its explicit isolation capability; current trusted generated-model tooling is not evidence of safe arbitrary Lean execution.
+
+The inspection profile may select an explicit `workspaceAccountingRoot` containing the working directory. Preflight and sampled/post-exit disk accounting then include captured inputs, compiled modules, logs and evidence outside the immediate tool cwd. This changes accounting scope, not child authority. Journal binding compares canonical absolute argument paths so macOS /var and /private/var aliases identify the same owned artifact; unrelated paths remain rejected. ToolExecution/ToolLaunchJournal regression tests own both cases.

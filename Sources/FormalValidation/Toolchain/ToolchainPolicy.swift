@@ -32,6 +32,7 @@ public struct ToolchainPolicy: Codable, Sendable {
             let bytes = try ArtifactJSON.readBytes(from: url, maximumBytes: 1_000_000)
             values[name] = SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()
         }
+        values["inspectionCollectors"] = try CollectorResources.identity()
         let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
         let bytes = try encoder.encode(values)
         return SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()

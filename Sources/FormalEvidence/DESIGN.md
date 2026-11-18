@@ -1,10 +1,10 @@
 # FormalEvidence
 
 ## Purpose and Scope
-**Proposed SwiftPM library product/module; not declared in Package.swift and not implemented.** Own the public structured formal-evidence SDK. Parent: [Formal package](../../DESIGN.md). Children: [Records](Records/DESIGN.md), [GraphStore](GraphStore/DESIGN.md).
+SwiftPM library product/module. Own the public structured formal-evidence SDK. Parent: [Formal package](../../DESIGN.md). Children: [Records](Records/DESIGN.md), [GraphStore](GraphStore/DESIGN.md).
 
 ## Responsibilities and Boundaries
-Provide immutable formal graph/origin/trace/claim records and bounded bundle queries. Dependencies: FormalCore only. Compiler and Validation produce records through this contract; neither Invar nor Explorer is imported. This module does not execute Lean/TLC, prove theorems or own application source indexes.
+Provide immutable formal graph/origin/trace/claim records and bounded bundle queries. Swift semantic dependency: FormalCore only; CFormalSQLite is the native system adapter for indexed bundle storage. Compiler and Validation produce records through this contract; neither Invar nor Explorer is imported. This module does not execute Lean/TLC, prove theorems or own application source indexes.
 
 ## Related Designs
 | Design | Relationship | Contract Used | Summary | Cautions |
@@ -12,6 +12,7 @@ Provide immutable formal graph/origin/trace/claim records and bounded bundle que
 | [Formal package](../../DESIGN.md) | parent | Composition and semantic limits | New public SDK | No product advertised before implementation |
 | [Records](Records/DESIGN.md) | child | Evidence semantics | Serialization authority | Provenance is not correspondence |
 | [GraphStore](GraphStore/DESIGN.md) | child | Bounded retained-bundle queries | Data access authority | Partial view is not partial proof |
+| [CFormalSQLite](../CFormalSQLite/DESIGN.md) | depends on | System sqlite3 | Indexed storage adapter | Native only |
 | [FormalCore](../FormalCore/DESIGN.md) | depends on | Diagnostics and artifact primitives | Stable lower types | No reverse dependency |
 | [Compiler](../FormalCompiler/DESIGN.md) | used by | Compilation origins and model graphs | Generator output | Not independent proof |
 | [Validation](../FormalValidation/DESIGN.md) | used by | Audited model/proof/trace evidence | Checking output | Must not import Compiler |
@@ -35,4 +36,4 @@ Records are immutable; GraphStore owns actor-isolated readers and explicit shutd
 Unknown capabilities are explicit; a summary report, missing file or empty graph cannot stand in for extracted evidence. Readers honor caller budgets and bounded concurrency. Old serialized reports are not an alternate input format.
 
 ## Verification and Change Impact
-[SDK transition](../../Documentation/SDK-TRANSITION.md) owns FE acceptance ordering and deletion gates. Current Lean/TLC design probes show available lower data, not implementation of this module. Recheck Compiler, Validation, CLI/distribution and Invar when either child contract changes.
+[SDK transition](../../Documentation/SDK-TRANSITION.md) owns FE acceptance ordering and deletion gates. FormalEvidenceTests and actual checker/inspection integration exercise retained bundles and original rooted graph/trace/term data; exact evidence is recorded in PROGRESS. Recheck Compiler, Validation, CLI/distribution and Invar when either child contract changes.

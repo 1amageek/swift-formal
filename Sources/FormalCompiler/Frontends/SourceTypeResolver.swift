@@ -42,7 +42,7 @@ struct SourceTypeResolver {
                 let parameters = try function.parameters.map { name, kind in
                     guard let kind else { throw error("Explicit parameter type required") }; return (name, kind)
                 }
-                return .init(position: function.position, name: function.name, parameters: parameters, result: result, body: function.body)
+                return .init(position: function.position, range: function.range, name: function.name, parameters: parameters, result: result, body: function.body)
             }
         }
         for function in parsed {
@@ -67,14 +67,14 @@ struct SourceTypeResolver {
             guard let signature = signatures[function.name] else { throw error("Unresolved signature") }
             let parameters = zip(function.parameters, signature.parameters).map { parameter, id in (parameter.0, kinds[root(id)] ?? defaultNumeric.scalarType) }
             let result = kinds[root(signature.result)] ?? defaultNumeric.scalarType
-            output.append(.init(position: function.position, name: function.name, parameters: parameters, result: result, body: function.body))
+            output.append(.init(position: function.position, range: function.range, name: function.name, parameters: parameters, result: result, body: function.body))
         }
         return output
     }
     private mutating func statements(_ body: [SourceStatement], environment initial: [String: Int], result: Int) throws {
         var environment = initial
         for statement in body {
-            switch statement {
+            switch statement.kind {
             case .binding(let name, let kind, let value):
                 guard environment[name] == nil, !SourceNumberBuiltin.reserved(name) else { throw error("Rebinding or shadowed builtin") }
                 let id = try expression(value, environment: environment)
@@ -90,7 +90,7 @@ struct SourceTypeResolver {
         }
     }
     private mutating func expression(_ value: SourceExpression, environment: [String: Int]) throws -> Int {
-        switch value {
+        switch value.kind {
         case .literal(let text):
             return try fresh(["true", "false"].contains(text) ? .boolean : text.hasSuffix("n") ? .integer : .number)
         case .variable(let name):

@@ -1,3 +1,4 @@
+import FormalCore
 import Darwin
 import Foundation
 @testable import FormalValidation
@@ -55,5 +56,19 @@ struct ToolLaunchJournalTests {
         #expect(result.exitCode != 0)
         #expect(kill(pid, 0) == -1)
         try FileManager.default.removeItem(at: root)
+    }
+}
+
+extension ToolLaunchJournalTests {
+    @Test(.timeLimit(.minutes(1))) func artifactBindingAcceptsOnlyActualCanonicalRoot() async throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root,withIntermediateDirectories: true,attributes: [.posixPermissions: 0o700])
+        defer { do { try FileManager.default.removeItem(at: root) } catch { Issue.record(error) } }
+        let journal = try ToolLaunchJournal(directory: root.appendingPathComponent("journal"),artifactRoot: root)
+        let input = root.appendingPathComponent("input"); try Data("input".utf8).write(to: input)
+        let record = try journal.intent(executable: URL(fileURLWithPath: "/usr/bin/true"),arguments: [input.path])
+        #expect(!record.terminal)
+        #expect(throws: FormalDiagnostic.self) { try journal.intent(executable: URL(fileURLWithPath: "/usr/bin/true"),arguments: ["/etc/passwd"]) }
+        try await journal.recover()
     }
 }

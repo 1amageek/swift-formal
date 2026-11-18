@@ -6,7 +6,7 @@ struct GoConstantEvaluator {
     private let maximumDigits = 76
 
     func evaluate(_ expression: SourceExpression) throws -> GoConstant? {
-        switch expression {
+        switch expression.kind {
         case .variable, .call: return nil
         case .literal(let raw):
             if raw == "true" || raw == "false" { return .boolean(raw == "true") }
@@ -26,7 +26,7 @@ struct GoConstantEvaluator {
         case .binary(let operation, let left, let right):
             if ["<", ">", "<=", ">=", "==", "!="].contains(operation) {
                 for operand in [left, right] {
-                    if case .binary(let inner, _, _) = operand, ["<", ">", "<=", ">=", "==", "!="].contains(inner) {
+                    if case .binary(let inner, _, _) = operand.kind, ["<", ">", "<=", ">=", "==", "!="].contains(inner) {
                         throw GoConstantError.nestedComparison
                     }
                 }

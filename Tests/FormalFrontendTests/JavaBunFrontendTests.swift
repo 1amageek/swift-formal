@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 import FormalCompiler
 import FormalIR
@@ -6,7 +7,7 @@ import FormalValidation
 struct JavaBunFrontendTests {
     private func compile(_ source: String, language: String) throws -> IRProgram {
         let selected = try #require(SourceLanguage(rawValue: language))
-        return try ScalarSourceCompiler().compile(source, language: selected, moduleID: "NewProfiles")
+        return try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: selected, moduleID: "NewProfiles")).program
     }
     private func bits(_ width: Int, _ raw: UInt64) throws -> IRValue {
         .bits(try BitPattern(width: width, bits: raw))

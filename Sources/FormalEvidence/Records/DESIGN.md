@@ -1,7 +1,7 @@
 # FormalEvidence.Records
 
 ## Purpose and Scope
-**Target contract, not implemented.** Own immutable formal evidence, graph and correspondence schemas. Parent: [FormalEvidence](../DESIGN.md). No children. This contract is the sole owner of their serialized meaning.
+Implemented component contract. Own immutable formal evidence, graph and correspondence schemas. Parent: [FormalEvidence](../DESIGN.md). No children. This contract is the sole owner of their serialized meaning.
 
 ## Responsibilities and Boundaries
 Represent actual formal artifacts and observations. No source indexing, tool execution, UI layout, verification scheduling or interpretation of ArchitectureIR. Compiler provenance is distinct from checked semantic correspondence.
@@ -28,7 +28,7 @@ checked artifact -> specification / declaration graph
 ### Identity and data records
 All IDs are opaque, domain-separated SHA-256 identities over canonical versioned identity records. Graph node identity uses its exact producer/artifact-local key and kind, rather than recursively hashing adjacency. Payload digests and the sealed graph catalog cover actual node/edge content, so cyclic graphs require no recursive hashing. The record identity field itself is excluded from its hashed body; references are validated separately before bundle sealing. Display names and filesystem locations are not identities. Canonical encoding preserves ordered trace steps, arguments and bit patterns; only declared sets are sorted. Distinct producers/profiles remain distinct.
 
-| Proposed record | Required fields and meaning |
+| Record | Semantic responsibility |
 |---|---|
 | `ArtifactReference` | id, SHA-256, byte count, media type, schema/profile; root-relative private locator is held by the resource owner, not a public URL |
 | `DocumentReference` | artifact id, original/generated role, language, byte digest and size; no mandatory whole-body string |
@@ -42,7 +42,7 @@ All IDs are opaque, domain-separated SHA-256 identities over canonical versioned
 | `StateValue` | tagged integer/Boolean/bitvector/string/sequence/record/set/opaque value; exact integer decimal strings and bit width/order retained; missing values differ from zero/empty |
 | `FormalTrace` | trace id, ordered state/transition references, initial condition, final observation, optional loop-back index, violated obligation and completeness; never sorted as a set |
 | `VerificationClaim` | obligation identity, proposition/interpretations, assumptions, domain, quantification/fuel, execution, logical outcome, translation status, tool identities and evidence/artifact references |
-| `EvidenceBundle` | immutable catalog of documents, graphs, traces, origins and claims; record digests and index digests; extraction availability separate from logical truth |
+| `EvidenceCatalog` / `EvidenceBundleReference` | immutable catalog of documents, graphs, traces, origins and claims; record digests and index digests; extraction availability separate from logical truth |
 
 ### Graph kinds and relations
 | Kind | Nodes | Permitted meanings |
@@ -68,3 +68,5 @@ Records are immutable Sendable values. Decoding has explicit byte/count/depth/st
 
 ## Verification and Change Impact
 Planned `FormalEvidenceTests` cases **FE-01..04** reject tampered origins, Unicode/range errors, dangling references, precision inflation, reordered traces and fabricated proof status. A graph extracted from a deliberately changed checked term must change its dependency record. Recheck Artifacts, Inspection, GraphStore and Invar projection on schema changes. Shape checks alone do not establish a valid proof or semantic correspondence.
+
+Graph descriptors carry producer-declared root node IDs. Empty roots mean no distinguished root was provided, never a name-based inference. Writers validate unique root identities and membership in the same graph before sealing. Compiler IR roots are function nodes; SANY reports its actual root module identity; TLC records observed initial states/first trace state; Lean declares the requested replayed declaration and actual expression root. Client projections use these roots with bounded neighborhoods instead of choosing arbitrary hash-sorted dependencies.

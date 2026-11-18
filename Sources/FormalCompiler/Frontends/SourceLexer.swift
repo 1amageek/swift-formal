@@ -3,8 +3,8 @@ struct SourceLexer {
         func fail(_ message: String, _ line: Int, _ column: Int) -> SourceDiagnostic {
             .init(language: language, line: line, column: column, message: message)
         }
-        guard source.utf8.count <= maximumBytes, source.utf8.allSatisfy({ $0 < 128 && $0 != 0 }) else {
-            throw fail("Source exceeds byte limit or contains non-ASCII data", 1, 1)
+        guard source.utf8.count <= maximumBytes, !source.utf8.contains(0) else {
+            throw fail("Source exceeds byte limit or contains NUL", 1, 1)
         }
         let bytes = Array(source.utf8)
         if language == .java, bytes.contains(92) {
@@ -20,7 +20,10 @@ struct SourceLexer {
         func isName(_ byte: UInt8) -> Bool { (65...90).contains(byte) || (97...122).contains(byte) || byte == 95 }
         func emit(_ text: String, _ l: Int, _ c: Int) throws {
             guard tokens.count < maximumTokens else { throw fail("Token limit exceeded", l, c) }
-            tokens.append(.init(text: text, line: l, column: c))
+            let synthetic = ["<indent>", "<dedent>", "<eof>"].contains(text) || (text == "\n" && i == bytes.count)
+            let start = synthetic ? i : text == "\n" ? i : i - text.utf8.count
+            let end = synthetic ? i : text == "\n" ? i + 1 : i
+            tokens.append(.init(text: text, line: l, column: c, startByte: start, endByte: end))
         }
         func advance() {
             if bytes[i] == 10 { line += 1; column = 1; atLineStart = true }

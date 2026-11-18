@@ -1,10 +1,11 @@
+import Foundation
 import FormalCompiler
 import FormalIR
 import Testing
 
 struct NumberFrontendTests {
     private func execute(_ source: String, language: SourceLanguage, values: [String]) throws -> IRValue {
-        let program = try ScalarSourceCompiler().compile(source, language: language, moduleID: "Numbers")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "Numbers")).program
         let actual = try values.map { text in
             let raw = try Binary64.parse(text)
             let pattern = try BitPattern(width: 64, bits: raw)
@@ -20,7 +21,7 @@ struct NumberFrontendTests {
     func isolatedCarriageReturnCannotEraseReturnBoundaries(_ language: SourceLanguage) throws {
         for source in ["function calculate(){return\r1;}", "function calculate(){return /*\r*/ 1;}", "function calculate(){// comment\rreturn 1;}"] {
             #expect(throws: SourceDiagnostic.self) {
-                try ScalarSourceCompiler().compile(source, language: language, moduleID: "CR")
+                try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "CR")).program
             }
         }
         for newline in ["\n", "\r\n"] {
@@ -38,7 +39,7 @@ struct NumberFrontendTests {
             "function calculate(a){return helper(a);} function helper(b){return +b;}",
         ]
         for source in sources {
-            let program = try ScalarSourceCompiler(defaultNumeric: .bigint).compile(source, language: language, moduleID: "Plus")
+            let program = try ScalarSourceCompiler(defaultNumeric: .bigint).compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "Plus")).program
             let function = try #require(program.functions.first(where: { $0.symbol == "calculate" }))
             #expect(function.result == .bits(width: 64))
             #expect(function.blocks[0].parameters[0].type == .bits(width: 64))
@@ -51,7 +52,7 @@ struct NumberFrontendTests {
         }
         for source in ["function calculate(){return +1n;}", "function calculate(){return +true;}"] {
             #expect(throws: SourceDiagnostic.self) {
-                try ScalarSourceCompiler(defaultNumeric: .bigint).compile(source, language: language, moduleID: "InvalidPlus")
+                try ScalarSourceCompiler(defaultNumeric: .bigint).compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "InvalidPlus")).program
             }
         }
     }
@@ -86,7 +87,7 @@ struct NumberFrontendTests {
     @Test(.timeLimit(.minutes(1)))
     func inferencePropagatesBigIntAcrossCalls() throws {
         let source = "function calculate(a) { return helper(a); } function helper(b) { return b + 1n; }"
-        let program = try ScalarSourceCompiler().compile(source, language: .javascript, moduleID: "BigInts")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .javascript, moduleID: "BigInts")).program
         #expect(program.functions[0].result == .integer)
         #expect(program.functions[0].blocks[0].parameters[0].type == .integer)
         let one = try MathematicalInteger("1")
@@ -111,7 +112,7 @@ struct NumberFrontendTests {
     @Test(.timeLimit(.minutes(1)))
     func mixedDomainsAndShadowedBuiltinsAreRejected() throws {
         for source in ["function calculate(a: bigint): number { return a + 1; }", "function calculate(a) { return a + 1n + .5; }", "function calculate(Number) { return Number.isNaN(1); }", "function calculate(a) { const NaN = 0; return NaN; }"] {
-            #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(source, language: .bun, moduleID: "Invalid") }
+            #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: .bun, moduleID: "Invalid")).program }
         }
     }
 }

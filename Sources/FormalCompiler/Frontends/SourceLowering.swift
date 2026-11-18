@@ -4,6 +4,16 @@ struct SourceLowering {
     let language: SourceLanguage
     let moduleID: String
     let functions: [SourceFunction]
+    struct Location {
+        let function: String
+        let block: String?
+        let instruction: Int?
+        let range: SourceByteRange?
+        let precision: String
+    }
+    var locations: [Location] = []
+    var currentFunction = ""
+    var currentRange: SourceByteRange?
     var position = SourceToken(text: "", line: 1, column: 1)
     var signatures: [String: SourceFunction] = [:]
     var visibleFunctions: Set<String> = []
@@ -18,6 +28,10 @@ struct SourceLowering {
     func error(_ message: String) -> SourceDiagnostic { .init(language: language, line: position.line, column: position.column, message: message) }
     mutating func fresh() -> String { defer { nextValue += 1 }; return "v\(nextValue)" }
     mutating func label() -> String { defer { nextBlock += 1 }; return "b\(nextBlock)" }
+    mutating func emit(_ value: IRInstruction) {
+        locations.append(Location(function: currentFunction, block: blockID, instruction: instructions.count, range: currentRange, precision: "expression"))
+        instructions.append(value)
+    }
     mutating func finish() { blocks.append(.init(id: blockID, parameters: parameters, instructions: instructions)); instructions = []; parameters = [] }
     var defaultInteger: ScalarType { language.isJavaScriptFamily ? .number : language == .python ? .integer : language == .java ? .signed32 : .signed }
 
@@ -32,6 +46,8 @@ struct SourceLowering {
         var output: [IRFunction] = []
         for function in functions {
             position = function.position
+            currentFunction = function.name; currentRange = function.range
+            locations.append(Location(function: function.name, block: nil, instruction: nil, range: function.range, precision: "function"))
             visibleFunctions.insert(function.name)
             nextValue = 0; nextBlock = 0; blocks = []; instructions = []; blockID = "entry"; parameters = []
             var environment: [String: Binding] = [:]
@@ -47,7 +63,8 @@ struct SourceLowering {
     mutating func statements(_ body: [SourceStatement], environment original: [String: Binding], result: ScalarType) throws {
         var environment = original
         for (index, statement) in body.enumerated() {
-            switch statement {
+            currentRange = statement.range
+            switch statement.kind {
             case .binding(let name, let annotation, let expression):
                 guard environment[name] == nil, signatures[name] == nil else { throw error("Rebinding or shadowing '\(name)' is unsupported") }
                 if annotation == nil && [.swift, .rust, .go].contains(language) && hint(expression, environment) == nil {
@@ -58,13 +75,13 @@ struct SourceLowering {
             case .returned(let expression):
                 guard index == body.count - 1 else { throw error("Unreachable source after return") }
                 let value = try expressionValue(expression, expected: result, environment: environment)
-                instructions.append(.returnValue(value.id)); finish(); return
+                emit(.returnValue(value.id)); finish(); return
             case .conditional(let condition, let thenBody, let elseBody):
                 guard index == body.count - 1 else { throw error("Conditional branches must terminate the function") }
                 let tested = try expressionValue(condition, expected: language.isJavaScriptFamily ? nil : .boolean, environment: environment)
                 let value = try booleanValue(tested)
                 let thenID = label(); let elseID = label()
-                instructions.append(.branch(condition: value.id, thenBlock: thenID, thenArguments: [], elseBlock: elseID, elseArguments: [])); finish()
+                emit(.branch(condition: value.id, thenBlock: thenID, thenArguments: [], elseBlock: elseID, elseArguments: [])); finish()
                 blockID = thenID; try statements(thenBody, environment: environment, result: result)
                 blockID = elseID; try statements(elseBody, environment: environment, result: result); return
             }
@@ -74,7 +91,7 @@ struct SourceLowering {
     func hint(_ expression: SourceExpression, _ environment: [String: Binding]) -> ScalarType? {
         var pending = [expression]
         while let expression = pending.popLast() {
-            switch expression {
+            switch expression.kind {
             case .variable(let name):
                 if let type = environment[name]?.type { return type }
                 if language.isJavaScriptFamily && ["NaN", "Infinity"].contains(name) { return .number }
@@ -129,13 +146,16 @@ struct SourceLowering {
         case logical(String, SourceExpression, ScalarType?)
     }
     mutating func expressionValue(_ expression: SourceExpression, expected: ScalarType?, environment: [String: Binding]) throws -> Binding {
-        var pending: [ExpressionWork] = [.evaluate(expression, expected)]
+        var pending: [(ExpressionWork, SourceByteRange?)] = [(.evaluate(expression, expected), expression.range)]
+        func push(_ operation: ExpressionWork, _ range: SourceByteRange?) { pending.append((operation,range)) }
         var values: [Binding] = []
-        while let work = pending.popLast() {
+        while let (work, range) = pending.popLast() {
+            currentRange = range
             switch work {
             case .evaluate(let expression, let expected):
+                currentRange = expression.range
                 if let constant = try constantValue(expression, expected: expected) { values.append(constant); continue }
-                switch expression {
+                switch expression.kind {
                 case .variable(let name):
                     if language.isJavaScriptFamily && ["NaN", "Infinity"].contains(name) {
                         let value = try literal(name, type: .number); values.append(try checked(value, expected: expected)); continue
@@ -148,8 +168,8 @@ struct SourceLowering {
                 case .call(let name, let expressions):
                     if language.isJavaScriptFamily, let operation = SourceNumberBuiltin.operation(name) {
                         guard expressions.count == SourceNumberBuiltin.arity(name) else { throw error("Builtin argument count mismatch") }
-                        pending.append(.builtin(operation, expressions.count, expected))
-                        for argument in expressions.reversed() { pending.append(.evaluate(argument, .number)) }
+                        push(.builtin(operation, expressions.count, expected), currentRange)
+                        for argument in expressions.reversed() { push(.evaluate(argument, .number), currentRange) }
                         continue
                     }
                     guard visibleFunctions.contains(name) else { throw error("Call to '\(name)' precedes its declaration or is unresolved") }
@@ -157,20 +177,20 @@ struct SourceLowering {
                     if language == .c || language == .cpp {
                         guard !expressions.contains(where: \.containsCall) else { throw error("Nested calls have unspecified C/C++ argument evaluation order") }
                     }
-                    pending.append(.call(name, expressions.count, expected))
+                    push(.call(name, expressions.count, expected), currentRange)
                     for (argument, parameter) in zip(expressions, function.parameters).reversed() {
-                        pending.append(.evaluate(argument, parameter.1))
+                        push(.evaluate(argument, parameter.1), currentRange)
                     }
                 case .unary(let operation, let operand):
                     if operation == "!" || operation == "not" {
-                        pending.append(.invert(expected)); pending.append(.evaluate(operand, language.isJavaScriptFamily ? nil : .boolean))
+                        push(.invert(expected), currentRange); push(.evaluate(operand, language.isJavaScriptFamily ? nil : .boolean), currentRange)
                     } else if operation == "+" && language.isJavaScriptFamily {
-                        pending.append(.evaluate(operand, .number))
+                        push(.evaluate(operand, .number), currentRange)
                     } else {
                         let type = expected ?? hint(operand, environment) ?? defaultInteger
                         guard type != .boolean, type != .unsigned else { throw error("Unary minus requires a signed or mathematical integer") }
                         let zero = try literal("0", type: type, synthetic: true)
-                        pending.append(.negate(zero, expected)); pending.append(.evaluate(operand, type))
+                        push(.negate(zero, expected), currentRange); push(.evaluate(operand, type), currentRange)
                     }
                 case .binary(let operation, let left, let right):
                     if language == .c || language == .cpp {
@@ -181,14 +201,14 @@ struct SourceLowering {
                     guard type != .boolean || ["==", "!=", "===", "!==", "&&", "||"].contains(operation) else { throw error("Boolean arithmetic and ordering are unsupported") }
                     if comparison {
                         for operand in [left, right] {
-                            if case .binary(let inner, _, _) = operand, isComparison(inner) { throw error("Nested or chained comparisons are unsupported") }
+                            if case .binary(let inner, _, _) = operand.kind, isComparison(inner) { throw error("Nested or chained comparisons are unsupported") }
                         }
                     }
                     if language.isJavaScriptFamily && ["&&", "||"].contains(operation) {
-                        pending.append(.logical(operation, right, expected)); pending.append(.evaluate(left, type)); continue
+                        push(.logical(operation, right, expected), currentRange); push(.evaluate(left, type), currentRange); continue
                     }
-                    pending.append(.binary(operation, expected))
-                    pending.append(.evaluate(right, type)); pending.append(.evaluate(left, type))
+                    push(.binary(operation, expected), currentRange)
+                    push(.evaluate(right, type), currentRange); push(.evaluate(left, type), currentRange)
                 }
             case .invert(let expected):
                 guard let operand = values.popLast() else { throw error("Missing unary operand") }
@@ -207,15 +227,15 @@ struct SourceLowering {
                 guard let left = values.popLast() else { throw error("Missing short-circuit operand") }
                 let condition = try booleanValue(left)
                 let rhsBlock = label(); let skippedBlock = label(); let merge = label()
-                instructions.append(.branch(condition: condition.id,
+                emit(.branch(condition: condition.id,
                     thenBlock: operation == "&&" ? rhsBlock : skippedBlock, thenArguments: [],
                     elseBlock: operation == "&&" ? skippedBlock : rhsBlock, elseArguments: []))
                 finish()
                 blockID = rhsBlock
                 let right = try expressionValue(rightExpression, expected: left.type, environment: environment)
-                instructions.append(.jump(block: merge, arguments: [right.id])); finish()
+                emit(.jump(block: merge, arguments: [right.id])); finish()
                 blockID = skippedBlock
-                instructions.append(.jump(block: merge, arguments: [left.id])); finish()
+                emit(.jump(block: merge, arguments: [left.id])); finish()
                 let merged = fresh(); blockID = merge; parameters = [.init(id: merged, type: left.type.ir)]
                 values.append(try checked((merged, left.type), expected: expected))
             case .builtin(let operation, let count, let expected):
@@ -227,8 +247,8 @@ struct SourceLowering {
                 guard let function = signatures[name], values.count >= count else { throw error("Missing call arguments") }
                 let arguments = values.suffix(count).map(\.id)
                 values.removeLast(count)
-                let reference = fresh(); instructions.append(.functionRef(destination: reference, symbol: name))
-                let id = fresh(); instructions.append(.call(destination: id, callee: reference, arguments: arguments))
+                let reference = fresh(); emit(.functionRef(destination: reference, symbol: name))
+                let id = fresh(); emit(.call(destination: id, callee: reference, arguments: arguments))
                 values.append(try checked((id, function.result), expected: expected))
             }
         }
@@ -240,14 +260,14 @@ struct SourceLowering {
         if type == .boolean {
             let allowed = language == .python ? ["False", "True"] : ["false", "true"]
             guard let bit = allowed.firstIndex(of: raw) else { throw error("Expected a Boolean literal") }
-            let pattern = try BitPattern(width: 1, bits: UInt64(bit)); instructions.append(.literal(destination: id, value: pattern)); return (id, type)
+            let pattern = try BitPattern(width: 1, bits: UInt64(bit)); emit(.literal(destination: id, value: pattern)); return (id, type)
         }
         if type == .number {
             let rawBits: UInt64
             do { rawBits = try Binary64.parse(raw) }
             catch { throw self.error("Invalid Number literal: \(raw)") }
             let pattern = try BitPattern(width: 64, bits: rawBits)
-            instructions.append(.literal(destination: id, value: pattern)); return (id, .number)
+            emit(.literal(destination: id, value: pattern)); return (id, .number)
         }
         var text = raw
         if !synthetic {
@@ -273,7 +293,7 @@ struct SourceLowering {
         guard !magnitude.isEmpty, magnitude.utf8.allSatisfy({ (48...57).contains($0) }), magnitude.count == 1 || !magnitude.hasPrefix("0"), magnitude.count <= 1000 else { throw error("Invalid or oversized decimal literal") }
         if type == .integer {
             let integer = try MathematicalInteger(text == "-0" ? "0" : text)
-            instructions.append(.integerLiteral(destination: id, value: integer))
+            emit(.integerLiteral(destination: id, value: integer))
         } else {
             if [.c, .cpp].contains(language) && text == "-9223372036854775808" { throw error("C/C++ minimum requires an in-range positive literal before unary minus") }
             let bits: UInt64
@@ -283,18 +303,18 @@ struct SourceLowering {
             }
             else if type == .signed { guard let signed = Int64(text) else { throw error("Signed literal is out of range") }; bits = UInt64(bitPattern: signed) }
             else { guard let unsigned = UInt64(text) else { throw error("Unsigned literal is out of range") }; bits = unsigned }
-            let pattern = try BitPattern(width: type == .signed32 ? 32 : 64, bits: bits); instructions.append(.literal(destination: id, value: pattern))
+            let pattern = try BitPattern(width: type == .signed32 ? 32 : 64, bits: bits); emit(.literal(destination: id, value: pattern))
         }
         return (id, type)
     }
     mutating func invert(_ value: Binding) throws -> Binding {
-        let one = fresh(); let pattern = try BitPattern(width: 1, bits: 1); instructions.append(.literal(destination: one, value: pattern))
-        let id = fresh(); instructions.append(.binary(destination: id, operation: .xor, left: value.id, right: one)); return (id, .boolean)
+        let one = fresh(); let pattern = try BitPattern(width: 1, bits: 1); emit(.literal(destination: one, value: pattern))
+        let id = fresh(); emit(.binary(destination: id, operation: .xor, left: value.id, right: one)); return (id, .boolean)
     }
     private mutating func numberValue(_ operation: IROperation, _ arguments: [Binding]) throws -> Binding {
         guard (1...2).contains(arguments.count), arguments.allSatisfy({ $0.type == .number }) else { throw error("Number operands required") }
         let id = fresh()
-        instructions.append(.binary(destination: id, operation: operation, left: arguments[0].id, right: arguments[arguments.count - 1].id))
+        emit(.binary(destination: id, operation: operation, left: arguments[0].id, right: arguments[arguments.count - 1].id))
         return (id, operation.returnsFlag ? .boolean : .number)
     }
     private mutating func booleanValue(_ value: Binding) throws -> Binding {
@@ -337,7 +357,7 @@ struct SourceLowering {
         if a.type == .integer {
             let operation: IRIntegerOperation
             switch op { case "+": operation = .add; case "-": operation = .subtract; case "*": operation = .multiply; case "<": operation = .lessThan; case "==": operation = .equal; default: throw error("Unsupported integer operator") }
-            instructions.append(.integerBinary(destination: id, operation: operation, left: a.id, right: b.id))
+            emit(.integerBinary(destination: id, operation: operation, left: a.id, right: b.id))
         } else {
             let operation: IROperation
             switch op {
@@ -348,14 +368,14 @@ struct SourceLowering {
             case "==": operation = .equal
             default: throw error("Unsupported fixed-width operator")
             }
-            instructions.append(.binary(destination: id, operation: operation, left: a.id, right: b.id))
+            emit(.binary(destination: id, operation: operation, left: a.id, right: b.id))
             if !comparison {
                 let result = fresh(); let overflow = fresh()
-                instructions.append(.extract(destination: result, source: id, index: 0))
-                instructions.append(.extract(destination: overflow, source: id, index: 1))
-                if language == .swift { instructions.append(.trapIf(condition: overflow, message: "integer overflow")) }
-                else if language == .rust { instructions.append(.failIf(condition: overflow, kind: .panic, message: "integer overflow")) }
-                else if (language == .c || language == .cpp) && a.type == .signed { instructions.append(.failIf(condition: overflow, kind: .undefinedBehavior, message: "signed integer overflow")) }
+                emit(.extract(destination: result, source: id, index: 0))
+                emit(.extract(destination: overflow, source: id, index: 1))
+                if language == .swift { emit(.trapIf(condition: overflow, message: "integer overflow")) }
+                else if language == .rust { emit(.failIf(condition: overflow, kind: .panic, message: "integer overflow")) }
+                else if (language == .c || language == .cpp) && a.type == .signed { emit(.failIf(condition: overflow, kind: .undefinedBehavior, message: "signed integer overflow")) }
                 return (result, a.type)
             }
         }

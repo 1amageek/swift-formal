@@ -6,7 +6,8 @@ public struct LocalToolRunner: ToolExecuting {
     private let ownership: ToolProcessGroupOwnership
     private let limits: ToolProcessLimits?
     private let journal: ToolLaunchJournal?
-    public init(ownership: ToolProcessGroupOwnership = .isolated, limits: ToolProcessLimits? = nil, journal: ToolLaunchJournal? = nil) { self.ownership = ownership; self.limits = limits; self.journal = journal }
+    private let workspaceAccountingRoot: URL?
+    public init(ownership: ToolProcessGroupOwnership = .isolated, limits: ToolProcessLimits? = nil, journal: ToolLaunchJournal? = nil, workspaceAccountingRoot: URL? = nil) { self.ownership = ownership; self.limits = limits; self.journal = journal; self.workspaceAccountingRoot = workspaceAccountingRoot }
 
     public func run(executable: URL, arguments: [String], directory: URL,
                     environment: [String: String] = [:], log: URL,
@@ -18,6 +19,11 @@ public struct LocalToolRunner: ToolExecuting {
             guard ownership != .inherited, limits.maximumResidentBytes > 0, (1...1024).contains(limits.maximumProcesses), limits.maximumCPUSeconds.isFinite, limits.maximumCPUSeconds > 0 else { throw FormalDiagnostic(.invalidArguments, "Invalid process monitoring limits/ownership") }
         }
         guard journal == nil || ownership == .isolatedSession else { throw FormalDiagnostic(.invalidArguments, "Launch journalling requires an isolated session") }
+        let accountingRoot = workspaceAccountingRoot ?? directory
+        let accountingPath = accountingRoot.standardizedFileURL.resolvingSymlinksInPath().path
+        let workingPath = directory.standardizedFileURL.resolvingSymlinksInPath().path
+        guard workingPath == accountingPath || workingPath.hasPrefix(accountingPath + "/") else { throw FormalDiagnostic(.invalidArguments,"Tool working directory is outside accounting root") }
+        if let maximumWorkspaceBytes { try checkWorkspace(accountingRoot,maximumBytes: maximumWorkspaceBytes) }
         let intent = try journal?.intent(executable: executable, arguments: arguments)
         var launchRecord = intent
         try Task.checkCancellation()
@@ -74,7 +80,7 @@ public struct LocalToolRunner: ToolExecuting {
             try Task.checkCancellation()
             try monitor?.sample(pid)
             if let maximumWorkspaceBytes, clock.now >= nextBudgetCheck {
-                try checkWorkspace(directory, maximumBytes: maximumWorkspaceBytes)
+                try checkWorkspace(accountingRoot, maximumBytes: maximumWorkspaceBytes)
                 nextBudgetCheck = clock.now.advanced(by: .milliseconds(250))
             }
             var outputStat = stat(); var errorStat = stat()
@@ -97,7 +103,7 @@ public struct LocalToolRunner: ToolExecuting {
                 reaped = true
                 try monitor?.finish(usage)
                 if !stopped { kill(ownership == .inherited ? pid : -pid, SIGKILL); kill(pid, SIGKILL); stopped = true }
-                if let maximumWorkspaceBytes { try checkWorkspace(directory, maximumBytes: maximumWorkspaceBytes) }
+                if let maximumWorkspaceBytes { try checkWorkspace(accountingRoot, maximumBytes: maximumWorkspaceBytes) }
                 let output = try ArtifactJSON.readBytes(from: out, maximumBytes: maximumOutputBytes)
                 let errors = try ArtifactJSON.readBytes(from: err, maximumBytes: maximumOutputBytes)
                 let exitCode = status & 0x7f == 0 ? (status >> 8) & 0xff : 128 + (status & 0x7f)

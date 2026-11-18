@@ -12,7 +12,7 @@ struct PropertyTests {
         return try PropertySpecification.decode(data)
     }
     private func compile(_ source: String, language: SourceLanguage = .python) throws -> IRProgram {
-        try ScalarSourceCompiler().compile(source, language: language, moduleID: "Source")
+        try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source).utf8), language: language, moduleID: "Source")).program
     }
 
     @Test(.timeLimit(.minutes(1)))

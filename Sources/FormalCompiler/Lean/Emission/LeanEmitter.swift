@@ -1,18 +1,25 @@
 import FormalCore
 import FormalIR
+import FormalEvidence
 import Foundation
 
 public struct LeanEmitter: LeanEmitting {
     public init() {}
 
-    public func emit(_ program: IRProgram) throws -> [GeneratedFile] {
+    public func emit(_ program: IRProgram) throws -> [GeneratedDocument] {
         try program.validate()
         guard let runtimeURL = Bundle.module.url(forResource: "Runtime", withExtension: "lean") else {
             throw FormalDiagnostic(.ioFailure, "Missing Lean runtime resource.")
         }
         let runtime = try String(contentsOf: runtimeURL, encoding: .utf8)
-        let functions = try program.functions.map(function).joined(separator: ",\n  ")
-        let source = "import SwiftFormal.Runtime\n\nopen SwiftFormal\n\nnamespace Generated\n\ndef program : Program := [\n  \(functions)\n]\n\nend Generated\n"
+        var source = TrackedEmission()
+        source.append("import SwiftFormal.Runtime\n\nopen SwiftFormal\n\nnamespace Generated\n\ndef program : Program := [\n  ")
+        for (index, value) in program.functions.enumerated() {
+            if index > 0 { source.append(",\n  ") }
+            source.append(try function(value))
+        }
+        source.append("\n]\n\nend Generated\n")
+        let programDigest = EvidenceIdentity.digest(try ArtifactJSON.encode(program))
         let properties = """
         import Generated.Program
 
@@ -30,32 +37,42 @@ public struct LeanEmitter: LeanEmitting {
 
         """
         return [
-            .init(path: "lean/lean-toolchain", contents: "leanprover/lean4:v4.35.0\n"),
-            .init(path: "lean/lakefile.toml", contents: "name = \"swift-formal-generated\"\nversion = \"0.1.0\"\ndefaultTargets = [\"Generated\"]\n\n[[lean_lib]]\nname = \"SwiftFormal\"\n\n[[lean_lib]]\nname = \"Generated\"\n"),
-            .init(path: "lean/SwiftFormal/Runtime.lean", contents: runtime),
-            .init(path: "lean/Generated/Program.lean", contents: source),
-            .init(path: "lean/Generated/Properties.lean", contents: properties),
-            .init(path: "lean/Generated.lean", contents: "import Generated.Program\nimport Generated.Properties\n"),
+            .init(path: "lean/lean-toolchain", contents: "leanprover/lean4:v4.35.0\n", origins: []),
+            .init(path: "lean/lakefile.toml", contents: "name = \"swift-formal-generated\"\nversion = \"0.1.0\"\ndefaultTargets = [\"Generated\"]\n\n[[lean_lib]]\nname = \"SwiftFormal\"\n\n[[lean_lib]]\nname = \"Generated\"\n", origins: []),
+            .init(path: "lean/SwiftFormal/Runtime.lean", contents: runtime, origins: []),
+            source.document(path: "lean/Generated/Program.lean",programDigest: programDigest),
+            .init(path: "lean/Generated/Properties.lean", contents: properties, origins: []),
+            .init(path: "lean/Generated.lean", contents: "import Generated.Program\nimport Generated.Properties\n", origins: []),
         ]
     }
 
-    private func function(_ value: IRFunction) throws -> String {
-        let symbol = try quote(value.symbol)
-        let result = try type(value.result)
-        let blocks = try value.blocks.map(block).joined(separator: ",\n    ")
-        let rendered0 = try quote(value.moduleID)
-        return "{ moduleID := \(rendered0), symbol := \(symbol), result := \(result), blocks := [\n    \(blocks)\n  ] }"
+    private func function(_ value: IRFunction) throws -> TrackedEmission {
+        let symbol = try quote(value.symbol), result = try type(value.result), module = try quote(value.moduleID)
+        var text = TrackedEmission()
+        text.append("{ moduleID := \(module), symbol := \(symbol), result := \(result), blocks := [\n    ")
+        for (index, valueBlock) in value.blocks.enumerated() {
+            if index > 0 { text.append(",\n    ") }
+            text.append(try block(valueBlock, function: value.symbol))
+        }
+        text.append("\n  ] }"); text.mark(function: value.symbol,start: 0)
+        return text
     }
-
-    private func block(_ value: IRBlock) throws -> String {
+    private func block(_ value: IRBlock, function: String) throws -> TrackedEmission {
         let id = try quote(value.id)
         let parameters = try value.parameters.map { parameter in
-            let id = try quote(parameter.id)
-            let type = try type(parameter.type)
-            return "{ id := \(id), type := \(type) }"
+            let id = try quote(parameter.id), kind = try type(parameter.type)
+            return "{ id := \(id), type := \(kind) }"
         }.joined(separator: ", ")
-        let instructions = try value.instructions.map(instruction).joined(separator: ",\n      ")
-        return "{ id := \(id), parameters := [\(parameters)], instructions := [\n      \(instructions)\n    ] }"
+        var text = TrackedEmission()
+        text.append("{ id := \(id), parameters := [\(parameters)], instructions := [\n      ")
+        for (index, valueInstruction) in value.instructions.enumerated() {
+            if index > 0 { text.append(",\n      ") }
+            let start = text.byteCount
+            text.append(try instruction(valueInstruction))
+            text.mark(function: function,block: value.id,instruction: index,start: start)
+        }
+        text.append("\n    ] }"); text.mark(function: function,block: value.id,start: 0)
+        return text
     }
 
     private func type(_ value: IRType) throws -> String {

@@ -1,7 +1,7 @@
 # swift-formal
 
 ## Purpose and Scope
-System and SwiftPM package master; no parent. Provide explicit scalar source/canonical SIL profiles, common IR, TLA+/Lean generation and independent checking. The [original specification](Documentation/SPEC.md) remains a functional baseline. General SIL/source correspondence and Actor semantics remain incomplete. The new structured evidence SDK is **design-only**, with [transition and removal gates](Documentation/SDK-TRANSITION.md).
+System and SwiftPM package master; no parent. Provide explicit scalar source/canonical SIL profiles, common IR, TLA+/Lean generation and independent checking. The [original specification](Documentation/SPEC.md) remains a functional baseline. General SIL/source correspondence and Actor semantics remain incomplete. The structured evidence SDK is implemented with [transition and removal gates](Documentation/SDK-TRANSITION.md).
 
 ## Responsibilities and Boundaries
 Formal owns semantic profiles, exact generated artifacts, independent trust audits, actual formal-language structure and verification evidence. Application declaration indexing, Agent/change ownership, daemon scheduling and UI rendering belong outside this package. There is no ArchitectureExplorer, Invar, Skeleton or external SwiftPM dependency.
@@ -13,7 +13,8 @@ Formal owns semantic profiles, exact generated artifacts, independent trust audi
 | [FormalIR](Sources/FormalIR/DESIGN.md) | child | Validated program and interpreter semantics | Common semantic boundary | Actor/general runtime support pending |
 | [FormalCompiler](Sources/FormalCompiler/DESIGN.md) | child | Located compilation and tracked emission | Generated model/artifacts | Origin is not semantic certification |
 | [FormalValidation](Sources/FormalValidation/DESIGN.md) | child | Independent audit and checking | Actual observations | Cannot import Compiler |
-| [FormalEvidence](Sources/FormalEvidence/DESIGN.md) | proposed child | Structured records and bounded readers | TLA+/Lean visualization SDK | Not a production product yet |
+| [CFormalSQLite](Sources/CFormalSQLite/DESIGN.md) | child | Native sqlite3 linkage | Indexed evidence storage | No external package |
+| [FormalEvidence](Sources/FormalEvidence/DESIGN.md) | child | Structured records and bounded readers | TLA+/Lean visualization SDK | Immutable bundles and bounded readers |
 | [formal](Sources/formal/DESIGN.md) | child | CLI and distribution | Executable composition | Unsupported commands fail explicitly |
 | [Invar](../Invar/DESIGN.md) | used by | Public Compiler/Validation/Evidence SDKs | Workflow integration | No reverse source dependency |
 
@@ -27,7 +28,7 @@ Target additional dependencies:
 Invar -> Compiler / Validation / Evidence public SDKs
 ArchitectureExplorer remains a generic renderer with no Formal dependency
 ```
-The five existing production targets remain until implemented replacements pass their gates. The proposed Evidence module follows native SwiftPM boundaries; add it only with code/tests. Frontends/lowering/emission remain components of Compiler. Validation consumes actual output and never reuses Compiler lowering as an independent oracle.
+FormalEvidence and CFormalSQLite follow native SwiftPM boundaries and have implementation/test owners. Frontends/lowering/emission remain components of Compiler. Validation consumes actual output and never reuses Compiler lowering as an independent oracle.
 
 ## Contracts and Invariants
 - Executable/product/target/source directory remain `formal` and `Sources/formal/`; the package identity remains swift-formal. Root Package.swift is directly consumable. These existing decisions supersede conflicting names/layout/Skeleton dependencies in the original snapshot.
@@ -48,7 +49,7 @@ owned exact source/profile -> located parsing/lowering -> IR + origin links
 Existing finite checking, [quantified properties](Sources/FormalValidation/Properties/DESIGN.md) and independent runtime/data audits remain requirements. Extraction availability and proof outcome are independent. Failed optional graph extraction can coexist with valid proof evidence. Generated proofs and arbitrary user-authored Lean elaboration have different execution/isolation profiles.
 
 ## State, Ownership, and Lifecycle
-Compiler parsing/lowering is invocation-local. ToolExecution owns process groups, limits, journals and complete cleanup. The proposed GraphStore reader actor owns retained bundle leases, descriptors, bounded caches and in-flight reads until explicit shutdown. Immutable data crosses module boundaries; no unowned background tasks are created for UI sessions.
+Compiler parsing/lowering is invocation-local. ToolExecution owns process groups, limits, journals and complete cleanup. The GraphStore reader actor owns retained bundle leases, descriptors, bounded caches and in-flight reads until explicit shutdown. Immutable data crosses module boundaries; no unowned background tasks are created for UI sessions.
 
 ## Failure, Concurrency, and Constraints
 Child owners define byte/token/depth/graph/output/process/time budgets and typed failures. Remaining ancestor deadline and cleanup cost apply throughout. Checking is offline; only explicit install/package operations may acquire pinned tools. Controlled user Lean inspection requires a verified import closure and enforced isolation; unsupported capability never falls back to unrestricted execution. Current generated-model tests do not certify that new profile.

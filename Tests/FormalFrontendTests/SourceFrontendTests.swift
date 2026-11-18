@@ -17,7 +17,7 @@ struct SourceFrontendTests {
     }
     @Test(arguments: SourceLanguage.allCases) func convertsAndExecutes(_ language: SourceLanguage) throws {
         let input = try source(language)
-        let program = try ScalarSourceCompiler().compile(input, language: language, moduleID: "Fixture")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((input).utf8), language: language, moduleID: "Fixture")).program
         var observations: [[String]] = []
         for (a, b, expected) in [(Int64(2), Int64(9), Int64(19)), (9, 2, -7), (-3, 4, -11), (0, 0, 0)] {
             let actual = try arguments(language, [a, b])
@@ -51,7 +51,7 @@ struct SourceFrontendTests {
         }
     }
     @Test(arguments: [SourceLanguage.python, .typescript, .javascript, .bun]) func preservesLargeIntegers(_ language: SourceLanguage) throws {
-        let program = try ScalarSourceCompiler().compile(source(language), language: language, moduleID: "Large")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source(language)).utf8), language: language, moduleID: "Large")).program
         let a = try MathematicalInteger("10000000000000000000000000000000000000000")
         let b = try MathematicalInteger("20000000000000000000000000000000000000000")
         let result = try IRInterpreter().run(program, entry: "calculate", arguments: [.integer(a), .integer(b)])
@@ -61,7 +61,7 @@ struct SourceFrontendTests {
         #expect(bounded.outcome == .boundExceeded("values"))
     }
     @Test(arguments: [SourceLanguage.swift, .rust, .c, .cpp, .go]) func overflowMeaning(_ language: SourceLanguage) throws {
-        let program = try ScalarSourceCompiler().compile(source(language), language: language, moduleID: "Overflow")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((source(language)).utf8), language: language, moduleID: "Overflow")).program
         let actual = try arguments(language, [Int64.min, 1])
         let result = try IRInterpreter().run(program, entry: "calculate", arguments: actual)
         switch language {
@@ -75,10 +75,10 @@ struct SourceFrontendTests {
     }
     @Test(arguments: SourceLanguage.allCases) func rejectsUnsupportedOrWrongLanguage(_ language: SourceLanguage) throws {
         let input = try source(language)
-        #expect(throws: (any Error).self) { try ScalarSourceCompiler().compile(input + "\nclass Unsupported {}", language: language, moduleID: "Invalid") }
+        #expect(throws: (any Error).self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((input + "\nclass Unsupported {}").utf8), language: language, moduleID: "Invalid")).program }
         let wrong: SourceLanguage = language == .python ? .javascript : .python
-        #expect(throws: (any Error).self) { try ScalarSourceCompiler().compile(input, language: wrong, moduleID: "Invalid") }
-        #expect(throws: (any Error).self) { try ScalarSourceCompiler(maximumSourceBytes: 1).compile(input, language: language, moduleID: "Invalid") }
+        #expect(throws: (any Error).self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((input).utf8), language: wrong, moduleID: "Invalid")).program }
+        #expect(throws: (any Error).self) { try ScalarSourceCompiler(maximumSourceBytes: 1).compile(SourceCompilationRequest(source: Data((input).utf8), language: language, moduleID: "Invalid")).program }
     }
     @Test func rejectsSemanticChanges() throws {
         let invalid: [(SourceLanguage, String)] = [
@@ -96,14 +96,14 @@ struct SourceFrontendTests {
             (.python, "def f(a: int) -> int:\n    if a < 0:\n        return a\n    else:\n        x = a\n")
         ]
         for (language, input) in invalid {
-            #expect(throws: (any Error).self) { try ScalarSourceCompiler().compile(input, language: language, moduleID: "Invalid") }
+            #expect(throws: (any Error).self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((input).utf8), language: language, moduleID: "Invalid")).program }
         }
     }
     @Test(arguments: SourceLanguage.allCases) func comparisonsPreserveOrder(_ language: SourceLanguage) throws {
         let input = try source(language)
         for op in ["<", ">", "<=", ">=", "==", "!="] {
             let changed = input.replacingOccurrences(of: "a < b", with: "a \(op) b")
-            let program = try ScalarSourceCompiler().compile(changed, language: language, moduleID: "Compare")
+            let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((changed).utf8), language: language, moduleID: "Compare")).program
             for (a, b) in [(Int64(-3), Int64(4)), (4, -3), (2, 2)] {
                 let condition: Bool
                 switch op {
@@ -129,7 +129,7 @@ struct SourceFrontendTests {
         case .c, .cpp: input = input.replacingOccurrences(of: "int64_t", with: "uint64_t").replacingOccurrences(of: "1LL", with: "1ULL")
         default: input = input.replacingOccurrences(of: "int64", with: "uint64")
         }
-        let program = try ScalarSourceCompiler().compile(input, language: language, moduleID: "Unsigned")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((input).utf8), language: language, moduleID: "Unsigned")).program
         let actual: [IRValue] = [.bits(try BitPattern(width: 64, bits: .max)), .bits(try BitPattern(width: 64, bits: 1))]
         let result = try IRInterpreter().run(program, entry: "helper", arguments: actual)
         if language == .swift { #expect(result.outcome == .trapped("integer overflow")) }
@@ -138,17 +138,17 @@ struct SourceFrontendTests {
     }
     @Test func malformedInputAndNestingFailWithoutTrapping() throws {
         for (language, text) in [(SourceLanguage.rust, "fn f(a:"), (.typescript, "function f(a:"), (.python, "def f(a:"), (.swift, "func f(_ a:")] {
-            #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(text, language: language, moduleID: "Malformed") }
+            #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((text).utf8), language: language, moduleID: "Malformed")).program }
         }
         let chain = "function f(a) { return " + Array(repeating: "a", count: 300).joined(separator: "+") + "; }"
-        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(chain, language: .javascript, moduleID: "Nested") }
+        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((chain).utf8), language: .javascript, moduleID: "Nested")).program }
         let asi = "function f(a) { return /* newline\n */ a; }"
-        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(asi, language: .javascript, moduleID: "ASI") }
+        #expect(throws: SourceDiagnostic.self) { try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((asi).utf8), language: .javascript, moduleID: "ASI")).program }
     }
 
     @Test func rejectsMutatedIntegerOutput() throws {
         let input = try source(.python)
-        let program = try ScalarSourceCompiler().compile(input, language: .python, moduleID: "Mutation")
+        let program = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data((input).utf8), language: .python, moduleID: "Mutation")).program
         let lean = try #require(LeanEmitter().emit(program).first { $0.path == "lean/Generated/Program.lean" })
         let tla = try #require(TLAEmitter().emit(program).first { $0.path == "tla/Program.tla" })
         let invalidLean = lean.contents.replacingOccurrences(of: ".multiply", with: ".divide")

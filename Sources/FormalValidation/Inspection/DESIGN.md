@@ -1,7 +1,7 @@
 # FormalValidation.Inspection
 
 ## Purpose and Scope
-**Target contract, not implemented.** Own extraction of actual TLA+/Lean structures and checked formal evidence. Parent: [Validation](../DESIGN.md). No children.
+Implemented component contract. Own extraction of actual TLA+/Lean structures and checked formal evidence. Parent: [Validation](../DESIGN.md). No children.
 
 ## Responsibilities and Boundaries
 Inspect exact audited artifacts, record tool observations and write FormalEvidence bundles. Source/model origin validation checks bytes/ranges, not semantic preservation. No application source parsing, Invar scheduling, Explorer rendering or Compiler import.
@@ -25,7 +25,7 @@ artifact manifest + explicit inspection profile
 ```
 
 ## Contracts and Invariants
-Proposed `FormalInspecting.inspect(FormalInspectionRequest) async throws -> FormalInspectionResult` selects an explicit capability profile and returns bundle reference, extraction coverage and diagnostics. Proposed finite/quantified checker results use `FormalVerificationResult` with per-obligation claims and evidence bundle references; raw aggregate JSON/run-directory strings cease to be SDK authority. Execution, logical outcome, scope, translation and extraction availability remain independent.
+`FormalInspecting.inspect(FormalInspectionRequest) async throws -> FormalInspectionResult` selects an explicit capability profile and returns bundle reference, extraction coverage and diagnostics. Finite/quantified checker results use `FormalVerificationResult` with per-obligation claims and evidence bundle references; raw aggregate JSON/run-directory strings cease to be SDK authority. Execution, logical outcome, scope, translation and extraction availability remain independent.
 
 ### TLA profiles
 - Specification structure is obtained from SANY's analyzed module graph using a version-pinned collector. Modules, constants, variables, operators and references are parser facts. Init/Next/invariant/temporal roles require the actual configuration or explicit checked role declarations. Operator names alone establish no temporal role.
@@ -36,6 +36,8 @@ Proposed `FormalInspecting.inspect(FormalInspectionRequest) async throws -> Form
 - User-authored TLA modules require an explicit import manifest and pinned standard modules. A controlled classpath excludes workspace Java overrides. Analysis-only structure and actual model checking are different operations and capabilities.
 
 ### Lean profiles
+The collector loads captured `.olean` data using pinned Lean's `withImportModules` with extensions/initializers disabled, then replays the complete root dependency closure (including mutual inductive families, constructors and recursors) into a fresh kernel environment before extracting dependencies. This follows the actual [Lean 4.35.0 import contract](https://github.com/leanprover/lean4/blob/v4.35.0/src/Lean/Environment.lean) and [kernel replay implementation](https://github.com/leanprover/lean4/blob/v4.35.0/src/LeanChecker.lean). Elaboration of user source is separately sandboxed/authorized; its stdout is never an axiom/proof oracle. Only the trusted collector's independently replayed environment supplies that data.
+
 - A pinned Lean helper reads the actual elaborated environment. `ConstantInfo.type` and `value?` supply expression dependencies; `Expr.getUsedConstants` supplies referenced declarations. Distinguish typeUses/valueUses and actual transitive axiom dependencies. Available checked expression structure may be a proof-term graph, not an invented tactic timeline.
 - Imported modules and opaque/unavailable bodies have explicit boundaries. Missing body data never means no dependencies. Theorems/obligations that failed elaboration remain unproved nodes with diagnostics; there is no checked proof term for them.
 - Kernel success and the approved axiom audit remain necessary for a checked proof. Dependency visualization does not replace LeanProofAudit's trust invariant. Sorry/custom/native-reduction axioms cannot be hidden by a pretty graph.
@@ -55,3 +57,12 @@ Separate immutable limits for import files/bytes, parser/expression depth, graph
 
 ## Verification and Change Impact
 Planned **FE-03/04/08/09** use actual pinned SANY/TLC/Lean for declaration dependencies, mutated terms, theorem admissions, opaque boundaries, finite counterexamples, liveness loops, traces truncated by limits, unsupported metadata, source-range tampering and sandbox denials. The design probe confirms direct Lean type/body references and SANY semantic data only; it does not validate this extractor. Recheck Artifacts, Evidence schemas/store, trusted resources, finite/quantified checkers, packaging and Invar on changes.
+
+The macOS adapter permits root-directory traversal plus explicitly approved runtime reads. A measured pinned-JRE bootstrap requires only `com.apple.system.opendirectoryd.libinfo` Mach lookup; that capability is granted only to the pinned Java executable, not user Lean. Network and fork stay denied. Input copies and sealed dependency outputs are outside each elaboration step’s writable directory. Integration tests execute the actual sandbox rather than a host fallback.
+
+### Generated artifact collection
+`GeneratedEvidenceCollector` consumes only the independently audited generated model and controlled checker workspaces. It streams bounded DOT lines into graph batches; ordered counterexample states come only from matching TLC message frames. Terminal reachability is audited with the same structured state decoder, never a label substring. Declaration and proof-term extraction uses the actual checked `.olean` in a separate pinned Lean invocation. Each optional graph is either retained whole or discarded and replaced by an unavailable descriptor; claims are not rewritten by extraction failures. The caller supplies output root, budgets and remaining whole-operation deadline.
+
+The replay closure follows pinned [Lean.Replay](https://github.com/leanprover/lean4/blob/v4.35.0/src/Lean/Replay.lean) and `ConstantInfo.getUsedConstantsAsSet`, not only display graph edges. Unsafe/partial roots are refused; the root must exist with the original type in the fresh kernel. Unrelated imported tactic declarations are not part of the root claim.
+
+SANY module closure includes the external module table, recursively nested modules and INSTANCE targets, as well as EXTENDS. Each recorded INSTANCE has its own semantic UID and source location and an `instantiates` edge to the analyzed target. Scope completion is emitted only after this bounded closure and actual operator-body references have been traversed. An external-only or EXTENDS-only scan cannot claim complete extraction.

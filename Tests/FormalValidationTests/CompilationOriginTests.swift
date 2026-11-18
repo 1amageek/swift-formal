@@ -1,0 +1,60 @@
+import Foundation
+import Testing
+import FormalCompiler
+import FormalCore
+import FormalIR
+import FormalEvidence
+
+@Suite(.timeLimit(.minutes(1)))
+struct CompilationOriginTests {
+    @Test func byteRangesSurviveUnicodeBranchesCallsAndEmission() async throws {
+        let source = """
+        // α and é retain original byte offsets
+        func helper(_ x: Int64) -> Int64 { return x + 1 }
+        func choose(_ a: Int64, _ b: Int64) -> Int64 {
+            if a < b { return helper(a) } else { return helper(b) }
+        }
+        """
+        let bytes = Data(source.utf8)
+        let compilation = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: bytes,language: .swift,moduleID: "Located"))
+        let programDigest = EvidenceIdentity.digest(try ArtifactJSON.encode(compilation.program))
+        var fragments = Set<String>()
+        for origin in compilation.origins {
+            let range = try #require(origin.source)
+            #expect(range.documentID == compilation.sourceDocument.id)
+            #expect(range.start >= 0 && range.end <= bytes.count && range.start <= range.end)
+            let fragment = try #require(String(data: bytes.subdata(in: range.start..<range.end),encoding: .utf8))
+            fragments.insert(fragment)
+            let address = try #require(origin.address)
+            #expect(address.programDigest == programDigest)
+            let function = try #require(compilation.program.functions.first { $0.symbol == address.function })
+            if let ordinal = address.instruction {
+                let block = try #require(function.blocks.first { $0.id == address.block })
+                #expect(block.instructions.indices.contains(ordinal)); #expect(origin.synthetic)
+            }
+        }
+        #expect(fragments.contains("a < b")); #expect(fragments.contains("helper(a)")); #expect(fragments.contains("helper(b)"))
+        let shifted = try ScalarSourceCompiler().compile(SourceCompilationRequest(source: Data(("// extra α\n" + source).utf8),language: .swift,moduleID: "Located"))
+        #expect(shifted.program == compilation.program)
+        #expect(shifted.sourceDocument.id != compilation.sourceDocument.id)
+        #expect(shifted.origins.first?.source?.start == (compilation.origins.first?.source?.start ?? 0) + "// extra α\n".utf8.count)
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { do { try FileManager.default.removeItem(at: root) } catch { Issue.record(error) } }
+        let budget = EvidenceReadBudget(maximumDatabaseBytes: 16_777_216,maximumRecordBytes: 262_144,maximumPageBytes: 1_048_576,maximumNodes: 500,maximumEdges: 1500,maximumTraversalNodes: 100_000,maximumCursors: 16)
+        let artifact = try CompilationArtifactGenerator().generate(CompilationRequest(source: bytes,language: .swift,moduleID: "Located",evidenceBudget: budget))
+        for file in artifact.files {
+            let output = Data(file.contents.utf8)
+            for origin in file.origins {
+                let range = try #require(origin.generated)
+                #expect(range.documentID == file.reference.id)
+                #expect(range.end <= output.count && range.end > range.start)
+                #expect(String(data: output.subdata(in: range.start..<range.end),encoding: .utf8) != nil)
+            }
+        }
+        let reference = try await artifact.write(to: root)
+        let reader = try await LocalFormalEvidenceStore(root: root.appendingPathComponent("evidence")).open(reference.evidence,budget: budget)
+        let origins = try await reader.origins(OriginQuery(documentID: compilation.sourceDocument.id,start: 0,count: 500))
+        #expect(origins.origins.contains { $0.generated != nil && $0.source != nil })
+        try await reader.shutdown()
+    }
+}
