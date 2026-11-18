@@ -7,6 +7,35 @@ import FormalEvidence
 
 @Suite(.timeLimit(.minutes(1)))
 struct CompilationOriginTests {
+    @Test func partialModelsBindChecksToTheOriginalExpressionAndBothEmittedDefinitions() async throws {
+        let source = Data("// λ\nlet rows = dates.count / 7".utf8)
+        let bytes = try #require(source.range(of: Data("dates.count / 7".utf8)))
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { do { try FileManager.default.removeItem(at: root) } catch { Issue.record(error) } }
+        let budget = EvidenceReadBudget(maximumDatabaseBytes: 16_777_216,maximumRecordBytes: 262_144,maximumPageBytes: 1_048_576,maximumNodes: 500,maximumEdges: 1500,maximumTraversalNodes: 4096,maximumCursors: 1)
+        let bundle = try await SwiftExpressionModels.write(source: source,sites: [.init(bytes: bytes,expression: .arithmetic(.count,.divide,.integer(7)))],to: root,budget: budget)
+        let reader = try await LocalFormalEvidenceStore(root: root).open(bundle,budget: budget)
+        let catalog = try await reader.catalog()
+        #expect(catalog.claims.isEmpty)
+        #expect(Set(catalog.graphs.map(\.kind)) == [.leanDeclarations,.tlaSpecification])
+        for graph in catalog.graphs {
+            #expect(!graph.complete)
+            let page = try await reader.graph(.init(graphID: graph.id,roots: graph.roots,relations: [],direction: "outgoing",depth: 3))
+            let check = try #require(page.nodes.first { $0.label == "No arithmetic trap" })
+            let step = try #require(page.nodes.first { $0.label == "L2 · Collection count / 7" })
+            #expect(page.edges.contains { $0.source == step.id && $0.target == check.id && $0.kind == "localCheck" })
+            var fragments: [String:String] = [:]
+            for span in step.ranges {
+                let chunk = try await reader.document(.init(documentID: span.documentID,start: span.start,count: span.end - span.start))
+                fragments[chunk.document.language] = String(decoding: chunk.bytes,as: UTF8.self)
+            }
+            #expect(fragments["swift"] == "dates.count / 7")
+            if graph.kind == .leanDeclarations { #expect(fragments["lean"]?.contains("Int.tdiv a (7 : Int)") == true) }
+            else { #expect(fragments["tla"]?.contains("Quot(a, 7)") == true) }
+        }
+        try await reader.shutdown()
+    }
+
     @Test func byteRangesSurviveUnicodeBranchesCallsAndEmission() async throws {
         let source = """
         // α and é retain original byte offsets

@@ -23,6 +23,8 @@ owned original source + explicit profile
 ```
 
 ## Contracts and Invariants
+A syntax-aware client may request independent Swift expression models from exact original UTF-8 ranges. The SDK emits separate Lean and TLA+ documents for these sites. Integer operations assume standard signed 64-bit Swift semantics, collection counts range from zero through Int64.max, and unresolved scalar inputs remain independent. Local interval checks concern arithmetic traps only. A branch over an opaque predicate exposes alternatives without asserting reachability. Model generation never establishes whole-source equivalence.
+
 The optional generated-model bundle contains the emitted documents and two generator-produced program graphs without verification claims. Every executable node identifies its exact emitter range. Encoded control flow is distinct from TLC state exploration and Lean kernel evidence.
 `SourceCompiling.compile(SourceCompilationRequest) -> SourceCompilation` replaces the bare String/language -> IRProgram protocol. The request owns original UTF-8 bytes, language, module identity and optional numeric interpretation. Document identity is derived from those original bytes; profile source/token/depth limits and cancellation checks belong to the compiler, while CompilationRequest supplies the evidence publication budget. The result contains validated IR and origin links. There is one compile path; no convenience overload reconstructs or discards locations.
 

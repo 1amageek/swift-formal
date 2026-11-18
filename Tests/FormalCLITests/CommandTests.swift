@@ -3,6 +3,18 @@ import Foundation
 import Testing
 
 struct CommandTests {
+    @Test(.timeLimit(.minutes(1))) func swiftArrayIsDiagnosedAsOutsideScalarProfile() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory,withIntermediateDirectories: false)
+        defer { do { try FileManager.default.removeItem(at: directory) } catch { Issue.record(error) } }
+        let file = directory.appendingPathComponent("Rows.swift")
+        try Data("struct Rows { let values: [Int] }".utf8).write(to: file)
+        let output = directory.appendingPathComponent("artifact")
+        let result = await FormalCommand().run(arguments: ["translate","--language","swift","--source",file.path,"--output",output.path,"--draft-unvalidated"])
+        #expect(result.exitCode == 3)
+        #expect(result.standardError.contains("UNSUPPORTED_SOURCE_PROFILE"))
+        #expect(!FileManager.default.fileExists(atPath: output.path))
+    }
     @Test(.timeLimit(.minutes(1)), arguments: ["capture", "generate", "validate", "coverage", "replay"])
     func rejectsUnimplementedCommands(command: String) async {
         let result = await FormalCommand().run(arguments: [command])

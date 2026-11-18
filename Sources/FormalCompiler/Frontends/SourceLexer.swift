@@ -1,3 +1,5 @@
+import FormalCore
+
 struct SourceLexer {
     static func tokenize(_ source: String, language: SourceLanguage, maximumBytes: Int, maximumTokens: Int) throws -> [SourceToken] {
         func fail(_ message: String, _ line: Int, _ column: Int) -> SourceDiagnostic {
@@ -103,6 +105,9 @@ struct SourceLexer {
                 throw fail("Unsupported update operator '\(pair)'", l, c)
             }
             if (language.isJavaScriptFamily && ["&&", "||"].contains(pair)) || ["->", "==", "!=", "<=", ">=", ":=", "::"].contains(pair) { advance(); advance(); try emit(pair, l, c); continue }
+            if language == .swift, "[]./@%".utf8.contains(b) {
+                throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(l):\(c): '\(Character(UnicodeScalar(b)))' is outside the whole-function \(language.profile) profile")
+            }
             guard "(){}:;,+-*<>=!".utf8.contains(b) || (language.isJavaScriptFamily && "./%".utf8.contains(b)) else { throw fail("Unsupported character or operator", l, c) }
             advance(); try emit(String(decoding: [b], as: UTF8.self), l, c)
         }

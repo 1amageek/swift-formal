@@ -11,6 +11,7 @@ public struct FormalDiagnostic: Error, Codable, Sendable, Equatable, CustomStrin
         case unsupportedOpcode = "UNSUPPORTED_OPCODE"
         case unsupportedAttribute = "UNSUPPORTED_ATTRIBUTE"
         case unsupportedType = "UNSUPPORTED_TYPE"
+        case unsupportedSourceProfile = "UNSUPPORTED_SOURCE_PROFILE"
         case sourceParseFailed = "SOURCE_PARSE_FAILED"
         case silParseFailed = "SIL_PARSE_FAILED"
         case ioFailure = "IO_FAILURE"
@@ -33,7 +34,7 @@ public struct FormalDiagnostic: Error, Codable, Sendable, Equatable, CustomStrin
     public var exitCode: Int32 {
         switch code {
         case .invalidArguments, .invalidManifest, .toolchainMismatch: 2
-        case .unsupportedOperation, .unsupportedExternal, .unsupportedOpcode, .unsupportedAttribute, .unsupportedType: 3
+        case .unsupportedSourceProfile, .unsupportedOperation, .unsupportedExternal, .unsupportedOpcode, .unsupportedAttribute, .unsupportedType: 3
         case .integrityMismatch, .sourceParseFailed, .silParseFailed: 4
         case .counterexample: 5
         case .timeout, .interrupted: 6

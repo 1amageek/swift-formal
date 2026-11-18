@@ -1,3 +1,5 @@
+import FormalCore
+
 struct SourceParser {
     let language: SourceLanguage
     let tokens: [SourceToken]
@@ -81,7 +83,12 @@ struct SourceParser {
         let position = tokens[cursor]
         let resultFirst: ScalarType?
         switch language {
-        case .swift: _ = take("public"); try expect("func"); resultFirst = nil
+        case .swift:
+            _ = take("public")
+            if ["import","struct","class","enum","extension","actor","protocol","var","let"].contains(text) {
+                throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(tokens[cursor].line):\(tokens[cursor].column): '\(text)' declarations are outside the \(language.profile) profile")
+            }
+            try expect("func"); resultFirst = nil
         case .rust: _ = take("pub"); try expect("fn"); resultFirst = nil
         case .go: try expect("func"); resultFirst = nil
         case .python: try expect("def"); resultFirst = nil
