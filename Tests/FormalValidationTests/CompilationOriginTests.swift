@@ -56,5 +56,21 @@ struct CompilationOriginTests {
         let origins = try await reader.origins(OriginQuery(documentID: compilation.sourceDocument.id,start: 0,count: 500))
         #expect(origins.origins.contains { $0.generated != nil && $0.source != nil })
         try await reader.shutdown()
+
+        let models = root.appendingPathComponent("models")
+        let draft = try await artifact.writeGeneratedModels(to: models)
+        let drafts = try await LocalFormalEvidenceStore(root: models).open(draft,budget: budget)
+        let catalog = try await drafts.catalog()
+        #expect(catalog.claims.isEmpty)
+        #expect(Set(catalog.graphs.map(\.kind)) == [.tlaSpecification,.leanDeclarations])
+        for graph in catalog.graphs {
+            let document = try #require(artifact.files.first { graph.artifactDigests.contains($0.reference.sha256) })
+            let page = try await drafts.graph(FormalGraphQuery(graphID: graph.id,roots: graph.roots,relations: [],direction: "outgoing",depth: 32))
+            #expect(Set(["then","else","encodes"]).isSubset(of: Set(page.edges.map(\.kind))))
+            #expect(page.nodes.contains { $0.label == "choose" })
+            #expect(page.nodes.allSatisfy { $0.claimIDs.isEmpty && $0.ranges.first?.documentID == document.reference.id })
+            #expect(document.path.hasSuffix(graph.kind == .tlaSpecification ? ".tla" : ".lean"))
+        }
+        try await drafts.shutdown()
     }
 }
