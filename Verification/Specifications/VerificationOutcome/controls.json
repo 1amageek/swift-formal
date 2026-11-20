@@ -1,0 +1,17 @@
+[
+  {
+    "probe": "reachable-success",
+    "invariant": "NeverProved",
+    "counterexampleConfirmed": true
+  },
+  {
+    "probe": "missing-axiom-audit",
+    "invariant": "ProofRequiresEvidence",
+    "counterexampleConfirmed": true
+  },
+  {
+    "probe": "timeout-as-success",
+    "invariant": "InterruptedCannotProve",
+    "counterexampleConfirmed": true
+  }
+]

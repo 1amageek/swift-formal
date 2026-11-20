@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "1",
+  "kind": "proofDependencies",
+  "title": "Formal \u00b7 Verification outcome contracts",
+  "nodes": [
+    {
+      "id": "gate",
+      "label": "Proof requires all checks",
+      "role": "condition",
+      "details": {
+        "requirement": "Documentation/SPEC.md \u00a7\u00a72.2, 15, 17/A26; current owning DESIGN.md files are recorded in inputs.json",
+        "condition": "Artifact integrity, SANY, Lean and allowed-axiom audit must succeed.",
+        "invariant": "ProofRequiresEvidence",
+        "scope": "Requirements-derived protocol only"
+      }
+    },
+    {
+      "id": "interrupt",
+      "label": "Interrupted checks stay unknown",
+      "role": "condition",
+      "details": {
+        "requirement": "Documentation/SPEC.md \u00a7\u00a72.2, 15, 17/A26; current owning DESIGN.md files are recorded in inputs.json",
+        "condition": "A deadline or cancellation before return cannot report a proof.",
+        "invariant": "InterruptedCannotProve",
+        "scope": "Requirements-derived protocol only"
+      }
+    },
+    {
+      "id": "translation",
+      "label": "Model proof keeps source unvalidated",
+      "role": "condition",
+      "details": {
+        "requirement": "Documentation/SPEC.md \u00a7\u00a72.2, 15, 17/A26; current owning DESIGN.md files are recorded in inputs.json",
+        "condition": "Proof outcome and source semantic correspondence are independent axes.",
+        "invariant": "ModelProofIsNotSourceCertification",
+        "scope": "Requirements-derived protocol only"
+      }
+    },
+    {
+      "id": "existing",
+      "label": "Existing output is preserved",
+      "role": "condition",
+      "details": {
+        "requirement": "Documentation/SPEC.md \u00a7\u00a72.2, 15, 17/A26; current owning DESIGN.md files are recorded in inputs.json",
+        "condition": "An existing destination is never replaced by generation.",
+        "invariant": "ExistingOutputIsPreserved",
+        "scope": "Requirements-derived protocol only"
+      }
+    },
+    {
+      "id": "atomic",
+      "label": "Failed generation preserves output",
+      "role": "condition",
+      "details": {
+        "requirement": "Documentation/SPEC.md \u00a7\u00a72.2, 15, 17/A26; current owning DESIGN.md files are recorded in inputs.json",
+        "condition": "A failed atomic generation cannot publish its partial output. Filesystem/crash semantics are assumed.",
+        "invariant": "FailedGenerationIsAtomic",
+        "scope": "Requirements-derived protocol only"
+      }
+    },
+    {
+      "id": "incomplete",
+      "label": "Incomplete checks cannot prove",
+      "role": "condition",
+      "details": {
+        "requirement": "Sources/FormalValidation/Properties/DESIGN.md",
+        "condition": "Without completed checking the model cannot return PROVED."
+      }
+    },
+    {
+      "id": "badAudit",
+      "label": "Bad artifact audit cannot prove",
+      "role": "condition",
+      "details": {
+        "requirement": "Sources/FormalValidation/Verification/DESIGN.md",
+        "condition": "An invalid artifact is refused regardless of later tool observations."
+      }
+    },
+    {
+      "id": "tlc",
+      "label": "TLC \u00b7 126 states checked",
+      "role": "result",
+      "details": {
+        "properties": "ProofRequiresEvidence, InterruptedCannotProve, ModelProofIsNotSourceCertification, ExistingOutputIsPreserved, FailedGenerationIsAtomic",
+        "bounds": "One invocation, initial output absent/existing, clock 0..2, nondeterministic checker/audit observations. No fairness or liveness claim.",
+        "evidence": "158 generated, 126 distinct, depth 9, queue empty.",
+        "module": "a1d091271981b60374546f8678da146f9e30c8041f911d09f6183dc7c2112f26",
+        "scope": "Protocol model; no Swift refinement or filesystem/crash proof."
+      }
+    },
+    {
+      "id": "lean",
+      "label": "Lean \u00b7 4 theorems proved",
+      "role": "result",
+      "details": {
+        "axioms": "'VerificationOutcome.proofRequiresEvidence' depends on axioms: [propext]\n'VerificationOutcome.interruptionIsUnknown' depends on axioms: [propext]\n'VerificationOutcome.badAuditCannotProve' depends on axioms: [propext]\n'VerificationOutcome.incompleteCannotProve' depends on axioms: [propext]\n",
+        "module": "4e509bebc7c528a500dcea7d3f0eec5195bff398f0e8207e40365d5ad1d705b3",
+        "scope": "All Boolean combinations of the independently specified outcome classification. No proof of Swift implementation equivalence."
+      }
+    },
+    {
+      "id": "controls",
+      "label": "Bad proof gates yield counterexamples",
+      "role": "negative control",
+      "details": {
+        "evidence": "Success is reachable; omitting axiom audit violates ProofRequiresEvidence; reporting interruption as proved violates InterruptedCannotProve.",
+        "files": "controls.json and the three retained control logs"
+      }
+    },
+    {
+      "id": "implementation",
+      "label": "Artifact and axiom regression \u00b7 6 tests passed",
+      "role": "result",
+      "details": {
+        "command": "python3 Tools/run-with-timeout.py --seconds 240 -- swift test --filter VerificationTests",
+        "evidence": "Real artifact creation, seven corruption modes, scenario limits, archive rejection, inventory, axiom audit and scalar bounds.",
+        "scope": "Focused implementation regression only; no protocol-to-Swift refinement proof."
+      }
+    },
+    {
+      "id": "source-correspondence",
+      "label": "Source semantic preservation remains open",
+      "role": "scope",
+      "details": {
+        "requirement": "DESIGN.md / Documentation/SPEC.md \u00a719",
+        "boundary": "General SIL/source-to-model correspondence remains UNVALIDATED. These nine checks do not establish correctness of all Formal code."
+      }
+    },
+    {
+      "id": "actor-support",
+      "label": "Full v1 / Actor semantics remain open",
+      "role": "scope",
+      "details": {
+        "requirement": "DESIGN.md / Documentation/SPEC.md \u00a717 and \u00a719",
+        "boundary": "Memory, Actor/async and all 29 original acceptance conditions are outside this check."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "gate",
+      "target": "tlc",
+      "label": "checked by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e1",
+      "source": "interrupt",
+      "target": "tlc",
+      "label": "checked by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e2",
+      "source": "translation",
+      "target": "tlc",
+      "label": "checked by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e3",
+      "source": "existing",
+      "target": "tlc",
+      "label": "checked by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e4",
+      "source": "atomic",
+      "target": "tlc",
+      "label": "checked by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e5",
+      "source": "gate",
+      "target": "lean",
+      "label": "proved by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e6",
+      "source": "interrupt",
+      "target": "lean",
+      "label": "proved by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e7",
+      "source": "badAudit",
+      "target": "lean",
+      "label": "proved by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e8",
+      "source": "incomplete",
+      "target": "lean",
+      "label": "proved by",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e9",
+      "source": "gate",
+      "target": "controls",
+      "label": "falsified by weakened guard",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e10",
+      "source": "interrupt",
+      "target": "controls",
+      "label": "falsified by wrong outcome",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e11",
+      "source": "badAudit",
+      "target": "implementation",
+      "label": "regression coverage",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e12",
+      "source": "gate",
+      "target": "implementation",
+      "label": "regression coverage",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e13",
+      "source": "translation",
+      "target": "source-correspondence",
+      "label": "guarantee boundary",
+      "role": "evidence",
+      "directed": true
+    },
+    {
+      "id": "e14",
+      "source": "tlc",
+      "target": "actor-support",
+      "label": "outside checked scope",
+      "role": "evidence",
+      "directed": true
+    }
+  ],
+  "metadata": {
+    "specVerification": {
+      "checks": [
+        {
+          "id": "ProofRequiresEvidence",
+          "nodeID": "gate",
+          "evidenceID": "tlc",
+          "outcome": "passed"
+        },
+        {
+          "id": "InterruptedCannotProve",
+          "nodeID": "interrupt",
+          "evidenceID": "tlc",
+          "outcome": "passed"
+        },
+        {
+          "id": "ModelProofIsNotSourceCertification",
+          "nodeID": "translation",
+          "evidenceID": "tlc",
+          "outcome": "passed"
+        },
+        {
+          "id": "ExistingOutputIsPreserved",
+          "nodeID": "existing",
+          "evidenceID": "tlc",
+          "outcome": "passed"
+        },
+        {
+          "id": "FailedGenerationIsAtomic",
+          "nodeID": "atomic",
+          "evidenceID": "tlc",
+          "outcome": "passed"
+        },
+        {
+          "id": "VerificationOutcome.proofRequiresEvidence",
+          "nodeID": "gate",
+          "evidenceID": "lean",
+          "outcome": "passed"
+        },
+        {
+          "id": "VerificationOutcome.interruptionIsUnknown",
+          "nodeID": "interrupt",
+          "evidenceID": "lean",
+          "outcome": "passed"
+        },
+        {
+          "id": "VerificationOutcome.badAuditCannotProve",
+          "nodeID": "badAudit",
+          "evidenceID": "lean",
+          "outcome": "passed"
+        },
+        {
+          "id": "VerificationOutcome.incompleteCannotProve",
+          "nodeID": "incomplete",
+          "evidenceID": "lean",
+          "outcome": "passed"
+        }
+      ],
+      "openQuestions": [
+        "source-correspondence",
+        "actor-support"
+      ],
+      "mapBinding": {
+        "workspaceID": "ae-054298adc30c987082e94429c341f27e634bb4dfe6d51c8fd81571e8d644e1a2",
+        "snapshotID": "23E4275C-805A-4A74-8835-645F5748B07E",
+        "entityID": "ae-237294c027c2a960dc8a5122c3bbd305ad56873285e384650ed7bae798aebfde"
+      }
+    }
+  }
+}

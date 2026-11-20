@@ -1,0 +1,4 @@
+'VerificationOutcome.proofRequiresEvidence' depends on axioms: [propext]
+'VerificationOutcome.interruptionIsUnknown' depends on axioms: [propext]
+'VerificationOutcome.badAuditCannotProve' depends on axioms: [propext]
+'VerificationOutcome.incompleteCannotProve' depends on axioms: [propext]

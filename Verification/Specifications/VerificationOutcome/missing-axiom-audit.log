@@ -1,0 +1,108 @@
+TLC2 Version 2.19 of 08 August 2024 (rev: 5a47802)
+Warning: Please run the Java VM which executes TLC with a throughput optimized garbage collector by passing the "-XX:+UseParallelGC" property.
+(Use the -nowarning option to disable this warning.)
+Running breadth-first search Model-Checking with fp 51 and seed 427424001466683011 with 1 worker on 14 cores with 512MB heap and 64MB offheap memory [pid: 95173] (Mac OS X 27.2.1 aarch64, Eclipse Adoptium 21.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Parsing file /private/var/folders/c4/bcbjzcj556d3xj45z64rzjmw0000gn/T/formal-outcome-nvg6k4s1/VerificationOutcome.tla
+Parsing file /private/var/folders/c4/bcbjzcj556d3xj45z64rzjmw0000gn/T/formal-outcome-nvg6k4s1/Naturals.tla
+Semantic processing of module Naturals
+Semantic processing of module VerificationOutcome
+Starting... (2026-11-20 23:23:27)
+Computing initial states...
+Finished computing initial states: 2 distinct states generated at 2026-11-20 23:23:27.
+Error: Invariant ProofRequiresEvidence is violated.
+Error: The behavior up to this point is:
+State 1: <Initial predicate>
+/\ audit = "pending"
+/\ result = "notRequested"
+/\ interrupted = FALSE
+/\ sany = "pending"
+/\ axioms = "pending"
+/\ original = "absent"
+/\ phase = "generate"
+/\ lean = "pending"
+/\ artifact = "absent"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+State 2: <Next line 83, col 13 to line 84, col 72 of module VerificationOutcome>
+/\ audit = "pending"
+/\ result = "notRequested"
+/\ interrupted = FALSE
+/\ sany = "pending"
+/\ axioms = "pending"
+/\ original = "absent"
+/\ phase = "audit"
+/\ lean = "pending"
+/\ artifact = "new"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+State 3: <Next line 83, col 13 to line 84, col 72 of module VerificationOutcome>
+/\ audit = "passed"
+/\ result = "notRequested"
+/\ interrupted = FALSE
+/\ sany = "pending"
+/\ axioms = "pending"
+/\ original = "absent"
+/\ phase = "check"
+/\ lean = "pending"
+/\ artifact = "new"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+State 4: <Next line 83, col 13 to line 84, col 72 of module VerificationOutcome>
+/\ audit = "passed"
+/\ result = "notRequested"
+/\ interrupted = FALSE
+/\ sany = "passed"
+/\ axioms = "pending"
+/\ original = "absent"
+/\ phase = "check"
+/\ lean = "pending"
+/\ artifact = "new"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+State 5: <Next line 83, col 13 to line 84, col 72 of module VerificationOutcome>
+/\ audit = "passed"
+/\ result = "notRequested"
+/\ interrupted = FALSE
+/\ sany = "passed"
+/\ axioms = "pending"
+/\ original = "absent"
+/\ phase = "check"
+/\ lean = "passed"
+/\ artifact = "new"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+State 6: <Next line 83, col 13 to line 84, col 72 of module VerificationOutcome>
+/\ audit = "passed"
+/\ result = "notRequested"
+/\ interrupted = FALSE
+/\ sany = "passed"
+/\ axioms = "failed"
+/\ original = "absent"
+/\ phase = "check"
+/\ lean = "passed"
+/\ artifact = "new"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+State 7: <Next line 83, col 13 to line 84, col 72 of module VerificationOutcome>
+/\ audit = "passed"
+/\ result = "proved"
+/\ interrupted = FALSE
+/\ sany = "passed"
+/\ axioms = "failed"
+/\ original = "absent"
+/\ phase = "done"
+/\ lean = "passed"
+/\ artifact = "new"
+/\ clock = 0
+/\ translation = "UNVALIDATED"
+
+102 states generated, 78 distinct states found, 28 states left on queue.
+The depth of the complete state graph search is 7.
+The average outdegree of the complete state graph is 2 (minimum is 0, the maximum 6 and the 95th percentile is 4).
+Finished in 00s at (2026-11-20 23:23:27)

@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "b818971",
+  "sha256": {
+    "Documentation/SPEC.md": "8540ef723ed78bcf317317f3fcd740a976b3f149059635992f039af3fc3c11f5",
+    "DESIGN.md": "6243e02d55e80e70c97a351959fa9be26f36a5739dca4be31c0db25e5276bf5b",
+    "Sources/FormalValidation/Properties/DESIGN.md": "b7cad4e69e83110387b98187da8cde46ad936eb77258fdc7752390fb3b82ff7f",
+    "Sources/FormalValidation/Verification/DESIGN.md": "f14380277c579ecf282af61a767c1f556eff6cacb28b748f31c83d56659f4070",
+    "Sources/FormalCompiler/Artifacts/DESIGN.md": "3cc3266a7db8e2091396307c905966b588722a8a5ebbb6a2a4c40aa6c96d187c",
+    "Sources/formal/Commands/DESIGN.md": "7245c2ea46b47472d8d51d840a6ebabb0d4646d1e957d7fcf913afd59f7bdd04",
+    "Sources/FormalValidation/Properties/PropertyVerifier.swift": "656b31b75e05a0e4c855abe4bb8cb26c3d5052e9c4b8900efa0284eab2c21ac3",
+    "Sources/FormalValidation/Verification/LeanProofAudit.swift": "5d556275859433d5d1618e0bf0478d251e2177d4f7a4c9f084075db17e0b5a6b",
+    "Sources/FormalCompiler/Artifacts/CompilationArtifact.swift": "ac8149fda707d7aba094a79925d334f9f1a33e32e7da0c4c867b41c318293e8e",
+    "Tests/FormalValidationTests/VerificationTests.swift": "c315b69c5f28d49a71e906ba3ca88d2a90947f85cd087b80ae5626e9183e8a3a",
+    "Verification/Specifications/VerificationOutcome/VerificationOutcome.cfg": "556928ee37e08d748d7c0906b19f004a4056f5f12cb95d248f45a7e5489a2c8a",
+    "Verification/Specifications/VerificationOutcome/VerificationOutcome.lean": "4e509bebc7c528a500dcea7d3f0eec5195bff398f0e8207e40365d5ad1d705b3",
+    "Verification/Specifications/VerificationOutcome/VerificationOutcome.tla": "a1d091271981b60374546f8678da146f9e30c8041f911d09f6183dc7c2112f26",
+    "ARCHITECTURE.dsl": "f421a58bffb09ff5dc45cf9530647ed2fae8208467796fcde7a93870af2639a6",
+    "Verification/Specifications/VerificationOutcome/verify.py": "bac9d0e0d5f55a391c45d5d71df3a0522e2b92c293d32984c0ce3b27837506e5"
+  }
+}

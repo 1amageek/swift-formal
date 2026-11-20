@@ -1,0 +1,105 @@
+Building for debugging...
+[Computing dependencies]
+[Pre-planning 1 / 705]
+[Planning deferred tasks]
+[179 / 406] swift-formal_FormalCompiler
+[185 / 406] FormalCore
+[195 / 468]
+[202 / 468]
+[207 / 468]
+[208 / 468]
+[215 / 468]
+[218 / 468]
+[221 / 468]
+[227 / 468]
+[229 / 468]
+[232 / 468]
+[233 / 468]
+[235 / 468]
+[237 / 468]
+[247 / 468] FormalCore
+[259 / 470] FormalCore
+[263 / 471] FormalIR
+[277 / 503]
+[291 / 523]
+[303 / 523] FormalEvidence
+[305 / 523]
+[309 / 523] FormalEvidence
+[326 / 526]
+[328 / 526] FormalIRTests-product
+[343 / 561] FormalValidation
+[351 / 561] FormalCompiler
+[359 / 561] FormalCompiler
+[367 / 561] FormalValidation
+[371 / 561] FormalValidation-product
+[374 / 561] FormalValidation
+/Users/1amageek/Desktop/Formal/Sources/FormalValidation/ToolExecution/ToolLaunchJournal.swift:72:39: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+ 70 |                     var path = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
+ 71 |                     let length = path.withUnsafeMutableBytes { proc_pidpath(pid, $0.baseAddress, UInt32($0.count)) }
+ 72 |                     guard length > 0, String(cString: path) == record.executable, try arguments(pid) == [record.executable] + record.arguments else { continue }
+    |                                       `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+ 73 |                     candidates.append((pid, info.pbi_start_tvsec, info.pbi_start_tvusec))
+ 74 |                 }
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[377 / 561] FormalCompiler
+[387 / 561] FormalFrontendTests-product
+[393 / 563]
+[397 / 564] FormalCompiler
+[397 / 564] FormalValidation
+[408 / 576] formal
+[416 / 592] formal
+[427 / 592] formal-product
+[444 / 595] FormalBackendTests-product
+[463 / 598] formal
+[465 / 598] formal
+[467 / 598] FormalBackendTests-product
+[474 / 633] FormalCLITests-product
+[474 / 636]
+[476 / 636]
+[491 / 636] FormalFrontendTests-product
+[515 / 636] FormalValidationTests-product
+[545 / 636] FormalBackendTests-product
+[548 / 636] FormalFrontendTests-product
+[555 / 636] FormalInspectionIntegrationTests-product
+[558 / 636] FormalIRTests-product
+[562 / 636] FormalFrontendTests-product
+[562 / 636] FormalIRTests-product
+[564 / 636] FormalFrontendTests-product
+[567 / 636] FormalSILTests-product
+[570 / 636] FormalEvidenceTests-product
+[572 / 636] FormalCoreTests-product
+[575 / 636] FormalCoreTests-product
+[577 / 636] FormalSILTests-product
+[580 / 636] FormalLoweringTests-product
+[581 / 636] FormalLoweringTests-product
+[584 / 636] FormalLoweringTests-product
+[588 / 636] FormalIRTests-product
+[595 / 636] FormalFrontendTests-product
+[598 / 636] FormalCoreTests-product
+[602 / 636] FormalFrontendTests-product
+[603 / 636] FormalValidationTests-product
+[611 / 636] FormalFrontendTests-product
+[621 / 636] FormalInspectionIntegrationTests-product
+[622 / 636] FormalCLITests-product
+[630 / 636] FormalEvidenceTests-product
+[632 / 636] FormalEvidenceTests-product
+Build complete! (15.90秒)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite VerificationTests started.
+􀟈  Test snapshotAuditsLayoutOriginsRuntimeAndEmittedData() started.
+􀟈  Test inventoryUsesRelativePathsAcrossMacOSTemporaryAliases() started.
+􀟈  Test corruptCachedArchiveFailsBeforeExtractionOrDownload() started.
+􀟈  Test scenarioRejectsUnknownFieldsAndInvalidBounds() started.
+􀟈  Test axiomAuditRejectsAdmissionsAndCustomAxioms() started.
+􀟈  Test scalarBitInputsEnforceWidthAndSignedRange() started.
+􁁛  Test scalarBitInputsEnforceWidthAndSignedRange() passed after 0.001 seconds.
+􁁛  Test axiomAuditRejectsAdmissionsAndCustomAxioms() passed after 0.001 seconds.
+􁁛  Test inventoryUsesRelativePathsAcrossMacOSTemporaryAliases() passed after 0.003 seconds.
+􁁛  Test corruptCachedArchiveFailsBeforeExtractionOrDownload() passed after 0.004 seconds.
+􁁛  Test scenarioRejectsUnknownFieldsAndInvalidBounds() passed after 0.004 seconds.
+􁁛  Test snapshotAuditsLayoutOriginsRuntimeAndEmittedData() passed after 0.092 seconds.
+􁁛  Suite VerificationTests passed after 0.092 seconds.
+􁁛  Test run with 6 tests in 1 suite passed after 0.092 seconds.
