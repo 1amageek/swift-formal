@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "activity": "specificationCheck",
+  "command": [
+    "python3",
+    "Verification/Specifications/SourceAdmission/verify.py",
+    "--toolchain",
+    "/Users/1amageek/Desktop/Formal/.tools/project-source-diagnostics-20261121/toolchain"
+  ],
+  "executed": true,
+  "exitCode": 0,
+  "inputs": [
+    {
+      "path": "Verification/Specifications/SourceAdmission/SourceAdmission.tla",
+      "sha256": "14d60933a1bc7d171920596172985e1f6cec4068c605c3c6e2f8944ef8bf18cd"
+    },
+    {
+      "path": "Verification/Specifications/SourceAdmission/SourceAdmission.cfg",
+      "sha256": "2eefe178fea9bb1df576a6e62610456398acad9f53211028e2c54d746e710e23"
+    },
+    {
+      "path": "Verification/Specifications/SourceAdmission/SourceAdmission.lean",
+      "sha256": "3f9c4074f7f51f1bb0acb673de534f5b2b7925a3e53935972daccc9f7f35389d"
+    },
+    {
+      "path": "Verification/Specifications/SourceAdmission/verify.py",
+      "sha256": "e81d8cc0ceccdaabc1a75d8389f8bc3cc96c1a51258c47c16a86e2c72e589714"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "Verification/Project/runs/20261121T054607612028Z/source-admission.log",
+      "sha256": "2d459f8156af6c9851e986573b0d1af7fe6bb1e60e306464a23c8d4025b1f0ee"
+    }
+  ],
+  "claims": []
+}

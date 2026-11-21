@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "activity": "specificationCheck",
+  "command": [
+    "python3",
+    "Verification/Specifications/VerificationOutcome/verify.py",
+    "--toolchain",
+    "/Users/1amageek/Desktop/Formal/.tools/project-source-diagnostics-20261121/toolchain"
+  ],
+  "executed": true,
+  "exitCode": 0,
+  "inputs": [
+    {
+      "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.tla",
+      "sha256": "a1d091271981b60374546f8678da146f9e30c8041f911d09f6183dc7c2112f26"
+    },
+    {
+      "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.cfg",
+      "sha256": "556928ee37e08d748d7c0906b19f004a4056f5f12cb95d248f45a7e5489a2c8a"
+    },
+    {
+      "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.lean",
+      "sha256": "4e509bebc7c528a500dcea7d3f0eec5195bff398f0e8207e40365d5ad1d705b3"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "Verification/Project/runs/20261121T054607612028Z/specification.log",
+      "sha256": "b096287bace9c057d8f4824d11adfd40b60bae21f3a3bc1e6f097fb201f2dc46"
+    }
+  ],
+  "claims": [
+    {
+      "id": "interruption-contract",
+      "requirements": [
+        "A26"
+      ],
+      "domain": "specification.tla.finite",
+      "outcome": "passed",
+      "scope": "Bounded requirements-derived outcome protocol, one invocation and clock 0..2. Both checked-success outcomes are represented by the positive proof outcome. No implementation correspondence is asserted.",
+      "method": "modelCheck",
+      "obligations": [
+        {
+          "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.tla",
+          "sha256": "a1d091271981b60374546f8678da146f9e30c8041f911d09f6183dc7c2112f26",
+          "selector": "InterruptedCannotProve"
+        },
+        {
+          "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.lean",
+          "sha256": "4e509bebc7c528a500dcea7d3f0eec5195bff398f0e8207e40365d5ad1d705b3",
+          "selector": "VerificationOutcome.interruptionIsUnknown"
+        }
+      ]
+    }
+  ]
+}

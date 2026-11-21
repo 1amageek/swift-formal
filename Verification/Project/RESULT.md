@@ -17,6 +17,24 @@ A full test invocation stalled in SwiftPM's test launcher after an exited child.
 
 ## Development flow
 
+### Reviewed gates — 2026-11-21
+
+The Invar verify-project skill now owns five gates. Each requires its evidence and current input-bound review. This existing-code audit collected downstream diagnostics without passing an incomplete specification gate.
+
+| Gate | Status |
+|---|---|
+| requirements | passed |
+| specification | incomplete |
+| implementation | blocked |
+| correspondence | blocked |
+| integration | blocked |
+
+The requirements review retains all 41 original conditions. A12/A13/A26 have scoped specification evidence; 38 conditions lack that evidence and the specification-stage review is incomplete. All 182 production files remain unsupported. Generation is recorded as modelGeneration, not implementation checking. Whole-project verification remains incomplete, 0/41, returnTo specification; source/model correspondence is unverified.
+
+Actual MCP run 7A42ED44-68A8-482C-B261-D40DFB56B71B used 281 captured files at source snapshot 0385A089-DBBE-43C7-BE36-881E2600AA22. Original operation 05f3644d486a458a8a98337d82f3ea34167e2a9aaea0b37856c2b41a74944a75 completed with matchesInputs, unknown, acceptedAtCompletion=false and committed publication. Its exact 213-file receipt archive is retained by Invar; the run manifest and outputs are also in runs/20261121T054607612028Z. Original earlier runs remain history. Prepare/run/report/publication took 40.824 seconds; worker CPU 7.335189 seconds.
+
+Explorer shows the report and Return to specification at http://127.0.0.1:61113/#canvas=2C2CCD4C-6CCA-468E-A9F3-CD874E168757. Screenshot: /tmp/formal-reviewed-workflow-explorer.jpg. A completed run is not a successful verification. No production Swift code changed in this workflow update; the earlier 134-test regression evidence retains its original scope.
+
 Requirements inventory and governing decisions -> independent TLA+/Lean specification checks -> exact production-code model/check attempts -> specification/code/correspondence review -> complete-inventory report. Each stage retains its original outcomes. Failures return to the owning requirement, formalization, implementation or execution layer. The report cannot complete a project from a successful subset, regression test or unvalidated translation.
 
 The Invar plugin owns this workflow and the hash-checked receipt aggregation. Formal owns model semantics and verification. Explorer owns the generic report and Map presentation. All three requirement assessments are visible independently and remain unchanged by filtering or collapsed groups. The report's acceptance inventory must exactly equal the inventory extracted from the pinned specification sections.

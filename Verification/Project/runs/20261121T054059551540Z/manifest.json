@@ -1,0 +1,1565 @@
+{
+  "schemaVersion": 2,
+  "title": "Formal \u00b7 Whole-project verification",
+  "inventory": {
+    "source": {
+      "path": "Documentation/SPEC.md",
+      "sha256": "8540ef723ed78bcf317317f3fcd740a976b3f149059635992f039af3fc3c11f5"
+    },
+    "sections": [
+      {
+        "heading": "## 17. \u53d7\u3051\u5165\u308c\u30c6\u30b9\u30c8",
+        "kind": "table"
+      },
+      {
+        "heading": "## 19. Definition of Done",
+        "kind": "bullets",
+        "prefix": "D"
+      }
+    ]
+  },
+  "productionInputs": [
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationArtifact.swift",
+      "sha256": "ac8149fda707d7aba094a79925d334f9f1a33e32e7da0c4c867b41c318293e8e"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationArtifactGenerating.swift",
+      "sha256": "23d3a8f5f67dbc1ccfaab8966256e6f4da3c4efbcc2183cb91543947f83df18f"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationArtifactGenerator.swift",
+      "sha256": "222deb685f3aaa72203ad74526134af0fe9decbe6e760742fb7c3b0e88d1aafc"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationArtifactReference.swift",
+      "sha256": "bd83c3b6db7dcf2be6d86624030e8facb068aedfc9a43d8f332228f3b111387a"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationIRGraph.swift",
+      "sha256": "9dae241cf301b20c8f8bfecfa4f249271465bcd28945cd6cfd92f61eaa4d8cc3"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationMetadata.swift",
+      "sha256": "118a48d6370bb42cf6d2afda40258d1880a7c231ec83597f24bcc620166c552f"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/CompilationRequest.swift",
+      "sha256": "d1387fc74188f8072a38b24460e9a844f90aa0c7f65f4cf1042b5a123b1b404f"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/GeneratedDocument.swift",
+      "sha256": "8fb8587030b152cb9d81e91ea6c024c9fd16a08e50ad98494f3447da8b60a100"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/GeneratedModelGraphs.swift",
+      "sha256": "a16c6649328d89918ac621f080bed3fa43790abe1fb08092b634485cdd93cda9"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/SourceCompilation.swift",
+      "sha256": "3d9ebbbee96e5a3532bfda8e864d70f7481027fdd9628c035f8f79ed5105889f"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/SourceCompilationRequest.swift",
+      "sha256": "d257dce931b81f0c4a1326fe96ce79697f7d51a5ab5c43d144afd977db26d6ec"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/SwiftExpressionModels.swift",
+      "sha256": "bff4d06dd00bcdf09fcc6cdedc901e9cceb50f4fdeff63d16ddbbd641d805e01"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/SwiftExpressionSite.swift",
+      "sha256": "f458081fdbfff0128e863ef5d62bacdc6bd185d16fd90de6791c1b4ea8c3ead8"
+    },
+    {
+      "path": "Sources/FormalCompiler/Artifacts/TrackedEmission.swift",
+      "sha256": "4dfc851972ed4f47c18e693a95246f7512b6efa15ad747b35714190a349f0fec"
+    },
+    {
+      "path": "Sources/FormalCompiler/CompilerResources.swift",
+      "sha256": "e295b011e107c3cb18383a71eb6c95f87f6656bff2bb61a6a9cacad98259528e"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/GoConstant.swift",
+      "sha256": "77fdfa75401cf7d9e84aafc62c2b87879484613af1de08ded06ac2aec13e86c1"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/GoConstantError.swift",
+      "sha256": "dd93bed843b053d3bad635247835d2ded73f794a06cdde8b687d875544f2eb28"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/GoConstantEvaluator.swift",
+      "sha256": "e293d9a4730af0efd647e644b3191967d5e5d574bc6302bc24db013b461d0efc"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/ParsedSourceFunction.swift",
+      "sha256": "efc3acb7d239070744475f6d2ee40412ec67f28ec6769c044d83045ed2397ab2"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/ScalarSourceCompiler.swift",
+      "sha256": "4ac3e5adb9c7cb471020ce00e80e3cfa4dca24fe8bca4f81f6a3f9625e38f4f0"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/ScalarType.swift",
+      "sha256": "5f08d85da42e0802227127623b895b187222145c9ce1bcb4cb904b40fe9200f1"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceByteRange.swift",
+      "sha256": "ceb66319450864fcd9fed0edeb0cb3f151836175b666b0a32528364aea21cfc2"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceCompiling.swift",
+      "sha256": "795428eb37af6173a5d9d09967334ad3f0e12a0c91dd313deaa31243368d787f"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceDiagnostic.swift",
+      "sha256": "09451f899f05e626b7f94ba7835ee4332b312dc5753e3cc1b5f4268930e9aebc"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceExpression.swift",
+      "sha256": "9b56c1af0bce374d967b379ea8b542bc49c32cae1704974c56dd51ca5fda6208"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceFunction.swift",
+      "sha256": "c5560b2473dcac58c9a531b8fb3f3d7df0978038d673d5e4523ba21a1dee91f2"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceLanguage.swift",
+      "sha256": "5d8045f95406b47555f802bcdaf663a2711ce2896bae5525f1bfcd15d2c98f2c"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceLexer.swift",
+      "sha256": "c85caf556294d36b53b8aee3034a4e686ee9a2c88532b0b813dc09ec86de4cd6"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceLowering.swift",
+      "sha256": "ed12f988eb74ebddd4255bbfd1dec764ff79fddd1a17b4361a6ab621b47a0b82"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceNumberBuiltin.swift",
+      "sha256": "b09061df1a27a71816c595e85944fe2493a8cbcf3abe64f035d67fc2d6cab1fe"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceNumericDefault.swift",
+      "sha256": "4df22bf620757eb6213114a0520b6d977fc42fe917fe8d0e3e5eaa085a5a8a3d"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceParser.swift",
+      "sha256": "217c2534efae1199f02204cd1dd4e20ae23e7acf4c46b24df457d415ad407075"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceStatement.swift",
+      "sha256": "07f06ee36d27ec7a16faca172e199cf44786b07026b2bbd30912879c8935ece9"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceToken.swift",
+      "sha256": "d5867d96998bee2431ee4fb61436282bb662535e69f5562f87d62ea737b979f9"
+    },
+    {
+      "path": "Sources/FormalCompiler/Frontends/SourceTypeResolver.swift",
+      "sha256": "a0725480da67c55014247be3a8a9ff0ad53fc083df4a45477ee207a58ed348f4"
+    },
+    {
+      "path": "Sources/FormalCompiler/Lean/Emission/LeanEmitter.swift",
+      "sha256": "11f762a6ebf7dcd2381e86be849a6e256407783f6bc58c044a0f9f59bde60833"
+    },
+    {
+      "path": "Sources/FormalCompiler/Lean/Emission/LeanEmitting.swift",
+      "sha256": "a54ca60e3feefe1e648bfedff57c7fb61eb28288d7fc257d9e7598661177568e"
+    },
+    {
+      "path": "Sources/FormalCompiler/Lowering/Scalar/ScalarDecoder.swift",
+      "sha256": "ac3bdd3dd4294186abe484a21dfba14c010523cbf08b75caa6f5efc473ea5c51"
+    },
+    {
+      "path": "Sources/FormalCompiler/Lowering/Scalar/ScalarLoweringResult.swift",
+      "sha256": "f200660c743cc5396c0aeb0ba82c4f5b9d70763658e74febe6c3bf05909a7bc6"
+    },
+    {
+      "path": "Sources/FormalCompiler/Lowering/Scalar/ScalarSILLowering.swift",
+      "sha256": "b2dfe7cee819c8ffec6b6ca49611c85b38987df23fb531390526135d4d65c6ad"
+    },
+    {
+      "path": "Sources/FormalCompiler/Lowering/Scalar/ScalarTokens.swift",
+      "sha256": "1b6e6346d54be0d0fea96a8e653835b513da6b2e143798fc15bea8581afd9215"
+    },
+    {
+      "path": "Sources/FormalCompiler/SIL/Syntax/CanonicalSILParser.swift",
+      "sha256": "2b6c3e3d6ea233e9a151e947d2eb1e0c76636d41c507c621194b36d195c8f7d4"
+    },
+    {
+      "path": "Sources/FormalCompiler/SIL/Syntax/SILLexer.swift",
+      "sha256": "2c87f4a32aa0ded554025353f0c807f08a9b7ffab9ff2e3596036168d80e4ab2"
+    },
+    {
+      "path": "Sources/FormalCompiler/SIL/Syntax/SILModuleSyntax.swift",
+      "sha256": "c6d74031e43f6c6f15b5a4ad253a6e17cca2bfd0d91f47886157df9a1de9c92e"
+    },
+    {
+      "path": "Sources/FormalCompiler/SIL/Syntax/SILParsing.swift",
+      "sha256": "9da80250e003f2637aad9e0ae6571c8439805e72972eaf5c4d4135f1ea94034b"
+    },
+    {
+      "path": "Sources/FormalCompiler/SIL/Syntax/SILToken.swift",
+      "sha256": "b4b4c44e5470801403e5c0d57f4282d2287109b51d739336b086e7be42981d75"
+    },
+    {
+      "path": "Sources/FormalCompiler/TLA/Emission/TLAEmitter.swift",
+      "sha256": "0485457eb573792a316d837d6feeb78177acaa7c14f72660bad2a401adf6fe0d"
+    },
+    {
+      "path": "Sources/FormalCompiler/TLA/Emission/TLAEmitting.swift",
+      "sha256": "d616e8f95529af613045dac2df6abfceefd3b6ed2df3333faaeb834f55eff993"
+    },
+    {
+      "path": "Sources/FormalCore/Bundle/BundleInspecting.swift",
+      "sha256": "32e24697469a6e101f8b28ea9013baf1d2c9223274836f60ed17e29222898210"
+    },
+    {
+      "path": "Sources/FormalCore/Bundle/BundleInspection.swift",
+      "sha256": "e5369088934e56274a8b8dc21bbebd305ed9da29810e28c107d1db615c5d077f"
+    },
+    {
+      "path": "Sources/FormalCore/Bundle/BundleInspector.swift",
+      "sha256": "d226a6eb8f2219c31240e7082b48a10a009703ace2c95fc9e655c7cd2b3910f3"
+    },
+    {
+      "path": "Sources/FormalCore/Contracts/ArtifactJSON.swift",
+      "sha256": "55eadcc75057f326aa8efecd3124bb6482f77c7c90d5a1c3311903238eb034ab"
+    },
+    {
+      "path": "Sources/FormalCore/Contracts/BuildContext.swift",
+      "sha256": "3269405892cae0b40ffbcc61fd47a37630a8fccf934dcc591a5084f381e2a642"
+    },
+    {
+      "path": "Sources/FormalCore/Contracts/BundleManifest.swift",
+      "sha256": "08115773506b9fd30d74de2a0d0715a9fe339dd8392dfa444f7bf3439e1b88a9"
+    },
+    {
+      "path": "Sources/FormalCore/Contracts/FormalDiagnostic.swift",
+      "sha256": "74dde25f598fa93616dc28c168b9f7949e5d0b59566401f3d9c9ce368f434d27"
+    },
+    {
+      "path": "Sources/FormalCore/Contracts/ResultStatus.swift",
+      "sha256": "f85a590fcfb18bda266c4b46eeed26ab6f89c34a9e9c0b0095493afeb83bfa25"
+    },
+    {
+      "path": "Sources/FormalCore/Contracts/ToolchainLock.swift",
+      "sha256": "ca4e14dd5350995384d7033e2d842ba549bbfce873deee362fdef9d806caf836"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/EvidenceBudget.swift",
+      "sha256": "8c835aa14f07fcc0d68a93fe5d7e6372323487f6e7448478b944ac0a603386b8"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/EvidenceBundleReader.swift",
+      "sha256": "338fb1fe727d4c7bd0f10dc5d87802b3ef35bc73bf0fa37f40eb465b400c4365"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/EvidenceBundleWriter.swift",
+      "sha256": "a6eae65663be32be307572b81462a6ac50196a8272757ef2bbddf3aa51c9ee36"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/EvidenceDatabase.swift",
+      "sha256": "ff77f84699f12f7bb988dc4157c6b349b9b76d4ad48dbe19846207229ce06600"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/EvidenceFiles.swift",
+      "sha256": "0338daef4dd1b022add175d018a3877b32bd04153e7b88d0b2e4a963ca599356"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/FormalEvidenceOpening.swift",
+      "sha256": "185feff998cf338af5c65a0157690f9e99c11d4d519f5acf0c30d99c865c6a71"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/FormalEvidenceReading.swift",
+      "sha256": "c31c7e7a49127c7ca2e04dbae850c3f842f18534302f28c3cefc6e1c4342664e"
+    },
+    {
+      "path": "Sources/FormalEvidence/GraphStore/LocalFormalEvidenceStore.swift",
+      "sha256": "44114c6893b0cea0b0fb84150ac1e9493f3e430d4697cbf2c280a212a5a6ccd6"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/ArtifactReference.swift",
+      "sha256": "c68ffba9fd9b401b353e90157df0df709dcba22e01d9498a634f65126d6fc4ec"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/CorrespondenceClaim.swift",
+      "sha256": "b6b47d5f97b0f1a9e22c7ad12c5112a688f9fc703890eda4dc224f1caa2b84f1"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/DocumentChunk.swift",
+      "sha256": "78283db3f1f3844f9ba56b4c40d147456e8075a80fd36f1e60dfab8362fc4395"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/DocumentRangeQuery.swift",
+      "sha256": "48647c5019dca9619af1a4ea2508092aff7cbf81525073510175b98ca9b8b70d"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/DocumentReference.swift",
+      "sha256": "c8d9f24b6f8fbb16498e4473a6c27b6dc6bc4be098a2a4ccb75edd43a791cf63"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/EvidenceBundleReference.swift",
+      "sha256": "393e91e6e85c7aac453a84f9716bf756c0b46ccc9bb17b4df085fd792955da14"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/EvidenceCatalog.swift",
+      "sha256": "7434a882c63f89571092bde765a02c07f7d2489ab05c2e5f7904f3f2450c26c6"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/EvidenceIdentity.swift",
+      "sha256": "63c9ee8d7823b9ef6c53e9f04f47825ba79d2056277aa4ca97d6172290418657"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/EvidenceReadBudget.swift",
+      "sha256": "1eaa080361a85193ac6e8270f7333115dc0b061b4988646c3f5d5a49639ca234"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalEdge.swift",
+      "sha256": "0c2c6d5c08a7b0a7e30c40c28578c9446b9d95cbddf0a86515a5d178a3beedee"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalEvidenceError.swift",
+      "sha256": "db4c41aefd4006362e0a9c51050d691b305da02fc5d8c4d11ffab9621fba81f6"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalGraphDescriptor.swift",
+      "sha256": "0e46ab1975354398cbfa29bb3f2ff7d5a0b16f1b81b9f385c63abe0097a0d471"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalGraphKind.swift",
+      "sha256": "fba3704d8b96f077bbd39ba05532b78488a8b335ae4534727d9c6227890c2057"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalGraphPage.swift",
+      "sha256": "bb85668d25c1973b60c555fc6fa6acbe1b86055ffca89138cf1d1c25b83af399"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalGraphQuery.swift",
+      "sha256": "d6d5260ca90e3c408daee580b5dfbb4fc8d0a8a22ce7c67e9d378cbbf9f243b7"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalNode.swift",
+      "sha256": "7c52e04ea8d53f605aba485e23e462f8abd695d35cd04f9d4a416d04d973de13"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalTrace.swift",
+      "sha256": "d93a42acaff9f6790fc54bbd084847115e45655a5ac33bf127c7dacac06006a7"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalTracePage.swift",
+      "sha256": "949975e3475fe4524a94ab83bc207f567b8f7a6f96ef2a1894815a11dcff8706"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/FormalTraceQuery.swift",
+      "sha256": "c3fc0fa52479ed090675e9f7e5c0583d3428bb594de97a1f0ad94635d2a20998"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/IRAddress.swift",
+      "sha256": "7a9636d23161ff85f57634335ec401035ab4726c6742819acc649083ab36d192"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/OriginLink.swift",
+      "sha256": "d730da29c768aee31f768ec6eb3c5e5c592c536b5e42c34ec25d0511af5a038b"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/OriginPage.swift",
+      "sha256": "71fb446321b28fec7a791baa2fd6a449a466af505c1af9319aaac3e4e0d9df3c"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/OriginQuery.swift",
+      "sha256": "fd0c249c1802089558a54345f8e6047a6ab5073a1a52a55068105cb19ee6b008"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/StateValue.swift",
+      "sha256": "abf007e23735832437e72ad28e5ab974ad5490e50e3daf28e5b3c70156f52b60"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/TextRange.swift",
+      "sha256": "77a44bd7e7f1e6d7fc9b3e403ad8169510de3ee60e3366aa5e7c8e017c4dd3f4"
+    },
+    {
+      "path": "Sources/FormalEvidence/Records/VerificationClaim.swift",
+      "sha256": "ecf3d3bf06d97a8bf7efff90e3a59da317569d5201b0ddb2c463c1117de06c17"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/Binary64.swift",
+      "sha256": "f8aa806a784d8c4782792027c1f03fb0899f19bad445c8b8a170e7ecc1ee3e8c"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/BitArithmetic.swift",
+      "sha256": "ea042f37799d75dde06d28a313b643eea9674f2af0f56a8a48c1a9e2dfceb61e"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/BitPattern.swift",
+      "sha256": "159a77682a83160bc6974612cf10a266f06bded5f73083d01d633d147af9a92b"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/IRExecuting.swift",
+      "sha256": "8f3e669e4f433b9692b86c6c36ee0f3c7a1c9752434a92837591a362e62f5e43"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/IRExecutionResult.swift",
+      "sha256": "39e819669c681601355bd41c35332eb15548ea033ea95b44532555062cab3aa8"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/IRInterpreter.swift",
+      "sha256": "d415a21cb2fa2ad3faf2c16454cb2235083be6fb20f9a2984865b080e0e28600"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/IRValue.swift",
+      "sha256": "09f2b6bfbbe226c0d0f4a3f5288a123de2f4f73890eee96218b8e6b8c511cc3e"
+    },
+    {
+      "path": "Sources/FormalIR/Execution/MathematicalInteger.swift",
+      "sha256": "8a6f3b1504cdec35fbd5b976cab0bb32642b0fbd329091f98cf85fd60832c3d2"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRBlock.swift",
+      "sha256": "6f463678a13572a619056aa2e81d9b22354376880d8bac43a0616b7bc9969713"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRFailureKind.swift",
+      "sha256": "ae4e033fc26170d0ee924527652562bbcfafec44ad7a1803de716be18633c91f"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRFunction.swift",
+      "sha256": "36f1bf4ee6d3875e89a47f409d7582e1aa35ce01c9d72bdcf4e840fd4453a379"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRInstruction.swift",
+      "sha256": "4ef937b0b34a267ebf7100d5ff8784970ade456692d4da729e4dab5b5fb86f06"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRIntegerOperation.swift",
+      "sha256": "b37934d24e13ad42e4d042c3a903d509960ac9e829081b896a150d27b5fdc449"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IROperation.swift",
+      "sha256": "5f0da47c53c41b6a603924a97cac420a038496b0e5d57be3bb2d55f07aef8563"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRParameter.swift",
+      "sha256": "100f67ddf90712855f790a1603034722d36702f8486266a8053419e0bfdb1a2b"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRProgram.swift",
+      "sha256": "84572a9cc88d8d04ff068ee1cdaa0451c544940e43cdd2114dc621c8f7d29a34"
+    },
+    {
+      "path": "Sources/FormalIR/Program/IRType.swift",
+      "sha256": "cb909e7754440f8055708be1d9f7ff9c62a711ec122897d91b89ef86191d4f9a"
+    },
+    {
+      "path": "Sources/FormalValidation/ArtifactDecoder/ArtifactData.swift",
+      "sha256": "4981f5ccf487294c463ebeb2a572f2eb8cb529cfc95421f3a1e56adc810a2724"
+    },
+    {
+      "path": "Sources/FormalValidation/ArtifactDecoder/BackendArtifactDecoder.swift",
+      "sha256": "7d124b588eaab17168e76eeca6864518b5c8a11c7fa9f3109e184733420f13f1"
+    },
+    {
+      "path": "Sources/FormalValidation/ArtifactDecoder/RestrictedDataParser.swift",
+      "sha256": "b110717d36175862b64ce9ccb33dd4a10934c4e975328fe8812fac5cd126c40f"
+    },
+    {
+      "path": "Sources/FormalValidation/ArtifactDecoder/RestrictedLexer.swift",
+      "sha256": "fe60757d8bcb84515facf92c51d46002bf8145d2c4c8c2039bf46808da7d71f1"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/BoundedRecordLines.swift",
+      "sha256": "6a2b53971ce98ed8b53bc32576597e8f846034584d8a1d4ef79a8de01f37a5df"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/CollectorResources.swift",
+      "sha256": "98c1d0911d7a0e4e2b5c6a57fc4e16fcaaae8beafbf58e270e6e679b2ff55dd6"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/FormalInspecting.swift",
+      "sha256": "38505e158890b44a43368df56ec09aee5695154fe1790f09b08bc65874ca3f65"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/FormalInspectionRequest.swift",
+      "sha256": "ff1885541e8d12feea5cddaf8aecbb5aa9932ae5aeded3b1433eabce72de1331"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/FormalInspectionResult.swift",
+      "sha256": "ed5928b11c86811e344956c5737c95db45cc105e8069140df3d3d927fa6afe76"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/FormalInspector.swift",
+      "sha256": "168d3c16cebbb95ac996e76f6eedb6f21287835400e962d8bb01f601cae00f6d"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/GeneratedEvidenceCollector.swift",
+      "sha256": "2a994fb7d6a67e280a86dc1db35f657537b8d75bb324dd0bd1d22c4513eafb37"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/InspectionInputFile.swift",
+      "sha256": "d48a5ffc50e20225a3616e85159df25bc6803c3a245502a37a6e486dabe91c9b"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/InspectionSandbox.swift",
+      "sha256": "aa2331a8ecaed9c392044f26441cd5439458559da4d13c9cebd2a46b01ec9894"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/TLAStateDecoder.swift",
+      "sha256": "975b11d0570deac08b381a43986c25bd16b60cd8171b306a2cde9346a98d2592"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/TLCDotRecord.swift",
+      "sha256": "7e1709c3cb5208bbc1f1bceea469cd2fa7ef06331e8b6694a1bfaf42b4d4d750"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/TLCGraphAudit.swift",
+      "sha256": "bf0ba5079cd21c9da5ce4ab3c0e7ebe354b995e53d1ab20419c445b43760525a"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/TLCTraceMessages.swift",
+      "sha256": "12ef740e3f7dc814d9ac05f53e1cac790108b3350c6adb43ff6aacb53eaa0673"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/ToolStructureCollector.swift",
+      "sha256": "7376958db594949d52e272d1c8d98b3ec02178ac62e9b67c147388530d1587ca"
+    },
+    {
+      "path": "Sources/FormalValidation/Inspection/VerificationDeadline.swift",
+      "sha256": "b0e63fb7853a4c3735ccb61bf2ec0404d27c60e9230d6626032690173246084a"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/BoundProperty.swift",
+      "sha256": "119f42309a342e775c4ce5d4c9acc7e983217ede55a27592aceb248b34bca219"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyExecutionBound.swift",
+      "sha256": "907343997968ae1e6427012d2196c4d96f9d9e51100ae38ca18f2480797c2771"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyExpression.swift",
+      "sha256": "05f93a1594dc3811f0421b40d9c81aa576ebbb87f7fd0db1624e83288c52cf63"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyExpressionEvaluation.swift",
+      "sha256": "cb6c3b6f57bf2bedb1bcf3b2d3949ba463df26e870df362f739cbd9b7fb11ae7"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyExpressionParser.swift",
+      "sha256": "a3d89cc9100a18638c7bf84ecaa5609c91555af5c703f277aa7650e25b712929"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyLeanEmitter.swift",
+      "sha256": "5a540d98fecf97e857c43a62c668d2504a1ebd49a9539d2a35f0e6ebeac96048"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyNumberOperation.swift",
+      "sha256": "350afa954af0f1f453def0595c85589e08cbe51bb2909b74a37b4857586ff43a"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyProofHints.swift",
+      "sha256": "53c7e7a5d96cd53f9360e8c1293e1d48c1d9f7feee0afd582b3be528b0ac2034"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyScalar.swift",
+      "sha256": "399b021c19417cd87c0c4c0181df4f10dd59e32ef26348be98070ac9b9e2bd42"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertySpecification.swift",
+      "sha256": "7dc2a1631a26c7a0d8e5521d76b6759b66de300afffd0eb4868bd39173688b17"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyTLAEmitter.swift",
+      "sha256": "816a274e6e5a96503fa339c69b51f9156c8684420126a7bdf95ca28382505b22"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyVerifier.swift",
+      "sha256": "656b31b75e05a0e4c855abe4bb8cb26c3d5052e9c4b8900efa0284eab2c21ac3"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyVerifying.swift",
+      "sha256": "80a2513c4608c2acaff7211fc34e95d1d9894d996afd2787bc0ed27ab75c81fa"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyView.swift",
+      "sha256": "202d7325dd873126f3e988b3fb0f3d21131951649c68f8365b6f67a745562854"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyWitness.swift",
+      "sha256": "dd3109f2591efae7d35347aa657d6e1c4fec765c91ea029ef433385b50937d4c"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/PropertyWitnessSearch.swift",
+      "sha256": "ad65258ca7b0042bd6e56fdcfadcf942614feb219a8e0208b5a243bb2de17ce4"
+    },
+    {
+      "path": "Sources/FormalValidation/Properties/QuantifiedRunRecord.swift",
+      "sha256": "9a159eb16c70f1790ea9f01560f1dc5145c63790efe8548645972e5367d3ad55"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/LocalToolRunner.swift",
+      "sha256": "cc800fded9a4f6843e512a0165cf9334e6461427d579945ce6134ab45b5f7714"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ProcessGroupMonitor.swift",
+      "sha256": "cbbaa1a9c6692dc99a5996f72bdcc5bf78becdce3f86fd27e1c051bbe83ceeb7"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolExecuting.swift",
+      "sha256": "15fc3734e2fd7666491e85622999603a4924d2f9095aca577f27bbe863159d68"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolLaunchJournal.swift",
+      "sha256": "98b6ec98f41a4137a25f740d59405bdba5a9690563ac014ce19d9aa06837e5f6"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolLaunchRecord.swift",
+      "sha256": "769893dfd6cf903579de9d053bdf758edf79490cc747e05d4a32b0d12a4a0c15"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolMeasurements.swift",
+      "sha256": "746f1adca04f0b33c3ac5e8765a0616d9f4bac4b322b94ad6a48a61c75e3b9eb"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolProcessGroupOwnership.swift",
+      "sha256": "8dd0c1b51645cfa4dcf81aba5583d3a1984e0288123298b4bd55dc759d116ef4"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolProcessLimits.swift",
+      "sha256": "68f25c9c11818a488a3fc919621dfb8d4bf24bb7e91983cdabd5cf583e4d5757"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolResourceLimit.swift",
+      "sha256": "0ab75e18752f2133d6ec97ef045ba14fefb456b2f009764b93f944a5539518f4"
+    },
+    {
+      "path": "Sources/FormalValidation/ToolExecution/ToolResult.swift",
+      "sha256": "f9700a656e78e535d487089c27768fc403c1c1b0c00adc96d8c143cff5dbbc74"
+    },
+    {
+      "path": "Sources/FormalValidation/Toolchain/BundledToolchain.swift",
+      "sha256": "80c19f4be14a1f43286a45f9d0a86f26ffa26ce67f39370aafa2c548b84e63b9"
+    },
+    {
+      "path": "Sources/FormalValidation/Toolchain/FileDigest.swift",
+      "sha256": "aeb9041e15e02e68271f0056c0f4c716d3f7cbec96ee571a697fdcd1cd2f83f6"
+    },
+    {
+      "path": "Sources/FormalValidation/Toolchain/PinnedToolchain.swift",
+      "sha256": "393fe3a078858139cb7a797041a35093bace4c142603016f05450d24ec6725fe"
+    },
+    {
+      "path": "Sources/FormalValidation/Toolchain/ToolchainPolicy.swift",
+      "sha256": "6d889c41668ad920387a8e28cfd30c584165ea62b64e0eea3d3427667b1d5bc4"
+    },
+    {
+      "path": "Sources/FormalValidation/Toolchain/ToolchainProviding.swift",
+      "sha256": "7ce36a3ad4b8e5620a7722635cae288a3beafec059d31ada97d75ba8a9c6f87a"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/ArtifactSnapshot.swift",
+      "sha256": "fbe95033df6226f837b32679f1fbfa519fc3d3923ff7993150aa406b499ccdaa"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/FiniteRunRecord.swift",
+      "sha256": "54b39096f43fd2367379911372bf9ef48799672fc750a90a980222eb77a5349b"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/FormalVerificationResult.swift",
+      "sha256": "deeb845a406bf2591c39e67391b6a867f3951fc8b88401c6d32d572b84ee9637"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/LeanProofAudit.swift",
+      "sha256": "5d556275859433d5d1618e0bf0478d251e2177d4f7a4c9f084075db17e0b5a6b"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/ModelVerifier.swift",
+      "sha256": "4c016123d0d13735c0f0f98542885bce8453e26be85cfa4224336a1ed28e31fd"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/ModelVerifying.swift",
+      "sha256": "a6258df4150556c9da164d45b24f1291c79dc1811a3c58b178c8e1cdeed2ae2f"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/SANYOutputAudit.swift",
+      "sha256": "ddabb60facae3da8c228afe590b56dc2bae9eb0ef0c2071151dcc4ec225a6d98"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/ScalarCase.swift",
+      "sha256": "82930b807ff3323123fc6fd908f419256b2a9a259f8db08e060be18f81ab28b3"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/ScalarValueRenderer.swift",
+      "sha256": "2c7442ebb50a5f760e656d70202fd2c6b68ec213b4e2fcaf2005ba7e879528ac"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/ScalarView.swift",
+      "sha256": "b5eeff991a900cdba74d29c4e89e0838984a2bd6d37acab01957f2a1c6efad69"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/VerificationClaimFactory.swift",
+      "sha256": "178d98d047c101b44f3d34e959c2f1b8e1916c770fa825c29e945195f2e15ffa"
+    },
+    {
+      "path": "Sources/FormalValidation/Verification/VerificationScenario.swift",
+      "sha256": "a03d45f6cf67e99b35f5744c8e8978ab180325d9040cb636c3bbfb77d3c03ff5"
+    },
+    {
+      "path": "Sources/formal/Commands/CommandResult.swift",
+      "sha256": "a34aa2ed296a67a7cf9d8cf0c59f4cd404f0addacbefd2262e28ffa6ade6ec07"
+    },
+    {
+      "path": "Sources/formal/Commands/CompilationPolicy.swift",
+      "sha256": "21816a8ab0723e5d3b3215cae70d4ff14088c9110374ebb4b0f39b598d5742b4"
+    },
+    {
+      "path": "Sources/formal/Commands/DoctorReport.swift",
+      "sha256": "f32ef1e558e41ae38896e6016fb89b409412cb818662e2c1dea7d39482b2b6d3"
+    },
+    {
+      "path": "Sources/formal/Commands/DraftTranslation.swift",
+      "sha256": "e2c8cfee4b20c13414ecdd27c06553accb024cb814a9a9c88fa6ac665cd873e0"
+    },
+    {
+      "path": "Sources/formal/Commands/DraftTranslationReport.swift",
+      "sha256": "67609b980b77281463a4bd4d37fef12ee4a12a11020aa794525de6f8a4d3f600"
+    },
+    {
+      "path": "Sources/formal/Commands/FormalCommand.swift",
+      "sha256": "5c77e4e687d0b1ea6de9c72d6e3f4c5fee720033390f5c392b1a6cc8b5b6fcc6"
+    },
+    {
+      "path": "Sources/formal/Distribution/PortableDistribution.swift",
+      "sha256": "802be84dc610e7f333400cd094c962a36ecc9e037c17d64242cab6e0ff4b770a"
+    },
+    {
+      "path": "Sources/formal/Environment/CompilerIdentity.swift",
+      "sha256": "359351b5ac5302e7d9bbeaa7f21b281044432c454e66d4cf5673f9e25df2226e"
+    },
+    {
+      "path": "Sources/formal/Environment/CompilerProbing.swift",
+      "sha256": "0d4a03d895f49a63c5e4713ecb4c318778f182156d78a9a5816f67eb89d76692"
+    },
+    {
+      "path": "Sources/formal/Environment/LocalCompilerProbe.swift",
+      "sha256": "b3f893e90c77af86abfcf72850fbdc1f38c70c3e7e0681acc72a8b517859a000"
+    },
+    {
+      "path": "Sources/formal/FormalEntryPoint.swift",
+      "sha256": "659b7ea44b65ebaaf34ac594e167f69c474a9d8efde412a07df7571733989aad"
+    }
+  ],
+  "reviews": [
+    {
+      "path": "Verification/Project/Reviews/requirements.json",
+      "sha256": "dc5621ae0623b9b5a68e325ec2c98138bc0d3c6aab6c8331ed2c20645bace174"
+    }
+  ],
+  "governingDocuments": [
+    {
+      "path": "DESIGN.md",
+      "sha256": "6243e02d55e80e70c97a351959fa9be26f36a5739dca4be31c0db25e5276bf5b"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "A01",
+      "title": "Fixed-width subtraction",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A02",
+      "title": "Overflow and wrapping",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A03",
+      "title": "Branches and payloads",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A04",
+      "title": "SSA block arguments",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A05",
+      "title": "Loops and recursion",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A06",
+      "title": "Nontermination",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A07",
+      "title": "Memory and inout",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A08",
+      "title": "Direct calls",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A09",
+      "title": "Throw and catch",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A10",
+      "title": "Unresolved external calls",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A11",
+      "title": "Unsupported instructions",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A12",
+      "title": "Actor reentrancy counterexample",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [
+          "reentrant-design"
+        ]
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A13",
+      "title": "Actor isolation correction",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [
+          "atomic-design"
+        ]
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A14",
+      "title": "Async call semantics",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A15",
+      "title": "Executor identity",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A16",
+      "title": "Terminal and deadlock",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A17",
+      "title": "Artificial bounds",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A18",
+      "title": "Module dependency closure",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A19",
+      "title": "Missing debug locations",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A20",
+      "title": "Missing source index",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A21",
+      "title": "Translation tampering",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A22",
+      "title": "Output-expression tampering",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A23",
+      "title": "Admitted or custom axioms",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A24",
+      "title": "Deterministic regeneration",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A25",
+      "title": "Toolchain mismatch",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A26",
+      "title": "Timeout and interruption",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [
+          "interruption-contract"
+        ]
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A27",
+      "title": "Deleted control-flow mutation",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A28",
+      "title": "Shared IR mistranslation",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A29",
+      "title": "Empty or contradictory scenarios",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D01",
+      "title": "Both backends from supported SIL",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D02",
+      "title": "Deterministic generation without inference",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D03",
+      "title": "Complete semantic coverage",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D04",
+      "title": "Explicit unsupported diagnostics",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D05",
+      "title": "Actor fixtures in both backends",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D06",
+      "title": "Automatic source/model correspondence",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D07",
+      "title": "Separate generation and proof outcomes",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D08",
+      "title": "Finite and universal scope distinction",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D09",
+      "title": "Complete provenance",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D10",
+      "title": "Generator and validator mutation suite",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D11",
+      "title": "Reproducible output bytes",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D12",
+      "title": "Dependency ownership boundary",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "path": "Verification/Project/runs/20261121T054059551540Z/specification-receipt.json",
+      "sha256": "0d7e721d03b6bd7a9bf3c2698d9f4f80122cc934d8c7cdb067613c808151eb97"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T054059551540Z/actor-receipt.json",
+      "sha256": "036cb85dfe014a9de6cd494e96674410120a666208aacf9fb3076538cfafecea"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T054059551540Z/source-admission-receipt.json",
+      "sha256": "8a32e41f5bfc290bde9839d043e5b17867518a9a8f8ea73ebbcc40630214a66d"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T054059551540Z/implementation-receipt.json",
+      "sha256": "60475720b2d55494e6cefd826259df6f6f6298fd085115a831c1a2b80b504a81"
+    }
+  ]
+}

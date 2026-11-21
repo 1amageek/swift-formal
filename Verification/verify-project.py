@@ -29,7 +29,7 @@ production = sorted((root / 'Sources').rglob('*.swift'))
 inputs = {path: hashlib.sha256(path.read_bytes()).hexdigest() for path in production}
 inputs[root / 'Documentation/SPEC.md'] = hashlib.sha256((root / 'Documentation/SPEC.md').read_bytes()).hexdigest()
 inputs[root / 'DESIGN.md'] = hashlib.sha256((root / 'DESIGN.md').read_bytes()).hexdigest()
-for relative in ['Tools/run-with-timeout.py', 'Tools/verify-backends.py', 'Tools/integration.py', 'Verification/verify-project.py']:
+for relative in ['Tools/run-with-timeout.py', 'Tools/verify-backends.py', 'Tools/integration.py', 'Verification/verify-project.py', 'Verification/Project/Reviews/requirements.json']:
     path = root / relative
     inputs[path] = hashlib.sha256(path.read_bytes()).hexdigest()
 for subject in ['VerificationOutcome', 'ActorIsolation', 'SourceAdmission']:
@@ -114,7 +114,10 @@ if spec_code == 0:
         raise ValueError('Specification checker did not confirm the expected observations')
     spec_claims.append({'id': 'interruption-contract', 'requirements': ['A26'], 'domain': 'specification.tla.finite', 'outcome': 'passed',
                         'scope': 'Bounded requirements-derived outcome protocol, one invocation and clock 0..2. Both checked-success outcomes are represented by the positive proof outcome. No implementation correspondence is asserted.'})
-spec_receipt = {'schemaVersion': 1, 'command': observations['specification']['command'], 'executed': True, 'exitCode': spec_code,
+for claim in spec_claims:
+    claim.update(method='modelCheck', obligations=[{**reference(specification_root / 'VerificationOutcome.tla'), 'selector': 'InterruptedCannotProve'},
+                                                  {**reference(specification_root / 'VerificationOutcome.lean'), 'selector': 'VerificationOutcome.interruptionIsUnknown'}])
+spec_receipt = {'schemaVersion': 2, 'activity': 'specificationCheck', 'command': observations['specification']['command'], 'executed': True, 'exitCode': spec_code,
                 'inputs': [reference(specification_root / file) for file in ['VerificationOutcome.tla', 'VerificationOutcome.cfg', 'VerificationOutcome.lean']],
                 'outputs': [reference(spec_log)], 'claims': spec_claims}
 (run / 'specification-receipt.json').write_text(json.dumps(spec_receipt, indent=2) + '\n')
@@ -128,20 +131,26 @@ if actor_code == 0:
         {'id': 'atomic-design', 'requirements': ['A13'], 'domain': 'specification.lean.quantified', 'outcome': 'passed',
          'scope': 'Lean proves capacity conservation and no overselling for arbitrary natural capacities and any number of atomic reservations. TLC checks both task orderings for stock one. Atomic non-suspending actor execution is the explicit specification assumption.'},
     ]
-actor_receipt = {'schemaVersion': 1, 'command': observations['actor-specification']['command'], 'executed': True, 'exitCode': actor_code,
+for claim in actor_claims:
+    selector = 'ActorIsolation.reentrantCounterexample' if claim['id'] == 'reentrant-design' else 'ActorIsolation.noOverselling'
+    claim.update(method='modelCheck' if claim['id'] == 'reentrant-design' else 'proof',
+                 obligations=[{**reference(actor_root / 'ActorIsolation.lean'), 'selector': selector}])
+actor_receipt = {'schemaVersion': 2, 'activity': 'specificationCheck', 'command': observations['actor-specification']['command'], 'executed': True, 'exitCode': actor_code,
                  'inputs': [reference(actor_root / file) for file in ['ActorIsolation.tla', 'Correct.cfg', 'Reentrant.cfg', 'ActorIsolation.lean']],
                  'outputs': [reference(actor_log)], 'claims': actor_claims}
 (run / 'actor-receipt.json').write_text(json.dumps(actor_receipt, indent=2) + '\n')
-admission_receipt = {'schemaVersion': 1, 'command': observations['source-admission']['command'], 'executed': True,
+admission_receipt = {'schemaVersion': 2, 'activity': 'specificationCheck', 'command': observations['source-admission']['command'], 'executed': True,
                      'exitCode': admission_code,
                      'inputs': [reference(admission_root / file) for file in ['SourceAdmission.tla', 'SourceAdmission.cfg', 'SourceAdmission.lean', 'verify.py']],
                      'outputs': [reference(admission_log)], 'claims': []}
 (run / 'source-admission-receipt.json').write_text(json.dumps(admission_receipt, indent=2) + '\n')
 unsupported = all(record['outcome'] == 'unsupported' for record in records)
-source_receipt = {'schemaVersion': 1, 'command': ['formal', 'translate', '<all exact production Swift files>'], 'executed': True,
+source_receipt = {'schemaVersion': 2, 'activity': 'modelGeneration', 'command': ['formal', 'translate', '<all exact production Swift files>'], 'executed': True,
                   'exitCode': 3 if unsupported else 6, 'inputs': [reference(path) for path in production], 'outputs': [reference(source_log)],
                   'claims': [{'id': 'production-source-models', 'requirements': ids, 'domain': 'generatedModel.source.profile',
-                              'outcome': 'unsupported' if unsupported else 'unknown', 'scope': str(len(records)) + ' exact production Swift files. Generation alone does not verify an implementation property.'}]}
+                              'outcome': 'unsupported' if unsupported else 'unknown', 'method': 'generation',
+                              'sourceInputs': [reference(path) for path in production], 'modelInputs': [],
+                              'scope': str(len(records)) + ' exact production Swift files. Generation alone does not verify an implementation property.'}]}
 (run / 'implementation-receipt.json').write_text(json.dumps(source_receipt, indent=2) + '\n')
 
 titles = [
@@ -170,7 +179,8 @@ for item, title in zip(inventory, titles):
         'implementation': {'claims': ['production-source-models'], 'reason': generation_detail},
         'correspondence': {'claims': [], 'reason': 'Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition.'}})
     
-manifest = {'schemaVersion': 1, 'title': 'Formal · Whole-project verification', 'inventory': {'source': inventory_reference, 'sections': sections},
+manifest = {'schemaVersion': 2, 'title': 'Formal · Whole-project verification', 'inventory': {'source': inventory_reference, 'sections': sections},
+            'productionInputs': [reference(path) for path in production], 'reviews': [reference(root / 'Verification/Project/Reviews/requirements.json')],
             'governingDocuments': [reference(root / 'DESIGN.md')], 'requirements': requirements,
             'receipts': [reference(run / 'specification-receipt.json'), reference(run / 'actor-receipt.json'), reference(run / 'source-admission-receipt.json'), reference(run / 'implementation-receipt.json')]}
 for path, digest in inputs.items():

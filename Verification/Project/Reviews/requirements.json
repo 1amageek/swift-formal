@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "stage": "requirements",
+  "requirements": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18",
+    "A19",
+    "A20",
+    "A21",
+    "A22",
+    "A23",
+    "A24",
+    "A25",
+    "A26",
+    "A27",
+    "A28",
+    "A29",
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12"
+  ],
+  "decision": "passed",
+  "summary": "Reviewed all 29 acceptance conditions and 12 completion conditions under the package DESIGN authority. SIL semantics, dependency closure, Actor behavior, independent validation and source correspondence remain required; scalar-profile diagnostics or passing regression fixtures do not weaken those requirements. Existing implementation is audited with unsupported and uncovered obligations retained.",
+  "inputs": [
+    {
+      "path": "Documentation/SPEC.md",
+      "sha256": "8540ef723ed78bcf317317f3fcd740a976b3f149059635992f039af3fc3c11f5"
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "6243e02d55e80e70c97a351959fa9be26f36a5739dca4be31c0db25e5276bf5b"
+    }
+  ],
+  "findings": []
+}

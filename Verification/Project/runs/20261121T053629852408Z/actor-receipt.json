@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "activity": "specificationCheck",
+  "command": [
+    "python3",
+    "Verification/Specifications/ActorIsolation/verify.py",
+    "--toolchain",
+    "/Users/1amageek/Desktop/Formal/.tools/project-source-diagnostics-20261121/toolchain"
+  ],
+  "executed": true,
+  "exitCode": 0,
+  "inputs": [
+    {
+      "path": "Verification/Specifications/ActorIsolation/ActorIsolation.tla",
+      "sha256": "ae1f83d9cabcfd124f0629a1d7d373fb9d61d36ad4d4e2521336c46b356b6147"
+    },
+    {
+      "path": "Verification/Specifications/ActorIsolation/Correct.cfg",
+      "sha256": "e488d2eff3c7c127af05921eb6275d67d3da2795407c44034f54b074d5ec886b"
+    },
+    {
+      "path": "Verification/Specifications/ActorIsolation/Reentrant.cfg",
+      "sha256": "9cf5c2e687b22548ba095ce3cda43e66bda0522c0f57919524ea4335338e5b90"
+    },
+    {
+      "path": "Verification/Specifications/ActorIsolation/ActorIsolation.lean",
+      "sha256": "a0a98e9532e6c63443fe185e2a87bcb19fee1d0e9b81626469b01d854836feec"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "Verification/Project/runs/20261121T053629852408Z/actor-specification.log",
+      "sha256": "884867eccb4d24a0127463d1f0ed5a6f8c84e4325497ed7edb4936ec1b22e82f"
+    }
+  ],
+  "claims": [
+    {
+      "id": "reentrant-design",
+      "requirements": [
+        "A12"
+      ],
+      "domain": "specification.tla.finite",
+      "outcome": "passed",
+      "scope": "Two calls, initial stock one. TLC finds the stale-observation trace and Lean checks every transition in the same abstract trace. No SIL correspondence.",
+      "method": "modelCheck",
+      "obligations": [
+        {
+          "path": "Verification/Specifications/ActorIsolation/ActorIsolation.lean",
+          "sha256": "a0a98e9532e6c63443fe185e2a87bcb19fee1d0e9b81626469b01d854836feec",
+          "selector": "ActorIsolation.reentrantCounterexample"
+        }
+      ]
+    },
+    {
+      "id": "atomic-design",
+      "requirements": [
+        "A13"
+      ],
+      "domain": "specification.lean.quantified",
+      "outcome": "passed",
+      "scope": "Lean proves capacity conservation and no overselling for arbitrary natural capacities and any number of atomic reservations. TLC checks both task orderings for stock one. Atomic non-suspending actor execution is the explicit specification assumption.",
+      "method": "proof",
+      "obligations": [
+        {
+          "path": "Verification/Specifications/ActorIsolation/ActorIsolation.lean",
+          "sha256": "a0a98e9532e6c63443fe185e2a87bcb19fee1d0e9b81626469b01d854836feec",
+          "selector": "ActorIsolation.noOverselling"
+        }
+      ]
+    }
+  ]
+}
