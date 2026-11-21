@@ -4,7 +4,7 @@ import FormalCompiler
 import FormalValidation
 
 struct PortableDistribution {
-    static let version = "0.4.0"
+    static let version = "0.1.1"
     var executable: URL {
         get throws {
             guard let url = Bundle.main.executableURL else { throw FormalDiagnostic(.ioFailure, "Cannot locate formal executable") }
@@ -66,7 +66,7 @@ struct PortableDistribution {
         return binary
     }
     private static let readme = """
-    formal 0.4.0 — macOS arm64 portable distribution
+    formal \(version) — macOS arm64 portable distribution
     Run ./formal --help or ./formal install --prefix /your/chosen/prefix.
     This directory includes pinned Java, TLC, Lean and SwiftPM resource bundles.
     Keep these files together. Generation and checking run offline.

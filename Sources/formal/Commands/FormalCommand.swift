@@ -36,7 +36,7 @@ public struct FormalCommand: Sendable {
             return CommandResult(standardOutput: Self.help)
         case "--version":
             guard arguments.count == 1 else { throw invalidArguments() }
-            return CommandResult(standardOutput: "formal 0.4.0\n")
+            return CommandResult(standardOutput: "formal \(PortableDistribution.version)\n")
         case "profiles":
             guard arguments.count == 1 else { throw invalidArguments() }
             return try json(SourceLanguage.allCases.map { ["language": $0.rawValue, "profile": $0.profile, "status": "DRAFT_UNVALIDATED", "assumptions": $0.assumptions.joined(separator: "; ")] })
@@ -172,7 +172,7 @@ public struct FormalCommand: Sendable {
     }
 
     private static let help = """
-    formal 0.4.0
+    formal \(PortableDistribution.version)
     Usage:
       formal package --output <new-directory> [--cache <directory>]
       formal install --prefix <directory> [--cache <directory>]

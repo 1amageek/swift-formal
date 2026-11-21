@@ -62,7 +62,7 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     assert policy['java']['version'] == '21.0.13+9.0.LTS'
     environment['PATH'] = str(moved / 'bin') + os.pathsep + str(poison)
     # PATH invocation exercises executable discovery through the relative installed symlink.
-    assert run('formal', ['--version'], environment).stdout == 'formal 0.4.0\n'
+    assert run('formal', ['--version'], environment).stdout == 'formal 0.1.1\n'
     binary = 'formal'
     source_by_language = {
         'python': 'def calculate(a: int, b: int) -> int:\n    return a + b\n',
@@ -138,7 +138,7 @@ with tempfile.TemporaryDirectory(prefix='formal-distribution-') as temporary:
     tampered = run(binary, ['check', '--artifact', outputs['python'], '--scenario', cases], environment, expected=4)
     assert json.loads(tampered.stderr)['code'] == 'INTEGRITY_MISMATCH'
     # Tamper only a clone-owned file; the input distribution remains intact.
-    jar = moved / 'libexec/formal/0.4.0/toolchain/tla2tools.jar'
+    jar = moved / 'libexec/formal/0.1.1/toolchain/tla2tools.jar'
     with jar.open('r+b') as handle:
         handle.seek(0); handle.write(b'BAD!')
     tool_tamper = run(binary, ['toolchain'], environment, expected=4)

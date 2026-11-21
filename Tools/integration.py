@@ -17,8 +17,8 @@ def run(arguments, expected):
     assert result.returncode == expected, (arguments, result.returncode, result.stdout, result.stderr)
     return result
 
-assert run(['--help'], 0).stdout.startswith('formal 0.4.0\n')
-assert run(['--version'], 0).stdout == 'formal 0.4.0\n'
+assert run(['--help'], 0).stdout.startswith('formal 0.1.1\n')
+assert run(['--version'], 0).stdout == 'formal 0.1.1\n'
 assert 'formal --help' in json.loads(run(['doctor'], 2).stderr)['message']
 report = json.loads(run(['doctor', '--toolchain-lock', str(root / 'toolchain.lock.json')], 0).stdout)
 assert report['compilerIdentityMatches'] and not report['generationSupported']
