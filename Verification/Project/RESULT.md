@@ -1,5 +1,7 @@
 # Formal whole-project verification
 
+The latest complete Agent review cycle, including the unskipped regression checks and all five stage reviews, is recorded in [ReviewedProject/RESULT.md](../ReviewedProject/RESULT.md). Its reviewed projection is Verification/ReviewedProject/Report.json. The earlier checker-only project reports below retain their original scope and histories.
+
 The complete acceptance inventory is Documentation/SPEC.md section 17 (29 acceptance conditions) and section 19 (12 completion conditions), under root DESIGN.md's governing decisions. The original requirements were preserved. The whole-project result is **INCOMPLETE**, with exit code 6. All 41 requirements remain in the report.
 
 | Assessment | Current evidence |

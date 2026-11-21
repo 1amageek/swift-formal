@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/1amageek/Desktop/Formal/.tools/project-source-diagnostics-20261121/formal",
+    "validate",
+    "--out",
+    "<fresh temporary output>"
+  ],
+  "exitCode": 3,
+  "stdout": "",
+  "stderr": "{\n  \"code\" : \"UNSUPPORTED_OPERATION\",\n  \"message\" : \"validate is not implemented in this bootstrap package; no artifacts or verification results were produced.\"\n}\n",
+  "artifactProduced": false,
+  "meaning": "Strict validation is unavailable. Existing generated-model audits and fixture decoder checks do not validate production-source semantics."
+}

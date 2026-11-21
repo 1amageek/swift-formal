@@ -4232,8 +4232,8 @@
           ],
           "activity": "specificationCheck",
           "receipt": {
-            "path": "Verification/Project/runs/20261121T054607612028Z/specification-receipt.json",
-            "sha256": "efef497a0821fdffa94e6e4dfaf7e155a5a2c34f7cb04b2971bba73ac534118e"
+            "path": "Verification/Project/runs/20261121T055655636963Z/specification-receipt.json",
+            "sha256": "b5559fcd466d9a3a18dde0da8cb34b465066f9b912592fbb2ebd9ed7833a5215"
           }
         },
         {
@@ -4254,8 +4254,8 @@
           ],
           "activity": "specificationCheck",
           "receipt": {
-            "path": "Verification/Project/runs/20261121T054607612028Z/actor-receipt.json",
-            "sha256": "6a64ddb0396fa4e9c1546928fb9e15fa931bd787b499c02f5b09f79f77b64869"
+            "path": "Verification/Project/runs/20261121T055655636963Z/actor-receipt.json",
+            "sha256": "4b85871ae73c569971c7411457f7e3e4288d70f0a83377fe0afffd3916654e54"
           }
         },
         {
@@ -4276,8 +4276,8 @@
           ],
           "activity": "specificationCheck",
           "receipt": {
-            "path": "Verification/Project/runs/20261121T054607612028Z/actor-receipt.json",
-            "sha256": "6a64ddb0396fa4e9c1546928fb9e15fa931bd787b499c02f5b09f79f77b64869"
+            "path": "Verification/Project/runs/20261121T055655636963Z/actor-receipt.json",
+            "sha256": "4b85871ae73c569971c7411457f7e3e4288d70f0a83377fe0afffd3916654e54"
           }
         },
         {
@@ -5062,27 +5062,27 @@
           "scope": "182 exact production Swift files. Generation alone does not verify an implementation property.",
           "activity": "modelGeneration",
           "receipt": {
-            "path": "Verification/Project/runs/20261121T054607612028Z/implementation-receipt.json",
-            "sha256": "9b6100a551e364c0bc563f5f56d14a3eb4ca1032ff84498a4384dfe0dec0f2f3"
+            "path": "Verification/Project/runs/20261121T055655636963Z/implementation-receipt.json",
+            "sha256": "e65748756d0377f425ccf6e6815e6b78e094788c812f16663e11d10c52e9e086"
           }
         }
       ],
       "receipts": [
         {
-          "path": "Verification/Project/runs/20261121T054607612028Z/specification-receipt.json",
-          "sha256": "efef497a0821fdffa94e6e4dfaf7e155a5a2c34f7cb04b2971bba73ac534118e"
+          "path": "Verification/Project/runs/20261121T055655636963Z/specification-receipt.json",
+          "sha256": "b5559fcd466d9a3a18dde0da8cb34b465066f9b912592fbb2ebd9ed7833a5215"
         },
         {
-          "path": "Verification/Project/runs/20261121T054607612028Z/actor-receipt.json",
-          "sha256": "6a64ddb0396fa4e9c1546928fb9e15fa931bd787b499c02f5b09f79f77b64869"
+          "path": "Verification/Project/runs/20261121T055655636963Z/actor-receipt.json",
+          "sha256": "4b85871ae73c569971c7411457f7e3e4288d70f0a83377fe0afffd3916654e54"
         },
         {
-          "path": "Verification/Project/runs/20261121T054607612028Z/source-admission-receipt.json",
-          "sha256": "ad46d82b5ca704c1a4a847840b3c6820ccb9e0c5286276a36c2af52d85775c41"
+          "path": "Verification/Project/runs/20261121T055655636963Z/source-admission-receipt.json",
+          "sha256": "cde629bf9c5f012083b023543c1c013ed2cd1d0e6655f7ad7ce46cf9052a595d"
         },
         {
-          "path": "Verification/Project/runs/20261121T054607612028Z/implementation-receipt.json",
-          "sha256": "9b6100a551e364c0bc563f5f56d14a3eb4ca1032ff84498a4384dfe0dec0f2f3"
+          "path": "Verification/Project/runs/20261121T055655636963Z/implementation-receipt.json",
+          "sha256": "e65748756d0377f425ccf6e6815e6b78e094788c812f16663e11d10c52e9e086"
         }
       ],
       "outcome": "incomplete",

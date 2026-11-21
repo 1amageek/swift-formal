@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "stage": "specification",
+  "requirements": [
+    "A12",
+    "A13",
+    "A26"
+  ],
+  "decision": "passed",
+  "summary": "Reviewed the independent outcome protocol and actor specification, actual exhaustive/negative controls and Lean axiom audits. These three scoped specification observations preserve their finite/quantified assumptions; they establish no production or SIL correspondence.",
+  "inputs": [
+    {
+      "path": "Documentation/SPEC.md",
+      "sha256": "8540ef723ed78bcf317317f3fcd740a976b3f149059635992f039af3fc3c11f5"
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "6243e02d55e80e70c97a351959fa9be26f36a5739dca4be31c0db25e5276bf5b"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/specification-receipt.json",
+      "sha256": "b5559fcd466d9a3a18dde0da8cb34b465066f9b912592fbb2ebd9ed7833a5215"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/actor-receipt.json",
+      "sha256": "4b85871ae73c569971c7411457f7e3e4288d70f0a83377fe0afffd3916654e54"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/source-admission-receipt.json",
+      "sha256": "cde629bf9c5f012083b023543c1c013ed2cd1d0e6655f7ad7ce46cf9052a595d"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/implementation-receipt.json",
+      "sha256": "e65748756d0377f425ccf6e6815e6b78e094788c812f16663e11d10c52e9e086"
+    },
+    {
+      "path": "Verification/Project/ReviewSessions/20261121T055655636963Z/unit-receipt.json",
+      "sha256": "bc7e53c88967c7f3065ea11865944c2efa04b4f3510667b71f8b9efda315c606"
+    },
+    {
+      "path": "Verification/Project/ReviewSessions/20261121T055655636963Z/backends-receipt.json",
+      "sha256": "37786b6d2ffe197336e0987c4e06f96676d3c6c560d159d9b6bf3f02c71f21c7"
+    },
+    {
+      "path": "Verification/Project/ReviewSessions/20261121T055655636963Z/cli-receipt.json",
+      "sha256": "dd2d7d05f7bc3cdf26faa9566142024263a67afee76d239f0753c7a4153660be"
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "scope": "Actual Formal full checks followed by Agent reviews and reviewed evidence publication; not full project correctness",
+  "checkerRun": "Verification/Project/runs/20261121T055655636963Z",
+  "reviewManifest": "Verification/Project/ReviewSessions/20261121T055655636963Z/manifest.json",
+  "mcp": {
+    "planInfo": {
+      "budget": {
+        "maximumCPUSeconds": 120,
+        "maximumOutputBytes": 8388608,
+        "maximumProcesses": 8,
+        "maximumWorkers": 2,
+        "maximumWorkspaceBytes": 536870912,
+        "memoryMiB": 4096,
+        "runTimeoutSeconds": 300,
+        "timeoutSeconds": 120
+      },
+      "capturedScopeDigest": "03611d4d2dcf9ddc32937ac01f7c8e3f794af02d228dd8c20c3501e0cb6eb542",
+      "configurationDigest": "53957ad262927ec98d1d76cded4dfcea714f9d5ca68a8aac2728124f428a62c2",
+      "diagnostics": [],
+      "id": "ad190a97b62840c4b40861ff359a3ba63fe1e4d6cb76205f15d1e42fd9da8b22",
+      "input": {
+        "byteCount": 1493229,
+        "contextDigest": "bcac768e89c2d39abe7df9a7b44ea85042d9be525e9959b0d8f6ee11954d6a1f",
+        "dependencyStatus": "unknown",
+        "entityCount": 1,
+        "factCount": 0,
+        "fileCount": 299,
+        "graphClosureComplete": false,
+        "graphDigest": "a2e3de06a679b027450e83cfab0319ba2f70630ed033f7b3e8ec29ab7f86de4e",
+        "id": "3e8aae4163b3d2f10b7fa944d16f7335fedeef9a1eccb4fab8ebba276a372f3d",
+        "manifestDigest": "3e8aae4163b3d2f10b7fa944d16f7335fedeef9a1eccb4fab8ebba276a372f3d",
+        "semanticDigest": "b8e5f6f4a0bc0d68521fc646d9b643bee23781b458e5903b8bb048f9984a60e2",
+        "snapshotID": "03C115B4-30C6-4BB9-9D1F-5A5A6B90EE70",
+        "sourceIdentity": "2464f38327be525235f1a1c1eda14679302dcff3fa0e235c1c6a9976a432896a",
+        "workspaceID": "ae-054298adc30c987082e94429c341f27e634bb4dfe6d51c8fd81571e8d644e1a2"
+      },
+      "jobIDs": [
+        "project"
+      ]
+    },
+    "operation": {
+      "envelopeID": "7CE1217F-4915-4DDC-9E81-761738F03D12",
+      "executionIDs": [
+        "CC072C7E-1E5C-4CF1-A141-888AF53A406F"
+      ],
+      "id": "323f8ce5180b2d1d31304371e39f2787a65a7b2edc15382eae9cc1ebe1d302e5",
+      "origin": "internal",
+      "planID": "ad190a97b62840c4b40861ff359a3ba63fe1e4d6cb76205f15d1e42fd9da8b22",
+      "principal": "F17A485E-371D-4614-B60B-AFB2D478C97E",
+      "request": {
+        "verify": {
+          "node": {
+            "entityID": "ae-237294c027c2a960dc8a5122c3bbd305ad56873285e384650ed7bae798aebfde",
+            "snapshotID": "03C115B4-30C6-4BB9-9D1F-5A5A6B90EE70"
+          },
+          "planID": "ad190a97b62840c4b40861ff359a3ba63fe1e4d6cb76205f15d1e42fd9da8b22"
+        }
+      },
+      "resultID": "28E01F0D-4E3D-4F6B-8029-8394022A01DB",
+      "revision": 4,
+      "sourceRevision": 6,
+      "state": "completed",
+      "view": {
+        "daemonEpoch": "F6780170-25E7-4B7E-8B2F-AC8FE3FEA061",
+        "id": "0f2658d9f315346564bc21eabca255543b256c316e7688a61ba97abcf960b912",
+        "inputID": "3e8aae4163b3d2f10b7fa944d16f7335fedeef9a1eccb4fab8ebba276a372f3d",
+        "sequence": 8,
+        "sha256": "0f2658d9f315346564bc21eabca255543b256c316e7688a61ba97abcf960b912",
+        "workspaceID": "ae-054298adc30c987082e94429c341f27e634bb4dfe6d51c8fd81571e8d644e1a2"
+      }
+    },
+    "report": {
+      "acceptedAtCompletion": false,
+      "attempts": [
+        {
+          "adequacy": "unknown",
+          "applicability": "matchesInputs",
+          "artifactIDs": [
+            "9de2eb09f32191b9a3e2bcf96b2d6d638691c1abd640fd527599ac2f8375c38e",
+            "b5a9f9f9a085d1bc9ef7b69098ed6f73296a9145bc639ea44b2bbfa017a7c661"
+          ],
+          "domain": "projectContract",
+          "evidenceID": "27e77bae5fca4e51c24aa49c65c3a4e7de07eca8d4473b12080fe3fcd3402168",
+          "execution": "completed",
+          "executionID": "CC072C7E-1E5C-4CF1-A141-888AF53A406F",
+          "finishedAt": "2026-11-21T06:00:54Z",
+          "inputID": "3e8aae4163b3d2f10b7fa944d16f7335fedeef9a1eccb4fab8ebba276a372f3d",
+          "jobID": "project",
+          "outcome": "unknown",
+          "resources": {
+            "cpuSeconds": 0.292837
+          },
+          "scopeDigest": "d57349729bd035528a3c23d3f6164292d3df519fdf90a202089390eb64bed2b4",
+          "startedAt": "2026-11-21T06:00:53Z",
+          "translation": "notApplicable"
+        }
+      ],
+      "diagnosticCount": 0,
+      "historical": true,
+      "planID": "ad190a97b62840c4b40861ff359a3ba63fe1e4d6cb76205f15d1e42fd9da8b22",
+      "runID": "28E01F0D-4E3D-4F6B-8029-8394022A01DB"
+    },
+    "publication": {
+      "completion": "complete",
+      "generation": 7,
+      "id": "323f8ce5180b2d1d31304371e39f2787a65a7b2edc15382eae9cc1ebe1d302e5",
+      "payloadDigest": "7787122af699047a7d86284e53a16da9be05b25b99cdd3311b94a816fff4bcae",
+      "revision": 4,
+      "state": "committed",
+      "view": {
+        "daemonEpoch": "F6780170-25E7-4B7E-8B2F-AC8FE3FEA061",
+        "id": "0f2658d9f315346564bc21eabca255543b256c316e7688a61ba97abcf960b912",
+        "inputID": "3e8aae4163b3d2f10b7fa944d16f7335fedeef9a1eccb4fab8ebba276a372f3d",
+        "sequence": 8,
+        "sha256": "0f2658d9f315346564bc21eabca255543b256c316e7688a61ba97abcf960b912",
+        "workspaceID": "ae-054298adc30c987082e94429c341f27e634bb4dfe6d51c8fd81571e8d644e1a2"
+      }
+    },
+    "elapsedSeconds": 30.34
+  },
+  "negativeControl": {
+    "changedReceiptRejected": true,
+    "priorReportPreserved": true
+  }
+}

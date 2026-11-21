@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "stage": "specification",
+  "requirements": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18",
+    "A19",
+    "A20",
+    "A21",
+    "A22",
+    "A23",
+    "A24",
+    "A25",
+    "A27",
+    "A28",
+    "A29",
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12"
+  ],
+  "decision": "incomplete",
+  "summary": "Reviewed every other acceptance obligation. No complete independently checked requirements-derived model is retained for these 38 conditions. Passing implementation fixtures cannot substitute for these missing specification obligations.",
+  "inputs": [
+    {
+      "path": "Documentation/SPEC.md",
+      "sha256": "8540ef723ed78bcf317317f3fcd740a976b3f149059635992f039af3fc3c11f5"
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "6243e02d55e80e70c97a351959fa9be26f36a5739dca4be31c0db25e5276bf5b"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/specification-receipt.json",
+      "sha256": "b5559fcd466d9a3a18dde0da8cb34b465066f9b912592fbb2ebd9ed7833a5215"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/actor-receipt.json",
+      "sha256": "4b85871ae73c569971c7411457f7e3e4288d70f0a83377fe0afffd3916654e54"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/source-admission-receipt.json",
+      "sha256": "cde629bf9c5f012083b023543c1c013ed2cd1d0e6655f7ad7ce46cf9052a595d"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T055655636963Z/implementation-receipt.json",
+      "sha256": "e65748756d0377f425ccf6e6815e6b78e094788c812f16663e11d10c52e9e086"
+    },
+    {
+      "path": "Verification/Project/ReviewSessions/20261121T055655636963Z/unit-receipt.json",
+      "sha256": "bc7e53c88967c7f3065ea11865944c2efa04b4f3510667b71f8b9efda315c606"
+    },
+    {
+      "path": "Verification/Project/ReviewSessions/20261121T055655636963Z/backends-receipt.json",
+      "sha256": "37786b6d2ffe197336e0987c4e06f96676d3c6c560d159d9b6bf3f02c71f21c7"
+    },
+    {
+      "path": "Verification/Project/ReviewSessions/20261121T055655636963Z/cli-receipt.json",
+      "sha256": "dd2d7d05f7bc3cdf26faa9566142024263a67afee76d239f0753c7a4153660be"
+    }
+  ],
+  "findings": [
+    {
+      "requirementID": "A01",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A02",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A03",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A04",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A05",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A06",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A07",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A08",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A09",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A10",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A11",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A14",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A15",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A16",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A17",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A18",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A19",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A20",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A21",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A22",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A23",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A24",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A25",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A27",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A28",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "A29",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D01",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D02",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D03",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D04",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D05",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D06",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D07",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D08",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D09",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D10",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D11",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    },
+    {
+      "requirementID": "D12",
+      "returnTo": "specification",
+      "reason": "An independently reviewed requirements-derived model/check for this original condition is absent."
+    }
+  ]
+}
