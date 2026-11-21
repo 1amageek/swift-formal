@@ -1,0 +1,4 @@
+'SourceAdmission.unsupportedIsDistinct' does not depend on any axioms
+'SourceAdmission.malformedIsDistinct' does not depend on any axioms
+'SourceAdmission.rejectedCannotCommit' depends on axioms: [propext]
+'SourceAdmission.successfulGenerationIsDraft' depends on axioms: [propext]

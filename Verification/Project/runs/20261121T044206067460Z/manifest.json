@@ -1,0 +1,829 @@
+{
+  "schemaVersion": 1,
+  "title": "Formal \u00b7 Whole-project verification",
+  "inventory": {
+    "source": {
+      "path": "Documentation/SPEC.md",
+      "sha256": "8540ef723ed78bcf317317f3fcd740a976b3f149059635992f039af3fc3c11f5"
+    },
+    "sections": [
+      {
+        "heading": "## 17. \u53d7\u3051\u5165\u308c\u30c6\u30b9\u30c8",
+        "kind": "table"
+      },
+      {
+        "heading": "## 19. Definition of Done",
+        "kind": "bullets",
+        "prefix": "D"
+      }
+    ]
+  },
+  "governingDocuments": [
+    {
+      "path": "DESIGN.md",
+      "sha256": "6243e02d55e80e70c97a351959fa9be26f36a5739dca4be31c0db25e5276bf5b"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "A01",
+      "title": "Fixed-width subtraction",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A02",
+      "title": "Overflow and wrapping",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A03",
+      "title": "Branches and payloads",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A04",
+      "title": "SSA block arguments",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A05",
+      "title": "Loops and recursion",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A06",
+      "title": "Nontermination",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A07",
+      "title": "Memory and inout",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A08",
+      "title": "Direct calls",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A09",
+      "title": "Throw and catch",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A10",
+      "title": "Unresolved external calls",
+      "group": "Core execution",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A11",
+      "title": "Unsupported instructions",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A12",
+      "title": "Actor reentrancy counterexample",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [
+          "reentrant-design"
+        ]
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A13",
+      "title": "Actor isolation correction",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [
+          "atomic-design"
+        ]
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A14",
+      "title": "Async call semantics",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A15",
+      "title": "Executor identity",
+      "group": "Actor and concurrency",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A16",
+      "title": "Terminal and deadlock",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A17",
+      "title": "Artificial bounds",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A18",
+      "title": "Module dependency closure",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A19",
+      "title": "Missing debug locations",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A20",
+      "title": "Missing source index",
+      "group": "Input and execution boundaries",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A21",
+      "title": "Translation tampering",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A22",
+      "title": "Output-expression tampering",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A23",
+      "title": "Admitted or custom axioms",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A24",
+      "title": "Deterministic regeneration",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A25",
+      "title": "Toolchain mismatch",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A26",
+      "title": "Timeout and interruption",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [
+          "interruption-contract"
+        ]
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A27",
+      "title": "Deleted control-flow mutation",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A28",
+      "title": "Shared IR mistranslation",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "A29",
+      "title": "Empty or contradictory scenarios",
+      "group": "Trust and validation",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D01",
+      "title": "Both backends from supported SIL",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D02",
+      "title": "Deterministic generation without inference",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D03",
+      "title": "Complete semantic coverage",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D04",
+      "title": "Explicit unsupported diagnostics",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D05",
+      "title": "Actor fixtures in both backends",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D06",
+      "title": "Automatic source/model correspondence",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D07",
+      "title": "Separate generation and proof outcomes",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D08",
+      "title": "Finite and universal scope distinction",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D09",
+      "title": "Complete provenance",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D10",
+      "title": "Generator and validator mutation suite",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D11",
+      "title": "Reproducible output bytes",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    },
+    {
+      "id": "D12",
+      "title": "Dependency ownership boundary",
+      "group": "Product completion",
+      "specification": {
+        "claims": [],
+        "reason": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+      },
+      "implementation": {
+        "claims": [
+          "production-source-models"
+        ],
+        "reason": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
+      },
+      "correspondence": {
+        "claims": [],
+        "reason": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "path": "Verification/Project/runs/20261121T044206067460Z/specification-receipt.json",
+      "sha256": "40fc1c424915965ac8aaabc385d6bb24ddf0aab1590d553203196e77da641a03"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T044206067460Z/actor-receipt.json",
+      "sha256": "4f12295922efc800c91a15842aab069d98356570269bbcde1ecb8c1bedc36a5b"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T044206067460Z/source-admission-receipt.json",
+      "sha256": "bdfb19707a9f0f6bf8e695a4b46a6800158efab24e3614150a22f006940bca04"
+    },
+    {
+      "path": "Verification/Project/runs/20261121T044206067460Z/implementation-receipt.json",
+      "sha256": "2b1ccdf9c6b2518e3878c0ff20527898647eec339dbcc7e02becf641e9810409"
+    }
+  ]
+}

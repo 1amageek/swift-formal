@@ -2,6 +2,7 @@
 """Execute both verification paths and publish a complete acceptance assessment."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 import importlib.util
@@ -31,6 +32,10 @@ inputs[root / 'DESIGN.md'] = hashlib.sha256((root / 'DESIGN.md').read_bytes()).h
 for relative in ['Tools/run-with-timeout.py', 'Tools/verify-backends.py', 'Tools/integration.py', 'Verification/verify-project.py']:
     path = root / relative
     inputs[path] = hashlib.sha256(path.read_bytes()).hexdigest()
+for subject in ['VerificationOutcome', 'ActorIsolation', 'SourceAdmission']:
+    for path in (root / 'Verification/Specifications' / subject).iterdir():
+        if path.suffix in {'.tla', '.cfg', '.lean', '.py'}:
+            inputs[path] = hashlib.sha256(path.read_bytes()).hexdigest()
 tool_identity = {'formal': hashlib.sha256(formal.read_bytes()).hexdigest(), 'reportBuilder': hashlib.sha256(builder.read_bytes()).hexdigest()}
 
 
@@ -53,6 +58,11 @@ observations['specification'] = {'command': ['python3', 'Verification/Specificat
 actor_root = root / 'Verification/Specifications/ActorIsolation'
 actor_code, actor_log = execute('actor-specification', ['python3', actor_root / 'verify.py', '--toolchain', formal.parent / 'toolchain'], 120)
 observations['actor-specification'] = {'command': ['python3', 'Verification/Specifications/ActorIsolation/verify.py', '--toolchain', str(formal.parent / 'toolchain')], 'exitCode': actor_code, 'log': reference(actor_log)}
+admission_root = root / 'Verification/Specifications/SourceAdmission'
+admission_code, admission_log = execute('source-admission', ['python3', admission_root / 'verify.py', '--toolchain', formal.parent / 'toolchain'], 120)
+observations['source-admission'] = {'command': ['python3', 'Verification/Specifications/SourceAdmission/verify.py', '--toolchain', str(formal.parent / 'toolchain')], 'exitCode': admission_code, 'log': reference(admission_log)}
+if admission_code != 0:
+    raise ValueError('The source-admission contract did not pass; no project assessment was published')
 
 commands = {
     'unit': (['swift', 'test', '--disable-xctest'], 120),
@@ -83,6 +93,7 @@ def model(path):
 
 with ThreadPoolExecutor(max_workers=4) as workers:
     records = list(workers.map(model, production))
+generation_counts = Counter(record['outcome'] for record in records)
 if {record['path'] for record in records} != {str(path.relative_to(root)) for path in production}:
     raise ValueError('Production-source inventory is incomplete')
 for record in records:
@@ -121,6 +132,11 @@ actor_receipt = {'schemaVersion': 1, 'command': observations['actor-specificatio
                  'inputs': [reference(actor_root / file) for file in ['ActorIsolation.tla', 'Correct.cfg', 'Reentrant.cfg', 'ActorIsolation.lean']],
                  'outputs': [reference(actor_log)], 'claims': actor_claims}
 (run / 'actor-receipt.json').write_text(json.dumps(actor_receipt, indent=2) + '\n')
+admission_receipt = {'schemaVersion': 1, 'command': observations['source-admission']['command'], 'executed': True,
+                     'exitCode': admission_code,
+                     'inputs': [reference(admission_root / file) for file in ['SourceAdmission.tla', 'SourceAdmission.cfg', 'SourceAdmission.lean', 'verify.py']],
+                     'outputs': [reference(admission_log)], 'claims': []}
+(run / 'source-admission-receipt.json').write_text(json.dumps(admission_receipt, indent=2) + '\n')
 unsupported = all(record['outcome'] == 'unsupported' for record in records)
 source_receipt = {'schemaVersion': 1, 'command': ['formal', 'translate', '<all exact production Swift files>'], 'executed': True,
                   'exitCode': 3 if unsupported else 6, 'inputs': [reference(path) for path in production], 'outputs': [reference(source_log)],
@@ -141,6 +157,9 @@ titles = [
 ]
 assert len(titles) == len(inventory) == 41
 requirements = []
+generation_detail = (str(sum(record.get('exitCode') == 0 for record in records)) + ' production models generated; '
+                     + ', '.join(str(count) + ' ' + outcome for outcome, count in sorted(generation_counts.items()))
+                     + '. No production property or validated source correspondence is established by generation.')
 for item, title in zip(inventory, titles):
     identity = item['id']
     claims = ['interruption-contract'] if identity == 'A26' and spec_claims else ['reentrant-design'] if identity == 'A12' and actor_claims else ['atomic-design'] if identity == 'A13' and actor_claims else []
@@ -148,12 +167,12 @@ for item, title in zip(inventory, titles):
     group = 'Product completion' if identity.startswith('D') else 'Core execution' if number <= 10 else 'Actor and concurrency' if 12 <= number <= 15 else 'Trust and validation' if number >= 21 else 'Input and execution boundaries'
     requirements.append({'id': identity, 'title': title, 'group': group,
         'specification': {'claims': claims} if claims else {'claims': [], 'reason': 'No complete independently checked requirements-derived model is retained for this acceptance condition.'},
-        'implementation': {'claims': ['production-source-models'], 'reason': 'The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately.'},
+        'implementation': {'claims': ['production-source-models'], 'reason': generation_detail},
         'correspondence': {'claims': [], 'reason': 'Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition.'}})
     
 manifest = {'schemaVersion': 1, 'title': 'Formal · Whole-project verification', 'inventory': {'source': inventory_reference, 'sections': sections},
             'governingDocuments': [reference(root / 'DESIGN.md')], 'requirements': requirements,
-            'receipts': [reference(run / 'specification-receipt.json'), reference(run / 'actor-receipt.json'), reference(run / 'implementation-receipt.json')]}
+            'receipts': [reference(run / 'specification-receipt.json'), reference(run / 'actor-receipt.json'), reference(run / 'source-admission-receipt.json'), reference(run / 'implementation-receipt.json')]}
 for path, digest in inputs.items():
     if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
         raise ValueError('Verification input changed during execution: ' + str(path))
@@ -168,5 +187,5 @@ with temporary.open('x') as file:
     file.write(json.dumps(result, indent=2) + '\n')
 temporary.replace(current)
 print(json.dumps({'run': str(run.relative_to(root)), 'requirements': len(inventory), 'productionFiles': len(records),
-                  'productionModelsGenerated': sum(record.get('exitCode') == 0 for record in records), 'overall': result['metadata']['verificationReport']['outcome'], 'manifest': str((run / 'manifest.json').relative_to(root)), 'report': str(current.relative_to(root))}))
+                  'productionModelsGenerated': sum(record.get('exitCode') == 0 for record in records), 'productionOutcomes': dict(generation_counts), 'overall': result['metadata']['verificationReport']['outcome'], 'manifest': str((run / 'manifest.json').relative_to(root)), 'report': str(current.relative_to(root))}))
 raise SystemExit({'passed': 0, 'failed': 5, 'incomplete': 6}[result['metadata']['verificationReport']['outcome']])

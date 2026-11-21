@@ -3,6 +3,52 @@ import Foundation
 import Testing
 
 struct CommandTests {
+    @Test(.timeLimit(.minutes(1)), arguments: [
+        "func optional(_ value: Int64?) -> Bool { value != nil }",
+        "func text() -> String { \"name\" }",
+        "func wrapping(_ value: Int64) -> Int64 { value &+ 1 }",
+        "func bits(_ value: Int64) -> Int64 { value | 1 }",
+        "func shifted(_ value: Int64) -> Int64 { value << 1 }",
+        "func escaped() -> String { #\"raw\"# }",
+        "func file() -> String { #fileID }",
+        "func unicode(_ café: Int64) -> Int64 { café }",
+        "func escapedName(_ `default`: Int64) -> Int64 { `default` }",
+        "func closure(_ body: () -> Bool) -> Bool { body() }"
+    ])
+    func swiftProfileGapsAreNotSyntaxFailures(_ source: String) async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory,withIntermediateDirectories: false)
+        defer { do { try FileManager.default.removeItem(at: directory) } catch { Issue.record(error) } }
+        let file = directory.appendingPathComponent("Input.swift"), output = directory.appendingPathComponent("artifact")
+        try Data(source.utf8).write(to: file)
+        let result = await FormalCommand().run(arguments: ["translate","--language","swift","--source",file.path,"--output",output.path,"--draft-unvalidated"])
+        #expect(result.exitCode == 3)
+        #expect(result.standardOutput.isEmpty)
+        #expect(result.standardError.contains("UNSUPPORTED_SOURCE_PROFILE"))
+        #expect(result.standardError.contains("swift:1:"))
+        #expect(!FileManager.default.fileExists(atPath: output.path))
+        #expect(try FileManager.default.contentsOfDirectory(atPath: directory.path) == ["Input.swift"])
+    }
+
+    @Test(.timeLimit(.minutes(1)), arguments: [
+        "func broken(_ value: Int64) -> Int64 { return value + }",
+        "func broken(_ value: Int64) -> Int64 { return value",
+        "func broken(_ value: ) -> Int64 { return 0 }",
+        "func broken(_ value: return) -> Int64 { return 0 }",
+        "func broken(_ value: Int64) -> Int64 { /* unfinished"
+    ])
+    func malformedScalarSyntaxStillFailsParsing(_ source: String) async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory,withIntermediateDirectories: false)
+        defer { do { try FileManager.default.removeItem(at: directory) } catch { Issue.record(error) } }
+        let file = directory.appendingPathComponent("Invalid.swift"), output = directory.appendingPathComponent("artifact")
+        try Data(source.utf8).write(to: file)
+        let result = await FormalCommand().run(arguments: ["translate","--language","swift","--source",file.path,"--output",output.path,"--draft-unvalidated"])
+        #expect(result.exitCode == 4)
+        #expect(result.standardError.contains("SOURCE_PARSE_FAILED"))
+        #expect(!FileManager.default.fileExists(atPath: output.path))
+    }
+
     @Test(.timeLimit(.minutes(1))) func swiftArrayIsDiagnosedAsOutsideScalarProfile() async throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory,withIntermediateDirectories: false)

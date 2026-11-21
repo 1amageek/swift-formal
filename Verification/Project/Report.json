@@ -16,18 +16,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -44,18 +44,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -72,18 +72,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -100,18 +100,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -128,18 +128,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -156,18 +156,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -184,18 +184,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -212,18 +212,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -240,18 +240,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -268,18 +268,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-aead081c693d46bf"
     },
@@ -296,18 +296,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-8dd5b3cbe1093449"
     },
@@ -326,18 +326,18 @@
           "detail": ""
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-677b75783e1994a7"
     },
@@ -356,18 +356,18 @@
           "detail": ""
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-677b75783e1994a7"
     },
@@ -384,18 +384,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-677b75783e1994a7"
     },
@@ -412,18 +412,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-677b75783e1994a7"
     },
@@ -440,18 +440,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-8dd5b3cbe1093449"
     },
@@ -468,18 +468,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-8dd5b3cbe1093449"
     },
@@ -496,18 +496,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-8dd5b3cbe1093449"
     },
@@ -524,18 +524,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-8dd5b3cbe1093449"
     },
@@ -552,18 +552,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-8dd5b3cbe1093449"
     },
@@ -580,18 +580,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -608,18 +608,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -636,18 +636,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -664,18 +664,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -692,18 +692,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -722,18 +722,18 @@
           "detail": ""
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -750,18 +750,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -778,18 +778,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -806,18 +806,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-210427baf3471a15"
     },
@@ -834,18 +834,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -862,18 +862,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -890,18 +890,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -918,18 +918,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -946,18 +946,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -974,18 +974,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1002,18 +1002,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1030,18 +1030,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1058,18 +1058,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1086,18 +1086,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1114,18 +1114,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1142,18 +1142,18 @@
           "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
         },
         "implementation": {
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "claims": [
             "production-source-models"
           ],
-          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
         },
         "correspondence": {
           "outcome": "notVerified",
           "claims": [],
           "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
         },
-        "overall": "unknown"
+        "overall": "unsupported"
       },
       "parentID": "group-562c3de92799e545"
     },
@@ -1384,291 +1384,291 @@
       "details": {
         "outcomes": {
           "A01": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A02": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A03": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A04": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A05": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A06": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A07": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A08": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A09": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A10": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A11": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A12": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A13": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A14": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A15": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A16": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A17": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A18": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A19": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A20": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A21": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A22": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A23": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A24": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A25": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A26": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A27": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A28": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "A29": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D01": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D02": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D03": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D04": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D05": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D06": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D07": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D08": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D09": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D10": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D11": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "D12": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           }
         }
       }
@@ -1904,11 +1904,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -1926,11 +1926,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -1948,11 +1948,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -1970,11 +1970,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -1992,11 +1992,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2014,11 +2014,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2036,11 +2036,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2058,11 +2058,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2080,11 +2080,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2102,11 +2102,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2134,11 +2134,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2156,11 +2156,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2178,11 +2178,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2200,11 +2200,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2222,11 +2222,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2244,11 +2244,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2278,11 +2278,11 @@
               "detail": ""
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2302,11 +2302,11 @@
               "detail": ""
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2324,11 +2324,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2346,11 +2346,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2378,11 +2378,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2400,11 +2400,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2422,11 +2422,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2444,11 +2444,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2466,11 +2466,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2490,11 +2490,11 @@
               "detail": ""
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2512,11 +2512,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2534,11 +2534,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2556,11 +2556,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2588,11 +2588,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2610,11 +2610,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2632,11 +2632,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2654,11 +2654,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2676,11 +2676,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2698,11 +2698,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2720,11 +2720,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2742,11 +2742,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2764,11 +2764,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2786,11 +2786,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2808,11 +2808,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -2830,11 +2830,11 @@
               "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
             },
             "implementation": {
-              "outcome": "unknown",
+              "outcome": "unsupported",
               "claims": [
                 "production-source-models"
               ],
-              "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+              "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
             },
             "correspondence": {
               "outcome": "notVerified",
@@ -3025,11 +3025,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3047,11 +3047,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3069,11 +3069,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3091,11 +3091,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3113,11 +3113,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3135,11 +3135,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3157,11 +3157,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3179,11 +3179,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3201,11 +3201,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3223,11 +3223,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3245,11 +3245,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3269,11 +3269,11 @@
             "detail": ""
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3293,11 +3293,11 @@
             "detail": ""
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3315,11 +3315,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3337,11 +3337,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3359,11 +3359,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3381,11 +3381,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3403,11 +3403,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3425,11 +3425,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3447,11 +3447,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3469,11 +3469,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3491,11 +3491,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3513,11 +3513,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3535,11 +3535,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3557,11 +3557,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3581,11 +3581,11 @@
             "detail": ""
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3603,11 +3603,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3625,11 +3625,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3647,11 +3647,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3669,11 +3669,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3691,11 +3691,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3713,11 +3713,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3735,11 +3735,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3757,11 +3757,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3779,11 +3779,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3801,11 +3801,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3823,11 +3823,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3845,11 +3845,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3867,11 +3867,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3889,11 +3889,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3911,11 +3911,11 @@
             "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
           },
           "implementation": {
-            "outcome": "unknown",
+            "outcome": "unsupported",
             "claims": [
               "production-source-models"
             ],
-            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+            "detail": "0 production models generated; 182 unsupported. No production property or validated source correspondence is established by generation."
           },
           "correspondence": {
             "outcome": "notVerified",
@@ -3998,116 +3998,31 @@
             "D12"
           ],
           "domain": "generatedModel.source.profile",
-          "outcome": "unknown",
+          "outcome": "unsupported",
           "scope": "182 exact production Swift files. Generation alone does not verify an implementation property."
         }
       ],
       "receipts": [
         {
-          "path": "Verification/Project/runs/20261121T000812563935Z/specification-receipt.json",
-          "sha256": "49a541141ba6976df92e780e6a2a1935ba188cb93b31ca7b41726b93759f3767"
+          "path": "Verification/Project/runs/20261121T044206067460Z/specification-receipt.json",
+          "sha256": "40fc1c424915965ac8aaabc385d6bb24ddf0aab1590d553203196e77da641a03"
         },
         {
-          "path": "Verification/Project/runs/20261121T000812563935Z/actor-receipt.json",
-          "sha256": "f36089d197bd82708a92ef6b05a549b2d91c7d6391bcc8e298a27e1e1cfc8471"
+          "path": "Verification/Project/runs/20261121T044206067460Z/actor-receipt.json",
+          "sha256": "4f12295922efc800c91a15842aab069d98356570269bbcde1ecb8c1bedc36a5b"
         },
         {
-          "path": "Verification/Project/runs/20261121T000812563935Z/implementation-receipt.json",
-          "sha256": "d84de914286df4adb97a31c5c120a91ccb3738bf1ba816d9294a1e180e07a1ac"
+          "path": "Verification/Project/runs/20261121T044206067460Z/source-admission-receipt.json",
+          "sha256": "bdfb19707a9f0f6bf8e695a4b46a6800158efab24e3614150a22f006940bca04"
+        },
+        {
+          "path": "Verification/Project/runs/20261121T044206067460Z/implementation-receipt.json",
+          "sha256": "2b1ccdf9c6b2518e3878c0ff20527898647eec339dbcc7e02becf641e9810409"
         }
       ],
       "outcome": "incomplete",
-      "mapBinding": {
-        "workspaceID": "ae-054298adc30c987082e94429c341f27e634bb4dfe6d51c8fd81571e8d644e1a2",
-        "snapshotID": "4355923B-047D-4884-AC53-5C3A2E1FDB23",
-        "entityID": "ae-237294c027c2a960dc8a5122c3bbd305ad56873285e384650ed7bae798aebfde"
-      },
-      "openQuestions": [],
-      "executionDiagnostics": [
-        {
-          "outcome": "recovered",
-          "detail": "A SwiftPM test launcher waited after an exited child. The owned run was interrupted. A subsequent full Swift Testing-only run passed all 132 tests. All test targets use Swift Testing.",
-          "attempt": "Verification/Project/runs/20261120T234217487853Z/unit.log",
-          "diagnostic": "Verification/Project/diagnostics/swiftpm-wait.sample.txt",
-          "recovery": "Verification/Project/runs/20261120T235234483057Z/unit.log"
-        }
-      ],
-      "supportingEvidence": [
-        {
-          "method": "specification",
-          "command": [
-            "python3",
-            "Verification/Specifications/VerificationOutcome/verify.py",
-            "--toolchain",
-            "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain"
-          ],
-          "exitCode": 0,
-          "log": {
-            "path": "Verification/Project/runs/20261121T000812563935Z/specification.log",
-            "sha256": "526d540fbf24b7009a272990095393cc30aa0b19f2f076ef995c9cc771acdc20"
-          }
-        },
-        {
-          "method": "actor-specification",
-          "command": [
-            "python3",
-            "Verification/Specifications/ActorIsolation/verify.py",
-            "--toolchain",
-            "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain"
-          ],
-          "exitCode": 0,
-          "log": {
-            "path": "Verification/Project/runs/20261121T000812563935Z/actor-specification.log",
-            "sha256": "b9f75060b3f3a6b36377e33a5fb2c781e7e3648527e3a33c8fdea21584e64048"
-          }
-        },
-        {
-          "method": "unit",
-          "command": [
-            "swift",
-            "test",
-            "--disable-xctest"
-          ],
-          "exitCode": 0,
-          "log": {
-            "path": "Verification/Project/runs/20261121T000812563935Z/unit.log",
-            "sha256": "9e409eea4130bbee4c945078456f4605793b2a5425323c46edac724298058a6e"
-          }
-        },
-        {
-          "method": "backends",
-          "command": [
-            "python3",
-            "Tools/verify-backends.py"
-          ],
-          "exitCode": 0,
-          "log": {
-            "path": "Verification/Project/runs/20261121T000812563935Z/backends.log",
-            "sha256": "89a26283727533ae479c31c1eee845dea67d8abe4a6b54cc9306ce065c711af3"
-          }
-        },
-        {
-          "method": "cli",
-          "command": [
-            "python3",
-            "Tools/integration.py"
-          ],
-          "exitCode": 0,
-          "log": {
-            "path": "Verification/Project/runs/20261121T000812563935Z/cli.log",
-            "sha256": "fac4a8e1fb362bd93bf1a4a41d79cb157868ef47b925de881ff3869adb271e0a"
-          }
-        }
-      ],
-      "productionDiagnostics": {
-        "files": 182,
-        "modelsGenerated": 0,
-        "codes": {
-          "UNSUPPORTED_SOURCE_PROFILE": 153,
-          "SOURCE_PARSE_FAILED": 29
-        },
-        "record": "Verification/Project/runs/20261121T000812563935Z/production-models.json"
-      }
+      "mapBinding": null,
+      "openQuestions": []
     }
   }
 }

@@ -29,6 +29,10 @@ Parser and lowering state are invocation-local values. Maximum source bytes, tok
 SourceDiagnostic carries language and token position for syntax errors; semantic errors are anchored to the owning function declaration. Duplicate names, unknown calls, missing returns, mixed types, and unsupported syntax fail explicitly. No global mutable state or subprocess exists in frontends.
 
 ## Verification and Change Impact
+
+### Swift source rejection classification
+
+The scalar lexer and parser only establish acceptance for their listed grammar. Swift tokens outside that grammar, including optional/function types, strings, raw literals/macros, escaped/non-ASCII names, bitwise operators and shifts, produce UNSUPPORTED_SOURCE_PROFILE with the original line/byte-column and exit 3. This is a profile limitation and makes no assertion that the source is invalid Swift. A malformed expression or unterminated supported block/comment remains SOURCE_PARSE_FAILED (exit 4). Both reject before any artifact is staged; neither outcome is verification evidence. The [independent admission contract](../../../Verification/Specifications/SourceAdmission/SourceAdmission.tla) and its Lean companion are checked before implementation. Their source-kind assumption does not certify the Swift classifier. CLI behavioral tests bind those abstract cases to actual native-valid inputs and malformed controls.
 [Frontend tests](../../../Tests/FormalFrontendTests) own positive and negative grammar, overflow, calls, branches, and output decoding. Native tool differential checks and Lean/TLC execution check finite cases. New instructions require IR, both runtimes, emitters, and independent output decoders to change together. Source-to-IR semantic certification remains pending.
 
 ### Four-finding Regression Ownership

@@ -51,6 +51,11 @@ struct SourceParser {
         if name == boolean { return .boolean }
         if name == signed { return [.python, .typescript, .bun].contains(language) ? .integer : .signed }
         if name == unsigned { return .unsigned }
+        if language == .swift, name == "(" || ["some", "any", "Self"].contains(name) ||
+            (!Self.reserved.contains(name) && !Self.keywords.contains(name) && name.utf8.first.map({ (65...90).contains($0) || (97...122).contains($0) || $0 == 95 }) == true) {
+            let position = tokens[cursor - 1]
+            throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(position.line):\(position.column): Type '\(name)' is outside the whole-function \(language.profile) profile")
+        }
         throw error("Unsupported source type '\(name)'")
     }
     mutating func parse() throws -> [ParsedSourceFunction] {

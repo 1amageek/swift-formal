@@ -59,6 +59,9 @@ struct SourceLexer {
             if [9, 13, 32].contains(b) { advance(); continue }
             atLineStart = false
             if b == 35 {
+                if language == .swift {
+                    throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(line):\(column): '#' is outside the whole-function \(language.profile) profile")
+                }
                 let start = i; let l = line
                 while i < bytes.count && bytes[i] != 10 { advance() }
                 if language == .python { continue }
@@ -104,11 +107,19 @@ struct SourceLexer {
             if ["++", "--"].contains(pair), [.c, .cpp, .javascript, .typescript, .go, .swift, .java, .bun].contains(language) {
                 throw fail("Unsupported update operator '\(pair)'", l, c)
             }
+            if language == .swift, ["<<", ">>"].contains(pair) {
+                throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(l):\(c): '\(pair)' is outside the whole-function \(language.profile) profile")
+            }
             if (language.isJavaScriptFamily && ["&&", "||"].contains(pair)) || ["->", "==", "!=", "<=", ">=", ":=", "::"].contains(pair) { advance(); advance(); try emit(pair, l, c); continue }
             if language == .swift, "[]./@%".utf8.contains(b) {
                 throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(l):\(c): '\(Character(UnicodeScalar(b)))' is outside the whole-function \(language.profile) profile")
             }
-            guard "(){}:;,+-*<>=!".utf8.contains(b) || (language.isJavaScriptFamily && "./%".utf8.contains(b)) else { throw fail("Unsupported character or operator", l, c) }
+            guard "(){}:;,+-*<>=!".utf8.contains(b) || (language.isJavaScriptFamily && "./%".utf8.contains(b)) else {
+                if language == .swift {
+                    throw FormalDiagnostic(.unsupportedSourceProfile, "swift:\(l):\(c): Character or operator is outside the whole-function \(language.profile) profile")
+                }
+                throw fail("Unsupported character or operator", l, c)
+            }
             advance(); try emit(String(decoding: [b], as: UTF8.self), l, c)
         }
         if language == .c || language == .cpp {
