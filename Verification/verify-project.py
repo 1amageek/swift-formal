@@ -14,6 +14,7 @@ root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--formal', type=Path, required=True)
 parser.add_argument('--report-tool', type=Path, required=True)
+parser.add_argument('--skip-supporting-tests', action='store_true')
 args = parser.parse_args()
 formal = args.formal.resolve(strict=True)
 builder = args.report_tool.resolve(strict=True)
@@ -58,7 +59,7 @@ commands = {
     'backends': (['python3', 'Tools/verify-backends.py'], 120),
     'cli': (['python3', 'Tools/integration.py'], 120),
 }
-for name, (command, seconds) in commands.items():
+for name, (command, seconds) in ({} if args.skip_supporting_tests else commands).items():
     result_code, log = execute(name, command, seconds)
     observations[name] = {'command': command, 'exitCode': result_code, 'log': reference(log)}
 
@@ -167,5 +168,5 @@ with temporary.open('x') as file:
     file.write(json.dumps(result, indent=2) + '\n')
 temporary.replace(current)
 print(json.dumps({'run': str(run.relative_to(root)), 'requirements': len(inventory), 'productionFiles': len(records),
-                  'productionModelsGenerated': sum(record.get('exitCode') == 0 for record in records), 'overall': result['metadata']['verificationReport']['outcome'], 'report': str(current.relative_to(root))}))
+                  'productionModelsGenerated': sum(record.get('exitCode') == 0 for record in records), 'overall': result['metadata']['verificationReport']['outcome'], 'manifest': str((run / 'manifest.json').relative_to(root)), 'report': str(current.relative_to(root))}))
 raise SystemExit({'passed': 0, 'failed': 5, 'incomplete': 6}[result['metadata']['verificationReport']['outcome']])

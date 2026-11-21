@@ -7,3 +7,9 @@ Run Verification/verify-project.py with the current built Formal executable and 
 Each execution uses a new retained run directory and per-command deadlines. The original source hashes, checker inputs, outputs, commands, claims and unsupported diagnostics are retained. Changes to an observed input during execution abort publication. The complete-inventory report is rebuilt through Invar's receipt aggregator and imported into Explorer at its matching source snapshot. The published JSON can be replaced as a current projection, while prior run records remain immutable.
 
 Whole-project success requires the required specification, implementation and correspondence assessments for the entire acceptance inventory. Current unsupported paths remain visible and block that conclusion. The previous VerificationOutcome model remains a scoped input to this workflow.
+
+## Explorer execution
+
+Verification/Project/invar.json binds the C4 subject to Invar's approved project-command profile. Invar executes Verification/verify-project.py on a private exact-input workspace, validates its returned receipt manifest through the pinned project report builder and publishes the complete report to that original subject/snapshot. The command emits repository-relative manifest and report paths. Runtime evidence stays in the attempt-owned immutable artifact store.
+
+The GUI profile selects --skip-supporting-tests: independent TLA+/Lean checks and every production source-model attempt execute; unrelated supporting regression suites are not rerun by that command. Supporting tests remain a separate development gate and never replace either formal phase. The default CLI workflow still runs them. The unchanged acceptance inventory remains authoritative and missing correspondence prevents a complete verdict.

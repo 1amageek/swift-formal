@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "project",
+    "subjectID": "ae-237294c027c2a960dc8a5122c3bbd305ad56873285e384650ed7bae798aebfde",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+      "Verification/verify-project.py",
+      "--formal",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/formal",
+      "--report-tool",
+      "/Users/1amageek/Desktop/Invar/plugins/invar/scripts/project_report.py",
+      "--skip-supporting-tests"
+    ],
+    "toolDigests": {
+      "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12": "a7f5b535d61d1c7326824204ac80f045a97a652abb154421e2c74fcc365a3539",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/formal": "8fc1539533f9123d90adc8cf818b4e7328a7abb3d22ef307f480973064e0cdcf",
+      "/Users/1amageek/Desktop/Invar/plugins/invar/scripts/project_report.py": "032d113567ec62e49e6f2a7b85d9593cceaf5db3052b4671fbf4ab0f09bcb7ee",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain/java/Contents/Home/bin/java": "0f642542ea1f0be6957557c0db96653ec128113bb5a4aaa7c2534d1d72ddb51f",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain/lean/bin/lean": "d1d9c26a539f54fe839d2aa7760bf1ac1dd76a30b26e2c9684bebf2900038fcf",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain/tla2tools.jar": "936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88"
+    },
+    "reportBuilder": "/Users/1amageek/Desktop/Invar/plugins/invar/scripts/project_report.py",
+    "report": "Verification/Project/Report.json",
+    "contracts": [
+      "ARCHITECTURE.dsl",
+      "DESIGN.md",
+      "Documentation/SPEC.md",
+      "Tools/integration.py",
+      "Tools/run-with-timeout.py",
+      "Tools/verify-backends.py",
+      "Verification/Specifications/ActorIsolation/ActorIsolation.lean",
+      "Verification/Specifications/ActorIsolation/ActorIsolation.tla",
+      "Verification/Specifications/ActorIsolation/Correct.cfg",
+      "Verification/Specifications/ActorIsolation/Reentrant.cfg",
+      "Verification/Specifications/ActorIsolation/verify.py",
+      "Verification/Specifications/VerificationOutcome/VerificationOutcome.cfg",
+      "Verification/Specifications/VerificationOutcome/VerificationOutcome.lean",
+      "Verification/Specifications/VerificationOutcome/VerificationOutcome.tla",
+      "Verification/Specifications/VerificationOutcome/verify.py",
+      "Verification/verify-project.py"
+    ],
+    "budget": {
+      "maximumWorkers": 2,
+      "memoryMiB": 4096,
+      "timeoutSeconds": 120,
+      "runTimeoutSeconds": 300,
+      "maximumOutputBytes": 8388608,
+      "maximumProcesses": 8,
+      "maximumCPUSeconds": 120,
+      "maximumWorkspaceBytes": 536870912
+    },
+    "approved": true,
+    "required": true
+  }
+}
