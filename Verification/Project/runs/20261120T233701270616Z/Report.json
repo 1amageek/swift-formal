@@ -1,0 +1,3854 @@
+{
+  "schemaVersion": "1",
+  "kind": "proofDependencies",
+  "title": "Formal \u00b7 Whole-project verification",
+  "nodes": [
+    {
+      "id": "A01",
+      "label": "A01 \u00b7 Fixed-width subtraction",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:701",
+        "condition": "TLA / Lean\u304cSIL\u306e\u7d50\u679c\u3068\u4e00\u81f4\u3002\u624b\u4fee\u6b63\u4e0d\u8981",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A02",
+      "label": "A02 \u00b7 Overflow and wrapping",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:702",
+        "condition": "trap / wrap / overflow flag\u3092\u533a\u5225",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A03",
+      "label": "A03 \u00b7 Branches and payloads",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:703",
+        "condition": "\u6761\u4ef6\u30fbpayload\u30fb\u5931\u6557\u5206\u5c90\u3092\u4fdd\u6301",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A04",
+      "label": "A04 \u00b7 SSA block arguments",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:704",
+        "condition": "branch\u5148\u3078\u306eSSA\u5f15\u6570\u675f\u7e1b\u304c\u4e00\u81f4",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A05",
+      "label": "A05 \u00b7 Loops and recursion",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:705",
+        "condition": "\u5168\u7d4c\u8def\u3092\u4fdd\u6301\u3002fuel\u5207\u308c\u3092\u6210\u529f\u306b\u3057\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A06",
+      "label": "A06 \u00b7 Nontermination",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:706",
+        "condition": "\u4e21\u5f62\u5f0f\u3078\u751f\u6210\u53ef\u80fd\u3002\u505c\u6b62\u6e08\u307f\u3068\u8868\u793a\u3057\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A07",
+      "label": "A07 \u00b7 Memory and inout",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:707",
+        "condition": "alias\u3068\u66f8\u304d\u8fbc\u307f\u304c\u4fdd\u5b58\u3055\u308c\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A08",
+      "label": "A08 \u00b7 Direct calls",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:708",
+        "condition": "callee\u3082\u542b\u3081\u7d50\u679c\u304c\u4e00\u81f4",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A09",
+      "label": "A09 \u00b7 Throw and catch",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:709",
+        "condition": "\u6b63\u5e38\u30fbthrow\u30fbcatch\u5f8c\u306e\u7d4c\u8def\u304c\u4e00\u81f4",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A10",
+      "label": "A10 \u00b7 Unresolved external calls",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:710",
+        "condition": "\u9ed9\u3063\u3066model\u5316\u305b\u305a\u5931\u6557",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A11",
+      "label": "A11 \u00b7 Unsupported instructions",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:711",
+        "condition": "source\u4f4d\u7f6e\u3068\u7406\u7531\u3092\u4ed8\u3051\u3066\u5931\u6557",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A12",
+      "label": "A12 \u00b7 Actor reentrancy counterexample",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:712",
+        "condition": "\u78ba\u8a8d\u2192\u4e2d\u65ad\u2192\u66f4\u65b0\u306e\u7af6\u5408\u3092\u751f\u6210\u30e2\u30c7\u30eb\u304c\u4fdd\u6301",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A13",
+      "label": "A13 \u00b7 Actor isolation correction",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:713",
+        "condition": "\u4e2d\u65ad\u306e\u306a\u3044\u78ba\u8a8d\u66f4\u65b0\u3078\u540c\u4e00actor\u306e\u5225task\u304c\u5272\u308a\u8fbc\u307e\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A14",
+      "label": "A14 \u00b7 Async call semantics",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:714",
+        "condition": "\u547d\u4ee4\u540d\u3060\u3051\u3067\u306a\u304fcallee\u578b\u3092\u5229\u7528\u3057\u3066\u975e\u540c\u671f\u610f\u5473\u3092\u4fdd\u6301",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A15",
+      "label": "A15 \u00b7 Executor identity",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:715",
+        "condition": "hop\u306e2\u30b1\u30fc\u30b9\u3092\u533a\u5225",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A16",
+      "label": "A16 \u00b7 Terminal and deadlock",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:716",
+        "condition": "\u6b63\u5e38\u7d42\u4e86\u3092\u8aa4\u691c\u51fa\u305b\u305a\u3001\u672c\u7269\u306e\u5f85\u3061\u72b6\u614b\u3092\u96a0\u3055\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A17",
+      "label": "A17 \u00b7 Artificial bounds",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:717",
+        "condition": "\u5883\u754c\u306b\u5230\u9054\u3057\u305f\u3089UNKNOWN / BOUND_EXCEEDED",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A18",
+      "label": "A18 \u00b7 Module dependency closure",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:718",
+        "condition": "private callee\u3092\u542b\u3080\u4f9d\u5b58\u9589\u5305\u3092\u843d\u3068\u3055\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A19",
+      "label": "A19 \u00b7 Missing debug locations",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:719",
+        "condition": "\u5909\u63db\u3067\u304d\u308b\u3002\u4f4d\u7f6e\u4e0d\u660e\u3092\u660e\u793a\u3059\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A20",
+      "label": "A20 \u00b7 Missing source index",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:720",
+        "condition": "\u7d22\u5f15\u6b20\u843d\u3060\u3051\u3067\u610f\u5473\u3092\u6368\u3066\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A21",
+      "label": "A21 \u00b7 Translation tampering",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:721",
+        "condition": "validator\u304c\u62d2\u5426\u3059\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A22",
+      "label": "A22 \u00b7 Output-expression tampering",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:722",
+        "condition": "TLA / Lean\u306e\u66f4\u65b0\u5f0f\u5909\u66f4\u3092\u691c\u51fa\u3059\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A23",
+      "label": "A23 \u00b7 Admitted or custom axioms",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:723",
+        "condition": "\u63a8\u79fb\u7684\u4f9d\u5b58\u3082\u542b\u3081\u62d2\u5426\u3059\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A24",
+      "label": "A24 \u00b7 Deterministic regeneration",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:724",
+        "condition": "\u540c\u4e00\u5165\u529b\u30fblock\u30fb\u8a2d\u5b9a\u3067byte-identical",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A25",
+      "label": "A25 \u00b7 Toolchain mismatch",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:725",
+        "condition": "profile\u4e0d\u4e00\u81f4\u3092\u691c\u51fa\u3057\u3001\u63a8\u6e2c\u3067\u7d9a\u884c\u3057\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A26",
+      "label": "A26 \u00b7 Timeout and interruption",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:726",
+        "condition": "MODEL_CHECKED / PROVED\u306b\u306a\u3089\u306a\u3044",
+        "specification": {
+          "outcome": "passed",
+          "claims": [
+            "interruption-contract"
+          ],
+          "detail": ""
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A27",
+      "label": "A27 \u00b7 Deleted control-flow mutation",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:727",
+        "condition": "\u5206\u5c90\u7247\u5074\u3084\u7570\u5e38\u7d42\u4e86\u3092\u6d88\u3059mutation\u3092\u62d2\u5426\u3059\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A28",
+      "label": "A28 \u00b7 Shared IR mistranslation",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:728",
+        "condition": "\u4e21backend\u304c\u540c\u3058\u8aa4\u308a\u3067\u3082\u5165\u529bSIL\u3068\u306e\u691c\u67fb\u304c\u62d2\u5426\u3059\u308b",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "A29",
+      "label": "A29 \u00b7 Empty or contradictory scenarios",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:729",
+        "condition": "INVALID_SCENARIO\u3092\u8fd4\u3057\u3001vacuous\u306a\u691c\u8a3c\u6210\u529f\u306b\u3057\u306a\u3044",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D01",
+      "label": "D01 \u00b7 Both backends from supported SIL",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:802",
+        "condition": "\u5bfe\u5fdc\u30d7\u30ed\u30d5\u30a1\u30a4\u30eb\u306eSIL\u304b\u3089TLA+\u3068Lean\u306e\u4e21\u65b9\u304c\u3001\u624b\u4fee\u6b63\u306a\u3057\u306b\u751f\u6210\u3055\u308c\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D02",
+      "label": "D02 \u00b7 Deterministic generation without inference",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:803",
+        "condition": "\u5b9f\u884c\u6642\u306bAI\u3084\u81ea\u7136\u8a00\u8a9e\u63a8\u8ad6\u3092\u4f7f\u7528\u3057\u306a\u3044\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D03",
+      "label": "D03 \u00b7 Complete semantic coverage",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:804",
+        "condition": "\u5bfe\u8c61\u7bc4\u56f2\u306e\u547d\u4ee4\u3001\u578b\u3001\u5c5e\u6027\u3001runtime\u4f9d\u5b58\u306esemantic coverage\u304c100%\u3067\u3042\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D04",
+      "label": "D04 \u00b7 Explicit unsupported diagnostics",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:805",
+        "condition": "\u672a\u5bfe\u5fdc\u5165\u529b\u306f\u8a3a\u65ad\u4ed8\u304d\u3067\u62d2\u5426\u3055\u308c\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D05",
+      "label": "D05 \u00b7 Actor fixtures in both backends",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:806",
+        "condition": "\u5c0f\u3055\u306a\u7b97\u8853\u4f8b\u3060\u3051\u3067\u306a\u304f\u3001Actor\u518d\u5165\u306efixture\u304c\u4e21\u5f62\u5f0f\u3067\u52d5\u4f5c\u3059\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D06",
+      "label": "D06 \u00b7 Automatic source/model correspondence",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:807",
+        "condition": "\u751f\u6210\u7269\u306e\u69cb\u6587\u30fb\u578b\u3068\u3001\u5165\u529bSIL\u3068\u306e\u5909\u63db\u5bfe\u5fdc\u304c\u81ea\u52d5\u691c\u67fb\u3055\u308c\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D07",
+      "label": "D07 \u00b7 Separate generation and proof outcomes",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:808",
+        "condition": "\u6027\u8cea\u306e\u81ea\u52d5\u8a3c\u660e\u304c\u672a\u5b8c\u4e86\u306e\u5834\u5408\u3001\u305d\u308c\u3092\u751f\u6210\u6210\u529f\u3068\u533a\u5225\u3057\u3066\u5831\u544a\u3059\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D08",
+      "label": "D08 \u00b7 Finite and universal scope distinction",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:809",
+        "condition": "TLC\u306e\u6709\u9650\u691c\u67fb\u3092\u4e00\u822c\u7684\u306a\u8a3c\u660e\u3068\u8868\u793a\u3057\u306a\u3044\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D09",
+      "label": "D09 \u00b7 Complete provenance",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:810",
+        "condition": "input\u30fboutput\u30fbtoolchain\u30fbsemantics\u30fbassumptions\u304c\u8ffd\u8de1\u53ef\u80fd\u3067\u3042\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D10",
+      "label": "D10 \u00b7 Generator and validator mutation suite",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:811",
+        "condition": "\u751f\u6210\u5668\uff0fvalidator\uff0f\u51fa\u529b\u306emutation test\u304c\u901a\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D11",
+      "label": "D11 \u00b7 Reproducible output bytes",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:812",
+        "condition": "\u540c\u4e00\u5165\u529b\u3067\u518d\u73fe\u53ef\u80fd\u306a\u51fa\u529b\u306b\u306a\u308b\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "D12",
+      "label": "D12 \u00b7 Dependency ownership boundary",
+      "role": "requirement",
+      "details": {
+        "requirement": "Documentation/SPEC.md:813",
+        "condition": "swift-skeleton\u672c\u4f53\u306e\u6539\u4fee\u30fbfork\u3092\u5fc5\u8981\u3068\u3057\u306a\u3044\u3002",
+        "specification": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+        },
+        "implementation": {
+          "outcome": "unknown",
+          "claims": [
+            "production-source-models"
+          ],
+          "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+        },
+        "correspondence": {
+          "outcome": "notVerified",
+          "claims": [],
+          "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+        },
+        "overall": "unknown"
+      }
+    },
+    {
+      "id": "specification",
+      "label": "Specification \u00b7 1/41",
+      "role": "verification phase",
+      "details": {
+        "outcomes": {
+          "A01": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A02": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A03": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A04": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A05": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A06": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A07": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A08": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A09": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A10": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A11": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A12": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A13": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A14": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A15": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A16": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A17": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A18": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A19": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A20": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A21": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A22": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A23": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A24": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A25": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A26": {
+            "outcome": "passed",
+            "claims": [
+              "interruption-contract"
+            ],
+            "detail": ""
+          },
+          "A27": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A28": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "A29": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D01": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D02": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D03": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D04": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D05": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D06": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D07": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D08": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D09": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D10": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D11": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "D12": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          }
+        }
+      }
+    },
+    {
+      "id": "implementation",
+      "label": "Implementation \u00b7 0/41",
+      "role": "verification phase",
+      "details": {
+        "outcomes": {
+          "A01": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A02": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A03": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A04": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A05": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A06": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A07": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A08": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A09": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A10": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A11": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A12": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A13": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A14": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A15": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A16": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A17": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A18": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A19": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A20": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A21": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A22": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A23": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A24": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A25": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A26": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A27": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A28": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "A29": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D01": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D02": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D03": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D04": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D05": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D06": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D07": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D08": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D09": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D10": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D11": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "D12": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          }
+        }
+      }
+    },
+    {
+      "id": "correspondence",
+      "label": "Correspondence \u00b7 0/41",
+      "role": "verification phase",
+      "details": {
+        "outcomes": {
+          "A01": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A02": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A03": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A04": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A05": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A06": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A07": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A08": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A09": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A10": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A11": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A12": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A13": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A14": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A15": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A16": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A17": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A18": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A19": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A20": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A21": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A22": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A23": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A24": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A25": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A26": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A27": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A28": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "A29": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D01": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D02": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D03": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D04": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D05": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D06": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D07": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D08": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D09": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D10": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D11": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          },
+          "D12": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "A01-specification",
+      "source": "A01",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A01-implementation",
+      "source": "A01",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A01-correspondence",
+      "source": "A01",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A02-specification",
+      "source": "A02",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A02-implementation",
+      "source": "A02",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A02-correspondence",
+      "source": "A02",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A03-specification",
+      "source": "A03",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A03-implementation",
+      "source": "A03",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A03-correspondence",
+      "source": "A03",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A04-specification",
+      "source": "A04",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A04-implementation",
+      "source": "A04",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A04-correspondence",
+      "source": "A04",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A05-specification",
+      "source": "A05",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A05-implementation",
+      "source": "A05",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A05-correspondence",
+      "source": "A05",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A06-specification",
+      "source": "A06",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A06-implementation",
+      "source": "A06",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A06-correspondence",
+      "source": "A06",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A07-specification",
+      "source": "A07",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A07-implementation",
+      "source": "A07",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A07-correspondence",
+      "source": "A07",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A08-specification",
+      "source": "A08",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A08-implementation",
+      "source": "A08",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A08-correspondence",
+      "source": "A08",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A09-specification",
+      "source": "A09",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A09-implementation",
+      "source": "A09",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A09-correspondence",
+      "source": "A09",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A10-specification",
+      "source": "A10",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A10-implementation",
+      "source": "A10",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A10-correspondence",
+      "source": "A10",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A11-specification",
+      "source": "A11",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A11-implementation",
+      "source": "A11",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A11-correspondence",
+      "source": "A11",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A12-specification",
+      "source": "A12",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A12-implementation",
+      "source": "A12",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A12-correspondence",
+      "source": "A12",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A13-specification",
+      "source": "A13",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A13-implementation",
+      "source": "A13",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A13-correspondence",
+      "source": "A13",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A14-specification",
+      "source": "A14",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A14-implementation",
+      "source": "A14",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A14-correspondence",
+      "source": "A14",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A15-specification",
+      "source": "A15",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A15-implementation",
+      "source": "A15",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A15-correspondence",
+      "source": "A15",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A16-specification",
+      "source": "A16",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A16-implementation",
+      "source": "A16",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A16-correspondence",
+      "source": "A16",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A17-specification",
+      "source": "A17",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A17-implementation",
+      "source": "A17",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A17-correspondence",
+      "source": "A17",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A18-specification",
+      "source": "A18",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A18-implementation",
+      "source": "A18",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A18-correspondence",
+      "source": "A18",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A19-specification",
+      "source": "A19",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A19-implementation",
+      "source": "A19",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A19-correspondence",
+      "source": "A19",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A20-specification",
+      "source": "A20",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A20-implementation",
+      "source": "A20",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A20-correspondence",
+      "source": "A20",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A21-specification",
+      "source": "A21",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A21-implementation",
+      "source": "A21",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A21-correspondence",
+      "source": "A21",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A22-specification",
+      "source": "A22",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A22-implementation",
+      "source": "A22",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A22-correspondence",
+      "source": "A22",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A23-specification",
+      "source": "A23",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A23-implementation",
+      "source": "A23",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A23-correspondence",
+      "source": "A23",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A24-specification",
+      "source": "A24",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A24-implementation",
+      "source": "A24",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A24-correspondence",
+      "source": "A24",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A25-specification",
+      "source": "A25",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A25-implementation",
+      "source": "A25",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A25-correspondence",
+      "source": "A25",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A26-specification",
+      "source": "A26",
+      "target": "specification",
+      "label": "passed",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A26-implementation",
+      "source": "A26",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A26-correspondence",
+      "source": "A26",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A27-specification",
+      "source": "A27",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A27-implementation",
+      "source": "A27",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A27-correspondence",
+      "source": "A27",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A28-specification",
+      "source": "A28",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A28-implementation",
+      "source": "A28",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A28-correspondence",
+      "source": "A28",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "A29-specification",
+      "source": "A29",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "A29-implementation",
+      "source": "A29",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "A29-correspondence",
+      "source": "A29",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D01-specification",
+      "source": "D01",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D01-implementation",
+      "source": "D01",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D01-correspondence",
+      "source": "D01",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D02-specification",
+      "source": "D02",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D02-implementation",
+      "source": "D02",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D02-correspondence",
+      "source": "D02",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D03-specification",
+      "source": "D03",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D03-implementation",
+      "source": "D03",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D03-correspondence",
+      "source": "D03",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D04-specification",
+      "source": "D04",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D04-implementation",
+      "source": "D04",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D04-correspondence",
+      "source": "D04",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D05-specification",
+      "source": "D05",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D05-implementation",
+      "source": "D05",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D05-correspondence",
+      "source": "D05",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D06-specification",
+      "source": "D06",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D06-implementation",
+      "source": "D06",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D06-correspondence",
+      "source": "D06",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D07-specification",
+      "source": "D07",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D07-implementation",
+      "source": "D07",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D07-correspondence",
+      "source": "D07",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D08-specification",
+      "source": "D08",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D08-implementation",
+      "source": "D08",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D08-correspondence",
+      "source": "D08",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D09-specification",
+      "source": "D09",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D09-implementation",
+      "source": "D09",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D09-correspondence",
+      "source": "D09",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D10-specification",
+      "source": "D10",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D10-implementation",
+      "source": "D10",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D10-correspondence",
+      "source": "D10",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D11-specification",
+      "source": "D11",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D11-implementation",
+      "source": "D11",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D11-correspondence",
+      "source": "D11",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    },
+    {
+      "id": "D12-specification",
+      "source": "D12",
+      "target": "specification",
+      "label": "notVerified",
+      "role": "specification",
+      "directed": true
+    },
+    {
+      "id": "D12-implementation",
+      "source": "D12",
+      "target": "implementation",
+      "label": "unknown",
+      "role": "implementation",
+      "directed": true
+    },
+    {
+      "id": "D12-correspondence",
+      "source": "D12",
+      "target": "correspondence",
+      "label": "notVerified",
+      "role": "correspondence",
+      "directed": true
+    }
+  ],
+  "metadata": {
+    "verificationReport": {
+      "schemaVersion": 1,
+      "inventory": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06",
+        "A07",
+        "A08",
+        "A09",
+        "A10",
+        "A11",
+        "A12",
+        "A13",
+        "A14",
+        "A15",
+        "A16",
+        "A17",
+        "A18",
+        "A19",
+        "A20",
+        "A21",
+        "A22",
+        "A23",
+        "A24",
+        "A25",
+        "A26",
+        "A27",
+        "A28",
+        "A29",
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "D11",
+        "D12"
+      ],
+      "requirements": [
+        {
+          "id": "A01",
+          "nodeID": "A01",
+          "title": "Fixed-width subtraction",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A02",
+          "nodeID": "A02",
+          "title": "Overflow and wrapping",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A03",
+          "nodeID": "A03",
+          "title": "Branches and payloads",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A04",
+          "nodeID": "A04",
+          "title": "SSA block arguments",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A05",
+          "nodeID": "A05",
+          "title": "Loops and recursion",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A06",
+          "nodeID": "A06",
+          "title": "Nontermination",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A07",
+          "nodeID": "A07",
+          "title": "Memory and inout",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A08",
+          "nodeID": "A08",
+          "title": "Direct calls",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A09",
+          "nodeID": "A09",
+          "title": "Throw and catch",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A10",
+          "nodeID": "A10",
+          "title": "Unresolved external calls",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A11",
+          "nodeID": "A11",
+          "title": "Unsupported instructions",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A12",
+          "nodeID": "A12",
+          "title": "Actor reentrancy counterexample",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A13",
+          "nodeID": "A13",
+          "title": "Actor isolation correction",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A14",
+          "nodeID": "A14",
+          "title": "Async call semantics",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A15",
+          "nodeID": "A15",
+          "title": "Executor identity",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A16",
+          "nodeID": "A16",
+          "title": "Terminal and deadlock",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A17",
+          "nodeID": "A17",
+          "title": "Artificial bounds",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A18",
+          "nodeID": "A18",
+          "title": "Module dependency closure",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A19",
+          "nodeID": "A19",
+          "title": "Missing debug locations",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A20",
+          "nodeID": "A20",
+          "title": "Missing source index",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A21",
+          "nodeID": "A21",
+          "title": "Translation tampering",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A22",
+          "nodeID": "A22",
+          "title": "Output-expression tampering",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A23",
+          "nodeID": "A23",
+          "title": "Admitted or custom axioms",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A24",
+          "nodeID": "A24",
+          "title": "Deterministic regeneration",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A25",
+          "nodeID": "A25",
+          "title": "Toolchain mismatch",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A26",
+          "nodeID": "A26",
+          "title": "Timeout and interruption",
+          "specification": {
+            "outcome": "passed",
+            "claims": [
+              "interruption-contract"
+            ],
+            "detail": ""
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A27",
+          "nodeID": "A27",
+          "title": "Deleted control-flow mutation",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A28",
+          "nodeID": "A28",
+          "title": "Shared IR mistranslation",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "A29",
+          "nodeID": "A29",
+          "title": "Empty or contradictory scenarios",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D01",
+          "nodeID": "D01",
+          "title": "Both backends from supported SIL",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D02",
+          "nodeID": "D02",
+          "title": "Deterministic generation without inference",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D03",
+          "nodeID": "D03",
+          "title": "Complete semantic coverage",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D04",
+          "nodeID": "D04",
+          "title": "Explicit unsupported diagnostics",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D05",
+          "nodeID": "D05",
+          "title": "Actor fixtures in both backends",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D06",
+          "nodeID": "D06",
+          "title": "Automatic source/model correspondence",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D07",
+          "nodeID": "D07",
+          "title": "Separate generation and proof outcomes",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D08",
+          "nodeID": "D08",
+          "title": "Finite and universal scope distinction",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D09",
+          "nodeID": "D09",
+          "title": "Complete provenance",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D10",
+          "nodeID": "D10",
+          "title": "Generator and validator mutation suite",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D11",
+          "nodeID": "D11",
+          "title": "Reproducible output bytes",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        },
+        {
+          "id": "D12",
+          "nodeID": "D12",
+          "title": "Dependency ownership boundary",
+          "specification": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "No complete independently checked requirements-derived model is retained for this acceptance condition."
+          },
+          "implementation": {
+            "outcome": "unknown",
+            "claims": [
+              "production-source-models"
+            ],
+            "detail": "The current whole-function source profile cannot generate a production model for this project. Regression observations are retained separately."
+          },
+          "correspondence": {
+            "outcome": "notVerified",
+            "claims": [],
+            "detail": "Formal currently supplies UNVALIDATED source correspondence. No validated translation certificate establishes this acceptance condition."
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "id": "interruption-contract",
+          "requirements": [
+            "A26"
+          ],
+          "domain": "specification.tla.finite",
+          "outcome": "passed",
+          "scope": "Bounded requirements-derived outcome protocol, one invocation and clock 0..2. Both checked-success outcomes are represented by the positive proof outcome. No implementation correspondence is asserted."
+        },
+        {
+          "id": "production-source-models",
+          "requirements": [
+            "A01",
+            "A02",
+            "A03",
+            "A04",
+            "A05",
+            "A06",
+            "A07",
+            "A08",
+            "A09",
+            "A10",
+            "A11",
+            "A12",
+            "A13",
+            "A14",
+            "A15",
+            "A16",
+            "A17",
+            "A18",
+            "A19",
+            "A20",
+            "A21",
+            "A22",
+            "A23",
+            "A24",
+            "A25",
+            "A26",
+            "A27",
+            "A28",
+            "A29",
+            "D01",
+            "D02",
+            "D03",
+            "D04",
+            "D05",
+            "D06",
+            "D07",
+            "D08",
+            "D09",
+            "D10",
+            "D11",
+            "D12"
+          ],
+          "domain": "generatedModel.source.profile",
+          "outcome": "unknown",
+          "scope": "182 exact production Swift files. Generation alone does not verify an implementation property."
+        }
+      ],
+      "receipts": [
+        {
+          "path": "Verification/Project/runs/20261120T233701270616Z/specification-receipt.json",
+          "sha256": "b8ffa060a1d81ed7bf908b47315cbfdb8e6e61490f2f3c9298d12368c4fb9b90"
+        },
+        {
+          "path": "Verification/Project/runs/20261120T233701270616Z/implementation-receipt.json",
+          "sha256": "b7afda2e49d3451d88fae9497201420aea9083a75f5fc4383b6d25c5d6a0530e"
+        }
+      ],
+      "mapBinding": null,
+      "openQuestions": []
+    }
+  }
+}

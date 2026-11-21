@@ -1,0 +1,4 @@
+'ActorIsolation.reservationConservesCapacity' depends on axioms: [propext]
+'ActorIsolation.arbitraryAtomicSchedule' depends on axioms: [propext]
+'ActorIsolation.noOverselling' depends on axioms: [propext, Quot.sound]
+'ActorIsolation.reentrantCounterexample' does not depend on any axioms

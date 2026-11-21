@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "command": [
+    "python3",
+    "Verification/Specifications/VerificationOutcome/verify.py",
+    "--toolchain",
+    "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain"
+  ],
+  "executed": true,
+  "exitCode": 0,
+  "inputs": [
+    {
+      "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.tla",
+      "sha256": "a1d091271981b60374546f8678da146f9e30c8041f911d09f6183dc7c2112f26"
+    },
+    {
+      "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.cfg",
+      "sha256": "556928ee37e08d748d7c0906b19f004a4056f5f12cb95d248f45a7e5489a2c8a"
+    },
+    {
+      "path": "Verification/Specifications/VerificationOutcome/VerificationOutcome.lean",
+      "sha256": "4e509bebc7c528a500dcea7d3f0eec5195bff398f0e8207e40365d5ad1d705b3"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "Verification/Project/runs/20261121T000812563935Z/specification.log",
+      "sha256": "526d540fbf24b7009a272990095393cc30aa0b19f2f076ef995c9cc771acdc20"
+    }
+  ],
+  "claims": [
+    {
+      "id": "interruption-contract",
+      "requirements": [
+        "A26"
+      ],
+      "domain": "specification.tla.finite",
+      "outcome": "passed",
+      "scope": "Bounded requirements-derived outcome protocol, one invocation and clock 0..2. Both checked-success outcomes are represented by the positive proof outcome. No implementation correspondence is asserted."
+    }
+  ]
+}

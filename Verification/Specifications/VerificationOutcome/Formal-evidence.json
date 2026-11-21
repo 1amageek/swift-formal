@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1",
   "kind": "proofDependencies",
-  "title": "Formal \u00b7 Verification outcome contracts",
+  "title": "Formal \u00b7 Scoped outcome protocol",
   "nodes": [
     {
       "id": "gate",
@@ -319,12 +319,7 @@
       "openQuestions": [
         "source-correspondence",
         "actor-support"
-      ],
-      "mapBinding": {
-        "workspaceID": "ae-054298adc30c987082e94429c341f27e634bb4dfe6d51c8fd81571e8d644e1a2",
-        "snapshotID": "23E4275C-805A-4A74-8835-645F5748B07E",
-        "entityID": "ae-237294c027c2a960dc8a5122c3bbd305ad56873285e384650ed7bae798aebfde"
-      }
+      ]
     }
   }
 }

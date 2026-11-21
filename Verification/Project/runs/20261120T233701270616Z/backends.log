@@ -1,0 +1,24 @@
+info: swift-formal-generated: no previous manifest, creating one from scratch
+info: toolchain not updated; already up-to-date
+✔ [2/6] Built SwiftFormal.Runtime (9.9s)
+✔ [3/6] Built Generated.Program (1.5s)
+✔ [4/6] Built Generated.Properties (1.4s)
+✔ [5/6] Built Generated (1.2s)
+Build completed successfully (6 jobs).
+
+'subtraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'directCall' depends on axioms: [propext, Classical.choice, Quot.sound]
+'branch' depends on axioms: [propext, Classical.choice, Quot.sound]
+'wrapping' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+'ReferenceCheck.programDataEquality' does not depend on any axioms
+'ReferenceCheck.stepEquality' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ReferenceCheck.reachabilityEquality' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Independent Lean decoder: data equality and shared-step correspondence checked; arithmetic mutation rejected.
+TLC Subtract: completed with expected 64-bit result or trap.
+TLC Call: completed with expected 64-bit result or trap.
+TLC Branch: completed with expected 64-bit result or trap.
+TLC Wrap: completed with expected 64-bit result or trap.
+TLC Trap: completed with expected 64-bit result or trap.
+External backend checks passed; independent SIL translation validation remains pending.

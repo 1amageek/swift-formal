@@ -1,0 +1,61 @@
+{
+  "specification": {
+    "command": [
+      "python3",
+      "Verification/Specifications/VerificationOutcome/verify.py",
+      "--toolchain",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T234217487853Z/specification.log",
+      "sha256": "e2282b057bfa03ffc4be43cfa9d254dc0ed12a3bf639509f9b1c7e06163434a9"
+    }
+  },
+  "actor-specification": {
+    "command": [
+      "python3",
+      "Verification/Specifications/ActorIsolation/verify.py",
+      "--toolchain",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T234217487853Z/actor-specification.log",
+      "sha256": "5de90641ff24364ad28ce0f5ca09067f624c1289c8725bc3ca30f72271a9e69c"
+    }
+  },
+  "unit": {
+    "command": [
+      "swift",
+      "test"
+    ],
+    "exitCode": 124,
+    "log": {
+      "path": "Verification/Project/runs/20261120T234217487853Z/unit.log",
+      "sha256": "283ee9332a2a36ea45d77d9d4b130535f0614ba007a27dccb854b0284feaf3c3"
+    }
+  },
+  "backends": {
+    "command": [
+      "python3",
+      "Tools/verify-backends.py"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T234217487853Z/backends.log",
+      "sha256": "2c0d857a3c272c889ce690c1b2ef68ef6b43876df5037a68c7540fc1df567edb"
+    }
+  },
+  "cli": {
+    "command": [
+      "python3",
+      "Tools/integration.py"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T234217487853Z/cli.log",
+      "sha256": "fac4a8e1fb362bd93bf1a4a41d79cb157868ef47b925de881ff3869adb271e0a"
+    }
+  }
+}

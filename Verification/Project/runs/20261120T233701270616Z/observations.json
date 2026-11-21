@@ -1,0 +1,48 @@
+{
+  "unit": {
+    "command": [
+      "swift",
+      "test"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T233701270616Z/unit.log",
+      "sha256": "dc594d9e45460a9a078a0cd2629be53d3f009b4d4094cc06f26b80da4c5c7fc5"
+    }
+  },
+  "backends": {
+    "command": [
+      "python3",
+      "Tools/verify-backends.py"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T233701270616Z/backends.log",
+      "sha256": "ced20095f26edc11d71e3d9fe4a2f890023cdf79709a08d258670a127cd3dc5c"
+    }
+  },
+  "cli": {
+    "command": [
+      "python3",
+      "Tools/integration.py"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T233701270616Z/cli.log",
+      "sha256": "fac4a8e1fb362bd93bf1a4a41d79cb157868ef47b925de881ff3869adb271e0a"
+    }
+  },
+  "specification": {
+    "command": [
+      "python3",
+      "Verification/Specifications/VerificationOutcome/verify.py",
+      "--toolchain",
+      "/Users/1amageek/Desktop/Formal/.tools/project-current-54d9bfe/toolchain"
+    ],
+    "exitCode": 0,
+    "log": {
+      "path": "Verification/Project/runs/20261120T233701270616Z/specification.log",
+      "sha256": "46b55289da3721fb92e3a2ae0009b9eaceac41906e1b90316bd9369d16c38253"
+    }
+  }
+}

@@ -1,0 +1,499 @@
+Test Suite 'All tests' started at 2026-11-21 08:37:06.607.
+Test Suite 'All tests' passed at 2026-11-21 08:37:06.613.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.007) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:06.940.
+Test Suite 'All tests' passed at 2026-11-21 08:37:06.941.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:07.457.
+Test Suite 'All tests' passed at 2026-11-21 08:37:07.459.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:07.911.
+Test Suite 'All tests' passed at 2026-11-21 08:37:07.914.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.003) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:08.288.
+Test Suite 'All tests' passed at 2026-11-21 08:37:08.290.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:08.722.
+Test Suite 'All tests' passed at 2026-11-21 08:37:08.724.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:09.207.
+Test Suite 'All tests' passed at 2026-11-21 08:37:09.209.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:09.518.
+Test Suite 'All tests' passed at 2026-11-21 08:37:09.520.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:09.876.
+Test Suite 'All tests' passed at 2026-11-21 08:37:09.882.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.006) seconds
+Test Suite 'All tests' started at 2026-11-21 08:37:10.229.
+Test Suite 'All tests' passed at 2026-11-21 08:37:10.262.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.033) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite NumberPropertyTests started.
+􀟈  Suite ToolLaunchJournalTests started.
+􀟈  Suite ArtifactGenerationTests started.
+􀟈  Suite ToolchainResourceTests started.
+􀟈  Suite SANYOutputAuditTests started.
+􀟈  Suite CompilationOriginTests started.
+􀟈  Suite ToolExecutionTests started.
+􀟈  Suite VerificationTests started.
+􀟈  Suite PropertyTests started.
+􀟈  Suite ArtifactDecoderTests started.
+􀟈  Suite TLCStructureTests started.
+􀟈  Test propertyNumberEqualityIsNotStructuralEquality() started.
+􀟈  Test scenariosParseExactBitsWithExplicitNumberViews() started.
+􀟈  Test decimalExpressionsUseNumberRoundingAndNegativeZero() started.
+􀟈  Test incompletePIDPublicationUsesExactPrivateLaunchArguments() started.
+􀟈  Test artifactBindingAcceptsOnlyActualCanonicalRoot() started.
+􀟈  Test registeredSessionCanBeRecoveredWithoutItsObserver() started.
+􀟈  Test generatesAuditableExactSourceWithoutClaimingValidation() started.
+􀟈  Test rejectsIncompleteSourceBeforePublishing() started.
+􀟈  Test bundledPolicyIsAStandaloneRegularResource() started.
+􀟈  Test completionDoesNotHideActualDiagnostics() started.
+􀟈  Test exactRequestedModuleCompletionIsRequired() started.
+􀟈  Test normalModuleProcessingAcceptsErrorInPaths() started.
+􀟈  Test byteRangesSurviveUnicodeBranchesCallsAndEmission() started.
+􀟈  Test partialModelsBindChecksToTheOriginalExpressionAndBothEmittedDefinitions() started.
+􀟈  Test monitoredOutputAndWorkspaceHaveTypedResourceFailures() started.
+􀟈  Test cancellationAndOutputLimitCannotSucceed() started.
+􀟈  Test capturesActualExitAndSeparateStreams() started.
+􀟈  Test workspaceMonitoringAllowsChildTemporaryFileCleanup() started.
+􀟈  Test monitorsAggregateMemoryProcessesAndCPU() started.
+􀟈  Test workspaceBudgetRejectsCompletedOversizedOutput() started.
+􀟈  Test deadlineKillsDescendants() started.
+􀟈  Test corruptCachedArchiveFailsBeforeExtractionOrDownload() started.
+􀟈  Test axiomAuditRejectsAdmissionsAndCustomAxioms() started.
+􀟈  Test scenarioRejectsUnknownFieldsAndInvalidBounds() started.
+􀟈  Test snapshotAuditsLayoutOriginsRuntimeAndEmittedData() started.
+􀟈  Test scalarBitInputsEnforceWidthAndSignedRange() started.
+􀟈  Test inventoryUsesRelativePathsAcrossMacOSTemporaryAliases() started.
+􀟈  Test rejectsCodeInjectionUnknownFieldsAndTypeErrors() started.
+􀟈  Test parsesTypedLogicAndEvaluatesPrecedence() started.
+􀟈  Test executionBoundCoversBranchesAndCallsAndRejectsCycles() started.
+􀟈  Test universalAxiomAuditRejectsNativeTrustAndAdmissions() started.
+􀟈  Test interpretationsMustMatchActualEntrySignature() started.
+􀟈  Test findsTheSignedOverflowBoundaryAsACandidate() started.
+􀟈  Test boundsParserRecursionAndActualTreeDepth() started.
+􀟈  Test candidateSearchUsesLargePropertyConstants() started.
+􀟈  Test detectsChangedProgramData() started.
+􀟈  Test reparsesBothActualOutputLanguages() started.
+􀟈  Test typedStatePreservesValuesAndDoesNotInferTerminalFromText() started.
+􀟈  Test orderedTraceAndLoopRequireMatchingFrames() started.
+􀟈  Test actualDOTShapeSeparatesFingerprintsLabelsAndInitialAttribute() started.
+􁁛  Test propertyNumberEqualityIsNotStructuralEquality() passed after 0.063 seconds.
+􁁛  Test scenariosParseExactBitsWithExplicitNumberViews() passed after 0.063 seconds.
+􁁛  Test decimalExpressionsUseNumberRoundingAndNegativeZero() passed after 0.063 seconds.
+􁁛  Test rejectsIncompleteSourceBeforePublishing() passed after 0.061 seconds.
+􁁛  Test normalModuleProcessingAcceptsErrorInPaths() passed after 0.061 seconds.
+􁁛  Test exactRequestedModuleCompletionIsRequired() passed after 0.061 seconds.
+􁁛  Test axiomAuditRejectsAdmissionsAndCustomAxioms() passed after 0.061 seconds.
+􁁛  Test scalarBitInputsEnforceWidthAndSignedRange() passed after 0.061 seconds.
+􁁛  Test rejectsCodeInjectionUnknownFieldsAndTypeErrors() passed after 0.061 seconds.
+􁁛  Test parsesTypedLogicAndEvaluatesPrecedence() passed after 0.061 seconds.
+􁁛  Test universalAxiomAuditRejectsNativeTrustAndAdmissions() passed after 0.061 seconds.
+􁁛  Test executionBoundCoversBranchesAndCallsAndRejectsCycles() passed after 0.061 seconds.
+􁁛  Test interpretationsMustMatchActualEntrySignature() passed after 0.061 seconds.
+􁁛  Test inventoryUsesRelativePathsAcrossMacOSTemporaryAliases() passed after 0.061 seconds.
+􁁛  Test findsTheSignedOverflowBoundaryAsACandidate() passed after 0.061 seconds.
+􁁛  Test typedStatePreservesValuesAndDoesNotInferTerminalFromText() passed after 0.061 seconds.
+􁁛  Test orderedTraceAndLoopRequireMatchingFrames() passed after 0.061 seconds.
+􁁛  Test actualDOTShapeSeparatesFingerprintsLabelsAndInitialAttribute() passed after 0.061 seconds.
+􁁛  Suite NumberPropertyTests passed after 0.064 seconds.
+􁁛  Suite TLCStructureTests passed after 0.063 seconds.
+􁁛  Test boundsParserRecursionAndActualTreeDepth() passed after 0.061 seconds.
+􁁛  Test artifactBindingAcceptsOnlyActualCanonicalRoot() passed after 0.064 seconds.
+􁁛  Test completionDoesNotHideActualDiagnostics() passed after 0.063 seconds.
+􁁛  Suite SANYOutputAuditTests passed after 0.066 seconds.
+􁁛  Test candidateSearchUsesLargePropertyConstants() passed after 0.067 seconds.
+􁁛  Suite PropertyTests passed after 0.069 seconds.
+􁁛  Test scenarioRejectsUnknownFieldsAndInvalidBounds() passed after 0.084 seconds.
+􁁛  Test detectsChangedProgramData() passed after 0.086 seconds.
+􁁛  Test incompletePIDPublicationUsesExactPrivateLaunchArguments() passed after 0.089 seconds.
+􁁛  Test corruptCachedArchiveFailsBeforeExtractionOrDownload() passed after 0.091 seconds.
+􁁛  Test workspaceBudgetRejectsCompletedOversizedOutput() passed after 0.092 seconds.
+􁁛  Test bundledPolicyIsAStandaloneRegularResource() passed after 0.094 seconds.
+􁁛  Suite ToolchainResourceTests passed after 0.096 seconds.
+􁁛  Test reparsesBothActualOutputLanguages() passed after 0.100 seconds.
+􁁛  Suite ArtifactDecoderTests passed after 0.102 seconds.
+􁁛  Test capturesActualExitAndSeparateStreams() passed after 0.108 seconds.
+􁁛  Test partialModelsBindChecksToTheOriginalExpressionAndBothEmittedDefinitions() passed after 0.147 seconds.
+􁁛  Test registeredSessionCanBeRecoveredWithoutItsObserver() passed after 0.155 seconds.
+􁁛  Suite ToolLaunchJournalTests passed after 0.157 seconds.
+􁁛  Test monitoredOutputAndWorkspaceHaveTypedResourceFailures() passed after 0.164 seconds.
+􁁛  Test cancellationAndOutputLimitCannotSucceed() passed after 0.191 seconds.
+􁁛  Test deadlineKillsDescendants() passed after 0.266 seconds.
+􁁛  Test generatesAuditableExactSourceWithoutClaimingValidation() passed after 0.344 seconds.
+􁁛  Suite ArtifactGenerationTests passed after 0.345 seconds.
+􁁛  Test snapshotAuditsLayoutOriginsRuntimeAndEmittedData() passed after 0.762 seconds.
+􁁛  Suite VerificationTests passed after 0.764 seconds.
+􁁛  Test byteRangesSurviveUnicodeBranchesCallsAndEmission() passed after 0.847 seconds.
+􁁛  Suite CompilationOriginTests passed after 0.848 seconds.
+􁁛  Test monitorsAggregateMemoryProcessesAndCPU() passed after 2.708 seconds.
+􁁛  Test workspaceMonitoringAllowsChildTemporaryFileCleanup() passed after 6.741 seconds.
+􁁛  Suite ToolExecutionTests passed after 6.743 seconds.
+􁁛  Test run with 40 tests in 11 suites passed after 6.743 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite SyntaxTests started.
+􀟈  Test parsesActualCanonicalCompilerOutput(name:) started.
+􀟈  Test tokenAndNestingLimitsFailExplicitly() started.
+􀟈  Test case passing 1 argument name → "Core" to parsesActualCanonicalCompilerOutput(name:) started.
+􀟈  Test preservesUnknownInstructionsAndMultilineOperands() started.
+􀟈  Test malformedInputFails(source:) started.
+􀟈  Test case passing 1 argument name → "Inventory" to parsesActualCanonicalCompilerOutput(name:) started.
+􀟈  Test case passing 1 argument source → "sil_stage raw
+" to malformedInputFails(source:) started.
+􀟈  Test case passing 1 argument source → "sil_stage canonical
+}" to malformedInputFails(source:) started.
+􀟈  Test case passing 1 argument source → "sil_stage canonical
+sil @f : $() -> () {
+bb0:
+return (
+}" to malformedInputFails(source:) started.
+􀟈  Test case passing 1 argument source → "sil_stage canonical
+sil @f : $() -> () {
+bb0:
+%0 = integer_literal $Builtin.Int1, 0
+bb0:
+return %0
+}" to malformedInputFails(source:) started.
+􀟈  Test case passing 1 argument source → "sil_stage canonical
+sil @f : $() -> () {
+bb0:
+return "unterminated
+}" to malformedInputFails(source:) started.
+􁁛  Test tokenAndNestingLimitsFailExplicitly() passed after 0.003 seconds.
+􁁛  Test malformedInputFails(source:) with 5 test cases passed after 0.002 seconds.
+􁁛  Test preservesUnknownInstructionsAndMultilineOperands() passed after 0.002 seconds.
+􁁛  Test parsesActualCanonicalCompilerOutput(name:) with 2 test cases passed after 0.017 seconds.
+􁁛  Suite SyntaxTests passed after 0.017 seconds.
+􁁛  Test run with 4 tests in 1 suite passed after 0.017 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite ScalarTests started.
+􀟈  Test rejectsReachableMemoryAndMissingCallee() started.
+􀟈  Test rejectsOutOfRangeLiterals(text:) started.
+􀟈  Test actualSILDifferentiatesTrapAndWrap() started.
+􀟈  Test actualSILSubtractionBranchesAndCalls() started.
+􀟈  Test preservesEscapedTrapMessages() started.
+􀟈  Test case passing 1 argument text → "257" to rejectsOutOfRangeLiterals(text:) started.
+􀟈  Test case passing 1 argument text → "-129" to rejectsOutOfRangeLiterals(text:) started.
+􁁛  Test preservesEscapedTrapMessages() passed after 0.003 seconds.
+􁁛  Test rejectsOutOfRangeLiterals(text:) with 2 test cases passed after 0.003 seconds.
+􁁛  Test actualSILDifferentiatesTrapAndWrap() passed after 0.022 seconds.
+􁁛  Test actualSILSubtractionBranchesAndCalls() passed after 0.027 seconds.
+􁁛  Test rejectsReachableMemoryAndMissingCallee() passed after 0.029 seconds.
+􁁛  Suite ScalarTests passed after 0.029 seconds.
+􁁛  Test run with 5 tests in 1 suite passed after 0.029 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀙟  Suite CheckerIntegrationTests skipped.
+􀙟  Suite InspectionIntegrationTests skipped.
+􀙟  Test actualFiniteCheckerPublishesStatesDependenciesAndCounterexampleOrder() skipped.
+􀙟  Test actualTLCLivenessWitnessRetainsItsObservedLoop() skipped.
+􀙟  Test extractionFailureDoesNotRewriteAnActualProof() skipped.
+􀙟  Test actualImportedInitializerDoesNotRunDuringIndependentReplay() skipped.
+􀙟  Test actualSANYAndLeanDependencies() skipped.
+􀙟  Test actualInspectionSandboxDeniesNativeNetworkSyscall() skipped.
+􀙟  Test actualSANYIncludesInstanceAndNestedModuleClosure() skipped.
+􀙟  Test actualKernelRefusesAdmissionsAndCustomAxioms() skipped.
+􀙟  Test actualUserLeanCannotWriteOutsideOrFork() skipped.
+􀙟  Test permissionRefusalPrecedesElaboration() skipped.
+􁁛  Test run with 10 tests in 2 suites passed after 0.001 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite ArithmeticTests started.
+􀟈  Suite ExecutionTests started.
+􀟈  Suite NumberArithmeticTests started.
+􀟈  Test distinguishesSignedAndUnsignedEndpoints() started.
+􀟈  Test overflowTrapIsNotAnInputAssumption() started.
+􀟈  Test inputValuesRespectTheBudgetBeforeReturn() started.
+􀟈  Test rejectsUseOfNonDominatingDefinition() started.
+􀟈  Test directCallPreservesCallerValues() started.
+􀟈  Test infiniteLoopAndRecursionReportBounds() started.
+􀟈  Test nanAndZeroHaveTheirJavaScriptComparisonSemantics() started.
+􀟈  Test branchArgumentsBindSimultaneously() started.
+􀟈  Test decimalParsingPreservesRoundingAndSignedZero() started.
+􀟈  Test exhaustivelyChecksFourBitArithmetic() started.
+􀟈  Test externalNativeVectorsAgreeWithIR() started.
+􀟈  Test numericArithmeticDoesNotUseMathematicalIntegerIdentities() started.
+􀟈  Test numberOperatorsRejectNon64BitOperands() started.
+􁁛  Test nanAndZeroHaveTheirJavaScriptComparisonSemantics() passed after 0.001 seconds.
+􁁛  Test overflowTrapIsNotAnInputAssumption() passed after 0.001 seconds.
+􁁛  Test externalNativeVectorsAgreeWithIR() passed after 0.001 seconds.
+􁁛  Test branchArgumentsBindSimultaneously() passed after 0.001 seconds.
+􁁛  Test distinguishesSignedAndUnsignedEndpoints() passed after 0.001 seconds.
+􁁛  Test numericArithmeticDoesNotUseMathematicalIntegerIdentities() passed after 0.001 seconds.
+􁁛  Test infiniteLoopAndRecursionReportBounds() passed after 0.001 seconds.
+􁁛  Test numberOperatorsRejectNon64BitOperands() passed after 0.001 seconds.
+􁁛  Test rejectsUseOfNonDominatingDefinition() passed after 0.001 seconds.
+􁁛  Test directCallPreservesCallerValues() passed after 0.002 seconds.
+􁁛  Test inputValuesRespectTheBudgetBeforeReturn() passed after 0.002 seconds.
+􁁛  Suite ExecutionTests passed after 0.002 seconds.
+􁁛  Test decimalParsingPreservesRoundingAndSignedZero() passed after 0.002 seconds.
+􁁛  Suite NumberArithmeticTests passed after 0.002 seconds.
+􁁛  Test exhaustivelyChecksFourBitArithmetic() passed after 0.004 seconds.
+􁁛  Suite ArithmeticTests passed after 0.004 seconds.
+􁁛  Test run with 13 tests in 3 suites passed after 0.004 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite JavaBunFrontendTests started.
+􀟈  Suite FrontendRegressionTests started.
+􀟈  Suite SourceFrontendTests started.
+􀟈  Suite IntegerTests started.
+􀟈  Suite NumberFrontendTests started.
+􀟈  Suite SwiftExpressionModelTests started.
+􀟈  Test rejectsNestedChainCounterexample() started.
+􀟈  Test javaRejectsWideningRatherThanChangingIntermediateArithmetic() started.
+􀟈  Test javaCallsBranchesLocalsAndBooleansExecute() started.
+􀟈  Test preservesGoUntypedConstantComparison() started.
+􀟈  Test rejectsCallsBeforeDeclaration(_:) started.
+􀟈  Test javaWidthsAndOverflowMatchTheirDeclaredType(_:) started.
+􀟈  Test handlesConstantTreesNearTheDepthLimit() started.
+􀟈  Test newProfilesRejectUnsupportedSyntaxBeforeProducingAProgram() started.
+􀟈  Test rejectsUnrepresentableGoConstantConversions() started.
+􀟈  Test comparisonsPreserveOrder(_:) started.
+􀟈  Test malformedInputAndNestingFailWithoutTrapping() started.
+􀟈  Test positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test convertsAndExecutes(_:) started.
+􀟈  Test bunAcceptsTypedAndUntypedBigIntsAndTypedBooleans() started.
+􀟈  Test overflowMeaning(_:) started.
+􀟈  Test rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test rejectsMutatedIntegerOutput() started.
+􀟈  Test unsignedOverflow(_:) started.
+􀟈  Test preservesLargeIntegers(_:) started.
+􀟈  Test rejectsSemanticChanges() started.
+􀟈  Test matchesIndependentMachineArithmeticOnSmallDomain() started.
+􀟈  Test arbitraryPrecisionArithmetic() started.
+􀟈  Test unaryPlusConstrainsNumberBeforeBigIntDefault(_:) started.
+􀟈  Test untypedNumberTruthinessAndSemicolonInsertionWork(_:) started.
+􀟈  Test explicitWorkStackPreservesNestedCallArgumentOrder() started.
+􀟈  Test typedNumberAndInferredReturnUseBinary64(_:) started.
+􀟈  Test isolatedCarriageReturnCannotEraseReturnBoundaries(_:) started.
+􀟈  Test inferredBooleanResultsPreserveNaNComparison() started.
+􀟈  Test case passing 1 argument width → 32 to javaWidthsAndOverflowMatchTheirDeclaredType(_:) started.
+􀟈  Test javaMinimumLiteralRequiresImmediateUnaryMinus(_:) started.
+􀟈  Test retainsRepeatedUnaryMinusGrammar(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to rejectsCallsBeforeDeclaration(_:) started.
+􀟈  Test case passing 1 argument width → 64 to javaWidthsAndOverflowMatchTheirDeclaredType(_:) started.
+􀟈  Test inferencePropagatesBigIntAcrossCalls() started.
+􀟈  Test logicalOperatorsShortCircuitAndPreserveSelectedValues() started.
+􀟈  Test mixedDomainsAndShadowedBuiltinsAreRejected() started.
+􀟈  Test case passing 1 argument language → .swift to comparisonsPreserveOrder(_:) started.
+􀟈  Test enforcesTotalDepthForBinaryUnaryAndCallNodes() started.
+􀟈  Test case passing 1 argument language → .rust to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument language → .c to rejectsCallsBeforeDeclaration(_:) started.
+􀟈  Test case passing 1 argument language → .c to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument language → .go to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument language → .swift to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument name → "spaced-c" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .rust to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument name → "spaced-cpp" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .c to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument language → .python to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument language → .java to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument name → "spaced-javascript" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .go to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument language → .bun to comparisonsPreserveOrder(_:) started.
+􀟈  Test case passing 1 argument name → "spaced-typescript" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument name → "constants-go" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument language → .python to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument name → "visible-c" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .swift to overflowMeaning(_:) started.
+􀟈  Test case passing 1 argument language → .java to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument language → .bun to convertsAndExecutes(_:) started.
+􀟈  Test case passing 1 argument name → "visible-cpp" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .rust to overflowMeaning(_:) started.
+􀟈  Test case passing 1 argument language → .c to rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test case passing 1 argument language → .c to overflowMeaning(_:) started.
+􀟈  Test case passing 1 argument name → "depth-javascript" to positiveCounterpartsAgreeWithIR(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to overflowMeaning(_:) started.
+􀟈  Test case passing 1 argument language → .swift to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .go to overflowMeaning(_:) started.
+􀟈  Test case passing 1 argument language → .rust to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .c to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .swift to unsignedOverflow(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test case passing 1 argument language → .go to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test case passing 1 argument language → .rust to unsignedOverflow(_:) started.
+􀟈  Test case passing 1 argument language → .python to preservesLargeIntegers(_:) started.
+􀟈  Test case passing 1 argument language → .go to rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .c to unsignedOverflow(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to preservesLargeIntegers(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .swift to rejectsContiguousUpdateOperators(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to preservesLargeIntegers(_:) started.
+􀟈  Test case passing 1 argument language → .cpp to unsignedOverflow(_:) started.
+􀟈  Test case passing 1 argument language → .python to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .java to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test case passing 1 argument language → .go to unsignedOverflow(_:) started.
+􀟈  Test case passing 1 argument language → .bun to preservesLargeIntegers(_:) started.
+􀟈  Test case passing 1 argument language → .bun to rejectsUnsupportedOrWrongLanguage(_:) started.
+􀟈  Test integerTrapChecksIncludeSignedOverflowAndInteriorZero() started.
+􀟈  Test case passing 1 argument language → .javascript to unaryPlusConstrainsNumberBeforeBigIntDefault(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to unaryPlusConstrainsNumberBeforeBigIntDefault(_:) started.
+􀟈  Test case passing 1 argument language → .bun to unaryPlusConstrainsNumberBeforeBigIntDefault(_:) started.
+􀟈  Test case passing 1 argument language → .bun to untypedNumberTruthinessAndSemicolonInsertionWork(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to untypedNumberTruthinessAndSemicolonInsertionWork(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to untypedNumberTruthinessAndSemicolonInsertionWork(_:) started.
+􀟈  Test case passing 1 argument language → .bun to typedNumberAndInferredReturnUseBinary64(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to typedNumberAndInferredReturnUseBinary64(_:) started.
+􀟈  Test case passing 1 argument language → .javascript to isolatedCarriageReturnCannotEraseReturnBoundaries(_:) started.
+􀟈  Test case passing 1 argument language → .typescript to isolatedCarriageReturnCannotEraseReturnBoundaries(_:) started.
+􀟈  Test case passing 1 argument language → .bun to isolatedCarriageReturnCannotEraseReturnBoundaries(_:) started.
+􀟈  Test case passing 1 argument literal → "2147483648" to javaMinimumLiteralRequiresImmediateUnaryMinus(_:) started.
+􀟈  Test case passing 1 argument literal → "9223372036854775808L" to javaMinimumLiteralRequiresImmediateUnaryMinus(_:) started.
+􀟈  Test case passing 1 argument language → .python to retainsRepeatedUnaryMinusGrammar(_:) started.
+􀟈  Test case passing 1 argument language → .rust to retainsRepeatedUnaryMinusGrammar(_:) started.
+􁁛  Test rejectsCallsBeforeDeclaration(_:) with 2 test cases passed after 0.144 seconds.
+􁁛  Test rejectsUnrepresentableGoConstantConversions() passed after 0.144 seconds.
+􁁛  Test preservesGoUntypedConstantComparison() passed after 0.145 seconds.
+􁁛  Test handlesConstantTreesNearTheDepthLimit() passed after 0.145 seconds.
+􁁛  Test malformedInputAndNestingFailWithoutTrapping() passed after 0.145 seconds.
+􁁛  Test comparisonsPreserveOrder(_:) with 10 test cases passed after 0.146 seconds.
+􁁛  Test overflowMeaning(_:) with 5 test cases passed after 0.146 seconds.
+􁁛  Test rejectsContiguousUpdateOperators(_:) with 6 test cases passed after 0.146 seconds.
+􁁛  Test rejectsUnsupportedOrWrongLanguage(_:) with 10 test cases passed after 0.146 seconds.
+􁁛  Test preservesLargeIntegers(_:) with 4 test cases passed after 0.146 seconds.
+􁁛  Test unsignedOverflow(_:) with 5 test cases passed after 0.146 seconds.
+􁁛  Test rejectsSemanticChanges() passed after 0.146 seconds.
+􁁛  Test arbitraryPrecisionArithmetic() passed after 0.146 seconds.
+􁁛  Test retainsRepeatedUnaryMinusGrammar(_:) with 2 test cases passed after 0.165 seconds.
+􁁛  Test explicitWorkStackPreservesNestedCallArgumentOrder() passed after 0.165 seconds.
+􁁛  Test integerTrapChecksIncludeSignedOverflowAndInteriorZero() passed after 0.033 seconds.
+􁁛  Test convertsAndExecutes(_:) with 10 test cases passed after 0.165 seconds.
+􁁛  Test rejectsMutatedIntegerOutput() passed after 0.165 seconds.
+􁁛  Suite SwiftExpressionModelTests passed after 0.166 seconds.
+􁁛  Suite SourceFrontendTests passed after 0.166 seconds.
+􁁛  Test javaCallsBranchesLocalsAndBooleansExecute() passed after 0.167 seconds.
+􁁛  Test javaRejectsWideningRatherThanChangingIntermediateArithmetic() passed after 0.167 seconds.
+􁁛  Test newProfilesRejectUnsupportedSyntaxBeforeProducingAProgram() passed after 0.167 seconds.
+􁁛  Test bunAcceptsTypedAndUntypedBigIntsAndTypedBooleans() passed after 0.166 seconds.
+􁁛  Test unaryPlusConstrainsNumberBeforeBigIntDefault(_:) with 3 test cases passed after 0.166 seconds.
+􁁛  Test typedNumberAndInferredReturnUseBinary64(_:) with 2 test cases passed after 0.166 seconds.
+􁁛  Test inferredBooleanResultsPreserveNaNComparison() passed after 0.166 seconds.
+􁁛  Test isolatedCarriageReturnCannotEraseReturnBoundaries(_:) with 3 test cases passed after 0.166 seconds.
+􁁛  Test enforcesTotalDepthForBinaryUnaryAndCallNodes() passed after 0.166 seconds.
+􁁛  Test mixedDomainsAndShadowedBuiltinsAreRejected() passed after 0.169 seconds.
+􁁛  Test untypedNumberTruthinessAndSemicolonInsertionWork(_:) with 3 test cases passed after 0.174 seconds.
+􁁛  Test logicalOperatorsShortCircuitAndPreserveSelectedValues() passed after 0.177 seconds.
+􁁛  Test javaMinimumLiteralRequiresImmediateUnaryMinus(_:) with 2 test cases passed after 0.184 seconds.
+􁁛  Test inferencePropagatesBigIntAcrossCalls() passed after 0.183 seconds.
+􁁛  Suite NumberFrontendTests passed after 0.185 seconds.
+􁁛  Test javaWidthsAndOverflowMatchTheirDeclaredType(_:) with 2 test cases passed after 0.201 seconds.
+􁁛  Suite JavaBunFrontendTests passed after 0.202 seconds.
+􁁛  Test matchesIndependentMachineArithmeticOnSmallDomain() passed after 0.227 seconds.
+􁁛  Suite IntegerTests passed after 0.228 seconds.
+􁁛  Test rejectsNestedChainCounterexample() passed after 0.268 seconds.
+􁁛  Test positiveCounterpartsAgreeWithIR(_:) with 8 test cases passed after 0.296 seconds.
+􁁛  Suite FrontendRegressionTests passed after 0.296 seconds.
+􁁛  Test run with 36 tests in 6 suites passed after 0.297 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite StateValueTests started.
+􀟈  Suite EvidenceStoreTests started.
+􀟈  Test exactTaggedValuesPreserveLargeIntegersAndBits() started.
+􀟈  Test rejectsDanglingAndSplitOriginsBeforeSealing() started.
+􀟈  Test identicalWritesConvergeAndConflictingContentFails() started.
+􀟈  Test cursorReplayPreservesPageAndRejectsDifferentQuery() started.
+􀟈  Test discardOptionalGraphPreservesOtherGraphsAndSealsWithoutDanglingEdges() started.
+􀟈  Test rootsAreRetainedAndMissingOrDuplicateRootReferencesRejectSealing() started.
+􀟈  Test corruptionAndDanglingEdgesFail() started.
+􀟈  Test pagesRetainCrossPageEdgesAndUnicode() started.
+􁁛  Test exactTaggedValuesPreserveLargeIntegersAndBits() passed after 0.009 seconds.
+􁁛  Suite StateValueTests passed after 0.009 seconds.
+􁁛  Test discardOptionalGraphPreservesOtherGraphsAndSealsWithoutDanglingEdges() passed after 0.034 seconds.
+􁁛  Test identicalWritesConvergeAndConflictingContentFails() passed after 0.034 seconds.
+􁁛  Test rejectsDanglingAndSplitOriginsBeforeSealing() passed after 0.041 seconds.
+􁁛  Test corruptionAndDanglingEdgesFail() passed after 0.043 seconds.
+􁁛  Test cursorReplayPreservesPageAndRejectsDifferentQuery() passed after 0.051 seconds.
+􁁛  Test rootsAreRetainedAndMissingOrDuplicateRootReferencesRejectSealing() passed after 0.058 seconds.
+􁁛  Test pagesRetainCrossPageEdgesAndUnicode() passed after 0.061 seconds.
+􁁛  Suite EvidenceStoreTests passed after 0.062 seconds.
+􁁛  Test run with 8 tests in 2 suites passed after 0.062 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite BundleInspectorTests started.
+􀟈  Test rejectsMissingClosureAndEntryPoints() started.
+􀟈  Test rejectsMissingContextAndRawSIL() started.
+􀟈  Test detectsTampering() started.
+􀟈  Test integrityDoesNotClaimSemanticValidation() started.
+􀟈  Test rejectsSymlinkEscape() started.
+􀟈  Test rejectsEscapingPaths(path:) started.
+􀟈  Test rejectsResourceLimitsAndEnablingGeneration() started.
+􀟈  Test case passing 1 argument path → "/tmp/outside.sil" to rejectsEscapingPaths(path:) started.
+􀟈  Test case passing 1 argument path → "../outside.sil" to rejectsEscapingPaths(path:) started.
+􀟈  Test case passing 1 argument path → "modules/../outside.sil" to rejectsEscapingPaths(path:) started.
+􀟈  Test case passing 1 argument path → "modules//Main.sil" to rejectsEscapingPaths(path:) started.
+􁁛  Test integrityDoesNotClaimSemanticValidation() passed after 0.019 seconds.
+􁁛  Test rejectsEscapingPaths(path:) with 4 test cases passed after 0.023 seconds.
+􁁛  Test rejectsSymlinkEscape() passed after 0.023 seconds.
+􁁛  Test detectsTampering() passed after 0.025 seconds.
+􁁛  Test rejectsMissingClosureAndEntryPoints() passed after 0.025 seconds.
+􁁛  Test rejectsMissingContextAndRawSIL() passed after 0.025 seconds.
+􁁛  Test rejectsResourceLimitsAndEnablingGeneration() passed after 0.025 seconds.
+􁁛  Suite BundleInspectorTests passed after 0.026 seconds.
+􁁛  Test run with 7 tests in 1 suite passed after 0.026 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite CommandTests started.
+􀟈  Test rejectsBadArguments(arguments:) started.
+􀟈  Test swiftArrayIsDiagnosedAsOutsideScalarProfile() started.
+􀟈  Test draftsRequireExplicitFlagAndPreserveExistingOutput() started.
+􀟈  Test timeoutDoesNotReturnSuccess() started.
+􀟈  Test outputLimitDoesNotReturnSuccess() started.
+􀟈  Test probesActualCompiler() started.
+􀟈  Test rejectsUnimplementedCommands(command:) started.
+􀟈  Test helpStatesActualSupport() started.
+􀟈  Test case passing 1 argument arguments → ["doctor"] to rejectsBadArguments(arguments:) started.
+􀟈  Test case passing 1 argument arguments → ["unknown"] to rejectsBadArguments(arguments:) started.
+􀟈  Test case passing 1 argument arguments → ["--version", "extra"] to rejectsBadArguments(arguments:) started.
+􀟈  Test case passing 1 argument arguments → ["index", "--source", "Inventory.swift"] to rejectsBadArguments(arguments:) started.
+􀟈  Test case passing 1 argument command → "capture" to rejectsUnimplementedCommands(command:) started.
+􀟈  Test case passing 1 argument command → "generate" to rejectsUnimplementedCommands(command:) started.
+􀟈  Test case passing 1 argument command → "validate" to rejectsUnimplementedCommands(command:) started.
+􀟈  Test case passing 1 argument command → "coverage" to rejectsUnimplementedCommands(command:) started.
+􀟈  Test case passing 1 argument command → "replay" to rejectsUnimplementedCommands(command:) started.
+􁁛  Test rejectsBadArguments(arguments:) with 4 test cases passed after 0.002 seconds.
+􁁛  Test helpStatesActualSupport() passed after 0.002 seconds.
+􁁛  Test rejectsUnimplementedCommands(command:) with 5 test cases passed after 0.002 seconds.
+􁁛  Test swiftArrayIsDiagnosedAsOutsideScalarProfile() passed after 0.013 seconds.
+􁁛  Test timeoutDoesNotReturnSuccess() passed after 0.091 seconds.
+􁁛  Test draftsRequireExplicitFlagAndPreserveExistingOutput() passed after 0.133 seconds.
+􁁛  Test probesActualCompiler() passed after 0.256 seconds.
+􁁛  Test outputLimitDoesNotReturnSuccess() passed after 0.268 seconds.
+􁁛  Suite CommandTests passed after 0.268 seconds.
+􁁛  Test run with 8 tests in 1 suite passed after 0.269 seconds.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2403
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite BackendEmissionTests started.
+􀟈  Test emitsBothBackendsFromActualSIL() started.
+􁁛  Test emitsBothBackendsFromActualSIL() passed after 0.043 seconds.
+􁁛  Suite BackendEmissionTests passed after 0.043 seconds.
+􁁛  Test run with 1 test in 1 suite passed after 0.043 seconds.
+Building for debugging...
+[Computing dependencies]
+[Using on-disk description]
+Build complete! (1.82秒)

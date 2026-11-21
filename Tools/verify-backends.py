@@ -46,7 +46,7 @@ def integer(value):
 with tempfile.TemporaryDirectory(prefix='formal-backends-') as temporary:
     output = Path(temporary)
     environment = {**os.environ, 'FORMAL_BACKEND_OUTPUT': str(output)}
-    run(['swift', 'test', '--filter', 'BackendEmissionTests'], environment=environment, timeout=180)
+    run(['swift', 'test', '--disable-xctest', '--filter', 'BackendEmissionTests'], environment=environment, timeout=120)
     environment = {**os.environ, 'PATH': str(lean) + os.pathsep + os.environ['PATH']}
     print(run([str(lean / 'lake'), 'build'], cwd=output / 'lean', environment=environment, timeout=180))
     properties = output / 'lean/FiniteChecks.lean'
